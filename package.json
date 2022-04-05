@@ -21,6 +21,8 @@
     "@adiwajshing/baileys": "^4.0.1",
     "@adiwajshing/keyed-db": "^0.2.4",
     "@hapi/boom": "^9.1.4",
+    "dotenv": "^16.0.0",
+    "pg": "^8.7.3",
     "qrcode-terminal": "^0.12.0"
   }
 }
