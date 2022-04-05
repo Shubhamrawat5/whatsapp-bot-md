@@ -1,7 +1,9 @@
 const { MessageType, Mimetype } = require("@adiwajshing/baileys");
 
 module.exports.command = () => {
-  return { cmd: "alive", handler: handler };
+  let cmd = ["alive", "a"];
+
+  return { cmd, handler };
 };
 
 const handler = async (sock, msg, from, args, prefix) => {

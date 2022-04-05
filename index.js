@@ -32,7 +32,10 @@ const util = require("util");
 
 const readdir = util.promisify(fs.readdir);
 const readFile = util.promisify(fs.readFile);
-let commandsAll = {};
+let commandsPublic = {};
+let commandsMembers = {};
+let commandsAdmins = {};
+let commandsOwners = {};
 const prefix = ".";
 
 const addCommands = async () => {
@@ -41,9 +44,11 @@ const addCommands = async () => {
   filenames.forEach((file) => {
     if (file.endsWith(".js")) {
       let { command } = require(path + file);
-      let cmdinfo = command();
+      let cmdinfo = command(); // {cmd:"", handler:function, alias:[]}
       // console.log(cmdinfo.cmd);
-      commandsAll[cmdinfo.cmd] = cmdinfo.handler;
+      for (let c of cmdinfo.cmd) {
+        commandsPublic[c] = cmdinfo.handler;
+      }
     }
   });
 };
@@ -74,12 +79,9 @@ const startSock = async () => {
   const sendMessageWTyping = async (msg, jid) => {
     await sock.presenceSubscribe(jid);
     await delay(500);
-
     await sock.sendPresenceUpdate("composing", jid);
     await delay(2000);
-
     await sock.sendPresenceUpdate("paused", jid);
-
     await sock.sendMessage(jid, msg);
   };
 
@@ -98,7 +100,7 @@ const startSock = async () => {
   sock.ev.on("messages.upsert", async (m) => {
     // console.log(JSON.stringify(m, undefined, 2));
 
-    // if (!msg.message) return;
+    if (!m.messages) return;
     // if (msg.key && msg.key.remoteJid == "status@broadcast") return;
 
     const msg = JSON.parse(JSON.stringify(m)).messages[0];
@@ -165,11 +167,28 @@ const startSock = async () => {
       groupName
     );
 
-    if (commandsAll[command]) {
-      commandsAll[command](sock, msg, from, args, prefix);
+    //using 'm.messages[0]' to tag message, by giving 'msg' throw some error
+
+    if (commandsPublic[command]) {
+      commandsPublic[command](sock, m.messages[0], from, args, prefix);
       return;
-    }
-    await sock.sendMessage(from, { text: "Command not found!" });
+    } else if (commandsMembers[command]) {
+      commandsMembers[command](sock, m.messages[0], from, args, prefix);
+      return;
+    } else if (commandsAdmins[command]) {
+      commandsAdmins[command](sock, m.messages[0], from, args, prefix);
+      return;
+    } else if (commandsOwners[command]) {
+      commandsOwners[command](sock, m.messages[0], from, args, prefix);
+      return;
+    } else
+      await sock.sendMessage(
+        from,
+        {
+          text: `Send ${prefix}help for <{PVX}> BOT commands!`,
+        },
+        { quoted: m.messages[0] }
+      );
   });
 
   // sock.ev.on("messages.update", (m) => console.log(m));
