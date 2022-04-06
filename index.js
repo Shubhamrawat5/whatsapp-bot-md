@@ -32,11 +32,16 @@ const util = require("util");
 
 const readdir = util.promisify(fs.readdir);
 const readFile = util.promisify(fs.readFile);
+
 let commandsPublic = {};
 let commandsMembers = {};
 let commandsAdmins = {};
 let commandsOwners = {};
+
 const prefix = ".";
+
+require("dotenv").config();
+const myNumber = process.env.myNumber;
 
 const addCommands = async () => {
   let path = "./commands/public/";
@@ -51,6 +56,47 @@ const addCommands = async () => {
       }
     }
   });
+
+  path = "./commands/group/members/";
+  filenames = await readdir(path);
+  filenames.forEach((file) => {
+    if (file.endsWith(".js")) {
+      let { command } = require(path + file);
+      let cmdinfo = command();
+      // console.log(cmdinfo.cmd);
+      commandsMembers[cmdinfo.cmd] = cmdinfo.handler;
+    }
+  });
+
+  path = "./commands/group/admins/";
+  filenames = await readdir(path);
+  filenames.forEach((file) => {
+    if (file.endsWith(".js")) {
+      let { command } = require(path + file);
+      let cmdinfo = command();
+      // console.log(cmdinfo.cmd);
+      commandsAdmins[cmdinfo.cmd] = cmdinfo.handler;
+    }
+  });
+
+  path = "./commands/owner/";
+  filenames = await readdir(path);
+  filenames.forEach((file) => {
+    if (file.endsWith(".js")) {
+      let { command } = require(path + file);
+      let cmdinfo = command();
+      // console.log(cmdinfo.cmd);
+      commandsOwners[cmdinfo.cmd] = cmdinfo.handler;
+    }
+  });
+};
+
+const getGroupAdmins = (participants) => {
+  admins = [];
+  for (let i of participants) {
+    i.isAdmin ? admins.push(i.jid) : "";
+  }
+  return admins;
 };
 
 // start a connection
@@ -143,9 +189,9 @@ const startSock = async () => {
     const groupName = isGroup ? groupMetadata.subject : "";
     const groupDesc = isGroup ? groupMetadata.desc : "";
     const groupMembers = isGroup ? groupMetadata.participants : "";
-    // const groupAdmins = isGroup ? getGroupAdmins(groupMembers) : "";
-    // const isBotGroupAdmins = groupAdmins.includes(botNumberJid) || false;
-    // const isGroupAdmins = groupAdmins.includes(sender) || false;
+    const groupAdmins = isGroup ? getGroupAdmins(groupMembers) : "";
+    const isBotGroupAdmins = groupAdmins.includes(botNumberJid) || false;
+    const isGroupAdmins = groupAdmins.includes(sender) || false;
 
     const isMedia = type === "imageMessage" || type === "videoMessage"; //image or video
     const isTaggedImage =
@@ -169,26 +215,68 @@ const startSock = async () => {
 
     //using 'm.messages[0]' to tag message, by giving 'msg' throw some error
 
+    /* ----------------------------- public commands ---------------------------- */
     if (commandsPublic[command]) {
       commandsPublic[command](sock, m.messages[0], from, args, prefix);
       return;
-    } else if (commandsMembers[command]) {
-      commandsMembers[command](sock, m.messages[0], from, args, prefix);
-      return;
-    } else if (commandsAdmins[command]) {
-      commandsAdmins[command](sock, m.messages[0], from, args, prefix);
-      return;
-    } else if (commandsOwners[command]) {
-      commandsOwners[command](sock, m.messages[0], from, args, prefix);
-      return;
-    } else
+    }
+
+    /* ------------------------- group members commands ------------------------- */
+    if (commandsMembers[command]) {
+      if (isGroup) {
+        commandsMembers[command](sock, m.messages[0], from, args, prefix);
+        return;
+      }
       await sock.sendMessage(
         from,
         {
-          text: `Send ${prefix}help for <{PVX}> BOT commands!`,
+          text: "❌ Group command only!",
         },
         { quoted: m.messages[0] }
       );
+      return;
+    }
+
+    /* -------------------------- group admins commands ------------------------- */
+    if (commandsAdmins[command]) {
+      if (!isGroupAdmins) {
+        commandsAdmins[command](sock, m.messages[0], from, args, prefix);
+        return;
+      }
+      await sock.sendMessage(
+        from,
+        {
+          text: "❌ Admin command!",
+        },
+        { quoted: m.messages[0] }
+      );
+      return;
+    }
+
+    /* ----------------------------- owner commands ----------------------------- */
+    if (commandsOwners[command]) {
+      if (myNumber + "@s.whatsapp.net" !== sender) {
+        commandsOwners[command](sock, m.messages[0], from, args, prefix);
+        return;
+      }
+      await sock.sendMessage(
+        from,
+        {
+          text: "❌ Owner command only!",
+        },
+        { quoted: m.messages[0] }
+      );
+      return;
+    }
+
+    /* ----------------------------- unknown command ---------------------------- */
+    await sock.sendMessage(
+      from,
+      {
+        text: `Send ${prefix}help for <{PVX}> BOT commands!`,
+      },
+      { quoted: m.messages[0] }
+    );
   });
 
   // sock.ev.on("messages.update", (m) => console.log(m));
