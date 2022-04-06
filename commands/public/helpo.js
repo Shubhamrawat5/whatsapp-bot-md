@@ -1,7 +1,7 @@
 const { MessageType, Mimetype } = require("@adiwajshing/baileys");
 
 module.exports.command = () => {
-  let cmd = ["helpr"];
+  let cmd = ["helpo"];
 
   return { cmd, handler };
 };
@@ -32,6 +32,12 @@ _Restricted command for owner only!_
 📛 *${prefix}countstats*
   - _Get stats of number of command used!_  
 
+📛 *${prefix}warning*
+  - _Give warning to user!_
+
+📛 *${prefix}blacklist*
+  - _Get blacklist numbers!_ 
+
 📛 *${prefix}blacklistadd*
   - _Add number to blacklist!_
 Alias: *${prefix}bla*
@@ -53,7 +59,9 @@ Alias: *${prefix}blr*
   - _Stop vote for all pvx groups!_
 
 📛 *${prefix}donationadd*
-  - _add by giving after command #name #amount!_`;
+  - _add by giving after command #name #amount!_
+
+✔️ more cool commands coming...`;
 
   sock.sendMessage(from, { text }, { quoted: msg });
 };

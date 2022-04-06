@@ -73,20 +73,6 @@ const handler = async (sock, msg, from, args, prefix) => {
 📛 *${prefix}steal*
   - _Change sticker name to PVX BOT!_
 
-📛 *${prefix}add <phone number>*
-  - _Add new member!_
-  [or tag message of removed member with *${prefix}add*]
-  
-📛 *${prefix}kick <mention>*
-  - _Kick member from group!_
-  [or tag message of member with *${prefix}kick*]
-
-📛 *${prefix}mute | ${prefix}unmute*
-  - _Mute and Unmute the group!_
-
-📛 *${prefix}warning*
-  - _Give warning to user!_
-
 📛 *${prefix}delete*
   - _Delete message of bot!_
   Alias: *${prefix}d*
@@ -117,16 +103,11 @@ const handler = async (sock, msg, from, args, prefix) => {
   - _Get gender from person first name!_
     
 📛 *${prefix}technews*
-  - _Get latest Tech news from inshorts !_
-
-📛 *${prefix}pvxstats*
-  - _Get stats of PVX groups!_
-
-📛 *${prefix}blacklist*
-  - _Get blacklist numbers!_  
+  - _Get latest Tech news from inshorts !_ 
   
 📛 *${prefix}pvxlink*
   - _Get links for all PVX groups!_
+  Alias: *${prefix}link*
 
 📛 *${prefix}source*
   - _Get bot source code!_
@@ -138,17 +119,18 @@ const handler = async (sock, msg, from, args, prefix) => {
   - _To block particular commands for this group!_
 
 📛 *${prefix}91only*
-  - _To instant ban all numbers other than 91 when joined for this group!_
+  - _To instant ban all numbers other than 91 when joined in group!_
 
 📛 *${prefix}help*
   - _To get list of public commands!_
 
-📛 *${prefix}helpr*
-  - _To get list of restricted commands!_
+📛 *${prefix}helpa*
+  - _To get list of admin commands!_
+
+📛 *${prefix}helpo*
+  - _To get list of owner commands!_
 
 ✔️ more cool commands coming...`;
 
   sock.sendMessage(from, { text }, { quoted: msg });
 };
-
-// TODO: ARRANGE ADMIN COMMAND

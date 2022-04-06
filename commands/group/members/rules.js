@@ -10,7 +10,7 @@ const handler = async (sock, msg, from, args, prefix) => {
   const more = String.fromCharCode(8206);
   const readMore = more.repeat(4001);
 
-  let message = `*─「 <{PVX}> RULES 」 ─*
+  let text = `*─「 <{PVX}> RULES 」 ─*
   ${readMore}
 ✔ Rule 01 -
 _Do not spam in the grp._
@@ -39,7 +39,5 @@ _Do not give any spoilers of any new movie or series._
 ✔ Rule 09 -
 _Only numbers starting with the code +91 (i.e. Indians) are allowed to join._`;
 
-  sock.sendMessage(from, message, MessageType.text, {
-    quoted: msg,
-  });
+  sock.sendMessage(from, { text }, { quoted: msg });
 };

@@ -62,33 +62,39 @@ const addCommands = async () => {
   filenames.forEach((file) => {
     if (file.endsWith(".js")) {
       let { command } = require(path + file);
-      let cmdinfo = command();
+      let cmdinfo = command(); // {cmd:"", handler:function, alias:[]}
       // console.log(cmdinfo.cmd);
-      commandsMembers[cmdinfo.cmd] = cmdinfo.handler;
+      for (let c of cmdinfo.cmd) {
+        commandsMembers[c] = cmdinfo.handler;
+      }
     }
   });
 
-  path = "./commands/group/admins/";
-  filenames = await readdir(path);
-  filenames.forEach((file) => {
-    if (file.endsWith(".js")) {
-      let { command } = require(path + file);
-      let cmdinfo = command();
-      // console.log(cmdinfo.cmd);
-      commandsAdmins[cmdinfo.cmd] = cmdinfo.handler;
-    }
-  });
+  // path = "./commands/group/admins/";
+  // filenames = await readdir(path);
+  // filenames.forEach((file) => {
+  //   if (file.endsWith(".js")) {
+  //     let { command } = require(path + file);
+  //     let cmdinfo = command(); // {cmd:"", handler:function, alias:[]}
+  //     // console.log(cmdinfo.cmd);
+  //     for (let c of cmdinfo.cmd) {
+  //       commandsAdmins[c] = cmdinfo.handler;
+  //     }
+  //   }
+  // });
 
-  path = "./commands/owner/";
-  filenames = await readdir(path);
-  filenames.forEach((file) => {
-    if (file.endsWith(".js")) {
-      let { command } = require(path + file);
-      let cmdinfo = command();
-      // console.log(cmdinfo.cmd);
-      commandsOwners[cmdinfo.cmd] = cmdinfo.handler;
-    }
-  });
+  // path = "./commands/owner/";
+  // filenames = await readdir(path);
+  // filenames.forEach((file) => {
+  //   if (file.endsWith(".js")) {
+  //     let { command } = require(path + file);
+  //     let cmdinfo = command(); // {cmd:"", handler:function, alias:[]}
+  //     // console.log(cmdinfo.cmd);
+  //     for (let c of cmdinfo.cmd) {
+  //       commandsOwners[c] = cmdinfo.handler;
+  //     }
+  //   }
+  // });
 };
 
 const getGroupAdmins = (participants) => {
@@ -153,6 +159,7 @@ const startSock = async () => {
     const content = JSON.stringify(msg.message);
     const from = msg.key.remoteJid;
     const type = Object.keys(msg.message)[0];
+    const botNumberJid = sock.user.jid;
 
     //body will have the text message
     let body =
@@ -180,9 +187,9 @@ const startSock = async () => {
     if (!isCmd) return;
 
     const isGroup = from.endsWith("@g.us");
-    //if (!isGroup) return;
     const groupMetadata = isGroup ? await sock.groupMetadata(from) : "";
-    let sender = isGroup ? msg.participant : from;
+    // console.log(msg);
+    let sender = isGroup ? msg.key.participant : from;
 
     if (msg.key.fromMe) sender = botNumberJid;
 
