@@ -1,3 +1,16 @@
+/* --------------------------------- SERVER --------------------------------- */
+const express = require("express");
+const app = express();
+app.use(express.urlencoded({ extended: true }));
+const port = process.env.PORT || 80;
+app.get("/", (req, res) => {
+  res.send("Bot is running fine... no tension :)");
+});
+app.listen(port, () => {
+  // console.clear();
+  console.log("\nWeb-server running!\n");
+});
+
 const {
   default: makeWASocket,
   DisconnectReason,
