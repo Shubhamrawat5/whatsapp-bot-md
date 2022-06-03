@@ -17,7 +17,9 @@ module.exports.command = () => {
   return { cmd: ["gender"], handler: handler };
 };
 
-const handler = async (sock, msg, from, args, prefix) => {
+const handler = async (sock, msg, from, args, msgInfoObj) => {
+  let { prefix } = msgInfoObj;
+
   if (args.length === 0) {
     let message = `❌ Name is not given! \nSend ${prefix}gender firstname`;
     conn.sendMessage(from, message, MessageType.text, {

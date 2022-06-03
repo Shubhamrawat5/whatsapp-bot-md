@@ -6,7 +6,9 @@ module.exports.command = () => {
   return { cmd, handler };
 };
 
-const handler = async (sock, msg, from, args, prefix) => {
+const handler = async (sock, msg, from, args, msgInfoObj) => {
+  let { prefix } = msgInfoObj;
+
   let text = `*─「 <{PVX}> BOT 」 ─*
 
 _- Give command name (with comma seperated and without spaces) to be blocked in *first line of group description* , like:_

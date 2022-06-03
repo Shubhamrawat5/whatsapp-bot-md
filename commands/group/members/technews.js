@@ -31,7 +31,8 @@ module.exports.command = () => {
   return { cmd, handler };
 };
 
-const handler = async (sock, msg, from, args, prefix) => {
+const handler = async (sock, msg, from, args, msgInfoObj) => {
+  let { prefix } = msgInfoObj;
   let text = await getNews();
 
   sock.sendMessage(from, { text }, { quoted: msg });

@@ -19,7 +19,9 @@ module.exports.command = () => {
   return { cmd: ["quote"], handler: handler };
 };
 
-const handler = async (sock, msg, from, args, prefix) => {
+const handler = async (sock, msg, from, args, msgInfoObj) => {
+  let { prefix } = msgInfoObj;
+
   let text = await getQuote();
   sock.sendMessage(from, { text }, { quoted: msg });
 };

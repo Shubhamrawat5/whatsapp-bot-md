@@ -229,18 +229,18 @@ const addCommands = async () => {
     }
   });
 
-  // path = "./commands/group/admins/";
-  // filenames = await readdir(path);
-  // filenames.forEach((file) => {
-  //   if (file.endsWith(".js")) {
-  //     let { command } = require(path + file);
-  //     let cmdinfo = command(); // {cmd:"", handler:function, alias:[]}
-  //     // console.log(cmdinfo.cmd);
-  //     for (let c of cmdinfo.cmd) {
-  //       commandsAdmins[c] = cmdinfo.handler;
-  //     }
-  //   }
-  // });
+  path = "./commands/group/admins/";
+  filenames = await readdir(path);
+  filenames.forEach((file) => {
+    if (file.endsWith(".js")) {
+      let { command } = require(path + file);
+      let cmdinfo = command(); // {cmd:"", handler:function, alias:[]}
+      // console.log(cmdinfo.cmd);
+      for (let c of cmdinfo.cmd) {
+        commandsAdmins[c] = cmdinfo.handler;
+      }
+    }
+  });
 
   // path = "./commands/owner/";
   // filenames = await readdir(path);
@@ -258,8 +258,8 @@ const addCommands = async () => {
 
 const getGroupAdmins = (participants) => {
   admins = [];
-  for (let i of participants) {
-    i.isAdmin ? admins.push(i.jid) : "";
+  for (let memb of participants) {
+    memb.admin ? admins.push(memb.id) : "";
   }
   return admins;
 };
@@ -309,17 +309,20 @@ const startSock = async () => {
   sock.ev.on("messages.upsert", async (m) => {
     // console.log(JSON.stringify(m, undefined, 2));
     // console.log(m.messages);
+    // if (msg.key && msg.key.remoteJid == "status@broadcast") return;
     try {
-      if (!m.messages) return;
-      // if (msg.key && msg.key.remoteJid == "status@broadcast") return;
-
       const msg = JSON.parse(JSON.stringify(m)).messages[0];
+      if (!msg.message) return; //when demote, add, remove, etc happen then msg.message is not there
+
       const content = JSON.stringify(msg.message);
       const from = msg.key.remoteJid;
       // console.log(msg);
       const type = Object.keys(msg.message)[0];
 
-      const botNumberJid = sock.user.jid;
+      let botNumberJid = sock.user.id; //'1506xxxxx54:3@s.whatsapp.net'
+      botNumberJid =
+        botNumberJid.slice(0, botNumberJid.search(":")) +
+        botNumberJid.slice(botNumberJid.search("@"));
 
       //body will have the text message
       let body =
@@ -348,8 +351,10 @@ const startSock = async () => {
 
       const isGroup = from.endsWith("@g.us");
       const groupMetadata = isGroup ? await sock.groupMetadata(from) : "";
-      // console.log(msg);
+
       let sender = isGroup ? msg.key.participant : from;
+      const senderName = msg.pushName;
+      // console.log(senderName);
 
       if (msg.key.fromMe) sender = botNumberJid;
 
@@ -380,6 +385,15 @@ const startSock = async () => {
         groupName
       );
 
+      let msgInfoObj = {
+        prefix,
+        groupAdmins,
+        isBotGroupAdmins,
+        isMedia,
+        isTaggedImage,
+        isTaggedVideo,
+      };
+
       // send every command info to my whatsapp, won't work when i send something for bot
       if (myNumber && myNumber + "@s.whatsapp.net" !== sender) {
         await sock.sendMessage(myNumber + "@s.whatsapp.net", {
@@ -391,14 +405,14 @@ const startSock = async () => {
 
       /* ----------------------------- public commands ---------------------------- */
       if (commandsPublic[command]) {
-        commandsPublic[command](sock, m.messages[0], from, args, prefix);
+        commandsPublic[command](sock, m.messages[0], from, args, msgInfoObj);
         return;
       }
 
       /* ------------------------- group members commands ------------------------- */
       if (commandsMembers[command]) {
         if (isGroup) {
-          commandsMembers[command](sock, m.messages[0], from, args, prefix);
+          commandsMembers[command](sock, m.messages[0], from, args, msgInfoObj);
           return;
         }
         await sock.sendMessage(
@@ -413,8 +427,13 @@ const startSock = async () => {
 
       /* -------------------------- group admins commands ------------------------- */
       if (commandsAdmins[command]) {
-        if (!isGroupAdmins) {
-          commandsAdmins[command](sock, m.messages[0], from, args, prefix);
+        if (!isGroup) {
+          reply("❌ Group command only!");
+          return;
+        }
+
+        if (isGroupAdmins) {
+          commandsAdmins[command](sock, m.messages[0], from, args, msgInfoObj);
           return;
         }
         await sock.sendMessage(
@@ -429,8 +448,8 @@ const startSock = async () => {
 
       /* ----------------------------- owner commands ----------------------------- */
       if (commandsOwners[command]) {
-        if (myNumber + "@s.whatsapp.net" !== sender) {
-          commandsOwners[command](sock, m.messages[0], from, args, prefix);
+        if (myNumber + "@s.whatsapp.net" === sender) {
+          commandsOwners[command](sock, m.messages[0], from, args, msgInfoObj);
           return;
         }
         await sock.sendMessage(

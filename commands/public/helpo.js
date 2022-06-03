@@ -6,7 +6,8 @@ module.exports.command = () => {
   return { cmd, handler };
 };
 
-const handler = async (sock, msg, from, args, prefix) => {
+const handler = async (sock, msg, from, args, msgInfoObj) => {
+  let { prefix } = msgInfoObj;
   const more = String.fromCharCode(8206);
   const readMore = more.repeat(4001);
 

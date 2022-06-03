@@ -6,7 +6,9 @@ module.exports.command = () => {
   return { cmd, handler };
 };
 
-const handler = async (sock, msg, from, args, prefix) => {
+const handler = async (sock, msg, from, args, msgInfoObj) => {
+  let { prefix } = msgInfoObj;
+
   let text = `*─「 <{PVX}> BOT 」 ─*
   
 _- To instant ban all the numbers other than 91 code, when added to group!_

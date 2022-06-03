@@ -6,7 +6,8 @@ module.exports.command = () => {
   return { cmd, handler };
 };
 
-const handler = async (sock, msg, from, args, prefix) => {
+const handler = async (sock, msg, from, args, msgInfoObj) => {
+  let { prefix } = msgInfoObj;
   let text = `_*🗣️ VOTING COMMANDS:*_
 
 📛 *${prefix}startvote #title #name1 #name2..*
