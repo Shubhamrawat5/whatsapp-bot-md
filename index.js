@@ -202,6 +202,20 @@ const prefix = "!";
 require("dotenv").config();
 const myNumber = process.env.myNumber;
 
+let pvxcommunity = "919557666582-1467533860@g.us";
+let pvxprogrammer = "919557666582-1584193120@g.us";
+let pvxadmin = "919557666582-1498394056@g.us";
+let pvxstudy = "919557666582-1617595892@g.us";
+let pvxmano = "19016677357-1630334490@g.us";
+let pvxtech = "919557666582-1551290369@g.us";
+let pvxsport = "919557666582-1559476348@g.us";
+let pvxmovies = "919557666582-1506690003@g.us";
+let pvxstickeronly1 = "919557666582-1628610549@g.us";
+let pvxstickeronly2 = "919557666582-1586018947@g.us";
+let pvxstickeronly3 = "919557666582-1608216809@g.us";
+let mano = "19016677357-1630334490@g.us";
+let pvxdeals = "919557666582-1582555632@g.us";
+
 const addCommands = async () => {
   let path = "./commands/public/";
   let filenames = await readdir(path);
@@ -306,6 +320,120 @@ const startSock = async () => {
   //   console.log(`recv ${item.contacts.length} contacts`)
   // );
 
+  //---------------------------------------group-participants.update-----------------------------------------//
+  sock.ev.on("group-participants.update", async (msg) => {
+    console.log(msg);
+    try {
+      let from = msg.id;
+      const groupMetadata = await sock.groupMetadata(from);
+      let groupDesc = groupMetadata.desc.toString();
+      let groupSubject = groupMetadata.subject;
+      let blockCommandsInDesc = []; //commands to be blocked
+      if (groupDesc) {
+        let firstLineDesc = groupDesc.split("\n")[0];
+        blockCommandsInDesc = firstLineDesc.split(",");
+      }
+      // let blacklistRes = await getBlacklist();
+      // blacklistRes = blacklistRes.map((num) => num.number);
+      // console.log(blacklistRes);
+
+      let numJid = msg.participants[0];
+      let num_split = `${numJid.split("@s.whatsapp.net")[0]}`;
+
+      if (msg.action == "add") {
+        // other than 91 are blocked from joining when description have written in first line -> only91
+        if (
+          !num_split.startsWith(91) &&
+          blockCommandsInDesc.includes("only91")
+        ) {
+          await sock.sendMessage(from, {
+            text: `*─「 🔥 <{PVX}> BOT 🔥 」─* \n\nOnly 91 numbers are allowed !!!!`,
+          });
+          await sock.groupParticipantsUpdate(from, [numJid], "remove");
+
+          await sock.sendMessage(myNumber + "@s.whatsapp.net", {
+            text: `${num_split} is removed from ${groupSubject}. Not 91!`,
+          });
+          return;
+        }
+
+        //if number is blacklisted
+        // if (blacklistRes.includes(num_split)) {
+        //   conn.sendMessage(
+        //     from,
+        //     `*─「 🔥 <{PVX}> BOT 🔥 」─* \n\nNumber is blacklisted !!!!`,
+        //     MessageType.text
+        //   );
+        //   conn.groupRemove(from, msg.participants);
+        //   conn.sendMessage(
+        //     myNumber + "@s.whatsapp.net",
+        //     `${num_split} is removed from ${groupSubject}. Blacklisted!`,
+        //     MessageType.text
+        //   );
+        //   return;
+        // }
+
+        //for study group
+        if (from === pvxstudy) {
+          await sock.sendMessage(from, {
+            text: `Welcome @${num_split} to PVX Study group.\nhttps://pvxcommunity.com/\n\nKindly fill the Biodata form (mandatory for all)\n\n👇🏻👇🏻👇🏻👇🏻👇🏻\nhttps://forms.gle/uuvUwV5fTk8JAjoTA`,
+            mentions: [numJid],
+          });
+        }
+
+        //for movies group
+        if (from === pvxmovies) {
+          await sock.sendMessage(from, {
+            text: `Welcome @${num_split} to PVX Movies.\nhttps://pvxcommunity.com/\n\nWhat are your currently watching..?`,
+            mentions: [numJid],
+          });
+        }
+
+        //for community group
+        if (from === pvxcommunity) {
+          await sock.sendMessage(from, {
+            text: `Welcome @${num_split} to PVX COMMUNITY.\nhttps://pvxcommunity.com/\n\nPlease follow the rules. Send ${prefix}rules to know all rules of PVX\nBe active and Don't spam`,
+            mentions: [numJid],
+          });
+        }
+
+        //for mano
+        if (from === pvxmano) {
+          await sock.sendMessage(from, {
+            text: `Welcome  @${num_split} to PVX MANORANJAN 🔥\n\n1) Send videos regularly especially new members.\n2) Don't Send CP or any other illegal videos.\n 3) A group bot will be counting the number of videos you've sent.`,
+            // \nSend ?pvxv to know video count.\nInactive members will be kicked time to time.
+            mentions: [numJid],
+          });
+        }
+
+        //for programmer group
+        if (from === pvxprogrammer) {
+          await sock.sendMessage(from, {
+            text: `Welcome @${num_split} to PVX Programmers Group.\nhttps://pvxcommunity.com/\n\n*Kindly give your intro like*\nName:\nCollege/Degree:\nInterest:\nSkills:\nCompany(if working):`,
+            mentions: [numJid],
+          });
+        }
+
+        let botNumberJid = sock.user.id; //'1506xxxxx54:3@s.whatsapp.net'
+        botNumberJid =
+          botNumberJid.slice(0, botNumberJid.search(":")) +
+          botNumberJid.slice(botNumberJid.search("@"));
+        if (numJid === botNumberJid) {
+          console.log("Bot is added to new group!");
+          await sock.sendMessage(myNumber + "@s.whatsapp.net", {
+            text: `*─「 🔥 <{PVX}> BOT 🔥 」─* \n\nSEND ${prefix}help FOR BOT COMMANDS`,
+          });
+        }
+        console.log(`[GROUP] ${groupSubject} [JOINED] ${numJid}`);
+      }
+      if (msg.action == "remove") {
+        console.log(`[GROUP] ${groupSubject} [LEAVED] ${numJid}`);
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  });
+
   sock.ev.on("messages.upsert", async (m) => {
     // console.log(JSON.stringify(m, undefined, 2));
     // console.log(m.messages);
@@ -359,7 +487,7 @@ const startSock = async () => {
       if (msg.key.fromMe) sender = botNumberJid;
 
       const groupName = isGroup ? groupMetadata.subject : "";
-      const groupDesc = isGroup ? groupMetadata.desc : "";
+      const groupDesc = isGroup ? groupMetadata.desc.toString() : "";
       const groupMembers = isGroup ? groupMetadata.participants : "";
       const groupAdmins = isGroup ? getGroupAdmins(groupMembers) : "";
       const isBotGroupAdmins = groupAdmins.includes(botNumberJid) || false;
