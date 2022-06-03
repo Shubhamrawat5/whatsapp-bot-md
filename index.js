@@ -294,7 +294,7 @@ const startSock = async () => {
   // );
 
   sock.ev.on("messages.upsert", async (m) => {
-    console.log(JSON.stringify(m, undefined, 2));
+    // console.log(JSON.stringify(m, undefined, 2));
     // console.log(m.messages);
     try {
       if (!m.messages) return;
@@ -366,6 +366,13 @@ const startSock = async () => {
         "[IN]",
         groupName
       );
+
+      // send every command info to my whatsapp, won't work when i send something for bot
+      if (myNumber && myNumber + "@s.whatsapp.net" !== sender) {
+        await sock.sendMessage(myNumber + "@s.whatsapp.net", {
+          text: `${0}) [${prefix}${command}] [${groupName}]`,
+        });
+      }
 
       //using 'm.messages[0]' to tag message, by giving 'msg' throw some error
 
