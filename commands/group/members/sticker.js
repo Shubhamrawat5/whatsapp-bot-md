@@ -17,13 +17,14 @@ const getRandom = (ext) => {
 };
 
 const handler = async (sock, msg, from, args, msgInfoObj) => {
-  let { prefix, isMedia, isTaggedImage, isTaggedVideo } = msgInfoObj;
+  let { type, isMedia, isTaggedImage, isTaggedVideo } = msgInfoObj;
   try {
-    if (isMedia || isTaggedImage || isTaggedVideo) {
-      let packName = "BOT 🤖";
-      let authorName = "pvxcommunity.com";
-      const saveSticker = getRandom(".webp");
-
+    let packName = "BOT 🤖";
+    let authorName = "pvxcommunity.com";
+    const stickerFileName = getRandom(".webp");
+    let stickerMake;
+    //for image
+    if (type === "imageMessage" || isTaggedImage) {
       let downloadFilePath;
       if (msg.message.imageMessage) {
         downloadFilePath = msg.message.imageMessage;
@@ -43,7 +44,7 @@ const handler = async (sock, msg, from, args, msgInfoObj) => {
         buffer = Buffer.concat([buffer, chunk]);
       }
 
-      const sticker1 = new Sticker(buffer, {
+      stickerMake = new Sticker(buffer, {
         pack: packName,
         author: authorName,
         type:
@@ -52,16 +53,7 @@ const handler = async (sock, msg, from, args, msgInfoObj) => {
             : StickerTypes.FULL,
         quality: 100,
       });
-      await sticker1.toFile(saveSticker);
-      await sock.sendMessage(from, {
-        sticker: fs.readFileSync(saveSticker),
-      });
-    } else if (
-      (isMedia && msg.message.videoMessage.seconds < 11) ||
-      (isTaggedVideo &&
-        msg.message.extendedTextMessage.contextInfo.quotedMessage.videoMessage
-          .seconds < 11)
-    ) {
+    } else if (type === "videoMessage" || isTaggedVideo) {
       //for videos
       let downloadFilePath;
       if (msg.message.videoMessage) {
@@ -80,7 +72,7 @@ const handler = async (sock, msg, from, args, msgInfoObj) => {
         buffer = Buffer.concat([buffer, chunk]);
       }
 
-      const sticker1 = new Sticker(buffer, {
+      stickerMake = new Sticker(buffer, {
         pack: packName, // The pack name
         author: authorName, // The author name
         type:
@@ -88,10 +80,6 @@ const handler = async (sock, msg, from, args, msgInfoObj) => {
             ? StickerTypes.CROPPED
             : StickerTypes.FULL,
         quality: 40,
-      });
-      await sticker1.toFile(saveSticker);
-      await sock.sendMessage(from, {
-        sticker: fs.readFileSync(saveSticker),
       });
     } else {
       console.log(msg);
@@ -104,8 +92,17 @@ const handler = async (sock, msg, from, args, msgInfoObj) => {
       );
       return;
     }
+
+    await stickerMake.toFile(stickerFileName);
+    await sock.sendMessage(
+      from,
+      {
+        sticker: fs.readFileSync(stickerFileName),
+      },
+      { quoted: msg }
+    );
     try {
-      fs.unlinkSync(saveSticker);
+      fs.unlinkSync(stickerFileName);
     } catch {
       console.log("error in deleting file.");
     }

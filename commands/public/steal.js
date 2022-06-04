@@ -5,10 +5,7 @@ const {
 } = require("@adiwajshing/baileys");
 
 const fs = require("fs");
-const {
-  Sticker,
-  StickerTypes,
-} = require("wa-sticker-formatter");
+const { Sticker, StickerTypes } = require("wa-sticker-formatter");
 
 const getRandom = (ext) => {
   return `${Math.floor(Math.random() * 10000)}${ext}`;
@@ -46,16 +43,16 @@ const handler = async (sock, msg, from, args, msgInfoObj) => {
         type: StickerTypes.DEFAULT,
         quality: 40,
       });
-      const saveSticker = getRandom(".webp");
-      await sticker.toFile(saveSticker);
+      const stickerFileName = getRandom(".webp");
+      await sticker.toFile(stickerFileName);
       await sock.sendMessage(
         from,
         {
-          sticker: fs.readFileSync(saveSticker),
+          sticker: fs.readFileSync(stickerFileName),
         },
         { quoted: msg }
       );
-      fs.unlinkSync(saveSticker);
+      fs.unlinkSync(stickerFileName);
       return;
     }
     await sock.sendMessage(
