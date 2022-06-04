@@ -521,6 +521,7 @@ const startSock = async () => {
         isTaggedImage,
         isTaggedVideo,
         isTaggedSticker,
+        botNumberJid,
       };
 
       // send every command info to my whatsapp, won't work when i send something for bot
