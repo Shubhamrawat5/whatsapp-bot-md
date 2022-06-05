@@ -2,7 +2,7 @@ require("dotenv").config();
 const { Pool } = require("pg");
 
 const proConfig = {
-  connectionString: process.env.DATABASE_URL,
+  connectionString: process.env.DATABASE_URL_MAIN,
   ssl: {
     rejectUnauthorized: false,
   },
@@ -24,6 +24,7 @@ const createCountMemberNameTable = async () => {
   );
 };
 
+//pvxm: current group member stats
 module.exports.getCountGroupMembers = async (groupJid) => {
   await createCountMemberTable();
   let result = await pool.query(
@@ -37,32 +38,45 @@ module.exports.getCountGroupMembers = async (groupJid) => {
   }
 };
 
+//count: user current group total messsage count
 module.exports.getCountIndividual = async (memberJid, groupJid) => {
   await createCountMemberTable();
   let result = await pool.query(
-    "SELECT count FROM countmember WHERE memberJid=$1 AND groupJid=$2;",
+    "SELECT cmn.name,cm.count FROM countmembername cmn INNER JOIN countmember cm ON cmn.memberjid=cm.memberjid WHERE cm.memberJid=$1 AND cm.groupJid=$2;",
     [memberJid, groupJid]
   );
+  let resultObj = {};
   if (result.rowCount) {
-    return result.rows[0].count;
+    resultObj.name = result.rows[0].name;
+    resultObj.count = result.rows[0].count;
   } else {
-    return 0;
+    resultObj.name = "";
+    resultObj.count = 0;
   }
+
+  return resultObj;
 };
 
+//total: user all group total message count
 module.exports.getCountIndividualAllGroup = async (memberJid) => {
   await createCountMemberTable();
   let result = await pool.query(
-    "SELECT SUM(count) as count FROM countmember WHERE memberJid=$1;",
+    "SELECT cmn.name,sum(cm.count) as count,cm.memberJid FROM countmembername cmn INNER JOIN countmember cm ON cmn.memberjid=cm.memberjid GROUP BY cmn.name,cm.memberJid HAVING cm.memberJid=$1;",
     [memberJid]
   );
+  let resultObj = {};
   if (result.rowCount) {
-    return result.rows[0].count;
+    resultObj.name = result.rows[0].name;
+    resultObj.count = result.rows[0].count;
   } else {
-    return 0;
+    resultObj.name = "";
+    resultObj.count = 0;
   }
+
+  return resultObj;
 };
 
+//totalg: user all group (with group wise) message count
 module.exports.getCountIndividualAllGroupWithName = async (memberJid) => {
   await createCountMemberTable();
   let result = await pool.query(
@@ -76,6 +90,7 @@ module.exports.getCountIndividualAllGroupWithName = async (memberJid) => {
   }
 };
 
+//pvxt: top members stats of all groups
 module.exports.getCountTop = async () => {
   await createCountMemberTable();
   let result = await pool.query(
@@ -88,6 +103,7 @@ module.exports.getCountTop = async () => {
   }
 };
 
+//pvxg: all groups stats
 module.exports.getCountGroups = async () => {
   await createCountMemberTable();
   let result = await pool.query(
