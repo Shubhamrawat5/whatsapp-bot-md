@@ -80,7 +80,7 @@ module.exports.getCountIndividualAllGroup = async (memberJid) => {
 module.exports.getCountIndividualAllGroupWithName = async (memberJid) => {
   await createCountMemberTable();
   let result = await pool.query(
-    "SELECT countmember.memberjid,groupname.gname,countmember.count FROM countmember,groupname WHERE countmember.groupjid=groupname.groupjid and memberjid=$1 ORDER BY count DESC;",
+    "SELECT cmn.name,gn.gname,cm.count FROM countmember cm INNER JOIN countmembername cmn ON cmn.memberJid=cm.memberJid INNER JOIN groupname gn ON gn.groupJid=cm.groupJid WHERE cm.memberJid=$1 ORDER BY count DESC;",
     [memberJid]
   );
   if (result.rowCount) {

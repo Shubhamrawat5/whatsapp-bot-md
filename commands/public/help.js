@@ -45,7 +45,7 @@ const handler = async (sock, msg, from, args, msgInfoObj) => {
 📛 *${prefix}total* ✔
   - _Know your message count in all PVX groups!_
 
-📛 *${prefix}totalg* ❌
+📛 *${prefix}totalg* ✔
   - _Know your message stats in all PVX groups!_
 
 📛 *${prefix}insta url* ❌
