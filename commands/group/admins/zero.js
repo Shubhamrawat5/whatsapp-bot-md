@@ -3,7 +3,7 @@ const { MessageType, Mimetype } = require("@adiwajshing/baileys");
 const { getCountGroupMembers } = require("../../../db/countMemberDB");
 
 module.exports.command = () => {
-  let cmd = ["pvxm"];
+  let cmd = ["zero"];
 
   return { cmd, handler };
 };
@@ -20,26 +20,18 @@ const handler = async (sock, msg, from, args, msgInfoObj) => {
       memWithMsg.add(member.memberjid);
     }
 
-    let countGroupMsgIndi = `*${groupName}*\n_From 24 Nov 2021_${readMore}\n`;
+    let zeroMsg = `${groupName}\nMembers with 0 message from 24 NOV:${readMore}\n`;
 
     let countGroupMsgTempIndi = "\n";
     let totalGrpCountIndi = 0;
-    for (let member of resultCountGroupIndi) {
-      totalGrpCountIndi += member.count;
-      countGroupMsgTempIndi += `\n${member.count} - ${member.name}`;
-    }
 
     groupMembers.forEach((mem) => {
       if (!memWithMsg.has(mem.id)) {
-        let username = mem.id.split("@")[0];
-        countGroupMsgTempIndi += `\n${0} - ${username}`;
+        zeroMsg += `\n${mem.id.split("@")[0]}`;
       }
     });
 
-    countGroupMsgIndi += `\n*Total Messages: ${totalGrpCountIndi}*`;
-    countGroupMsgIndi += countGroupMsgTempIndi;
-
-    sock.sendMessage(from, { text: countGroupMsgIndi }, { quoted: msg });
+    sock.sendMessage(from, { text: zeroMsg }, { quoted: msg });
   } catch (err) {
     console.log(err);
     sock.sendMessage(

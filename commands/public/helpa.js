@@ -29,11 +29,14 @@ _Admin commands only!_
 📛 *${prefix}pvxg* ❌
   - _Get stats of PVX group's messages!_
   
-📛 *${prefix}pvxm* ❌
+📛 *${prefix}pvxm* ✔
   - _Get stats of member messages f PVX groups!_
   
 📛 *${prefix}pvxt* ❌
   - _Get stats of PVX groups!_
+
+📛 *${prefix}zero* ✔
+  - _Get numbers with 0 message of current group!_
   
 📛 *${prefix}pvxstats* ❌
   - _Get stats of PVX groups!_
