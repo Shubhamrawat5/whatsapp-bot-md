@@ -206,15 +206,8 @@ require("dotenv").config();
 const myNumber = process.env.myNumber;
 const pvx = process.env.pvx;
 
-const {
-  setCountMember,
-  getCountGroups,
-  getCountGroupMembers,
-  getCountIndividual,
-  getCountIndividualAllGroup,
-  getCountIndividualAllGroupWithName,
-  getCountTop,
-} = require("./db/countMemberDB");
+const { setCountMember } = require("./db/countMemberDB");
+const { setCountVideo } = require("./db/countVideoDB");
 
 let countSent = 1;
 
@@ -416,8 +409,7 @@ const startSock = async () => {
         //for mano
         if (from === pvxmano) {
           await sock.sendMessage(from, {
-            text: `Welcome  @${num_split} to PVX MANORANJAN 🔥\n\n1) Send videos regularly especially new members.\n2) Don't Send CP or any other illegal videos.\n 3) A group bot will be counting the number of videos you've sent.`,
-            // \nSend ?pvxv to know video count.\nInactive members will be kicked time to time.
+            text: `Welcome  @${num_split} to PVX MANORANJAN 🔥\n\n1) Send videos regularly especially new members.\n2) Don't Send CP or any other illegal videos.\n 3) A group bot will be counting the number of videos you've sent.\nSend ${prefix}pvxv to know video count.\nInactive members will be kicked time to time.`,
             mentions: [numJid],
           });
         }
@@ -510,6 +502,11 @@ const startSock = async () => {
         setCountMember(sender, from, senderName);
       }
 
+      //count video
+      if (isGroup && from == pvxmano && msg.message.videoMessage) {
+        setCountVideo(sender, from);
+      }
+
       //Forward all stickers
       if (
         pvx &&
@@ -538,7 +535,7 @@ const startSock = async () => {
           pack: "BOT 🤖",
           author: "pvxcommunity.com",
           type: StickerTypes.DEFAULT,
-          quality: 100,
+          quality: 80,
         });
 
         await sock.sendMessage(pvxstickeronly1, await sticker.toMessage());
