@@ -579,6 +579,8 @@ const startSock = async () => {
       let msgInfoObj = {
         prefix,
         sender,
+        groupName,
+        groupMembers,
         groupAdmins,
         isBotGroupAdmins,
         isMedia,

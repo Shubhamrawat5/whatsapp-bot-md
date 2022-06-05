@@ -28,7 +28,7 @@ const createCountMemberNameTable = async () => {
 module.exports.getCountGroupMembers = async (groupJid) => {
   await createCountMemberTable();
   let result = await pool.query(
-    "SELECT DISTINCT memberJid,count FROM countmember WHERE groupJid=$1 ORDER BY count DESC;",
+    "SELECT cm.memberJid,cm.count,cmn.name FROM countmember cm INNER JOIN countmembername cmn ON cm.memberJid=cmn.memberJid WHERE groupJid=$1 ORDER BY count DESC;",
     [groupJid]
   );
   if (result.rowCount) {
