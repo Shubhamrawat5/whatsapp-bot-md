@@ -1,9 +1,9 @@
-require('dotenv').config()
+require("dotenv").config();
 const { Pool } = require("pg");
 // LOAD pool CONNECTION
 
 const proConfig = {
-  connectionString: process.env.DATABASE_URL,
+  connectionString: process.env.DATABASE_URL_MAIN,
   ssl: {
     rejectUnauthorized: false,
   },

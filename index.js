@@ -206,6 +206,16 @@ require("dotenv").config();
 const myNumber = process.env.myNumber;
 const pvx = process.env.pvx;
 
+const {
+  setCountMember,
+  getCountGroups,
+  getCountGroupMembers,
+  getCountIndividual,
+  getCountIndividualAllGroup,
+  getCountIndividualAllGroupWithName,
+  getCountTop,
+} = require("./db/countMemberDB");
+
 let countSent = 1;
 
 let pvxcommunity = "919557666582-1467533860@g.us";
@@ -488,12 +498,24 @@ const startSock = async () => {
       if (msg.key.fromMe) sender = botNumberJid;
       const senderName = msg.pushName;
 
+      //Count message
+      if (
+        isGroup &&
+        groupName.toUpperCase().includes("<{PVX}>") &&
+        from !== pvxstickeronly1 &&
+        from != pvxstickeronly2 &&
+        from != pvxstickeronly3 &&
+        from != pvxdeals
+      ) {
+        setCountMember(sender, from, senderName);
+      }
+
       //Forward all stickers
       if (
         pvx &&
         isGroup &&
         msg.message.stickerMessage &&
-        groupName.startsWith("<{PVX}>") &&
+        groupName.toUpperCase().startsWith("<{PVX}>") &&
         from !== pvxstickeronly1 &&
         from != pvxstickeronly2 &&
         from != pvxstickeronly3 &&
