@@ -15,28 +15,42 @@ const handler = async (sock, msg, from, args, msgInfoObj) => {
   ${readMore}
 _Admin commands only!_
 
-📛 *${prefix}add <phone number>*
+📛 *${prefix}add <phone number>* ✔
   - _Add new member!_
  [or tag message of removed member with *${prefix}add*]
  
-📛 *${prefix}kick <mention>*
+📛 *${prefix}kick <mention>* ✔
   - _Kick member from group!_
  [or tag message of member with *${prefix}kick*]
 
-📛 *${prefix}mute | ${prefix}unmute*
+📛 *${prefix}mute | ${prefix}unmute* ✔
   - _Mute and Unmute the group!_
 
-📛 *${prefix}pvxg*
+📛 *${prefix}pvxg* ❌
   - _Get stats of PVX group's messages!_
   
-📛 *${prefix}pvxm*
+📛 *${prefix}pvxm* ❌
   - _Get stats of member messages f PVX groups!_
   
-📛 *${prefix}pvxt*
+📛 *${prefix}pvxt* ❌
   - _Get stats of PVX groups!_
   
-📛 *${prefix}pvxstats*
+📛 *${prefix}pvxstats* ❌
   - _Get stats of PVX groups!_
+
+📛 *${prefix}warning* ❌
+  - _Give warning to user!_
+
+📛 *${prefix}blacklist* ❌
+  - _Get blacklist numbers!_ 
+
+📛 *${prefix}blacklistadd* ❌
+  - _Add number to blacklist!_
+Alias: *${prefix}bla*
+
+📛 *${prefix}blacklistremove* ❌
+  - Remove number from blacklist!_  
+Alias: *${prefix}blr*
 
 ✔️ more cool commands coming...`;
 

@@ -13,15 +13,15 @@ const handler = async (sock, msg, from, args, msgInfoObj) => {
 
   let text = `*─「 🔥 <{PVX}> BOT 🔥 」─*
   ${readMore}
-📛 *${prefix}sticker*
+📛 *${prefix}sticker* ✔
 - _Create sticker from media!_
   Alias: *${prefix}s*
   
-📛 *${prefix}sticker crop*
+📛 *${prefix}sticker crop* ✔
   - _Create full size sticker from media!_
   Alias: *${prefix}s c*
 
-📛 *${prefix}slist*
+📛 *${prefix}slist* ❌
   - Get list of stickers command!_
 📛 ${prefix}wall text
 📛 ${prefix}matrix text
@@ -36,99 +36,99 @@ const handler = async (sock, msg, from, args, msgInfoObj) => {
 📛 ${prefix}flower text
 📛 ${prefix}sand text
 
-📛 *${prefix}image*
+📛 *${prefix}image* ❌
   - _Create image from sticker!_
   
-📛 *${prefix}count*
+📛 *${prefix}count* ✔
   - _Know your message count in current group!_
 
-📛 *${prefix}total*
+📛 *${prefix}total* ✔
   - _Know your message count in all PVX groups!_
 
-📛 *${prefix}totalg*
+📛 *${prefix}totalg* ❌
   - _Know your message stats in all PVX groups!_
 
-📛 *${prefix}insta url*
+📛 *${prefix}insta url* ❌
   - _Instagram videos downloader!_
   Alias: *${prefix}i url*📛 
 
-*${prefix}fb url*
+*${prefix}fb url* ❌
   - _Facebook videos downloader!_
 
-📛 *${prefix}donation*
+📛 *${prefix}donation* ❌
   - _Get donation details and help PVX community!_
 
-📛 *${prefix}feedback*
+📛 *${prefix}feedback* ✔
   - _Get feedback form!_
 
-📛 *${prefix}rules*
+📛 *${prefix}rules* ✔
   - _Get PVX groups rules!_
   Alias: *${prefix}r*
   
-📛 *${prefix}ytv url*
+📛 *${prefix}ytv url* ❌
   - _Youtube videos downloader!_
 
-📛 *${prefix}yta url*
+📛 *${prefix}yta url* ❌
   - _Youtube audio downloader!_
 
-📛 *${prefix}steal*
+📛 *${prefix}steal* ✔
   - _Change sticker name to PVX BOT!_
 
-📛 *${prefix}delete*
+📛 *${prefix}delete* ✔
   - _Delete message of bot!_
   Alias: *${prefix}d*
 
-📛 *${prefix}song name*
+📛 *${prefix}song name* ❌
   - _Get songs in good quality!_
   [Better use ${prefix}yta command to download correct song from youtube]
 
-📛 *${prefix}text*
+📛 *${prefix}text* ❌
   - _Get text extractor from image!_
 
-📛 *${prefix}alive*
+📛 *${prefix}alive* ✔
   - _Check if bot is ON or OFF!_
   Alias: *${prefix}a*
 
-📛 *${prefix}cricketcommand*
+📛 *${prefix}cricketcommand* ❌
   - _To get command details of cricket!_
   Alias: *${prefix}cc*
 
-📛 *${prefix}votecommand*
+📛 *${prefix}votecommand* ❌
   - _To get command details of voting!_
   Alias: *${prefix}vc*
 
-📛 *${prefix}quote*
+📛 *${prefix}quote* ✔
   - _Give a random quote!_
 
-📛 *${prefix}gender firstname*
+📛 *${prefix}gender firstname* ✔
   - _Get gender from person first name!_
     
-📛 *${prefix}technews*
+📛 *${prefix}technews* ✔
   - _Get latest Tech news from inshorts !_ 
   
-📛 *${prefix}pvxlink*
+📛 *${prefix}pvxlink* ✔
   - _Get links for all PVX groups!_
   Alias: *${prefix}link*
 
-📛 *${prefix}source*
+📛 *${prefix}source* ✔
   - _Get bot source code!_
 
-📛 *${prefix}dev*
+📛 *${prefix}dev* ✔
   - _Get dev contact to report bug or to add new feature!_
 
-📛 *${prefix}block*
+📛 *${prefix}block* ✔
   - _To block particular commands for this group!_
 
-📛 *${prefix}91only*
+📛 *${prefix}91only* ✔
   - _To instant ban all numbers other than 91 when joined in group!_
 
-📛 *${prefix}help*
+📛 *${prefix}help* ✔
   - _To get list of public commands!_
 
-📛 *${prefix}helpa*
+📛 *${prefix}helpa* ✔
   - _To get list of admin commands!_
 
-📛 *${prefix}helpo*
+📛 *${prefix}helpo* ✔
   - _To get list of owner commands!_
 
 ✔️ more cool commands coming...`;

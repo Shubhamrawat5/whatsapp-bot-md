@@ -15,51 +15,37 @@ const handler = async (sock, msg, from, args, msgInfoObj) => {
   ${readMore}
 _Restricted command for owner only!_
   
-📛 *${prefix}test query*
+📛 *${prefix}test query* ❌
   - _Execute code with whatsapp directly!_
 
-📛 *${prefix}tagall*
+📛 *${prefix}tagall* ❌
   - _Tag all the members!_  
 
-📛 *${prefix}deleteauth*
+📛 *${prefix}deleteauth* ❌
   - _Delete auth DB to get new qr scan!_
 
-📛 *${prefix}groupbackup*
+📛 *${prefix}groupbackup* ❌
   - _Take backup of group in DB!_  
 
-📛 *${prefix}gname*
+📛 *${prefix}gname* ❌
   - _Save all group name in DB!_  
 
-📛 *${prefix}countstats*
+📛 *${prefix}countstats* ❌
   - _Get stats of number of command used!_  
 
-📛 *${prefix}warning*
-  - _Give warning to user!_
-
-📛 *${prefix}blacklist*
-  - _Get blacklist numbers!_ 
-
-📛 *${prefix}blacklistadd*
-  - _Add number to blacklist!_
-Alias: *${prefix}bla*
-
-📛 *${prefix}blacklistremove*
-  - Remove number from blacklist!_  
-Alias: *${prefix}blr*
-
-📛 *${prefix}tg*
+📛 *${prefix}tg* ❌
   - _Make TG to WA stickers!_
 
-📛 *${prefix}stg*
+📛 *${prefix}stg* ❌
   - _Stop TG to WA stickers!_
   
-📛 *${prefix}startvotepvx*
+📛 *${prefix}startvotepvx* ❌
   - _Start vote for all pvx groups!_
   
-📛 *${prefix}stopvotepvx*
+📛 *${prefix}stopvotepvx* ❌
   - _Stop vote for all pvx groups!_
 
-📛 *${prefix}donationadd*
+📛 *${prefix}donationadd* ❌
   - _add by giving after command #name #amount!_
 
 ✔️ more cool commands coming...`;
