@@ -19,9 +19,12 @@ const {
   useSingleFileAuthState,
   makeInMemoryStore,
   fetchLatestBaileysVersion,
+  downloadContentFromMessage,
 } = require("@adiwajshing/baileys");
 const { Boom } = require("@hapi/boom");
 const P = require("pino");
+const { Sticker, StickerTypes } = require("wa-sticker-formatter");
+
 //----------------------------------------------------------------------------//
 
 let MAIN_LOGGER = P({ timestamp: () => `,"time":"${new Date().toJSON()}"` });
@@ -201,6 +204,9 @@ const prefix = "!";
 
 require("dotenv").config();
 const myNumber = process.env.myNumber;
+const pvx = process.env.pvx;
+
+let countSent = 1;
 
 let pvxcommunity = "919557666582-1467533860@g.us";
 let pvxprogrammer = "919557666582-1584193120@g.us";
@@ -475,18 +481,53 @@ const startSock = async () => {
       const args = body.trim().split(/ +/).slice(1);
       const isCmd = body.startsWith(prefix);
 
-      if (!isCmd) return;
-
       const isGroup = from.endsWith("@g.us");
       const groupMetadata = isGroup ? await sock.groupMetadata(from) : "";
-
-      let sender = isGroup ? msg.key.participant : from;
-      const senderName = msg.pushName;
-      // console.log(senderName);
-
-      if (msg.key.fromMe) sender = botNumberJid;
-
       const groupName = isGroup ? groupMetadata.subject : "";
+      let sender = isGroup ? msg.key.participant : from;
+      if (msg.key.fromMe) sender = botNumberJid;
+      const senderName = msg.pushName;
+
+      //Forward all stickers
+      if (
+        pvx &&
+        isGroup &&
+        msg.message.stickerMessage &&
+        groupName.startsWith("<{PVX}>") &&
+        from !== pvxstickeronly1 &&
+        from != pvxstickeronly2 &&
+        from != pvxstickeronly3 &&
+        from !== mano
+      ) {
+        // msg.key.fromMe == false &&
+        // "<{PVX}> BOT 🤖"
+
+        let downloadFilePath = msg.message.stickerMessage;
+        const stream = await downloadContentFromMessage(
+          downloadFilePath,
+          "sticker"
+        );
+        let buffer = Buffer.from([]);
+        for await (const chunk of stream) {
+          buffer = Buffer.concat([buffer, chunk]);
+        }
+
+        const sticker = new Sticker(buffer, {
+          pack: "BOT 🤖",
+          author: "pvxcommunity.com",
+          type: StickerTypes.DEFAULT,
+          quality: 100,
+        });
+
+        await sock.sendMessage(pvxstickeronly1, await sticker.toMessage());
+        await sock.sendMessage(pvxstickeronly2, await sticker.toMessage());
+
+        console.log(`${countSent} sticker sent!`);
+        countSent += 1;
+      }
+
+      if (!isCmd) return;
+
       const groupDesc = isGroup ? groupMetadata.desc.toString() : "";
       const groupMembers = isGroup ? groupMetadata.participants : "";
       const groupAdmins = isGroup ? getGroupAdmins(groupMembers) : "";

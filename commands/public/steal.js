@@ -24,8 +24,7 @@ const handler = async (sock, msg, from, args, msgInfoObj) => {
     let packName = "BOT 🤖";
     let authorName = "pvxcommunity.com";
     if (isTaggedSticker) {
-      let downloadFilePath;
-      downloadFilePath =
+      let downloadFilePath =
         msg.message.extendedTextMessage.contextInfo.quotedMessage
           .stickerMessage;
       const stream = await downloadContentFromMessage(
@@ -41,18 +40,9 @@ const handler = async (sock, msg, from, args, msgInfoObj) => {
         pack: packName,
         author: authorName,
         type: StickerTypes.DEFAULT,
-        quality: 40,
+        quality: 100,
       });
-      const stickerFileName = getRandom(".webp");
-      await sticker.toFile(stickerFileName);
-      await sock.sendMessage(
-        from,
-        {
-          sticker: fs.readFileSync(stickerFileName),
-        },
-        { quoted: msg }
-      );
-      fs.unlinkSync(stickerFileName);
+      await sock.sendMessage(from, await sticker.toMessage(), { quoted: msg });
       return;
     }
     await sock.sendMessage(
