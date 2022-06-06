@@ -41,7 +41,7 @@ _Admin commands only!_
 📛 *${prefix}pvxstats* ❌
   - _Get stats of PVX groups!_
 
-📛 *${prefix}warning* ❌
+📛 *${prefix}warning* ✔
   - _Give warning to user!_
 
 📛 *${prefix}blacklist* ❌
