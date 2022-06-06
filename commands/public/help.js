@@ -65,10 +65,10 @@ const handler = async (sock, msg, from, args, msgInfoObj) => {
   - _Get PVX groups rules!_
   Alias: *${prefix}r*
   
-📛 *${prefix}ytv url* ❌
+📛 *${prefix}ytv url* ✔
   - _Youtube videos downloader!_
 
-📛 *${prefix}yta url* ❌
+📛 *${prefix}yta url* ✔
   - _Youtube audio downloader!_
 
 📛 *${prefix}steal* ✔

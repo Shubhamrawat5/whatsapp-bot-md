@@ -477,7 +477,7 @@ const startSock = async () => {
             msg.message.extendedTextMessage.text.startsWith(prefix)
           ? msg.message.extendedTextMessage.text
           : "";
-
+      // console.log(body);
       if (body[1] == " ") body = body[0] + body.slice(2); //remove space when space btw prefix and commandName like "! help"
       const command = body.slice(1).trim().split(/ +/).shift().toLowerCase();
       const args = body.trim().split(/ +/).slice(1);
