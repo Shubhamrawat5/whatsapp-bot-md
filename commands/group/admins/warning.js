@@ -71,7 +71,7 @@ const handler = async (sock, msg, from, args, msgInfoObj) => {
       ];
       let warnCount = await getCountWarning(taggedMessageUser[0], from);
       let num_split = taggedMessageUser[0].split("@s.whatsapp.net")[0];
-      let warnMsg = `@${num_split} ,Your have been warned. Warning status (${
+      let warnMsg = `@${num_split} ,You have been warned. Warning status (${
         warnCount + 1
       }/3). Don't repeat this type of behaviour again or you'll be banned from group!`;
 
