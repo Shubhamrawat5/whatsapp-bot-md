@@ -26,13 +26,13 @@ _Admin commands only!_
 📛 *${prefix}mute | ${prefix}unmute* ✔
   - _Mute and Unmute the group!_
 
-📛 *${prefix}pvxg* ❌
+📛 *${prefix}pvxg* ✔
   - _Get stats of PVX group's messages!_
   
 📛 *${prefix}pvxm* ✔
   - _Get stats of member messages f PVX groups!_
   
-📛 *${prefix}pvxt* ❌
+📛 *${prefix}pvxt* ✔
   - _Get stats of PVX groups!_
 
 📛 *${prefix}zero* ✔

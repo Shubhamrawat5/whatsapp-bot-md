@@ -94,7 +94,7 @@ module.exports.getCountIndividualAllGroupWithName = async (memberJid) => {
 module.exports.getCountTop = async () => {
   await createCountMemberTable();
   let result = await pool.query(
-    "SELECT DISTINCT memberJid,SUM(count) as count FROM countmember GROUP BY memberJid ORDER BY count DESC LIMIT 20;"
+    "SELECT countmembername.name,countmember.memberJid,sum(countmember.count) as count FROM countmember,countmembername  WHERE countmember.memberjid=countmembername.memberjid GROUP BY countmember.memberjid,countmembername.name ORDER BY count DESC LIMIT 20;"
   );
   if (result.rowCount) {
     return result.rows;
