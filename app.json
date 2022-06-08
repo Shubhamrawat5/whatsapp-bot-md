@@ -1,0 +1,25 @@
+{
+  "name": "WHATSAPP BOT",
+  "description": "nodejs baileys based whatsapp bot",
+  "repository": "https://github.com/Shubhamrawat5/whatsapp-bot-md",
+  "keywords": ["whatsapp-bot", "pvx-bot"],
+  "buildpacks": [
+    {
+      "url": "https://github.com/heroku/heroku-buildpack-nodejs.git"
+    },
+    {
+      "url": "https://github.com/jonathanong/heroku-buildpack-ffmpeg-latest.git"
+    },
+    {
+      "url": "https://github.com/pathwaysmedical/heroku-buildpack-tesseract"
+    }
+  ],
+  "addons": [
+    {
+      "plan": "heroku-postgresql",
+      "options": {
+        "version": "13"
+      }
+    }
+  ]
+}
