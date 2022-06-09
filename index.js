@@ -577,6 +577,7 @@ const startSock = async () => {
         prefix,
         sender,
         groupName,
+        groupDesc,
         groupMembers,
         groupAdmins,
         isBotGroupAdmins,

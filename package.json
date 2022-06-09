@@ -21,6 +21,7 @@
     "@adiwajshing/baileys": "^4.1.0",
     "@adiwajshing/keyed-db": "^0.2.4",
     "@hapi/boom": "^9.1.4",
+    "axios": "^0.27.2",
     "dotenv": "^16.0.0",
     "express": "^4.18.1",
     "pg": "^8.7.3",
