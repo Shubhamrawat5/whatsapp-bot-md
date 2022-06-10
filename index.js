@@ -331,7 +331,6 @@ const startSock = async () => {
 
   //---------------------------------------group-participants.update-----------------------------------------//
   sock.ev.on("group-participants.update", async (msg) => {
-    console.log(msg);
     try {
       let from = msg.id;
       const groupMetadata = await sock.groupMetadata(from);
