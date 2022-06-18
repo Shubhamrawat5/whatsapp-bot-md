@@ -487,6 +487,11 @@ const startSock = async () => {
       const groupName = isGroup ? groupMetadata.subject : "";
       let sender = isGroup ? msg.key.participant : from;
       if (msg.key.fromMe) sender = botNumberJid;
+      if (sender.includes(":"))
+        //remove : from number
+        sender =
+          sender.slice(0, sender.search(":")) +
+          sender.slice(sender.search("@"));
       const senderName = msg.pushName;
 
       //Count message
