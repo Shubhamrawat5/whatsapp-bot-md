@@ -27,7 +27,7 @@ _Restricted command for owner only!_
 📛 *${prefix}groupbackup* ❌
   - _Take backup of group in DB!_  
 
-📛 *${prefix}gname* ❌
+📛 *${prefix}gname* ✔
   - _Save all group name in DB!_  
 
 📛 *${prefix}countstats* ❌
