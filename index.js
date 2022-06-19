@@ -265,18 +265,18 @@ const addCommands = async () => {
     }
   });
 
-  // path = "./commands/owner/";
-  // filenames = await readdir(path);
-  // filenames.forEach((file) => {
-  //   if (file.endsWith(".js")) {
-  //     let { command } = require(path + file);
-  //     let cmdinfo = command(); // {cmd:"", handler:function, alias:[]}
-  //     // console.log(cmdinfo.cmd);
-  //     for (let c of cmdinfo.cmd) {
-  //       commandsOwners[c] = cmdinfo.handler;
-  //     }
-  //   }
-  // });
+  path = "./commands/owner/";
+  filenames = await readdir(path);
+  filenames.forEach((file) => {
+    if (file.endsWith(".js")) {
+      let { command } = require(path + file);
+      let cmdinfo = command(); // {cmd:"", handler:function, alias:[]}
+      // console.log(cmdinfo.cmd);
+      for (let c of cmdinfo.cmd) {
+        commandsOwners[c] = cmdinfo.handler;
+      }
+    }
+  });
 };
 
 const getGroupAdmins = (participants) => {
