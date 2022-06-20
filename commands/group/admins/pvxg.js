@@ -20,8 +20,8 @@ const handler = async (sock, msg, from, args, msgInfoObj) => {
     let totalGrpCount = 0;
     for (let group of resultCountGroup) {
       try {
-        let mdpvx = await sock.groupMetadata(group.groupjid);
-        let grpName = mdpvx.subject;
+        // let mdpvx = await sock.groupMetadata(group.groupjid);
+        let grpName = group.gname;
         if (!grpName || !grpName.toUpperCase().includes("<{PVX}>")) continue; //not a pvx group
         // grpName = grpName.split(" ")[1];
         grpName = grpName.replace("<{PVX}> ", "");

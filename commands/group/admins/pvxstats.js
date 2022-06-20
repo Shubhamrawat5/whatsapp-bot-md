@@ -16,10 +16,11 @@ const handler = async (sock, msg, from, args, msgInfoObj) => {
     let chats = await sock.groupFetchAllParticipating();
     // console.log(chats);
     // !v.announce &&
+    console.log(chats);
     let groups = Object.values(chats)
       .filter((v) => v.id.endsWith("g.us") && v.subject.startsWith("<{PVX}>"))
       .map((v) => {
-        return { name: v.subject, id: v.id };
+        return { subject: v.subject, id: v.id, participants: v.participants };
       });
     // console.log(groups);
 
@@ -29,15 +30,16 @@ const handler = async (sock, msg, from, args, msgInfoObj) => {
     let temppvxMsg = "";
     let temppvxList = [];
     for (let group of groups) {
-      const mdpvx = await sock.groupMetadata(group.id);
+      // const mdpvx = await sock.groupMetadata(group.id);
       // console.log(mdpvx);
-      totalMem += mdpvx.participants.length;
+      // totalMem += mdpvx.participants.length;
+      totalMem += group.participants.length;
       temppvxList.push({
-        subject: mdpvx.subject,
-        count: mdpvx.participants.length,
+        subject: group.subject,
+        count: group.participants.length,
       });
 
-      for (let participant of mdpvx.participants) {
+      for (let participant of group.participants) {
         uniqueMem.add(participant.id);
       }
     }

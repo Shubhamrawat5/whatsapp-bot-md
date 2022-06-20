@@ -106,8 +106,11 @@ module.exports.getCountTop = async () => {
 //pvxg: all groups stats
 module.exports.getCountGroups = async () => {
   await createCountMemberTable();
+  // let result = await pool.query(
+  //   "SELECT groupJid,SUM(count) as count FROM countmember GROUP BY groupJid ORDER BY count DESC;"
+  // );
   let result = await pool.query(
-    "SELECT groupJid,SUM(count) as count FROM countmember GROUP BY groupJid ORDER BY count DESC;"
+    "SELECT groupname.gname,SUM(countmember.count) as count from countmember INNER JOIN groupname ON countmember.groupjid = groupname.groupjid GROUP BY groupname.gname ORDER BY count DESC;"
   );
   if (result.rowCount) {
     return result.rows;
