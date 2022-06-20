@@ -427,9 +427,9 @@ const startSock = async () => {
           botNumberJid.slice(botNumberJid.search("@"));
         if (numJid === botNumberJid) {
           console.log("Bot is added to new group!");
-          await sock.sendMessage(myNumber + "@s.whatsapp.net", {
-            text: `*─「 🔥 <{PVX}> BOT 🔥 」─* \n\nSEND ${prefix}help FOR BOT COMMANDS`,
-          });
+          // await sock.sendMessage(myNumber + "@s.whatsapp.net", {
+          //   text: `*─「 🔥 <{PVX}> BOT 🔥 」─* \n\nSEND ${prefix}help FOR BOT COMMANDS`,
+          // });
         }
         console.log(`[GROUP] ${groupSubject} [JOINED] ${numJid}`);
       }

@@ -38,7 +38,7 @@ _Admin commands only!_
 📛 *${prefix}zero* ✔
   - _Get numbers with 0 message of current group!_
   
-📛 *${prefix}pvxstats* ❌
+📛 *${prefix}pvxstats* ✔
   - _Get stats of PVX groups!_
 
 📛 *${prefix}warning* ✔

@@ -1,5 +1,18 @@
 const { MessageType, Mimetype } = require("@adiwajshing/baileys");
 
+// 📛 ${prefix}wall text
+// 📛 ${prefix}matrix text
+// 📛 ${prefix}flame text
+// 📛 ${prefix}fire text
+// 📛 ${prefix}city text
+// 📛 ${prefix}3d text
+// 📛 ${prefix}logo text
+// 📛 ${prefix}light text
+// 📛 ${prefix}ff text
+// 📛 ${prefix}neon text
+// 📛 ${prefix}flower text
+// 📛 ${prefix}sand text
+
 module.exports.command = () => {
   let cmd = ["help", "h"];
 
@@ -23,18 +36,6 @@ const handler = async (sock, msg, from, args, msgInfoObj) => {
 
 📛 *${prefix}slist* ❌
   - Get list of stickers command!_
-📛 ${prefix}wall text
-📛 ${prefix}matrix text
-📛 ${prefix}flame text
-📛 ${prefix}fire text
-📛 ${prefix}city text
-📛 ${prefix}3d text
-📛 ${prefix}logo text
-📛 ${prefix}light text
-📛 ${prefix}ff text
-📛 ${prefix}neon text
-📛 ${prefix}flower text
-📛 ${prefix}sand text
 
 📛 *${prefix}image* ❌
   - _Create image from sticker!_
@@ -78,7 +79,7 @@ const handler = async (sock, msg, from, args, msgInfoObj) => {
   - _Delete message of bot!_
   Alias: *${prefix}d*
 
-📛 *${prefix}song name* ❌
+📛 *${prefix}song name* ✔
   - _Get songs in good quality!_
   [Better use ${prefix}yta command to download correct song from youtube]
 
