@@ -41,6 +41,9 @@ _Admin commands only!_
 📛 *${prefix}pvxstats* ✔
   - _Get stats of PVX groups!_
 
+📛 *${prefix}rt* ✔
+  - _Tag a random member!_  
+
 📛 *${prefix}warning* ✔
   - _Give warning to user!_
 

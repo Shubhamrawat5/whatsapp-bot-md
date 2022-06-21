@@ -18,7 +18,7 @@ _Restricted command for owner only!_
 📛 *${prefix}test query* ❌
   - _Execute code with whatsapp directly!_
 
-📛 *${prefix}tagall* ❌
+📛 *${prefix}tagall* ✔
   - _Tag all the members!_  
 
 📛 *${prefix}deleteauth* ❌

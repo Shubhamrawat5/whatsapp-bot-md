@@ -1,28 +1,16 @@
 const { MessageType, Mimetype } = require("@adiwajshing/baileys");
 
 module.exports.command = () => {
-  let cmd = ["tagall"];
+  let cmd = ["rt", "randomtag"];
 
   return { cmd, handler };
 };
 
 const handler = async (sock, msg, from, args, msgInfoObj) => {
-  let { prefix, groupName, groupMembers, botNumberJid, myNumber } = msgInfoObj;
+  let { prefix, groupMembers } = msgInfoObj;
   try {
-    if (
-      groupName.toUpperCase().includes("PVX") &&
-      ![myNumber + "@s.whatsapp.net", botNumberJid].includes(sender)
-    ) {
-      sock.sendMessage(
-        from,
-        { text: `❌ Owner only command for avoiding spam in PVX Groups!` },
-        { quoted: msg }
-      );
-      return;
-    }
-
     let jids = [];
-    let message = "ALL: ";
+    let message = "Hey ";
     if (
       msg.message.extendedTextMessage &&
       msg.message.extendedTextMessage.contextInfo.quotedMessage.conversation
@@ -34,10 +22,9 @@ const handler = async (sock, msg, from, args, msgInfoObj) => {
       message += args.length ? args.join(" ") + "\n\n" : "";
     }
 
-    for (let i of groupMembers) {
-      message += "@" + i.id.split("@")[0] + " ";
-      jids.push(i.id.replace("c.us", "s.whatsapp.net"));
-    }
+    let i = groupMembers[Math.floor(Math.random() * groupMembers.length)];
+    message += "@" + i.id.split("@")[0] + " ";
+    jids.push(i.id.replace("c.us", "s.whatsapp.net"));
 
     sock.sendMessage(from, { text: message, mentions: jids }, { quoted: msg });
   } catch (err) {
