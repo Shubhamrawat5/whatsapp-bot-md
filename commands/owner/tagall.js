@@ -7,7 +7,8 @@ module.exports.command = () => {
 };
 
 const handler = async (sock, msg, from, args, msgInfoObj) => {
-  let { prefix, groupName, groupMembers, botNumberJid, myNumber } = msgInfoObj;
+  let { sender, prefix, groupName, groupMembers, botNumberJid, myNumber } =
+    msgInfoObj;
   try {
     if (
       groupName.toUpperCase().includes("PVX") &&
