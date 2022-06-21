@@ -590,6 +590,7 @@ const startSock = async () => {
         isTaggedImage,
         isTaggedVideo,
         isTaggedSticker,
+        myNumber,
         botNumberJid,
       };
 
