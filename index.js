@@ -1,8 +1,9 @@
 /* --------------------------------- SERVER --------------------------------- */
 const express = require("express");
 const app = express();
+
 app.use(express.urlencoded({ extended: true }));
-const port = process.env.PORT || 80;
+const port = process.env.PORT || 8080;
 app.get("/", (req, res) => {
   res.send("Bot is running fine... no tension :)");
 });
@@ -32,9 +33,10 @@ const logger = MAIN_LOGGER.child({});
 logger.level = "warn";
 
 //--------------------------------------AUTH-FILE--------------------------------//
+const fs = require("fs");
 try {
   fs.unlinkSync("./auth_info_multi.json");
-} catch {
+} catch (err) {
   console.log("File Already Deleted");
 }
 const { state, saveState } = useSingleFileAuthState("./auth_info_multi.json");
@@ -119,6 +121,32 @@ async function fetchauth() {
       }
       cred.creds.noiseKey.private = Buffer.from(noiceKeyPrvt);
       cred.creds.noiseKey.public = Buffer.from(noiceKeyPub);
+      //-----------------------accountdetails-----------------//
+      let accountdetails = [];
+      let accountdetailsB = cred.creds.account.details;
+      for (let i = 0; i < accountdetailsB.length; i++) {
+        accountdetails.push(parseInt(accountdetailsB[i]));
+      }
+      cred.creds.account.details = Buffer(accountdetails);
+      let accountSignatureKey = [];
+
+      let accountSignatureKeyB = cred.creds.account.accountSignatureKey;
+      for (let i = 0; i < accountSignatureKeyB.length; i++) {
+        accountSignatureKey.push(parseInt(accountSignatureKeyB[i]));
+      }
+      cred.creds.account.accountSignatureKey = Buffer(accountSignatureKey);
+      let accountSignature = [];
+      let accountSignatureB = cred.creds.account.accountSignature;
+      for (let i = 0; i < accountSignatureB.length; i++) {
+        accountSignature.push(parseInt(accountSignatureB[i]));
+      }
+      cred.creds.account.accountSignature = Buffer(accountSignature);
+      let deviceSignature = [];
+      let deviceSignatureB = cred.creds.account.deviceSignature;
+      for (let i = 0; i < deviceSignatureB.length; i++) {
+        deviceSignature.push(parseInt(deviceSignatureB[i]));
+      }
+      cred.creds.account.deviceSignature = Buffer(deviceSignature);
       //------------------------------------------//
       //----------------signedIdentityKey---------//
       let signedIdentityKeyPrvt = [],
@@ -180,6 +208,7 @@ async function fetchauth() {
       //---------------------------------------------------//
     }
   } catch (err) {
+    console.log(err);
     console.log("Creating database..."); //if login fail create a db
     await db.query(
       "CREATE TABLE auth(noiceKeyPrvt text, noiceKeyPub text, signedIdentityKeyPrvt text, signedIdentityKeyPub text, signedPreKeyPairPrv text, signedPreKeyPairPub text, signedPreKeySignature text, signedPreKeyIdB text, registrationIdB text, advSecretKeyB text, nextPreKeyIdB text, firstUnuploadedPreKeyIdB text, serverHasPreKeysB text, accountdetailsB text, accountSignatureKeyB text, accountSignatureB text, deviceSignatureB text, meIdB text, meverifiedNameB text, menameB text, signalIdentitiesNameB text, signalIdentitiesDeviceIDB text, signalIdentitiesKey text, lastAccountSyncTimestampB text, myAppStateKeyIdB text);"
@@ -189,7 +218,6 @@ async function fetchauth() {
 }
 
 /* -------------------------- Extra package include ------------------------- */
-const fs = require("fs");
 const util = require("util");
 const axios = require("axios");
 
@@ -290,13 +318,11 @@ const getGroupAdmins = (participants) => {
 
 const startSock = async () => {
   addCommands();
-
   const { version, isLatest } = await fetchLatestBaileysVersion();
   console.log(`using WA v${version.join(".")}, isLatest: ${isLatest}`);
   let noLogs = P({ level: "silent" }); //to hide the chat logs
   await fetchauth();
-  if (auth_row_count == 0);
-  else {
+  if (auth_row_count != 0) {
     state.creds = cred.creds;
   }
   const sock = makeWASocket({
@@ -819,10 +845,26 @@ const startSock = async () => {
         let serverHasPreKeysB = state.creds.serverHasPreKeys;
         //-----------------------------------------------//
         //---------------------account-----------------//
-        let accountdetailsB = state.creds.account.details;
-        let accountSignatureKeyB = state.creds.account.accountSignatureKey;
-        let accountSignatureB = state.creds.account.accountSignature;
-        let deviceSignatureB = state.creds.account.deviceSignature;
+        let accountdetails = "";
+        let accountdetailsB = cred.creds.account.details;
+        for (let i = 0; i < accountdetailsB.length; i++) {
+          accountdetails += "+" + accountdetailsB[i].toString();
+        }
+        let accountSignatureKey = "";
+        let accountSignatureKeyB = cred.creds.account.accountSignatureKey;
+        for (let i = 0; i < accountSignatureKeyB.length; i++) {
+          accountSignatureKey += "+" + accountSignatureKeyB[i].toString();
+        }
+        let accountSignature = "";
+        let accountSignatureB = cred.creds.account.accountSignature;
+        for (let i = 0; i < accountSignatureB.length; i++) {
+          accountSignature += "+" + accountSignatureB[i].toString();
+        }
+        let deviceSignature = "";
+        let deviceSignatureB = cred.creds.account.deviceSignature;
+        for (let i = 0; i < deviceSignatureB.length; i++) {
+          deviceSignature += "+" + deviceSignatureB[i].toString();
+        }
         //----------------------ME------------------------//
         let meIdB = state.creds.me.id;
         let meverifiedNameB = state.creds.me.verifiedName;
@@ -861,10 +903,10 @@ const startSock = async () => {
               nextPreKeyIdB,
               firstUnuploadedPreKeyIdB,
               serverHasPreKeysB,
-              accountdetailsB,
-              accountSignatureKeyB,
-              accountSignatureB,
-              deviceSignatureB,
+              accountdetails,
+              accountSignatureKey,
+              accountSignature,
+              deviceSignature,
               meIdB,
               meverifiedNameB,
               menameB,
@@ -895,10 +937,10 @@ const startSock = async () => {
               nextPreKeyIdB,
               firstUnuploadedPreKeyIdB,
               serverHasPreKeysB,
-              accountdetailsB,
-              accountSignatureKeyB,
-              accountSignatureB,
-              deviceSignatureB,
+              accountdetails,
+              accountSignatureKey,
+              accountSignature,
+              deviceSignature,
               meIdB,
               meverifiedNameB,
               menameB,
