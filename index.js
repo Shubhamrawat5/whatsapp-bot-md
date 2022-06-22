@@ -191,6 +191,7 @@ async function fetchauth() {
 /* -------------------------- Extra package include ------------------------- */
 const fs = require("fs");
 const util = require("util");
+const axios = require("axios");
 
 const readdir = util.promisify(fs.readdir);
 const readFile = util.promisify(fs.readFile);
@@ -305,6 +306,70 @@ const startSock = async () => {
     printQRInTerminal: true,
     auth: state,
   });
+
+  if (pvx) {
+    const checkTodayBday = async (todayDate) => {
+      console.log("CHECKING TODAY BDAY...", todayDate);
+      todayDate = todayDate.split("/");
+      let d = todayDate[0];
+      d = d.startsWith("0") ? d[1] : d;
+      let m = todayDate[1];
+      m = m.startsWith("0") ? m[1] : m;
+      let url = "https://pvxgroup.herokuapp.com/api/bday";
+      let { data } = await axios.get(url);
+      let bday = [];
+
+      data.data.forEach((member) => {
+        if (member.month == m && member.date == d) {
+          bday.push(
+            `${member.name.toUpperCase()} (${member.username.toUpperCase()})`
+          );
+          console.log(`Today is ${member.name} Birthday!`);
+        }
+      });
+      if (bday.length) {
+        let bdayComb = bday.join(" & ");
+        await sock.sendMessage(pvxcommunity, {
+          text: `*─「 🔥 <{PVX}> BOT 🔥 」─* \n\nToday is ${bdayComb} Birthday 🍰 🎉🎉`,
+        });
+      } else {
+        console.log("NO BIRTHDAY!");
+        await sock.sendMessage(pvxcommunity, {
+          text: `*─「 🔥 <{PVX}> BOT 🔥 」─* \n\nThere is no Birthday today!`,
+        });
+      }
+      try {
+        await sock.groupUpdateSubject(pvxcommunity, "<{PVX}> COMMUNITY ❤️");
+      } catch (err) {
+        console.log(err);
+      }
+    };
+
+    setInterval(() => {
+      console.log("SET INTERVAL.");
+      let todayDate = new Date().toLocaleDateString("en-GB", {
+        timeZone: "Asia/kolkata",
+      });
+
+      let hour = Number(
+        new Date()
+          .toLocaleTimeString("en-GB", {
+            timeZone: "Asia/kolkata",
+          })
+          .split(":")[0]
+      );
+      //8 to 24 ON
+      // if (hour >= 8) {
+      //   postTechNews(0);
+      //   postStudyInfo(0);
+      // }
+
+      if (usedDate !== todayDate) {
+        usedDate = todayDate;
+        checkTodayBday(todayDate);
+      }
+    }, 1000 * 60 * 20); //20 min
+  }
 
   // store.bind(sock.ev);
 
