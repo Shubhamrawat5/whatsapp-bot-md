@@ -34,11 +34,11 @@ logger.level = "warn";
 
 //--------------------------------------AUTH-FILE--------------------------------//
 const fs = require("fs");
-try {
-  fs.unlinkSync("./auth_info_multi.json");
-} catch (err) {
-  console.log("File Already Deleted");
-}
+// try {
+//   fs.unlinkSync("./auth_info_multi.json");
+// } catch (err) {
+//   console.log("File Already Deleted");
+// }
 const { state, saveState } = useSingleFileAuthState("./auth_info_multi.json");
 // start a connection
 // console.log('state : ', state.creds);
@@ -339,6 +339,10 @@ const startSock = async () => {
   });
 
   if (pvx) {
+    let usedDate = new Date()
+      .toLocaleString("en-GB", { timeZone: "Asia/kolkata" })
+      .split(",")[0];
+
     const checkTodayBday = async (todayDate) => {
       console.log("CHECKING TODAY BDAY...", todayDate);
       todayDate = todayDate.split("/");
