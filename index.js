@@ -59,7 +59,6 @@ async function fetchauth() {
       console.log("No login data found!");
     } else {
       console.log("Login data found!");
-      console.log(data);
       cred = {
         creds: {
           noiseKey: JSON.parse(data.noisekey),
@@ -133,6 +132,7 @@ const { setCountMember } = require("./db/countMemberDB");
 const { setCountVideo } = require("./db/countVideoDB");
 
 let countSent = 1;
+let commandSent = 1;
 
 let pvxcommunity = "919557666582-1467533860@g.us";
 let pvxprogrammer = "919557666582-1584193120@g.us";
@@ -149,6 +149,7 @@ let mano = "19016677357-1630334490@g.us";
 let pvxdeals = "919557666582-1582555632@g.us";
 
 const addCommands = async () => {
+  console.log("Commands Added!");
   let path = "./commands/public/";
   let filenames = await readdir(path);
   filenames.forEach((file) => {
@@ -215,6 +216,7 @@ const startSock = async () => {
   const { version, isLatest } = await fetchLatestBaileysVersion();
   console.log(`using WA v${version.join(".")}, isLatest: ${isLatest}`);
   let noLogs = P({ level: "silent" }); //to hide the chat logs
+  let yesLogs = P({ level: "debug" });
   await fetchauth();
   if (auth_row_count != 0) {
     state.creds = cred.creds;
@@ -586,8 +588,9 @@ const startSock = async () => {
       // send every command info to my whatsapp, won't work when i send something for bot
       if (myNumber && myNumber + "@s.whatsapp.net" !== sender) {
         await sock.sendMessage(myNumber + "@s.whatsapp.net", {
-          text: `${0}) [${prefix}${command}] [${groupName}]`,
+          text: `${commandSent}) [${prefix}${command}] [${groupName}]`,
         });
+        ++commandSent;
       }
 
       //using 'm.messages[0]' to tag message, by giving 'msg' throw some error
@@ -688,77 +691,81 @@ const startSock = async () => {
 
     if (connection === "open") {
       console.log("Connected");
-      try {
-        let noiseKey = JSON.stringify(state.creds.noiseKey);
-        let signedIdentityKey = JSON.stringify(state.creds.signedIdentityKey);
-        let signedPreKey = JSON.stringify(state.creds.signedPreKey);
-        let registrationId = state.creds.registrationId;
-        let advSecretKey = state.creds.advSecretKey;
-        let nextPreKeyId = state.creds.nextPreKeyId;
-        let firstUnuploadedPreKeyId = state.creds.firstUnuploadedPreKeyId;
-        let serverHasPreKeys = state.creds.serverHasPreKeys;
-        let account = JSON.stringify(state.creds.account);
-        let me = JSON.stringify(state.creds.me);
-        let signalIdentities = JSON.stringify(state.creds.signalIdentities);
-        let lastAccountSyncTimestamp = state.creds.lastAccountSyncTimestamp;
-        let myAppStateKeyId = state.creds.myAppStateKeyId; //?
-
-        // INSERT / UPDATE LOGIN DATA
-        if (auth_row_count == 0) {
-          console.log("Inserting login data...");
-          db.query(
-            "INSERT INTO auth VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13);",
-            [
-              noiseKey,
-              signedIdentityKey,
-              signedPreKey,
-              registrationId,
-              advSecretKey,
-              nextPreKeyId,
-              firstUnuploadedPreKeyId,
-              serverHasPreKeys,
-              account,
-              me,
-              signalIdentities,
-              lastAccountSyncTimestamp,
-              myAppStateKeyId,
-            ]
-          );
-          db.query("commit;");
-          console.log("New login data inserted!");
-        } else {
-          console.log("Updating login data....");
-          db.query(
-            "UPDATE auth SET noiseKey = $1, signedIdentityKey = $2, signedPreKey = $3, registrationId = $4, advSecretKey = $5, nextPreKeyId = $6, firstUnuploadedPreKeyId = $7, serverHasPreKeys = $8, account = $9, me = $10, signalIdentities = $11, lastAccountSyncTimestamp = $12, myAppStateKeyId = $13;",
-            [
-              noiseKey,
-              signedIdentityKey,
-              signedPreKey,
-              registrationId,
-              advSecretKey,
-              nextPreKeyId,
-              firstUnuploadedPreKeyId,
-              serverHasPreKeys,
-              account,
-              me,
-              signalIdentities,
-              lastAccountSyncTimestamp,
-              myAppStateKeyId,
-            ]
-          );
-          db.query("commit;");
-          console.log("Login data updated!");
-        }
-      } catch (err) {
-        console.log(err);
-      }
     }
 
     console.log("connection update", update);
   });
   // listen for when the auth credentials is updated
-  // sock.ev.on("creds.update", saveState);
-  // return sock;
+  sock.ev.on("creds.update", () => {
+    console.log("Creds updated!");
+    saveState();
+    try {
+      let noiseKey = JSON.stringify(state.creds.noiseKey);
+      let signedIdentityKey = JSON.stringify(state.creds.signedIdentityKey);
+      let signedPreKey = JSON.stringify(state.creds.signedPreKey);
+      let registrationId = state.creds.registrationId;
+      let advSecretKey = state.creds.advSecretKey;
+      let nextPreKeyId = state.creds.nextPreKeyId;
+      let firstUnuploadedPreKeyId = state.creds.firstUnuploadedPreKeyId;
+      let serverHasPreKeys = state.creds.serverHasPreKeys;
+      let account = JSON.stringify(state.creds.account);
+      let me = JSON.stringify(state.creds.me);
+      let signalIdentities = JSON.stringify(state.creds.signalIdentities);
+      let lastAccountSyncTimestamp = state.creds.lastAccountSyncTimestamp;
+      // let lastAccountSyncTimestamp = 0;
+      let myAppStateKeyId = state.creds.myAppStateKeyId; //?
+
+      // INSERT / UPDATE LOGIN DATA
+      if (auth_row_count == 0) {
+        console.log("Inserting login data...");
+        db.query(
+          "INSERT INTO auth VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13);",
+          [
+            noiseKey,
+            signedIdentityKey,
+            signedPreKey,
+            registrationId,
+            advSecretKey,
+            nextPreKeyId,
+            firstUnuploadedPreKeyId,
+            serverHasPreKeys,
+            account,
+            me,
+            signalIdentities,
+            lastAccountSyncTimestamp,
+            myAppStateKeyId,
+          ]
+        );
+        db.query("commit;");
+        console.log("New login data inserted!");
+      } else {
+        console.log("Updating login data....");
+        db.query(
+          "UPDATE auth SET noiseKey = $1, signedIdentityKey = $2, signedPreKey = $3, registrationId = $4, advSecretKey = $5, nextPreKeyId = $6, firstUnuploadedPreKeyId = $7, serverHasPreKeys = $8, account = $9, me = $10, signalIdentities = $11, lastAccountSyncTimestamp = $12, myAppStateKeyId = $13;",
+          [
+            noiseKey,
+            signedIdentityKey,
+            signedPreKey,
+            registrationId,
+            advSecretKey,
+            nextPreKeyId,
+            firstUnuploadedPreKeyId,
+            serverHasPreKeys,
+            account,
+            me,
+            signalIdentities,
+            lastAccountSyncTimestamp,
+            myAppStateKeyId,
+          ]
+        );
+        db.query("commit;");
+        console.log("Login data updated!");
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  });
+  return sock;
 };
 
 startSock();

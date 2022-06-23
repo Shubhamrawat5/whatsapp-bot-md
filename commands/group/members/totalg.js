@@ -28,7 +28,6 @@ const handler = async (sock, msg, from, args, msgInfoObj) => {
   try {
     let resultCountGroup = await getCountIndividualAllGroupWithName(sender);
 
-    console.log(resultCountGroup);
     let username = resultCountGroup.length
       ? resultCountGroup[0].name
       : sender.split("@")[0];

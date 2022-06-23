@@ -1,0 +1,9 @@
+begin;
+set transaction read write;
+DROP table auth;
+COMMIT;
+
+
+Connected
+connection update { connection: 'open' }
+connection update { receivedPendingNotifications: true }
