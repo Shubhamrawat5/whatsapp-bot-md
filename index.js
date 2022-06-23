@@ -123,30 +123,35 @@ async function fetchauth() {
       cred.creds.noiseKey.public = Buffer.from(noiceKeyPub);
       //-----------------------accountdetails-----------------//
       let accountdetails = [];
-      let accountdetailsB = cred.creds.account.details;
+      let accountdetailsB = cred.creds.account.details.slice(1).split("+");
       for (let i = 0; i < accountdetailsB.length; i++) {
         accountdetails.push(parseInt(accountdetailsB[i]));
       }
-      cred.creds.account.details = Buffer(accountdetails);
+      cred.creds.account.details = Buffer.from(accountdetails);
       let accountSignatureKey = [];
-
-      let accountSignatureKeyB = cred.creds.account.accountSignatureKey;
+      let accountSignatureKeyB = cred.creds.account.accountSignatureKey
+        .slice(1)
+        .split("+");
       for (let i = 0; i < accountSignatureKeyB.length; i++) {
         accountSignatureKey.push(parseInt(accountSignatureKeyB[i]));
       }
-      cred.creds.account.accountSignatureKey = Buffer(accountSignatureKey);
+      cred.creds.account.accountSignatureKey = Buffer.from(accountSignatureKey);
       let accountSignature = [];
-      let accountSignatureB = cred.creds.account.accountSignature;
+      let accountSignatureB = cred.creds.account.accountSignature
+        .slice(1)
+        .split("+");
       for (let i = 0; i < accountSignatureB.length; i++) {
         accountSignature.push(parseInt(accountSignatureB[i]));
       }
-      cred.creds.account.accountSignature = Buffer(accountSignature);
+      cred.creds.account.accountSignature = Buffer.from(accountSignature);
       let deviceSignature = [];
-      let deviceSignatureB = cred.creds.account.deviceSignature;
+      let deviceSignatureB = cred.creds.account.deviceSignature
+        .slice(1)
+        .split("+");
       for (let i = 0; i < deviceSignatureB.length; i++) {
         deviceSignature.push(parseInt(deviceSignatureB[i]));
       }
-      cred.creds.account.deviceSignature = Buffer(deviceSignature);
+      cred.creds.account.deviceSignature = Buffer.from(deviceSignature);
       //------------------------------------------//
       //----------------signedIdentityKey---------//
       let signedIdentityKeyPrvt = [],
@@ -846,22 +851,22 @@ const startSock = async () => {
         //-----------------------------------------------//
         //---------------------account-----------------//
         let accountdetails = "";
-        let accountdetailsB = cred.creds.account.details;
+        let accountdetailsB = state.creds.account.details;
         for (let i = 0; i < accountdetailsB.length; i++) {
           accountdetails += "+" + accountdetailsB[i].toString();
         }
         let accountSignatureKey = "";
-        let accountSignatureKeyB = cred.creds.account.accountSignatureKey;
+        let accountSignatureKeyB = state.creds.account.accountSignatureKey;
         for (let i = 0; i < accountSignatureKeyB.length; i++) {
           accountSignatureKey += "+" + accountSignatureKeyB[i].toString();
         }
         let accountSignature = "";
-        let accountSignatureB = cred.creds.account.accountSignature;
+        let accountSignatureB = state.creds.account.accountSignature;
         for (let i = 0; i < accountSignatureB.length; i++) {
           accountSignature += "+" + accountSignatureB[i].toString();
         }
         let deviceSignature = "";
-        let deviceSignatureB = cred.creds.account.deviceSignature;
+        let deviceSignatureB = state.creds.account.deviceSignature;
         for (let i = 0; i < deviceSignatureB.length; i++) {
           deviceSignature += "+" + deviceSignatureB[i].toString();
         }
@@ -954,7 +959,9 @@ const startSock = async () => {
           db.query("commit;");
           console.log("Login data updated!");
         }
-      } catch {}
+      } catch (err) {
+        console.log(err);
+      }
     }
 
     console.log("connection update", update);
