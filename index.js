@@ -59,165 +59,54 @@ async function fetchauth() {
       console.log("No login data found!");
     } else {
       console.log("Login data found!");
+      console.log(data);
       cred = {
         creds: {
-          noiseKey: {
-            private: data.noicekeyprvt,
-            public: data.noicekeypub,
-          },
-          signedIdentityKey: {
-            private: data.signedidentitykeyprvt,
-            public: data.signedidentitykeypub,
-          },
-          signedPreKey: {
-            keyPair: {
-              private: data.signedprekeypairprv,
-              public: data.signedprekeypairpub,
-            },
-            signature: data.signedprekeysignature,
-            keyId: Number(data.signedprekeyidb),
-          },
-          registrationId: Number(data.registrationidb),
-          advSecretKey: data.advsecretkeyb,
-          nextPreKeyId: Number(data.nextprekeyidb),
-          firstUnuploadedPreKeyId: Number(data.firstunuploadedprekeyidb),
-          serverHasPreKeys: Boolean(data.serverhasprekeysb),
-          account: {
-            details: data.accountdetailsb,
-            accountSignatureKey: data.accountsignaturekeyb,
-            accountSignature: data.accountsignatureb,
-            deviceSignature: data.devicesignatureb,
-          },
-          me: {
-            id: data.meidb,
-            verifiedName: data.meverifiednameb,
-            name: data.menameb,
-          },
-          signalIdentities: [
-            {
-              identifier: {
-                name: data.signalidentitiesnameb,
-                deviceId: Number(data.signalidentitiesdeviceidb),
-              },
-              identifierKey: data.signalidentitieskey,
-            },
-          ],
+          noiseKey: JSON.parse(data.noisekey),
+          signedIdentityKey: JSON.parse(data.signedidentitykey),
+          signedPreKey: JSON.parse(data.signedprekey),
+          registrationId: Number(data.registrationid),
+          advSecretKey: data.advsecretkey,
+          nextPreKeyId: Number(data.nextprekeyid),
+          firstUnuploadedPreKeyId: Number(data.firstunuploadedprekeyid),
+          serverHasPreKeys: Boolean(data.serverhasprekeys),
+          account: JSON.parse(data.account),
+          me: JSON.parse(data.me),
+          signalIdentities: JSON.parse(data.signalidentities),
           lastAccountSyncTimestamp: 0, // To allow bot to read the messages
           // lastAccountSyncTimestamp: Number(data.lastaccountsynctimestampb),
-          myAppStateKeyId: data.myappstatekeyidb,
+          myAppStateKeyId: data.myappstatekeyid,
         },
         keys: state.keys,
       };
-      //---------------noiceKey----------------//
-      let noiceKeyPrvt = [],
-        noiceKeyPub = [];
-      let noiceKeyPrvtB = cred.creds.noiseKey.private.slice(1).split("+");
-      let noiceKeyPubB = cred.creds.noiseKey.public.slice(1).split("+");
-      for (let i = 0; i < noiceKeyPrvtB.length; i++) {
-        noiceKeyPrvt.push(parseInt(noiceKeyPrvtB[i]));
-      }
-      for (let i = 0; i < noiceKeyPubB.length; i++) {
-        noiceKeyPub.push(parseInt(noiceKeyPubB[i]));
-      }
-      cred.creds.noiseKey.private = Buffer.from(noiceKeyPrvt);
-      cred.creds.noiseKey.public = Buffer.from(noiceKeyPub);
-      //-----------------------accountdetails-----------------//
-      let accountdetails = [];
-      let accountdetailsB = cred.creds.account.details.slice(1).split("+");
-      for (let i = 0; i < accountdetailsB.length; i++) {
-        accountdetails.push(parseInt(accountdetailsB[i]));
-      }
-      cred.creds.account.details = Buffer.from(accountdetails);
-      let accountSignatureKey = [];
-      let accountSignatureKeyB = cred.creds.account.accountSignatureKey
-        .slice(1)
-        .split("+");
-      for (let i = 0; i < accountSignatureKeyB.length; i++) {
-        accountSignatureKey.push(parseInt(accountSignatureKeyB[i]));
-      }
-      cred.creds.account.accountSignatureKey = Buffer.from(accountSignatureKey);
-      let accountSignature = [];
-      let accountSignatureB = cred.creds.account.accountSignature
-        .slice(1)
-        .split("+");
-      for (let i = 0; i < accountSignatureB.length; i++) {
-        accountSignature.push(parseInt(accountSignatureB[i]));
-      }
-      cred.creds.account.accountSignature = Buffer.from(accountSignature);
-      let deviceSignature = [];
-      let deviceSignatureB = cred.creds.account.deviceSignature
-        .slice(1)
-        .split("+");
-      for (let i = 0; i < deviceSignatureB.length; i++) {
-        deviceSignature.push(parseInt(deviceSignatureB[i]));
-      }
-      cred.creds.account.deviceSignature = Buffer.from(deviceSignature);
-      //------------------------------------------//
-      //----------------signedIdentityKey---------//
-      let signedIdentityKeyPrvt = [],
-        signedIdentityKeyPub = [];
-      let signedIdentityKeyPrvtB = cred.creds.signedIdentityKey.private
-        .slice(1)
-        .split("+");
-      let signedIdentityKeyPubB = cred.creds.signedIdentityKey.public
-        .slice(1)
-        .split("+");
-      for (let i = 0; i < signedIdentityKeyPrvtB.length; i++) {
-        signedIdentityKeyPrvt.push(parseInt(signedIdentityKeyPrvtB[i]));
-      }
-      for (let i = 0; i < signedIdentityKeyPubB.length; i++) {
-        signedIdentityKeyPub.push(parseInt(signedIdentityKeyPubB[i]));
-      }
-      cred.creds.signedIdentityKey.private = Buffer.from(signedIdentityKeyPrvt);
-      cred.creds.signedIdentityKey.public = Buffer.from(signedIdentityKeyPub);
-      //------------------------------------------//
-      //----------------signedPreKey------------------//
-      let signedPreKeyPairPrv = [],
-        signedPreKeyPairPub = [];
-      let signedPreKeyPairPrvB = cred.creds.signedPreKey.keyPair.private
-        .slice(1)
-        .split("+");
-      let signedPreKeyPairPubB = cred.creds.signedPreKey.keyPair.public
-        .slice(1)
-        .split("+");
-      for (let i = 0; i < signedPreKeyPairPrvB.length; i++) {
-        signedPreKeyPairPrv.push(parseInt(signedPreKeyPairPrvB[i]));
-      }
-      for (let i = 0; i < signedPreKeyPairPubB.length; i++) {
-        signedPreKeyPairPub.push(parseInt(signedPreKeyPairPubB[i]));
-      }
-      cred.creds.signedPreKey.keyPair.private =
-        Buffer.from(signedPreKeyPairPrv);
-      cred.creds.signedPreKey.keyPair.public = Buffer.from(signedPreKeyPairPub);
-      //------------------------------------------//
-      let signedPreKeySignature = [];
-      let signedPreKeySignatureB = cred.creds.signedPreKey.signature
-        .slice(1)
-        .split("+");
-      for (let i = 0; i < signedPreKeySignatureB.length; i++) {
-        signedPreKeySignature.push(parseInt(signedPreKeySignatureB[i]));
-      }
-      cred.creds.signedPreKey.signature = Buffer.from(signedPreKeySignature);
-      //-----------------------------------------------//
-      //---------------------------signalIdentities-----//
-      let signalIdentitiesKey = [];
-      let signalIdentitiesKeyB = cred.creds.signalIdentities[0].identifierKey
-        .slice(1)
-        .split("+");
-      for (let i = 0; i < signalIdentitiesKeyB.length; i++) {
-        signalIdentitiesKey.push(parseInt(signalIdentitiesKeyB[i]));
-      }
-      cred.creds.signalIdentities[0].identifierKey =
-        Buffer.from(signalIdentitiesKey);
-      // console.log("Auth : ", cred.creds.signalIdentities);
-      //---------------------------------------------------//
+      cred.creds.noiseKey.private = Buffer.from(cred.creds.noiseKey.private);
+      cred.creds.noiseKey.public = Buffer.from(cred.creds.noiseKey.public);
+      cred.creds.signedIdentityKey.private = Buffer.from(
+        cred.creds.signedIdentityKey.private
+      );
+      cred.creds.signedIdentityKey.public = Buffer.from(
+        cred.creds.signedIdentityKey.public
+      );
+      cred.creds.signedPreKey.keyPair.private = Buffer.from(
+        cred.creds.signedPreKey.keyPair.private
+      );
+      cred.creds.signedPreKey.keyPair.public = Buffer.from(
+        cred.creds.signedPreKey.keyPair.public
+      );
+      cred.creds.signedPreKey.signature = Buffer.from(
+        cred.creds.signedPreKey.signature
+      );
+      cred.creds.signalIdentities[0].identifierKey = Buffer.from(
+        cred.creds.signalIdentities[0].identifierKey
+      );
     }
   } catch (err) {
     console.log(err);
     console.log("Creating database..."); //if login fail create a db
     await db.query(
-      "CREATE TABLE auth(noiceKeyPrvt text, noiceKeyPub text, signedIdentityKeyPrvt text, signedIdentityKeyPub text, signedPreKeyPairPrv text, signedPreKeyPairPub text, signedPreKeySignature text, signedPreKeyIdB text, registrationIdB text, advSecretKeyB text, nextPreKeyIdB text, firstUnuploadedPreKeyIdB text, serverHasPreKeysB text, accountdetailsB text, accountSignatureKeyB text, accountSignatureB text, deviceSignatureB text, meIdB text, meverifiedNameB text, menameB text, signalIdentitiesNameB text, signalIdentitiesDeviceIDB text, signalIdentitiesKey text, lastAccountSyncTimestampB text, myAppStateKeyIdB text);"
+      "CREATE TABLE auth(noiseKey text, signedIdentityKey text, signedPreKey text, registrationId text, advSecretKey text, nextPreKeyId text, firstUnuploadedPreKeyId text, serverHasPreKeys text, account text, me text, signalIdentities text, lastAccountSyncTimestamp text, myAppStateKeyId text);"
     );
+
     await fetchauth();
   }
 }
@@ -800,130 +689,39 @@ const startSock = async () => {
     if (connection === "open") {
       console.log("Connected");
       try {
-        //---------------noiceKey----------------//
-        let noiceKeyPrvt = "",
-          noiceKeyPub = "";
-        let noiceKeyPrvtB = state.creds.noiseKey.private.toJSON().data;
-        let noiceKeyPubB = state.creds.noiseKey.public.toJSON().data;
-        for (let i = 0; i < noiceKeyPrvtB.length; i++) {
-          noiceKeyPrvt += "+" + noiceKeyPrvtB[i].toString();
-        }
-        for (let i = 0; i < noiceKeyPubB.length; i++) {
-          noiceKeyPub += "+" + noiceKeyPubB[i].toString();
-        }
-        //------------------------------------------//
-        //----------------signedIdentityKey---------//
-        let signedIdentityKeyPrvt = "",
-          signedIdentityKeyPub = "";
-        let signedIdentityKeyPrvtB =
-          state.creds.signedIdentityKey.private.toJSON().data;
-        let signedIdentityKeyPubB =
-          state.creds.signedIdentityKey.public.toJSON().data;
-        for (let i = 0; i < signedIdentityKeyPrvtB.length; i++) {
-          signedIdentityKeyPrvt += "+" + signedIdentityKeyPrvtB[i].toString();
-        }
-        for (let i = 0; i < signedIdentityKeyPubB.length; i++) {
-          signedIdentityKeyPub += "+" + signedIdentityKeyPubB[i].toString();
-        }
-        //------------------------------------------//
-        //----------------signedPreKeyPair--------------//
-        let signedPreKeyPairPrv = "",
-          signedPreKeyPairPub = "";
-        let signedPreKeyPairPrvB = state.creds.signedPreKey.keyPair.private;
-        let signedPreKeyPairPubB = state.creds.signedPreKey.keyPair.public;
-        for (let i = 0; i < signedPreKeyPairPrvB.length; i++) {
-          signedPreKeyPairPrv += "+" + signedPreKeyPairPrvB[i].toString();
-        }
-        for (let i = 0; i < signedPreKeyPairPubB.length; i++) {
-          signedPreKeyPairPub += "+" + signedPreKeyPairPubB[i].toString();
-        }
-        //------------------------------------------//
-        //------------------signedPreKeySignature**---//
-        let signedPreKeySignature = "";
-        let signedPreKeySignatureB = state.creds.signedPreKey.signature;
-        for (let i = 0; i < signedPreKeySignatureB.length; i++) {
-          signedPreKeySignature += "+" + signedPreKeySignatureB[i].toString();
-        }
-        let signedPreKeyIdB = state.creds.signedPreKey.keyId;
-        //---------------------------------------------//
-        //------------------AutoKeys--------------------//
-        let registrationIdB = state.creds.registrationId;
-        let advSecretKeyB = state.creds.advSecretKey;
-        let nextPreKeyIdB = state.creds.nextPreKeyId;
-        let firstUnuploadedPreKeyIdB = state.creds.firstUnuploadedPreKeyId;
-        let serverHasPreKeysB = state.creds.serverHasPreKeys;
-        //-----------------------------------------------//
-        //---------------------account-----------------//
-        let accountdetails = "";
-        let accountdetailsB = state.creds.account.details;
-        for (let i = 0; i < accountdetailsB.length; i++) {
-          accountdetails += "+" + accountdetailsB[i].toString();
-        }
-        let accountSignatureKey = "";
-        let accountSignatureKeyB = state.creds.account.accountSignatureKey;
-        for (let i = 0; i < accountSignatureKeyB.length; i++) {
-          accountSignatureKey += "+" + accountSignatureKeyB[i].toString();
-        }
-        let accountSignature = "";
-        let accountSignatureB = state.creds.account.accountSignature;
-        for (let i = 0; i < accountSignatureB.length; i++) {
-          accountSignature += "+" + accountSignatureB[i].toString();
-        }
-        let deviceSignature = "";
-        let deviceSignatureB = state.creds.account.deviceSignature;
-        for (let i = 0; i < deviceSignatureB.length; i++) {
-          deviceSignature += "+" + deviceSignatureB[i].toString();
-        }
-        //----------------------ME------------------------//
-        let meIdB = state.creds.me.id;
-        let meverifiedNameB = state.creds.me.verifiedName;
-        let menameB = state.creds.me.name;
-        //--------------------------------------------------//
-        //----------------------signalIdentities------------//
-        let signalIdentitiesNameB =
-          state.creds.signalIdentities[0].identifier.name;
-        let signalIdentitiesDeviceIDB =
-          state.creds.signalIdentities[0].identifier.deviceId;
-        let signalIdentitiesKey = "";
-        let signalIdentitiesKeyB =
-          state.creds.signalIdentities[0].identifierKey.toJSON().data;
-        for (let i = 0; i < signalIdentitiesKeyB.length; i++) {
-          signalIdentitiesKey += "+" + signalIdentitiesKeyB[i].toString();
-        }
-        //----------------------------------------------------//
-        let lastAccountSyncTimestampB = state.creds.lastAccountSyncTimestamp;
-        let myAppStateKeyIdB = state.creds.myAppStateKeyId;
+        let noiseKey = JSON.stringify(state.creds.noiseKey);
+        let signedIdentityKey = JSON.stringify(state.creds.signedIdentityKey);
+        let signedPreKey = JSON.stringify(state.creds.signedPreKey);
+        let registrationId = state.creds.registrationId;
+        let advSecretKey = state.creds.advSecretKey;
+        let nextPreKeyId = state.creds.nextPreKeyId;
+        let firstUnuploadedPreKeyId = state.creds.firstUnuploadedPreKeyId;
+        let serverHasPreKeys = state.creds.serverHasPreKeys;
+        let account = JSON.stringify(state.creds.account);
+        let me = JSON.stringify(state.creds.me);
+        let signalIdentities = JSON.stringify(state.creds.signalIdentities);
+        let lastAccountSyncTimestamp = state.creds.lastAccountSyncTimestamp;
+        let myAppStateKeyId = state.creds.myAppStateKeyId; //?
+
         // INSERT / UPDATE LOGIN DATA
         if (auth_row_count == 0) {
           console.log("Inserting login data...");
           db.query(
-            "INSERT INTO auth VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16,$17,$18,$19,$20,$21,$22,$23,$24,$25);",
+            "INSERT INTO auth VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13);",
             [
-              noiceKeyPrvt,
-              noiceKeyPub,
-              signedIdentityKeyPrvt,
-              signedIdentityKeyPub,
-              signedPreKeyPairPrv,
-              signedPreKeyPairPub,
-              signedPreKeySignature,
-              signedPreKeyIdB,
-              registrationIdB,
-              advSecretKeyB,
-              nextPreKeyIdB,
-              firstUnuploadedPreKeyIdB,
-              serverHasPreKeysB,
-              accountdetails,
-              accountSignatureKey,
-              accountSignature,
-              deviceSignature,
-              meIdB,
-              meverifiedNameB,
-              menameB,
-              signalIdentitiesNameB,
-              signalIdentitiesDeviceIDB,
-              signalIdentitiesKey,
-              lastAccountSyncTimestampB,
-              myAppStateKeyIdB,
+              noiseKey,
+              signedIdentityKey,
+              signedPreKey,
+              registrationId,
+              advSecretKey,
+              nextPreKeyId,
+              firstUnuploadedPreKeyId,
+              serverHasPreKeys,
+              account,
+              me,
+              signalIdentities,
+              lastAccountSyncTimestamp,
+              myAppStateKeyId,
             ]
           );
           db.query("commit;");
@@ -931,33 +729,21 @@ const startSock = async () => {
         } else {
           console.log("Updating login data....");
           db.query(
-            "UPDATE auth SET noiceKeyPrvt = $1, noiceKeyPub = $2, signedIdentityKeyPrvt = $3, signedIdentityKeyPub = $4, signedPreKeyPairPrv = $5, signedPreKeyPairPub = $6, signedPreKeySignature = $7, signedPreKeyIdB = $8, registrationIdB = $9, advSecretKeyB = $10, nextPreKeyIdB = $11, firstUnuploadedPreKeyIdB = $12, serverHasPreKeysB = $13, accountdetailsB = $14, accountSignatureKeyB = $15, accountSignatureB = $16, deviceSignatureB = $17, meIdB = $18, meverifiedNameB =$19, menameB =$20, signalIdentitiesNameB =$21, signalIdentitiesDeviceIDB =$22, signalIdentitiesKey =$23, lastAccountSyncTimestampB =$24, myAppStateKeyIdB =$25;",
+            "UPDATE auth SET noiseKey = $1, signedIdentityKey = $2, signedPreKey = $3, registrationId = $4, advSecretKey = $5, nextPreKeyId = $6, firstUnuploadedPreKeyId = $7, serverHasPreKeys = $8, account = $9, me = $10, signalIdentities = $11, lastAccountSyncTimestamp = $12, myAppStateKeyId = $13;",
             [
-              noiceKeyPrvt,
-              noiceKeyPub,
-              signedIdentityKeyPrvt,
-              signedIdentityKeyPub,
-              signedPreKeyPairPrv,
-              signedPreKeyPairPub,
-              signedPreKeySignature,
-              signedPreKeyIdB,
-              registrationIdB,
-              advSecretKeyB,
-              nextPreKeyIdB,
-              firstUnuploadedPreKeyIdB,
-              serverHasPreKeysB,
-              accountdetails,
-              accountSignatureKey,
-              accountSignature,
-              deviceSignature,
-              meIdB,
-              meverifiedNameB,
-              menameB,
-              signalIdentitiesNameB,
-              signalIdentitiesDeviceIDB,
-              signalIdentitiesKey,
-              lastAccountSyncTimestampB,
-              myAppStateKeyIdB,
+              noiseKey,
+              signedIdentityKey,
+              signedPreKey,
+              registrationId,
+              advSecretKey,
+              nextPreKeyId,
+              firstUnuploadedPreKeyId,
+              serverHasPreKeys,
+              account,
+              me,
+              signalIdentities,
+              lastAccountSyncTimestamp,
+              myAppStateKeyId,
             ]
           );
           db.query("commit;");
