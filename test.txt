@@ -1,8 +1,4 @@
-begin;
-set transaction read write;
-DROP table auth;
-COMMIT;
-
+z
 
 Connected
 connection update { connection: 'open' }
