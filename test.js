@@ -61,18 +61,26 @@ mdClient.connect();
 
 let collection2 = mdClient.db("bot").collection("auth");
 //(chatid,{})
-let x = collection2.updateOne(
-  { _id: 1 },
-  { $set: { sessionAuth: "sessionDataAuth" } }
-);
+// let x = collection2.updateOne(
+//   { _id: 1 },
+//   { $set: { sessionAuth: "sessionDataAuth" } }
+// );
+
+// console.log(x);
+// x.then((res) => {
+//   console.log(res);
+//   if (res.matchedCount) {
+//     console.log("UPDATED");
+//   } else {
+//     collection2.insertOne({ _id: 1, sessionAuth: "sessionDataAuth" });
+//     console.log("INSERTED");
+//   }
+// });
+
+//delete auth
+let x = collection2.deleteOne({ _id: 1 });
 
 console.log(x);
 x.then((res) => {
   console.log(res);
-  if (res.matchedCount) {
-    console.log("UPDATED");
-  } else {
-    collection2.insertOne({ _id: 1, sessionAuth: "sessionDataAuth" });
-    console.log("INSERTED");
-  }
 });

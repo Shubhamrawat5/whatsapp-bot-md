@@ -215,8 +215,12 @@ const getGroupAdmins = (participants) => {
   return admins;
 };
 
+let authSaveInterval, dateCheckerInterval;
+
 const startSock = async () => {
   addCommands();
+  clearInterval(authSaveInterval);
+  clearInterval(dateCheckerInterval);
   try {
     mdClient.connect(async (err) => {
       if (err) console.log(err);
@@ -237,7 +241,7 @@ const startSock = async () => {
 
   store.readFromFile("./baileys_store_multi.json");
   // save every 1m
-  setInterval(async () => {
+  authSaveInterval = setInterval(async () => {
     // console.log("Auth updating to DB");
     store.writeToFile("./baileys_store_multi.json");
     try {
@@ -325,7 +329,7 @@ const startSock = async () => {
       }
     };
 
-    setInterval(() => {
+    dateCheckerInterval = setInterval(() => {
       console.log("SET INTERVAL.");
       let todayDate = new Date().toLocaleDateString("en-GB", {
         timeZone: "Asia/kolkata",
