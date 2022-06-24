@@ -218,20 +218,18 @@ const getGroupAdmins = (participants) => {
 const startSock = async () => {
   addCommands();
   try {
-    mdClient.connect((err) => {
-      let collection2 = mdClient.db("bot").collection("auth");
-
-      collection2.find({ _id: 1 }).toArray(function (err, result) {
-        if (err) throw err;
-        if (result.length) {
-          let sessionAuth = result[0]["sessionAuth"];
-          sessionAuth = JSON.parse(sessionAuth);
-          sessionAuth = JSON.stringify(sessionAuth);
-        }
-        //console.log(session);
-        //fs.writeFileSync("./auth_info_multi.json", sessionAuth);
-      });
+    mdClient.connect(async (err) => {
+      if (err) console.log(err);
     });
+    let collection2 = mdClient.db("bot").collection("auth");
+    let result = await collection2.findOne({ _id: 1 });
+    if (result._id === 1) {
+      let sessionAuth = result["sessionAuth"];
+      sessionAuth = JSON.parse(sessionAuth);
+      sessionAuth = JSON.stringify(sessionAuth);
+      fs.writeFileSync("./auth_info_multi.json", sessionAuth);
+    }
+    //console.log(session);
     console.log("Local file written");
   } catch (err) {
     console.error("Local file writing error :", err);
