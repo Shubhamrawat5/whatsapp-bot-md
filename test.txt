@@ -1,3 +1,5 @@
+npm run start
+
 heroku logs --tail -a pvx-bot-md1
 npm i git://github.com/adiwajshing/Baileys.git#a75d9118bdc7829a12dcb5f758dc5f92528a272d
 
