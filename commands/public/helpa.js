@@ -27,13 +27,16 @@ _Admin commands only!_
   - _Mute and Unmute the group!_
 
 📛 *${prefix}pvxg* ✔
-  - _Get stats of PVX group's messages!_
+  - _Get stats of all groups message!_
   
 📛 *${prefix}pvxm* ✔
-  - _Get stats of member messages f PVX groups!_
+  - _Get stats of member messages of current group!_
   
 📛 *${prefix}pvxt* ✔
-  - _Get stats of PVX groups!_
+  - _Get top member stats of all groups!_
+
+📛 *${prefix}pvxt5* ✔
+  - _Get top 5 member stats of all groups!_
 
 📛 *${prefix}zero* ✔
   - _Get numbers with 0 message of current group!_

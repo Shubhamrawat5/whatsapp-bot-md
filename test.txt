@@ -1,3 +1,4 @@
+https://pm2.keymetrics.io/docs/integrations/heroku/
 npm run start
 
 heroku logs --tail -a pvx-bot-md1
@@ -7,6 +8,10 @@ Connected
 connection update { connection: 'open' }
 connection update { receivedPendingNotifications: true }
 
+begin;
+set transaction read write;
+delete FROM countmember where groupjid='919557666582-1553695938@g.us';
+COMMIT;
 
 
 Web-server running!

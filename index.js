@@ -459,6 +459,7 @@ const startSock = async () => {
         console.log(`[GROUP] ${groupSubject} [JOINED] ${numJid}`);
       }
       if (msg.action == "remove") {
+        console.log(from);
         console.log(`[GROUP] ${groupSubject} [LEAVED] ${numJid}`);
       }
     } catch (err) {

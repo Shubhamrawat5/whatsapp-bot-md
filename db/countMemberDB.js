@@ -103,6 +103,19 @@ module.exports.getCountTop = async () => {
   }
 };
 
+//pvxt5: top members stats of all groups
+module.exports.getCountTop5 = async () => {
+  await createCountMemberTable();
+  let result = await pool.query(
+    "SELECT groupname.gname,countmembername.name,rs.count FROM (SELECT groupJid,memberJid,count, Rank() over (Partition BY groupJid ORDER BY count DESC ) AS Rank FROM countmember) rs INNER JOIN groupname on rs.groupJid=groupname.groupJid INNER JOIN countmembername ON rs.memberJid=countmembername.memberJid WHERE Rank <= 5;"
+  );
+  if (result.rowCount) {
+    return result.rows;
+  } else {
+    return [];
+  }
+};
+
 //pvxg: all groups stats
 module.exports.getCountGroups = async () => {
   await createCountMemberTable();
