@@ -3,3 +3,30 @@ z
 Connected
 connection update { connection: 'open' }
 connection update { receivedPendingNotifications: true }
+
+
+
+Web-server running!
+
+Local file written
+using WA v2.2222.11, isLatest: true
+connection update {
+  connection: 'connecting',
+  receivedPendingNotifications: false,
+  qr: undefined
+}
+Connected
+connection update { connection: 'open' }
+------------------------------------------------
+Web-server running!
+
+Local file written
+using WA v2.2222.11, isLatest: true
+connection update {
+  connection: 'connecting',
+  receivedPendingNotifications: false,
+  qr: undefined
+}
+Connected
+connection update { connection: 'open' }
+connection update { receivedPendingNotifications: true }

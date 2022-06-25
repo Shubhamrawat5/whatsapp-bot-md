@@ -241,30 +241,6 @@ const startSock = async () => {
 
   store.readFromFile("./baileys_store_multi.json");
   // save every 1m
-  authSaveInterval = setInterval(async () => {
-    // console.log("Auth updating to DB");
-    store.writeToFile("./baileys_store_multi.json");
-    try {
-      let sessionDataAuth = fs.readFileSync("./auth_info_multi.json");
-      sessionDataAuth = JSON.parse(sessionDataAuth);
-      sessionDataAuth = JSON.stringify(sessionDataAuth);
-      //console.log(sessionData);
-      let collection2 = mdClient.db("bot").collection("auth");
-      //(chatid,{})
-      const res = await collection2.updateOne(
-        { _id: 1 },
-        { $set: { sessionAuth: sessionDataAuth } }
-      );
-      if (res.matchedCount) {
-        console.log("DB UPDATED");
-      } else {
-        collection2.insertOne({ _id: 1, sessionAuth: sessionDataAuth });
-        console.log("DB INSERTED");
-      }
-    } catch (err) {
-      console.log("Db updation error : ", err);
-    }
-  }, 1000 * 60);
 
   const { version, isLatest } = await fetchLatestBaileysVersion();
   console.log(`using WA v${version.join(".")}, isLatest: ${isLatest}`);
@@ -824,7 +800,34 @@ const startSock = async () => {
   //   }
   // });
 
-  sock.ev.on("creds.update", saveState);
+  sock.ev.on("creds.update", async () => {
+    saveState();
+    // authSaveInterval = setInterval(async () => {
+    // console.log("Auth updating to DB");
+    store.writeToFile("./baileys_store_multi.json");
+    try {
+      let sessionDataAuth = fs.readFileSync("./auth_info_multi.json");
+      sessionDataAuth = JSON.parse(sessionDataAuth);
+      sessionDataAuth = JSON.stringify(sessionDataAuth);
+      //console.log(sessionData);
+      let collection2 = mdClient.db("bot").collection("auth");
+      //(chatid,{})
+      const res = await collection2.updateOne(
+        { _id: 1 },
+        { $set: { sessionAuth: sessionDataAuth } }
+      );
+      if (res.matchedCount) {
+        console.log("DB UPDATED");
+      } else {
+        collection2.insertOne({ _id: 1, sessionAuth: sessionDataAuth });
+        console.log("DB INSERTED");
+      }
+    } catch (err) {
+      console.log("Db updation error : ", err);
+    }
+
+    // }, 1000 * 60);
+  });
 
   return sock;
 };
