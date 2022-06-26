@@ -16,16 +16,16 @@ const handler = async (sock, msg, from, args, msgInfoObj) => {
     let resultCountGroupTop5 = await getCountTop5();
     let countGroupMsgTop5 = `*📛 PVX TOP 5 MEMBERS FROM ALL GROUPS 📛*\n_From 24 Nov 2021_${readMore}\n`;
 
-    let countGroupMsgTempTop5 = `\n\n📛 ${resultCountGroupTop5[0].gname}`;
-    let count = 0;
+    let lastGroupName = resultCountGroupTop5[0].gname;
+    let countGroupMsgTempTop5 = `\n\n📛 ${lastGroupName}`;
     for (let member of resultCountGroupTop5) {
-      if (count == 5) {
-        count = 0;
-        countGroupMsgTempTop5 += `\n\n📛 *${member.gname}*`;
+      if (member.gname != lastGroupName) {
+        lastGroupName = member.gname;
+        countGroupMsgTempTop5 += `\n\n📛 *${lastGroupName}*`;
       }
       countGroupMsgTempTop5 += `\n${member.count} - ${member.name}`;
-      ++count;
     }
+
     countGroupMsgTop5 += countGroupMsgTempTop5;
     sock.sendMessage(from, { text: countGroupMsgTop5 }, { quoted: msg });
   } catch (err) {

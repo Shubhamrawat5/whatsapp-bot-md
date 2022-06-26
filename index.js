@@ -38,6 +38,7 @@ const mdClient = require("./db/dbConnection.js");
 const store = makeInMemoryStore({
   logger: P().child({ level: "debug", stream: "store" }),
 });
+let startCount = 1;
 
 // try {
 //   fs.unlinkSync("./auth_info_multi.json");
@@ -230,6 +231,8 @@ const startSock = async () => {
     if (result._id === 1) {
       let sessionAuth = result["sessionAuth"];
       sessionAuth = JSON.parse(sessionAuth);
+      // delete sessionAuth.keys;
+      // sessionAuth["creds"]["lastAccountSyncTimestamp"] = 0;
       sessionAuth = JSON.stringify(sessionAuth);
       fs.writeFileSync("./auth_info_multi.json", sessionAuth);
     }
@@ -459,7 +462,6 @@ const startSock = async () => {
         console.log(`[GROUP] ${groupSubject} [JOINED] ${numJid}`);
       }
       if (msg.action == "remove") {
-        console.log(from);
         console.log(`[GROUP] ${groupSubject} [LEAVED] ${numJid}`);
       }
     } catch (err) {
@@ -718,6 +720,9 @@ const startSock = async () => {
           lastDisconnect.error.output &&
           lastDisconnect.error.output.statusCode) !== DisconnectReason.loggedOut
       ) {
+        console.log("CONNECTION CLOSE.");
+        ++startCount;
+        console.log("--- START SOCK COUNT ---", startCount);
         startSock();
       } else {
         console.log("Connection closed. You are logged out.");
