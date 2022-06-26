@@ -38,6 +38,9 @@ _Admin commands only!_
 📛 *${prefix}pvxt5* ✔
   - _Get top 5 member stats of all groups!_
 
+📛 *${prefix}pvxt10* ✔
+  - _Get top 10 member stats of all groups!_
+
 📛 *${prefix}zero* ✔
   - _Get numbers with 0 message of current group!_
   
