@@ -1,6 +1,6 @@
 const { MessageType, Mimetype } = require("@adiwajshing/baileys");
 
-const { getCountTop5 } = require("../../../db/countMemberDB");
+const { getCountTop10 } = require("../../../db/countMemberDB");
 
 module.exports.command = () => {
   let cmd = ["pvxt10"];
@@ -13,22 +13,22 @@ const handler = async (sock, msg, from, args, msgInfoObj) => {
     let { groupName, groupMembers } = msgInfoObj;
     const more = String.fromCharCode(8206);
     const readMore = more.repeat(4001);
-    let resultCountGroupTop5 = await getCountTop5();
-    let countGroupMsgTop5 = `*📛 PVX TOP 10 MEMBERS FROM ALL GROUPS 📛*\n_From 24 Nov 2021_${readMore}\n`;
+    let resultCountGroupTop10 = await getCountTop10();
+    let countGroupMsgTop10 = `*📛 PVX TOP 10 MEMBERS FROM ALL GROUPS 📛*\n_From 24 Nov 2021_${readMore}\n`;
 
-    let countGroupMsgTempTop5 = `\n\n📛 ${resultCountGroupTop5[0].gname}`;
+    let countGroupMsgTempTop10 = `\n\n📛 ${resultCountGroupTop10[0].gname}`;
     let count = 0;
-    for (let member of resultCountGroupTop5) {
+    for (let member of resultCountGroupTop10) {
       //TODO: remember last groupname
       if (count == 10) {
         count = 0;
-        countGroupMsgTempTop5 += `\n\n📛 *${member.gname}*`;
+        countGroupMsgTempTop10 += `\n\n📛 *${member.gname}*`;
       }
-      countGroupMsgTempTop5 += `\n${member.count} - ${member.name}`;
+      countGroupMsgTempTop10 += `\n${member.count} - ${member.name}`;
       ++count;
     }
-    countGroupMsgTop5 += countGroupMsgTempTop5;
-    sock.sendMessage(from, { text: countGroupMsgTop5 }, { quoted: msg });
+    countGroupMsgTop10 += countGroupMsgTempTop10;
+    sock.sendMessage(from, { text: countGroupMsgTop10 }, { quoted: msg });
   } catch (err) {
     console.log(err);
     sock.sendMessage(
