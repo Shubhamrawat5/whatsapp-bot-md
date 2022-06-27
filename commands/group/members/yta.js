@@ -61,8 +61,9 @@ const handler = async (sock, msg, from, args, msgInfoObj) => {
       sock.sendMessage(
         from,
         {
-          audio: fs.readFileSync(`./${randomName}`),
-          caption: `${titleYt}`,
+          document: fs.readFileSync(`./${randomName}`),
+          fileName: titleYt + ".mp3",
+          mimetype: "audio/mpeg",
         },
         { quoted: msg }
       );
