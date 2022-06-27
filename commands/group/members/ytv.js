@@ -14,33 +14,21 @@ module.exports.command = () => {
 };
 
 const handler = async (sock, msg, from, args, msgInfoObj) => {
-  let { prefix } = msgInfoObj;
+  let { prefix, reply } = msgInfoObj;
   if (args.length === 0) {
-    sock.sendMessage(
-      from,
-      { text: `❌ URL is empty! \nSend ${prefix}ytv url` },
-      { quoted: msg }
-    );
+    reply(`❌ URL is empty! \nSend ${prefix}ytv url`);
     return;
   }
   try {
     let urlYt = args[0];
     if (!urlYt.startsWith("http")) {
-      sock.sendMessage(
-        from,
-        { text: `❌ Give youtube link!` },
-        { quoted: msg }
-      );
+      reply(`❌ Give youtube link!`);
       return;
     }
     let infoYt = await ytdl.getInfo(urlYt);
     //30 MIN
     if (infoYt.videoDetails.lengthSeconds >= 1800) {
-      sock.sendMessage(
-        from,
-        { text: `❌ Video file too big!` },
-        { quoted: msg }
-      );
+      reply(`❌ Video file too big!`);
       return;
     }
     let titleYt = infoYt.videoDetails.title;
@@ -72,20 +60,12 @@ const handler = async (sock, msg, from, args, msgInfoObj) => {
         { quoted: msg }
       );
     } else {
-      sock.sendMessage(
-        from,
-        { text: s`❌ File size bigger than 40mb.` },
-        { quoted: msg }
-      );
+      reply(`❌ File size bigger than 40mb.`);
     }
 
     fs.unlinkSync(`./${randomName}`);
   } catch (err) {
     console.log(err);
-    sock.sendMessage(
-      from,
-      { text: `❌ There is some problem.` },
-      { quoted: msg }
-    );
+    reply(`❌ There is some problem.`);
   }
 };

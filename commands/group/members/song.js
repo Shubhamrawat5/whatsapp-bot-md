@@ -69,14 +69,10 @@ const downloadSong = async (randomName, query) => {
 };
 
 const handler = async (sock, msg, from, args, msgInfoObj) => {
-  let { prefix } = msgInfoObj;
+  let { prefix, reply } = msgInfoObj;
 
   if (args.length === 0) {
-    sock.sendMessage(
-      from,
-      { text: `❌ Query is empty! \nSend ${prefix}song query` },
-      { quoted: msg }
-    );
+    reply(`❌ Query is empty! \nSend ${prefix}song query`);
     return;
   }
   try {
@@ -84,12 +80,8 @@ const handler = async (sock, msg, from, args, msgInfoObj) => {
     let query = args.join("%20");
     let response = await downloadSong(randomName, query);
     if (response == "NOT") {
-      sock.sendMessage(
-        from,
-        {
-          text: `❌ Song not found!\nTry to put correct spelling of song along with singer name.\n[Better use ${prefix}yta command to download correct song from youtube]`,
-        },
-        { quoted: msg }
+      reply(
+        `❌ Song not found!\nTry to put correct spelling of song along with singer name.\n[Better use ${prefix}yta command to download correct song from youtube]`
       );
       return;
     }
@@ -107,10 +99,6 @@ const handler = async (sock, msg, from, args, msgInfoObj) => {
     fs.unlinkSync(`./${randomName}`);
   } catch (err) {
     console.log(err);
-    sock.sendMessage(
-      from,
-      { text: `❌ There is some problem.` },
-      { quoted: msg }
-    );
+    reply(`❌ There is some problem.`);
   }
 };

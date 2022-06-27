@@ -7,18 +7,21 @@ module.exports.command = () => {
 };
 
 const handler = async (sock, msg, from, args, msgInfoObj) => {
-  let { sender, prefix, groupName, groupMembers, botNumberJid, myNumber } =
-    msgInfoObj;
+  let {
+    sender,
+    prefix,
+    groupName,
+    groupMembers,
+    botNumberJid,
+    myNumber,
+    reply,
+  } = msgInfoObj;
   try {
     if (
       groupName.toUpperCase().includes("PVX") &&
       ![myNumber + "@s.whatsapp.net", botNumberJid].includes(sender)
     ) {
-      sock.sendMessage(
-        from,
-        { text: `❌ Owner only command for avoiding spam in PVX Groups!` },
-        { quoted: msg }
-      );
+      reply(`❌ Owner only command for avoiding spam in PVX Groups!`);
       return;
     }
 
@@ -43,6 +46,6 @@ const handler = async (sock, msg, from, args, msgInfoObj) => {
     sock.sendMessage(from, { text: message, mentions: jids }, { quoted: msg });
   } catch (err) {
     console.log(err);
-    sock.sendMessage(from, { text: `❌ Error!` }, { quoted: msg });
+    reply(`❌ Error!`);
   }
 };

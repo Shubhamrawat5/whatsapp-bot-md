@@ -18,7 +18,7 @@ module.exports.command = () => {
 };
 
 const handler = async (sock, msg, from, args, msgInfoObj) => {
-  let { isTaggedSticker } = msgInfoObj;
+  let { isTaggedSticker, reply } = msgInfoObj;
 
   try {
     let packName = "BOT 🤖";
@@ -45,21 +45,9 @@ const handler = async (sock, msg, from, args, msgInfoObj) => {
       await sock.sendMessage(from, await sticker.toMessage(), { quoted: msg });
       return;
     }
-    await sock.sendMessage(
-      from,
-      {
-        text: "❌ Tag a sticker!",
-      },
-      { quoted: msg }
-    );
+    reply("❌ Tag a sticker!");
   } catch (err) {
     console.log(err);
-    await sock.sendMessage(
-      from,
-      {
-        text: "❌ There is some problem!",
-      },
-      { quoted: msg }
-    );
+    reply("❌ There is some problem!");
   }
 };

@@ -8,10 +8,10 @@ module.exports.command = () => {
 };
 
 const handler = async (sock, msg, from, args, msgInfoObj) => {
-  let { groupAdmins, isBotGroupAdmins } = msgInfoObj;
+  let { groupAdmins, isBotGroupAdmins, reply } = msgInfoObj;
 
   if (!msg.message.extendedTextMessage) {
-    sock.sendMessage(from, { text: "❌ Tag someone!" }, { quoted: msg });
+    reply("❌ Tag someone!");
     return;
   }
   try {
@@ -32,37 +32,21 @@ const handler = async (sock, msg, from, args, msgInfoObj) => {
         await setCountWarning(mentioned[0], from);
         if (warnCount >= 2) {
           if (!isBotGroupAdmins) {
-            sock.sendMessage(
-              from,
-              { text: "❌ I'm not Admin here!" },
-              { quoted: msg }
-            );
+            reply("❌ I'm not Admin here!");
 
             return;
           }
           if (groupAdmins.includes(mentioned[0])) {
-            sock.sendMessage(
-              from,
-              { text: "❌ Cannot remove admin!" },
-              { quoted: msg }
-            );
+            reply("❌ Cannot remove admin!");
 
             return;
           }
           await sock.groupParticipantsUpdate(from, mentioned, "remove");
-          sock.sendMessage(
-            from,
-            { text: "_✔ Number removed from group!_" },
-            { quoted: msg }
-          );
+          reply("_✔ Number removed from group!_");
         }
       } else {
         //if multiple members are tagged
-        sock.sendMessage(
-          from,
-          { text: "❌ Mention only 1 member!" },
-          { quoted: msg }
-        );
+        reply("❌ Mention only 1 member!");
       }
     } else {
       //when message is tagged with command
@@ -82,35 +66,19 @@ const handler = async (sock, msg, from, args, msgInfoObj) => {
       await setCountWarning(taggedMessageUser[0], from);
       if (warnCount >= 2) {
         if (!isBotGroupAdmins) {
-          sock.sendMessage(
-            from,
-            { text: "❌ I'm not Admin here!" },
-            { quoted: msg }
-          );
+          reply("❌ I'm not Admin here!");
           return;
         }
         if (groupAdmins.includes(taggedMessageUser[0])) {
-          sock.sendMessage(
-            from,
-            { text: "❌ Cannot remove admin!" },
-            { quoted: msg }
-          );
+          reply("❌ Cannot remove admin!");
           return;
         }
         await sock.groupParticipantsUpdate(from, taggedMessageUser, "remove");
-        sock.sendMessage(
-          from,
-          { text: "_✔ Number removed from group!_" },
-          { quoted: msg }
-        );
+        reply("_✔ Number removed from group!_");
       }
     }
   } catch (err) {
     console.log(err);
-    sock.sendMessage(
-      from,
-      { text: `❌ There is some problem.` },
-      { quoted: msg }
-    );
+    reply(`❌ There is some problem.`);
   }
 };

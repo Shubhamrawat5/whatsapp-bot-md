@@ -17,7 +17,7 @@ const getRandom = (ext) => {
 };
 
 const handler = async (sock, msg, from, args, msgInfoObj) => {
-  let { type, isMedia, isTaggedImage, isTaggedVideo } = msgInfoObj;
+  let { type, isMedia, isTaggedImage, isTaggedVideo, reply } = msgInfoObj;
   try {
     let packName = "BOT 🤖";
     let authorName = "pvxcommunity.com";
@@ -83,13 +83,7 @@ const handler = async (sock, msg, from, args, msgInfoObj) => {
       });
     } else {
       console.log(msg);
-      await sock.sendMessage(
-        from,
-        {
-          text: "❌ Give a media to convert into sticker!",
-        },
-        { quoted: msg }
-      );
+      reply("❌ Give a media to convert into sticker!");
       return;
     }
 
@@ -108,12 +102,6 @@ const handler = async (sock, msg, from, args, msgInfoObj) => {
     }
   } catch (err) {
     console.log(err);
-    await sock.sendMessage(
-      from,
-      {
-        text: "❌ There is some problem!",
-      },
-      { quoted: msg }
-    );
+    reply("❌ There is some problem!");
   }
 };

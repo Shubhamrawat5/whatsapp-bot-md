@@ -7,7 +7,7 @@ module.exports.command = () => {
 };
 
 const handler = async (sock, msg, from, args, msgInfoObj) => {
-  let { prefix, isMedia, isTaggedSticker } = msgInfoObj;
+  let { prefix, isMedia, isTaggedSticker, reply } = msgInfoObj;
 
   if ((isMedia && !msg.message.stickerMessage.isAnimated) || isTaggedSticker) {
     let downloadFilePath;
@@ -30,12 +30,8 @@ const handler = async (sock, msg, from, args, msgInfoObj) => {
       .save("result.png")
       .on("error", (err) => {
         console.log(err);
-        sock.sendMessage(
-          from,
-          {
-            text: "❌ There is some problem!\nOnly non-animated stickers can be convert to image!",
-          },
-          { quoted: msg }
+        reply(
+          "❌ There is some problem!\nOnly non-animated stickers can be convert to image!"
         );
       })
       .on("end", () => {
@@ -57,12 +53,8 @@ const handler = async (sock, msg, from, args, msgInfoObj) => {
         }
       });
   } else {
-    sock.sendMessage(
-      from,
-      {
-        text: "❌ There is some problem!\nOnly non-animated stickers can be convert to image!",
-      },
-      { quoted: msg }
+    reply(
+      "❌ There is some problem!\nOnly non-animated stickers can be convert to image!"
     );
   }
 };

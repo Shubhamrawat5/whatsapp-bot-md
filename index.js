@@ -595,6 +595,10 @@ const startSock = async () => {
       const isTaggedDocument =
         type === "extendedTextMessage" && content.includes("documentMessage");
 
+      const reply = (text) => {
+        sock.sendMessage(from, { text }, { quoted: m.messages[0] });
+      };
+
       // Display every command info
       console.log(
         "[COMMAND]",
@@ -620,6 +624,7 @@ const startSock = async () => {
         isTaggedSticker,
         myNumber,
         botNumberJid,
+        reply,
       };
 
       // send every command info to my whatsapp, won't work when i send something for bot

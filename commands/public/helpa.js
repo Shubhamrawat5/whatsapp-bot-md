@@ -68,5 +68,3 @@ Alias: *${prefix}blr*
 
   sock.sendMessage(from, { text }, { quoted: msg });
 };
-
-// TODO: ARRANGE ADMIN COMMAND

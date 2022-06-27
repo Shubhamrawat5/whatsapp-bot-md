@@ -7,19 +7,13 @@ module.exports.command = () => {
 };
 
 const handler = async (sock, msg, from, args, msgInfoObj) => {
-  let { botNumberJid } = msgInfoObj;
+  let { botNumberJid, reply } = msgInfoObj;
   try {
     if (
       !msg.message.extendedTextMessage ||
       !(msg.message.extendedTextMessage.contextInfo.participant == botNumberJid)
     ) {
-      await sock.sendMessage(
-        from,
-        {
-          text: "❌ Tag message of bot to delete.",
-        },
-        { quoted: msg }
-      );
+      reply("❌ Tag message of bot to delete.");
       return;
     }
 
@@ -33,12 +27,6 @@ const handler = async (sock, msg, from, args, msgInfoObj) => {
     });
   } catch (err) {
     console.log(err);
-    await sock.sendMessage(
-      from,
-      {
-        text: "❌ There is some problem!",
-      },
-      { quoted: msg }
-    );
+    reply("❌ There is some problem!");
   }
 };

@@ -18,24 +18,19 @@ module.exports.command = () => {
 };
 
 const handler = async (sock, msg, from, args, msgInfoObj) => {
-  let { prefix } = msgInfoObj;
+  let { prefix, reply } = msgInfoObj;
 
   if (args.length === 0) {
     let message = `❌ Name is not given! \nSend ${prefix}gender firstname`;
-    conn.sendMessage(from, message, MessageType.text, {
-      quoted: mek,
-    });
-    reply();
+    reply(message);
     return;
   }
   let namePerson = args[0];
   if (namePerson.includes("@")) {
     let message = `❌ Don't tag! \nSend ${prefix}gender firstname`;
-    conn.sendMessage(from, message, MessageType.text, {
-      quoted: mek,
-    });
+    reply(message);
     return;
   }
   let text = await getGender(namePerson);
-  sock.sendMessage(from, { text }, { quoted: msg });
+  reply(text);
 };
