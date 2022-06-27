@@ -1,9 +1,16 @@
-const { MessageType, Mimetype } = require("@adiwajshing/baileys");
+const ffmpeg = require("fluent-ffmpeg");
+const fs = require("fs");
+const { downloadContentFromMessage } = require("@adiwajshing/baileys");
+const { writeFile } = require("fs/promises");
 
 module.exports.command = () => {
   let cmd = ["image", "toimg"];
 
   return { cmd, handler };
+};
+
+const getRandom = (ext) => {
+  return `${Math.floor(Math.random() * 10000)}${ext}`;
 };
 
 const handler = async (sock, msg, from, args, msgInfoObj) => {
