@@ -78,7 +78,7 @@ const handler = async (sock, msg, from, args, msgInfoObj) => {
           pack: "BOT 🤖",
           author: "pvxcommunity.com",
           type: StickerTypes.DEFAULT,
-          quality: 100,
+          quality: 75,
         });
         await sock.sendMessage(from, await sticker.toMessage());
       }
