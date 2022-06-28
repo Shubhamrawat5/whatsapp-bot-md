@@ -226,6 +226,7 @@ const startSock = async () => {
     mdClient.connect(async (err) => {
       if (err) console.log(err);
     });
+    // throw "YES";
     let collection2 = mdClient.db("bot").collection("auth");
     let result = await collection2.findOne({ _id: 1 });
     if (result._id === 1) {
@@ -620,6 +621,7 @@ const startSock = async () => {
         isMedia,
         type,
         isTaggedImage,
+        isTaggedDocument,
         isTaggedVideo,
         isTaggedSticker,
         myNumber,
@@ -819,6 +821,7 @@ const startSock = async () => {
     try {
       let sessionDataAuth = fs.readFileSync("./auth_info_multi.json");
       sessionDataAuth = JSON.parse(sessionDataAuth);
+      // delete sessionDataAuth.keys;
       sessionDataAuth = JSON.stringify(sessionDataAuth);
       //console.log(sessionData);
       let collection2 = mdClient.db("bot").collection("auth");

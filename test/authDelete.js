@@ -18,4 +18,5 @@ let x = collection2.deleteOne({ _id: 1 });
 console.log(x);
 x.then((res) => {
   console.log(res);
+  process.exit(1);
 });
