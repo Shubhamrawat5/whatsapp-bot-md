@@ -1,4 +1,3 @@
-const ffmpeg = require("fluent-ffmpeg");
 const fs = require("fs");
 const { downloadContentFromMessage } = require("@adiwajshing/baileys");
 const { writeFile } = require("fs/promises");
@@ -32,33 +31,19 @@ const handler = async (sock, msg, from, args, msgInfoObj) => {
     }
     const media = getRandom(".jpeg");
     await writeFile(media, buffer);
-    ffmpeg(`./${media}`)
-      .fromFormat("webp_pipe")
-      .save("result.png")
-      .on("error", (err) => {
-        console.log(err);
-        reply(
-          "❌ There is some problem!\nOnly non-animated stickers can be convert to image!"
-        );
-      })
-      .on("end", () => {
-        sock.sendMessage(
-          from,
-          {
-            image: fs.readFileSync("result.png"),
-          },
-          {
-            mimetype: "image/png",
-            quoted: msg,
-          }
-        );
-        try {
-          fs.unlinkSync(media);
-          fs.unlinkSync("result.png");
-        } catch (err) {
-          console.log(err);
-        }
-      });
+
+    sock.sendMessage(
+      from,
+      {
+        image: fs.readFileSync(media),
+      },
+      {
+        mimetype: "image/png",
+        quoted: msg,
+      }
+    );
+
+    fs.unlinkSync(media);
   } else {
     reply(
       "❌ There is some problem!\nOnly non-animated stickers can be convert to image!"
