@@ -115,7 +115,7 @@ Now Bot will start working!! Work even if the device is offline!!
 
 | Owner Commands  |                  Description                  | Alias |
 | :-------------: | :-------------------------------------------: | :---: |
-| `!donationadd`  |             Add Donation details              |       |
+| `!donationadd`  |             Add Donation details              | `!da` |
 |  `!countstats`  |      Get stats of number of command used      |       |
 |     `!test`     |      execute code with whatsapp directly      |       |
 |    `!tagall`    |           Tag all members in group            |       |

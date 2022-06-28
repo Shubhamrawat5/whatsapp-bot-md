@@ -33,8 +33,10 @@ _Restricted command for owner only!_
 📛 *${prefix}countstats* ❌
   - _Get stats of number of command used!_  
 
-📛 *${prefix}tg* ❌
+📛 *${prefix}tg* ✔
   - _Make TG to WA stickers!_
+  @tgstowebpbot <- animated 128px.zip
+  @Stickerdownloadbot <- non-animated webp.zip
 
 📛 *${prefix}stg* ❌
   - _Stop TG to WA stickers!_
@@ -47,6 +49,7 @@ _Restricted command for owner only!_
 
 📛 *${prefix}donationadd* ❌
   - _add by giving after command #name #amount!_
+Alias: *${prefix}da*
 
 ✔️ more cool commands coming...`;
 

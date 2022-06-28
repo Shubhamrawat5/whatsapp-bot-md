@@ -24,13 +24,9 @@ const handler = async (sock, msg, from, args, msgInfoObj) => {
     reply(`❌ Send zip document file!`);
     return;
   }
-
+  // https://t.me/tgstowebpbot <- animated 128px.zip
+  // https://t.me/Stickerdownloadbot <- non-animated webp.zip
   try {
-    // const encmediatg = JSON.parse(JSON.stringify(msg).replace("quotedM", "m"))
-    // .message.extendedTextMessage.contextInfo;
-    // console.log(
-    //   msg.message.extendedTextMessage.contextInfo.quotedMessage.documentMessage
-    // );
     const encmediatg =
       msg.message.extendedTextMessage.contextInfo.quotedMessage.documentMessage;
 
