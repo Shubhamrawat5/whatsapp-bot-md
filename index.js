@@ -34,17 +34,20 @@ logger.level = "warn";
 
 //--------------------------------------AUTH-FILE--------------------------------//
 const fs = require("fs");
-const mdClient = require("./db/dbConnection.js");
+// const mdClient = require("./db/dbConnection.js");
 const store = makeInMemoryStore({
   logger: P().child({ level: "debug", stream: "store" }),
 });
 let startCount = 1;
 
-// try {
-//   fs.unlinkSync("./auth_info_multi.json");
-// } catch (err) {
-//   console.log("File Already Deleted");
-// }
+try {
+  fs.unlinkSync("./auth_info_multi.json");
+} catch (err) {
+  console.log("File Already Deleted");
+}
+
+const { state, saveState } = useSingleFileAuthState("./auth_info_multi.json");
+
 // start a connection
 // console.log('state : ', state.creds);
 //------------------------------------------------------------------------------//
@@ -224,41 +227,39 @@ const startSock = async () => {
   addCommands();
   clearInterval(authSaveInterval);
   clearInterval(dateCheckerInterval);
-  try {
-    mdClient.connect(async (err) => {
-      if (err) console.log(err);
-    });
-    // throw "YES";
-    let collection2 = mdClient.db("bot").collection("auth");
-    let result = await collection2.findOne({ _id: 1 });
-    if (result._id === 1) {
-      let sessionAuth = result["sessionAuth"];
-      sessionAuth = JSON.parse(sessionAuth);
-      // delete sessionAuth.keys;
-      // sessionAuth["creds"]["lastAccountSyncTimestamp"] = 0;
-      sessionAuth = JSON.stringify(sessionAuth);
-      fs.writeFileSync("./auth_info_multi.json", sessionAuth);
-    }
-    //console.log(session);
-    console.log("Local file written");
-  } catch (err) {
-    console.error("Local file writing error :", err);
-  }
+  // try {
+  //   mdClient.connect(async (err) => {
+  //     if (err) console.log(err);
+  //   });
+  //   // throw "YES";
+  //   let collection2 = mdClient.db("bot").collection("auth");
+  //   let result = await collection2.findOne({ _id: 1 });
+  //   if (result._id === 1) {
+  //     let sessionAuth = result["sessionAuth"];
+  //     sessionAuth = JSON.parse(sessionAuth);
+  //     // delete sessionAuth.keys;
+  //     // sessionAuth["creds"]["lastAccountSyncTimestamp"] = 0;
+  //     sessionAuth = JSON.stringify(sessionAuth);
+  //     fs.writeFileSync("./auth_info_multi.json", sessionAuth);
+  //   }
+  //   //console.log(session);
+  //   console.log("Local file written");
+  // } catch (err) {
+  //   console.error("Local file writing error :", err);
+  // }
 
-  store.readFromFile("./baileys_store_multi.json");
+  // store.readFromFile("./baileys_store_multi.json");
   // save every 1m
 
   const { version, isLatest } = await fetchLatestBaileysVersion();
   console.log(`using WA v${version.join(".")}, isLatest: ${isLatest}`);
 
-  const { state, saveState } = useSingleFileAuthState("./auth_info_multi.json");
-
   let noLogs = P({ level: "silent" }); //to hide the chat logs
   let yesLogs = P({ level: "debug" });
-  // await fetchauth();
-  // if (auth_row_count != 0) {
-  //   state.creds = cred.creds;
-  // }
+  await fetchauth();
+  if (auth_row_count != 0) {
+    state.creds = cred.creds;
+  }
   const sock = makeWASocket({
     version,
     logger: noLogs,
@@ -812,105 +813,105 @@ const startSock = async () => {
     console.log("connection update", update);
   });
   // listen for when the auth credentials is updated
-  // sock.ev.on("creds.update", () => {
-  //   // console.log("Creds updated!");
-  //   saveState();
-  //   try {
-  //     let noiseKey = JSON.stringify(state.creds.noiseKey);
-  //     let signedIdentityKey = JSON.stringify(state.creds.signedIdentityKey);
-  //     let signedPreKey = JSON.stringify(state.creds.signedPreKey);
-  //     let registrationId = state.creds.registrationId;
-  //     let advSecretKey = state.creds.advSecretKey;
-  //     let nextPreKeyId = state.creds.nextPreKeyId;
-  //     let firstUnuploadedPreKeyId = state.creds.firstUnuploadedPreKeyId;
-  //     let serverHasPreKeys = state.creds.serverHasPreKeys;
-  //     let account = JSON.stringify(state.creds.account);
-  //     let me = JSON.stringify(state.creds.me);
-  //     let signalIdentities = JSON.stringify(state.creds.signalIdentities);
-  //     let lastAccountSyncTimestamp = state.creds.lastAccountSyncTimestamp;
-  //     // let lastAccountSyncTimestamp = 0;
-  //     let myAppStateKeyId = state.creds.myAppStateKeyId; //?
-
-  //     // INSERT / UPDATE LOGIN DATA
-  //     if (auth_row_count == 0) {
-  //       console.log("Inserting login data...");
-  //       db.query(
-  //         "INSERT INTO auth VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13);",
-  //         [
-  //           noiseKey,
-  //           signedIdentityKey,
-  //           signedPreKey,
-  //           registrationId,
-  //           advSecretKey,
-  //           nextPreKeyId,
-  //           firstUnuploadedPreKeyId,
-  //           serverHasPreKeys,
-  //           account,
-  //           me,
-  //           signalIdentities,
-  //           lastAccountSyncTimestamp,
-  //           myAppStateKeyId,
-  //         ]
-  //       );
-  //       db.query("commit;");
-  //       console.log("New login data inserted!");
-  //     } else {
-  //       console.log("Updating login data....");
-  //       db.query(
-  //         "UPDATE auth SET noiseKey = $1, signedIdentityKey = $2, signedPreKey = $3, registrationId = $4, advSecretKey = $5, nextPreKeyId = $6, firstUnuploadedPreKeyId = $7, serverHasPreKeys = $8, account = $9, me = $10, signalIdentities = $11, lastAccountSyncTimestamp = $12, myAppStateKeyId = $13;",
-  //         [
-  //           noiseKey,
-  //           signedIdentityKey,
-  //           signedPreKey,
-  //           registrationId,
-  //           advSecretKey,
-  //           nextPreKeyId,
-  //           firstUnuploadedPreKeyId,
-  //           serverHasPreKeys,
-  //           account,
-  //           me,
-  //           signalIdentities,
-  //           lastAccountSyncTimestamp,
-  //           myAppStateKeyId,
-  //         ]
-  //       );
-  //       db.query("commit;");
-  //       console.log("Login data updated!");
-  //     }
-  //   } catch (err) {
-  //     console.log(err);
-  //   }
-  // });
-
-  sock.ev.on("creds.update", async () => {
+  sock.ev.on("creds.update", () => {
+    // console.log("Creds updated!");
     saveState();
-    // authSaveInterval = setInterval(async () => {
-    // console.log("Auth updating to DB");
-    store.writeToFile("./baileys_store_multi.json");
     try {
-      let sessionDataAuth = fs.readFileSync("./auth_info_multi.json");
-      sessionDataAuth = JSON.parse(sessionDataAuth);
-      // delete sessionDataAuth.keys;
-      sessionDataAuth = JSON.stringify(sessionDataAuth);
-      //console.log(sessionData);
-      let collection2 = mdClient.db("bot").collection("auth");
-      //(chatid,{})
-      const res = await collection2.updateOne(
-        { _id: 1 },
-        { $set: { sessionAuth: sessionDataAuth } }
-      );
-      if (res.matchedCount) {
-        console.log("DB UPDATED");
+      let noiseKey = JSON.stringify(state.creds.noiseKey);
+      let signedIdentityKey = JSON.stringify(state.creds.signedIdentityKey);
+      let signedPreKey = JSON.stringify(state.creds.signedPreKey);
+      let registrationId = state.creds.registrationId;
+      let advSecretKey = state.creds.advSecretKey;
+      let nextPreKeyId = state.creds.nextPreKeyId;
+      let firstUnuploadedPreKeyId = state.creds.firstUnuploadedPreKeyId;
+      let serverHasPreKeys = state.creds.serverHasPreKeys;
+      let account = JSON.stringify(state.creds.account);
+      let me = JSON.stringify(state.creds.me);
+      let signalIdentities = JSON.stringify(state.creds.signalIdentities);
+      let lastAccountSyncTimestamp = state.creds.lastAccountSyncTimestamp;
+      // let lastAccountSyncTimestamp = 0;
+      let myAppStateKeyId = state.creds.myAppStateKeyId; //?
+
+      // INSERT / UPDATE LOGIN DATA
+      if (auth_row_count == 0) {
+        console.log("Inserting login data...");
+        db.query(
+          "INSERT INTO auth VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13);",
+          [
+            noiseKey,
+            signedIdentityKey,
+            signedPreKey,
+            registrationId,
+            advSecretKey,
+            nextPreKeyId,
+            firstUnuploadedPreKeyId,
+            serverHasPreKeys,
+            account,
+            me,
+            signalIdentities,
+            lastAccountSyncTimestamp,
+            myAppStateKeyId,
+          ]
+        );
+        db.query("commit;");
+        console.log("New login data inserted!");
       } else {
-        collection2.insertOne({ _id: 1, sessionAuth: sessionDataAuth });
-        console.log("DB INSERTED");
+        // console.log("Updating login data....");
+        db.query(
+          "UPDATE auth SET noiseKey = $1, signedIdentityKey = $2, signedPreKey = $3, registrationId = $4, advSecretKey = $5, nextPreKeyId = $6, firstUnuploadedPreKeyId = $7, serverHasPreKeys = $8, account = $9, me = $10, signalIdentities = $11, lastAccountSyncTimestamp = $12, myAppStateKeyId = $13;",
+          [
+            noiseKey,
+            signedIdentityKey,
+            signedPreKey,
+            registrationId,
+            advSecretKey,
+            nextPreKeyId,
+            firstUnuploadedPreKeyId,
+            serverHasPreKeys,
+            account,
+            me,
+            signalIdentities,
+            lastAccountSyncTimestamp,
+            myAppStateKeyId,
+          ]
+        );
+        db.query("commit;");
+        console.log("Login data updated!");
       }
     } catch (err) {
-      console.log("Db updation error : ", err);
+      console.log(err);
     }
-
-    // }, 1000 * 60);
   });
+
+  // sock.ev.on("creds.update", async () => {
+  //   saveState();
+  //   // authSaveInterval = setInterval(async () => {
+  //   // console.log("Auth updating to DB");
+  //   store.writeToFile("./baileys_store_multi.json");
+  //   try {
+  //     let sessionDataAuth = fs.readFileSync("./auth_info_multi.json");
+  //     sessionDataAuth = JSON.parse(sessionDataAuth);
+  //     // delete sessionDataAuth.keys;
+  //     sessionDataAuth = JSON.stringify(sessionDataAuth);
+  //     //console.log(sessionData);
+  //     let collection2 = mdClient.db("bot").collection("auth");
+  //     //(chatid,{})
+  //     const res = await collection2.updateOne(
+  //       { _id: 1 },
+  //       { $set: { sessionAuth: sessionDataAuth } }
+  //     );
+  //     if (res.matchedCount) {
+  //       console.log("DB UPDATED");
+  //     } else {
+  //       collection2.insertOne({ _id: 1, sessionAuth: sessionDataAuth });
+  //       console.log("DB INSERTED");
+  //     }
+  //   } catch (err) {
+  //     console.log("Db updation error : ", err);
+  //   }
+
+  //   // }, 1000 * 60);
+  // });
 
   return sock;
 };
