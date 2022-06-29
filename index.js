@@ -135,6 +135,8 @@ const pvx = process.env.pvx;
 
 const { setCountMember } = require("./db/countMemberDB");
 const { setCountVideo } = require("./db/countVideoDB");
+const { storeNewsTech } = require("./db/postTechDB");
+const { storeNewsStudy } = require("./db/postStudyDB");
 
 let countSent = 1;
 let commandSent = 1;
@@ -309,6 +311,73 @@ const startSock = async () => {
       }
     };
 
+    const postTechNews = async (count) => {
+      if (count > 20) {
+        //20 times, already posted news comes up
+        return;
+      }
+      console.log(`TECH NEWS FUNCTION ${count} times!`);
+
+      let url = "https://pvx-api-vercel.vercel.app/api/news";
+      let { data } = await axios.get(url);
+      delete data["about"];
+
+      let newsWeb = [
+        "gadgets-ndtv",
+        "gadgets-now",
+        "xda-developers",
+        "inshorts",
+        "beebom",
+        "india",
+        "mobile-reuters",
+        "techcrunch",
+        "engadget",
+      ];
+
+      let randomWeb = newsWeb[Math.floor(Math.random() * newsWeb.length)]; //random website
+      let index = Math.floor(Math.random() * data[randomWeb].length);
+
+      let news = data[randomWeb][index];
+      let techRes = await storeNewsTech(news);
+      if (techRes) {
+        console.log("NEW TECH NEWS!");
+        sock.sendMessage(pvxtech, { text: `📰 ${news}` });
+      } else {
+        console.log("OLD TECH NEWS!");
+        postTechNews(count + 1);
+      }
+    };
+
+    const postStudyInfo = async (count) => {
+      if (count > 20) {
+        //20 times already posted news came
+        return;
+      }
+      console.log(`STUDY NEWS FUNCTION ${count} times!`);
+      let feed;
+      // let random = Math.floor(Math.random() * 2);
+      feed = await parser.parseURL(
+        "https://www.thehindu.com/news/national/feeder/default.rss"
+      );
+
+      let li = feed.items.map((item) => {
+        return { title: item.title, link: item.link };
+      });
+
+      let index = Math.floor(Math.random() * li.length);
+
+      let news = li[index];
+
+      let techRes = await storeNewsStudy(news.title);
+      if (techRes) {
+        console.log("NEW STUDY NEWS!");
+        sock.sendMessage(pvxstudy, { text: `📰 ${news.title}` });
+      } else {
+        console.log("OLD STUDY NEWS!");
+        postStudyInfo(count + 1);
+      }
+    };
+
     dateCheckerInterval = setInterval(() => {
       console.log("SET INTERVAL.");
       let todayDate = new Date().toLocaleDateString("en-GB", {
@@ -323,10 +392,10 @@ const startSock = async () => {
           .split(":")[0]
       );
       //8 to 24 ON
-      // if (hour >= 8) {
-      //   postTechNews(0);
-      //   postStudyInfo(0);
-      // }
+      if (hour >= 8) {
+        postTechNews(0);
+        postStudyInfo(0);
+      }
 
       if (usedDate !== todayDate) {
         usedDate = todayDate;
