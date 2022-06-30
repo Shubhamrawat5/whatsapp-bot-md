@@ -8,7 +8,7 @@ module.exports.command = () => {
 };
 
 const handler = async (sock, msg, from, args, msgInfoObj) => {
-  let { prefix, reply, isGroupAdmins, sender } = msgInfoObj;
+  let { prefix, reply } = msgInfoObj;
   try {
     let votingResult = await getVotingData(from);
     if (!votingResult.is_started) {

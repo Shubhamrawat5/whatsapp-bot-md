@@ -691,6 +691,7 @@ const startSock = async () => {
         groupMembers,
         groupAdmins,
         isBotGroupAdmins,
+        isGroupAdmins,
         isMedia,
         type,
         isTaggedImage,

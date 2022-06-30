@@ -44,22 +44,6 @@
 // }
 // xyz();
 
-require("dotenv").config();
-
-const { MongoClient, ServerApiVersion } = require("mongodb");
-
-const uri = process.env.uri;
-
-// console.log(uri);
-
-const mdClient = new MongoClient(uri, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-  serverApi: ServerApiVersion.v1,
-});
-mdClient.connect();
-
-let collection2 = mdClient.db("bot").collection("auth");
 //(chatid,{})
 // let x = collection2.updateOne(
 //   { _id: 1 },
@@ -78,9 +62,23 @@ let collection2 = mdClient.db("bot").collection("auth");
 // });
 
 //delete auth
-let x = collection2.deleteOne({ _id: 1 });
+// require("dotenv").config();
+// const { MongoClient, ServerApiVersion } = require("mongodb");
+// const uri = process.env.uri;
 
-console.log(x);
-x.then((res) => {
-  console.log(res);
-});
+// const mdClient = new MongoClient(uri, {
+//   useNewUrlParser: true,
+//   useUnifiedTopology: true,
+//   serverApi: ServerApiVersion.v1,
+// });
+// mdClient.connect();
+
+// let collection2 = mdClient.db("bot").collection("auth");
+// let x = collection2.deleteOne({ _id: 1 });
+
+// console.log(x);
+// x.then((res) => {
+//   console.log(res);
+// });
+
+console.log(true.toString());
