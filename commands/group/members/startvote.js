@@ -21,6 +21,7 @@ const handler = async (sock, msg, from, args, msgInfoObj) => {
       reply(`❌ Voting already going on, Stop by ${prefix}stopvote command`);
       return;
     }
+    let body = msg.message.conversation;
     // let voteChoices = body.trim().replace(/ +/, ",").split(/,/).slice(1);
     let voteList = body.trim().replace(/ +/, ",").split(",")[1].split("#");
     let voteTitle = voteList[1].trim();

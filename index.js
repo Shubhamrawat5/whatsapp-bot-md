@@ -451,9 +451,10 @@ const startSock = async () => {
 
       if (msg.action == "add") {
         // other than 91 are blocked from joining when description have written in first line -> only91
+        // blockCommandsInDesc.includes("only91")
         if (
           !num_split.startsWith(91) &&
-          blockCommandsInDesc.includes("only91")
+          groupSubject.toUpperCase().includes("<{PVX}>")
         ) {
           await sock.sendMessage(from, {
             text: `*─「 🔥 <{PVX}> BOT 🔥 」─* \n\nOnly 91 numbers are allowed !!!!`,

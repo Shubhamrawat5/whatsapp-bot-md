@@ -22,9 +22,9 @@ const handler = async (sock, msg, from, args, msgInfoObj) => {
       message += args.length ? args.join(" ") + "\n\n" : "";
     }
 
-    for (let i of groupAdmins) {
-      message += "@" + i.id.split("@")[0] + " ";
-      jids.push(i.id.replace("c.us", "s.whatsapp.net"));
+    for (let admin of groupAdmins) {
+      message += "@" + admin.split("@")[0] + " ";
+      jids.push(admin.replace("c.us", "s.whatsapp.net"));
     }
 
     sock.sendMessage(from, { text: message, mentions: jids }, { quoted: msg });
