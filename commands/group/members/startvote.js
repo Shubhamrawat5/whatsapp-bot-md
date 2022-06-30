@@ -1,5 +1,5 @@
 const { MessageType, Mimetype } = require("@adiwajshing/baileys");
-const { getVotingData, setVotingData } = require("../../db/VotingDB");
+const { getVotingData, setVotingData } = require("../../../db/VotingDB");
 
 module.exports.command = () => {
   let cmd = ["startvote"];
