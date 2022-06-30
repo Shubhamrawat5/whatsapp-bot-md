@@ -142,6 +142,7 @@ const { setCountMember } = require("./db/countMemberDB");
 const { setCountVideo } = require("./db/countVideoDB");
 const { storeNewsTech } = require("./db/postTechDB");
 const { storeNewsStudy } = require("./db/postStudyDB");
+const { getBlacklist } = require("./db/blacklistDB");
 
 let countSent = 1;
 let commandSent = 1;
@@ -442,9 +443,6 @@ const startSock = async () => {
         let firstLineDesc = groupDesc.split("\n")[0];
         blockCommandsInDesc = firstLineDesc.split(",");
       }
-      // let blacklistRes = await getBlacklist();
-      // blacklistRes = blacklistRes.map((num) => num.number);
-      // console.log(blacklistRes);
 
       let numJid = msg.participants[0];
       let num_split = `${numJid.split("@s.whatsapp.net")[0]}`;
@@ -468,20 +466,20 @@ const startSock = async () => {
         }
 
         //if number is blacklisted
-        // if (blacklistRes.includes(num_split)) {
-        //   conn.sendMessage(
-        //     from,
-        //     `*─「 🔥 <{PVX}> BOT 🔥 」─* \n\nNumber is blacklisted !!!!`,
-        //     MessageType.text
-        //   );
-        //   conn.groupRemove(from, msg.participants);
-        //   conn.sendMessage(
-        //     myNumber + "@s.whatsapp.net",
-        //     `${num_split} is removed from ${groupSubject}. Blacklisted!`,
-        //     MessageType.text
-        //   );
-        //   return;
-        // }
+        let blacklistRes = await getBlacklist();
+        blacklistRes = blacklistRes.map((num) => num.number);
+        // console.log(blacklistRes);
+        if (blacklistRes.includes(num_split)) {
+          await sock.sendMessage(from, {
+            text: `*─「 🔥 <{PVX}> BOT 🔥 」─* \n\nNumber is blacklisted !!!!`,
+          });
+
+          await sock.groupParticipantsUpdate(from, [numJid], "remove");
+          await sock.sendMessage(myNumber + "@s.whatsapp.net", {
+            text: `${num_split} is removed from ${groupSubject}. Blacklisted!`,
+          });
+          return;
+        }
 
         //for study group
         if (from === pvxstudy) {
