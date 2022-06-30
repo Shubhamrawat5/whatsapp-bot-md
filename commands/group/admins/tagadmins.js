@@ -10,7 +10,7 @@ const handler = async (sock, msg, from, args, msgInfoObj) => {
   let { groupAdmins, reply } = msgInfoObj;
   try {
     let jids = [];
-    let message = "ALL: ";
+    let message = "ADMINS: ";
     if (
       msg.message.extendedTextMessage &&
       msg.message.extendedTextMessage.contextInfo.quotedMessage.conversation
