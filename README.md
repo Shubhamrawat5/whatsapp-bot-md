@@ -100,6 +100,7 @@ Now Bot will start working!! Work even if the device is offline!!
 |      `!kick`       |                 kick member from group                  | `!ban`  |
 |      `!mute`       |                     Mute the group                      |         |
 |     `!unmute`      |                    Unmute the group                     |         |
+|    `!tagadmins`    |                 Tag all admins of group                 |  `!ta`  |
 |     `!warning`     |                  Give warning to user                   | `!warn` |
 |      `!pvxg`       |          Get message count stats of PVX groups          |         |
 |      `!pvxm`       |  Get members message count stats of current PVX group   |         |
