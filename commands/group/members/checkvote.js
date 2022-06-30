@@ -1,8 +1,8 @@
 const { MessageType, Mimetype } = require("@adiwajshing/baileys");
-const { getVotingData, stopVotingData } = require("../../../db/VotingDB");
+const { getVotingData } = require("../../../db/VotingDB");
 
 module.exports.command = () => {
-  let cmd = ["stopvote"];
+  let cmd = ["checkvote", "cv"];
 
   return { cmd, handler };
 };
@@ -19,23 +19,12 @@ const handler = async (sock, msg, from, args, msgInfoObj) => {
     }
 
     let resultVoteMsg = "";
-    if (command === "stopvote") {
-      if (votingResult.started_by === sender || isGroupAdmins) {
-        await stopVotingData(from);
-        resultVoteMsg += `*Voting Result:*\n🗣️ ${votingResult.title}`;
-      } else {
-        reply(
-          "❌ Only admin or that member who started the voting, can stop current voting!"
-        );
-        return;
-      }
-    } else {
-      resultVoteMsg += `send "${prefix}vote number" to vote\n\n*🗣️ ${votingResult.title}*`;
-      votingResult.choices.forEach((name, index) => {
-        resultVoteMsg += `\n${index + 1} for [${name.trim()}]`;
-      });
-      resultVoteMsg += `\n\n*Voting Current Status:*`;
-    }
+
+    resultVoteMsg += `send "${prefix}vote number" to vote\n\n*🗣️ ${votingResult.title}*`;
+    votingResult.choices.forEach((name, index) => {
+      resultVoteMsg += `\n${index + 1} for [${name.trim()}]`;
+    });
+    resultVoteMsg += `\n\n*Voting Current Status:*`;
 
     let totalVoted = votingResult.voted_members.length;
 

@@ -94,7 +94,7 @@ const handler = async (sock, msg, from, args, msgInfoObj) => {
   - _To get command details of cricket!_
   Alias: *${prefix}cc*
 
-📛 *${prefix}votecommand* ❌
+📛 *${prefix}votecommand* ✔
   - _To get command details of voting!_
   Alias: *${prefix}vc*
 
