@@ -29,6 +29,7 @@
     "pg": "^8.7.3",
     "pm2": "^5.2.0",
     "qrcode-terminal": "^0.12.0",
+    "rss-parser": "^3.12.0",
     "wa-sticker-formatter": "^4.3.2",
     "ytdl-core": "^4.11.0"
   }

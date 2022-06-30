@@ -121,6 +121,8 @@ async function fetchauth() {
 /* -------------------------- Extra package include ------------------------- */
 const util = require("util");
 const axios = require("axios");
+let Parser = require("rss-parser");
+let parser = new Parser();
 
 const readdir = util.promisify(fs.readdir);
 const readFile = util.promisify(fs.readFile);
