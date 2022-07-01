@@ -8,7 +8,7 @@ module.exports.command = () => {
 };
 
 const handler = async (sock, msg, from, args, msgInfoObj) => {
-  let { prefix } = msgInfoObj;
+  let { prefix, reply } = msgInfoObj;
   let text = `*─「 <{PVX}> BOT 」 ─*\n\nYES! BOT IS ALIVE !!!`;
   try {
     let chats = await sock.groupFetchAllParticipating();
@@ -29,6 +29,7 @@ const handler = async (sock, msg, from, args, msgInfoObj) => {
     );
   } catch (err) {
     console.log(err);
-    sock.sendMessage(from, { text: `❌ Error!` }, { quoted: msg });
+    reply(err.toString());
+    // sock.sendMessage(from, { text: `❌ Error!` }, { quoted: msg });
   }
 };

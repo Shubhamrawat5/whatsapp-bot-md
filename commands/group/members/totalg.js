@@ -11,7 +11,7 @@ module.exports.command = () => {
 };
 
 const handler = async (sock, msg, from, args, msgInfoObj) => {
-  let { sender } = msgInfoObj;
+  let { sender, reply } = msgInfoObj;
   const more = String.fromCharCode(8206);
   const readMore = more.repeat(4001);
   if (args[0]) {
@@ -53,10 +53,6 @@ const handler = async (sock, msg, from, args, msgInfoObj) => {
     );
   } catch (err) {
     console.log(err);
-    sock.sendMessage(
-      from,
-      { text: "❌ There is some problem!" },
-      { quoted: msg }
-    );
+    reply(err.toString());
   }
 };

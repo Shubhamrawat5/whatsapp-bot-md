@@ -7,11 +7,7 @@ module.exports.command = () => {
 };
 
 const handler = async (sock, msg, from, args, msgInfoObj) => {
-  let { prefix, groupAdmins, isBotGroupAdmins } = msgInfoObj;
-
-  const reply = (text) => {
-    sock.sendMessage(from, { text }, { quoted: msg });
-  };
+  let { prefix, groupAdmins, isBotGroupAdmins, reply } = msgInfoObj;
 
   if (!isBotGroupAdmins) {
     reply("❌ I'm not Admin here!");
@@ -84,7 +80,8 @@ const handler = async (sock, msg, from, args, msgInfoObj) => {
       );
       reply("_✔ Number removed from group!_");
     } catch {
-      reply("_❌ Some error!_");
+      // reply("_❌ Some error!_");
+      reply(err.toString());
     }
   }
 };

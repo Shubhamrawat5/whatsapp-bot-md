@@ -9,7 +9,7 @@ const getGender = async (name) => {
     return genderText;
   } catch (err) {
     console.log(err);
-    return "ERROR";
+    return err.toString();
   }
 };
 

@@ -44,6 +44,7 @@ const handler = async (sock, msg, from, args, msgInfoObj) => {
     reply(resultVoteMsg);
   } catch (err) {
     console.log(err);
-    reply(`❌ Error!`);
+    // reply(`❌ Error!`);
+    reply(err.toString());
   }
 };

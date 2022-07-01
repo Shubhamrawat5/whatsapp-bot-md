@@ -99,6 +99,7 @@ const handler = async (sock, msg, from, args, msgInfoObj) => {
     fs.unlinkSync(`./${randomName}`);
   } catch (err) {
     console.log(err);
-    reply(`❌ There is some problem.`);
+    reply(err.toString());
+    // reply(`❌ There is some problem.`);
   }
 };

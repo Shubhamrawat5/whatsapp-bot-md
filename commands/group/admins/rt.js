@@ -7,7 +7,7 @@ module.exports.command = () => {
 };
 
 const handler = async (sock, msg, from, args, msgInfoObj) => {
-  let { prefix, groupMembers } = msgInfoObj;
+  let { prefix, groupMembers, reply } = msgInfoObj;
   try {
     let jids = [];
     let message = "Hey ";
@@ -29,6 +29,7 @@ const handler = async (sock, msg, from, args, msgInfoObj) => {
     sock.sendMessage(from, { text: message, mentions: jids }, { quoted: msg });
   } catch (err) {
     console.log(err);
-    sock.sendMessage(from, { text: `❌ Error!` }, { quoted: msg });
+    // sock.sendMessage(from, { text: `❌ Error!` }, { quoted: msg });
+    reply(err.toString());
   }
 };

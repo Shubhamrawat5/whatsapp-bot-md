@@ -55,7 +55,8 @@ const handler = async (sock, msg, from, args, msgInfoObj) => {
     } else if (get_status == 200) {
       reply("_✔ Number added to group!_");
     }
-  } catch {
+  } catch (err) {
     reply("_❌ Give correct number with country code also!_");
+    reply(err.toString());
   }
 };

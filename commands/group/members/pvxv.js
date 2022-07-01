@@ -8,6 +8,8 @@ module.exports.command = () => {
 };
 
 const handler = async (sock, msg, from, args, msgInfoObj) => {
+  let { reply, groupMembers } = msgInfoObj;
+
   try {
     let pvxmano = "19016677357-1630334490@g.us";
     if (from != pvxmano) {
@@ -20,7 +22,6 @@ const handler = async (sock, msg, from, args, msgInfoObj) => {
     }
     const more = String.fromCharCode(8206);
     const readMore = more.repeat(4001);
-    let { groupMembers } = msgInfoObj;
 
     let resultCountGroupIndi = await getCountVideo(pvxmano);
     let countGroupMsgIndi = `*📛 MANO VIDEO COUNT*\n_From 6 JUNE 2022_${readMore}\n`;
@@ -55,10 +56,6 @@ const handler = async (sock, msg, from, args, msgInfoObj) => {
     );
   } catch (err) {
     console.log(err);
-    sock.sendMessage(
-      from,
-      { text: "❌ There is some problem!" },
-      { quoted: msg }
-    );
+    reply(err.toString());
   }
 };

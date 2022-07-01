@@ -47,7 +47,7 @@ const handler = async (sock, msg, from, args, msgInfoObj) => {
     }
     reply("❌ Tag a sticker!");
   } catch (err) {
+    reply(err.toString());
     console.log(err);
-    reply("❌ There is some problem!");
   }
 };

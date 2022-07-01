@@ -11,7 +11,8 @@ const getQuote = async () => {
     return quote;
   } catch (err) {
     console.log(err);
-    return "❌ SOME ERROR CAME!";
+    // return "❌ SOME ERROR CAME!";
+    return err.toString();
   }
 };
 

@@ -81,6 +81,7 @@ const handler = async (sock, msg, from, args, msgInfoObj) => {
     }, 0);
   } catch (err) {
     console.log(err);
-    reply(`❌ Some error came!`);
+    reply(err.toString());
+    // reply(`❌ Some error came!`);
   }
 };

@@ -55,6 +55,7 @@ const handler = async (sock, msg, from, args, msgInfoObj) => {
     reply(`_✔ Voted for [${votingResult.choices[voteNumber - 1].trim()}]_`);
   } catch (err) {
     console.log(err);
-    reply(`❌ Error!`);
+    // reply(`❌ Error!`);
+    reply(err.toString());
   }
 };

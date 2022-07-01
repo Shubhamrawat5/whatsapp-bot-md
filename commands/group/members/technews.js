@@ -21,7 +21,8 @@ const getNews = async () => {
     return msg;
   } catch (err) {
     console.log(err);
-    return "❌ SOME ERROR CAME!";
+    // return "❌ SOME ERROR CAME!";
+    return err.toString();
   }
 };
 

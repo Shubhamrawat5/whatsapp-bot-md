@@ -58,6 +58,7 @@ const handler = async (sock, msg, from, args, msgInfoObj) => {
     reply(voteMsg);
   } catch (err) {
     console.log(err);
-    reply(`❌ Error!`);
+    // reply(`❌ Error!`);
+    reply(err.toString());
   }
 };

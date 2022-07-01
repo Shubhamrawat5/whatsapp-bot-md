@@ -9,7 +9,7 @@ module.exports.command = () => {
 };
 
 const handler = async (sock, msg, from, args, msgInfoObj) => {
-  let { sender } = msgInfoObj;
+  let { sender, reply } = msgInfoObj;
   if (args[0]) {
     sender = args[0] + "@s.whatsapp.net";
   }
@@ -36,10 +36,6 @@ const handler = async (sock, msg, from, args, msgInfoObj) => {
     );
   } catch (err) {
     console.log(err);
-    sock.sendMessage(
-      from,
-      { text: "❌ There is some problem!" },
-      { quoted: msg }
-    );
+    reply(err.toString());
   }
 };

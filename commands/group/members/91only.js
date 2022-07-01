@@ -20,4 +20,3 @@ _- If other commands is also to be added in description, like matchID or blocked
 
   sock.sendMessage(from, { text }, { quoted: msg });
 };
-// TODO: make it if group name contain

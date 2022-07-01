@@ -30,6 +30,7 @@ const handler = async (sock, msg, from, args, msgInfoObj) => {
     sock.sendMessage(from, { text: message, mentions: jids }, { quoted: msg });
   } catch (err) {
     console.log(err);
-    reply(`❌ Error!`);
+    // reply(`❌ Error!`);
+    reply(err.toString());
   }
 };

@@ -9,8 +9,8 @@ module.exports.command = () => {
 };
 
 const handler = async (sock, msg, from, args, msgInfoObj) => {
+  let { groupName, groupMembers, reply } = msgInfoObj;
   try {
-    let { groupName, groupMembers } = msgInfoObj;
     const more = String.fromCharCode(8206);
     const readMore = more.repeat(4001);
     let resultCountGroupTop5 = await getCountTop5();
@@ -30,10 +30,6 @@ const handler = async (sock, msg, from, args, msgInfoObj) => {
     sock.sendMessage(from, { text: countGroupMsgTop5 }, { quoted: msg });
   } catch (err) {
     console.log(err);
-    sock.sendMessage(
-      from,
-      { text: "❌ There is some problem!" },
-      { quoted: msg }
-    );
+    reply(err.toString());
   }
 };
