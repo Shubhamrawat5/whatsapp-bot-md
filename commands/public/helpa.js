@@ -57,14 +57,14 @@ Alias: *${prefix}ta*
 📛 *${prefix}warning* ✔
   - _Give warning to user!_
 
-📛 *${prefix}blacklist* ❌
+📛 *${prefix}blacklist* ✔
   - _Get blacklist numbers!_ 
 
-📛 *${prefix}blacklistadd* ❌
+📛 *${prefix}blacklistadd* ✔
   - _Add number to blacklist!_
 Alias: *${prefix}bla*
 
-📛 *${prefix}blacklistremove* ❌
+📛 *${prefix}blacklistremove* ✔
   - Remove number from blacklist!_  
 Alias: *${prefix}blr*
 

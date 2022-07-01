@@ -155,9 +155,10 @@ let pvxmano = "19016677357-1630334490@g.us";
 let pvxtech = "919557666582-1551290369@g.us";
 let pvxsport = "919557666582-1559476348@g.us";
 let pvxmovies = "919557666582-1506690003@g.us";
+let pvxsticker1 = "919557666582-1580308963@g.us";
+let pvxsticker2 = "919557666582-1621700558@g.us";
 let pvxstickeronly1 = "919557666582-1628610549@g.us";
 let pvxstickeronly2 = "919557666582-1586018947@g.us";
-let pvxstickeronly3 = "919557666582-1608216809@g.us";
 let mano = "19016677357-1630334490@g.us";
 let pvxdeals = "919557666582-1582555632@g.us";
 
@@ -448,14 +449,14 @@ const startSock = async () => {
       let num_split = `${numJid.split("@s.whatsapp.net")[0]}`;
 
       if (msg.action == "add") {
-        // other than 91 are blocked from joining when description have written in first line -> only91
+        // other than +91 are blocked from joining when description have written in first line -> only91
         // blockCommandsInDesc.includes("only91")
         if (
           !num_split.startsWith(91) &&
           groupSubject.toUpperCase().includes("<{PVX}>")
         ) {
           await sock.sendMessage(from, {
-            text: `*─「 🔥 <{PVX}> BOT 🔥 」─* \n\nOnly 91 numbers are allowed !!!!`,
+            text: `*─「 🔥 <{PVX}> BOT 🔥 」─* \n\nOnly +91 numbers are allowed !!!!`,
           });
           await sock.groupParticipantsUpdate(from, [numJid], "remove");
 
@@ -517,6 +518,13 @@ const startSock = async () => {
         if (from === pvxprogrammer) {
           await sock.sendMessage(from, {
             text: `Welcome @${num_split} to PVX Programmers Group.\nhttps://pvxcommunity.com/\n\n*Kindly give your intro like*\nName:\nCollege/Degree:\nInterest:\nSkills:\nCompany(if working):`,
+            mentions: [numJid],
+          });
+        }
+
+        if (from === pvxsticker1 || from === pvxsticker2) {
+          await sock.sendMessage(from, {
+            text: `Welcome @${num_split} to PVX Stickers\nhttps://pvxcommunity.com/\n\n1) Don't make any type of sticker that targets any caste, community, religion, sex, creed, etc.\n2) The use of any kind of 18+ media (be it nudes or semi nudes) is not allowed.\n3) Every sticker you make here gets PVX branding in it along with website, so You'll get instant ban on disobeying any rule`,
             mentions: [numJid],
           });
         }
@@ -600,7 +608,6 @@ const startSock = async () => {
         groupName.toUpperCase().includes("<{PVX}>") &&
         from !== pvxstickeronly1 &&
         from != pvxstickeronly2 &&
-        from != pvxstickeronly3 &&
         from != pvxdeals
       ) {
         setCountMember(sender, from, senderName);
@@ -619,7 +626,6 @@ const startSock = async () => {
         groupName.toUpperCase().startsWith("<{PVX}>") &&
         from !== pvxstickeronly1 &&
         from != pvxstickeronly2 &&
-        from != pvxstickeronly3 &&
         from !== mano
       ) {
         // msg.key.fromMe == false &&

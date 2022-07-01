@@ -16,7 +16,6 @@ const handler = async (sock, msg, from, args, msgInfoObj) => {
     let chats = await sock.groupFetchAllParticipating();
     // console.log(chats);
     // !v.announce &&
-    console.log(chats);
     let groups = Object.values(chats)
       .filter((v) => v.id.endsWith("g.us") && v.subject.startsWith("<{PVX}>"))
       .map((v) => {

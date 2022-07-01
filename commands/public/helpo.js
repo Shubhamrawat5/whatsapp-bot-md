@@ -15,7 +15,7 @@ const handler = async (sock, msg, from, args, msgInfoObj) => {
   ${readMore}
 _Restricted command for owner only!_
   
-📛 *${prefix}test query* ❌
+📛 *${prefix}test query* ✔
   - _Execute code with whatsapp directly!_
 
 📛 *${prefix}tagall* ✔
@@ -47,7 +47,7 @@ _Restricted command for owner only!_
 📛 *${prefix}stopvotepvx* ❌
   - _Stop vote for all pvx groups!_
 
-📛 *${prefix}donationadd* ❌
+📛 *${prefix}donationadd* ✔
   - _add by giving after command #name #amount!_
 Alias: *${prefix}da*
 
