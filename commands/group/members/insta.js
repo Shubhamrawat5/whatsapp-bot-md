@@ -10,7 +10,8 @@ const axios = require("axios");
 
 const getInstaVideo = async (url) => {
   let imgDirectLink = "",
-    videoDirectLink = "";
+    videoDirectLink = "",
+    error = "";
   try {
     if (url.includes("?")) url = url.slice(0, url.search("\\?"));
     const res = await axios.get(url + "?__a=1&__d=dis", {
@@ -53,9 +54,10 @@ const getInstaVideo = async (url) => {
     imgDirectLink = res.data.graphql.shortcode_media.display_url;
   } catch (err) {
     console.log(err);
+    error = err.toString();
   }
-  console.log({ imgDirectLink, videoDirectLink });
-  return { imgDirectLink, videoDirectLink };
+  // console.log({ imgDirectLink, videoDirectLink, error });
+  return { imgDirectLink, videoDirectLink, error };
 };
 
 // getInstaVideo("https://www.instagram.com/p/CV7guhtM1R2/");
@@ -98,22 +100,19 @@ const saveInstaVideo = async (randomName, videoDirectLink) => {
 };
 
 const handler = async (sock, msg, from, args, msgInfoObj) => {
-  let { prefix } = msgInfoObj;
+  let { prefix, reply } = msgInfoObj;
 
   if (args.length === 0) {
-    sock.sendMessage(
-      from,
-      { text: `❌ URL is empty! \nSend ${prefix}insta url` },
-      { quoted: msg }
-    );
-
+    reply(`❌ URL is empty! \nSend ${prefix}insta url`);
     return;
   }
   let urlInsta = args[0];
   try {
     console.log("Video downloading ->", urlInsta);
     // console.log("Trying saving", urlInsta);
-    let { imgDirectLink, videoDirectLink } = await getInstaVideo(urlInsta);
+    let { imgDirectLink, videoDirectLink, error } = await getInstaVideo(
+      urlInsta
+    );
     if (videoDirectLink) {
       let randomName = getRandom(".mp4");
       await saveInstaVideo(randomName, videoDirectLink);
@@ -134,13 +133,7 @@ const handler = async (sock, msg, from, args, msgInfoObj) => {
           { quoted: msg }
         );
       } else {
-        sock.sendMessage(
-          from,
-          {
-            text: `❌ File size bigger than 40mb.`,
-          },
-          { quoted: msg }
-        );
+        reply(`❌ File size bigger than 40mb.`);
       }
       fs.unlinkSync(`./${randomName}`);
     } else if (imgDirectLink) {
@@ -148,22 +141,18 @@ const handler = async (sock, msg, from, args, msgInfoObj) => {
         quoted: mek,
       });
     } else {
-      sock.sendMessage(
-        from,
-        {
-          text: `❌ There is some problem. Also stories and private account media can't be downloaded.`,
-        },
-        { quoted: msg }
-      );
+      reply(error);
     }
   } catch (err) {
     console.log(err);
-    sock.sendMessage(
-      from,
-      {
-        text: `❌ There is some problem. Also stories and private account media can't be downloaded.`,
-      },
-      { quoted: msg }
-    );
+    reply(err.toString());
+
+    // sock.sendMessage(
+    //   from,
+    //   {
+    //     text: `❌ There is some problem. Also stories and private account media can't be downloaded.`,
+    //   },
+    //   { quoted: msg }
+    // );
   }
 };

@@ -37,7 +37,7 @@ const handler = async (sock, msg, from, args, msgInfoObj) => {
 📛 *${prefix}slist* ❌
   - Get list of stickers command!_
 
-📛 *${prefix}image* ❌
+📛 *${prefix}image* ✔
   - _Create image from sticker!_
   
 📛 *${prefix}count* ✔
@@ -48,23 +48,6 @@ const handler = async (sock, msg, from, args, msgInfoObj) => {
 
 📛 *${prefix}totalg* ✔
   - _Know your message stats in all PVX groups!_
-
-📛 *${prefix}insta url* ❌
-  - _Instagram videos downloader!_
-  Alias: *${prefix}i url*📛 
-
-*${prefix}fb url* ❌
-  - _Facebook videos downloader!_
-
-📛 *${prefix}donation* ❌
-  - _Get donation details and help PVX community!_
-
-📛 *${prefix}feedback* ✔
-  - _Get feedback form!_
-
-📛 *${prefix}rules* ✔
-  - _Get PVX groups rules!_
-  Alias: *${prefix}r*
   
 📛 *${prefix}ytv url* ✔
   - _Youtube videos downloader!_
@@ -82,6 +65,13 @@ const handler = async (sock, msg, from, args, msgInfoObj) => {
 📛 *${prefix}song name* ✔
   - _Get songs in good quality!_
   [Better use ${prefix}yta command to download correct song from youtube]
+
+📛 *${prefix}insta url* ❌
+  - _Instagram videos downloader!_
+  Alias: *${prefix}i url*📛 
+
+📛 *${prefix}fb url* ❌
+  - _Facebook videos downloader!_
 
 📛 *${prefix}text* ❌
   - _Get text extractor from image!_
@@ -110,6 +100,16 @@ const handler = async (sock, msg, from, args, msgInfoObj) => {
 📛 *${prefix}pvxlink* ✔
   - _Get links for all PVX groups!_
   Alias: *${prefix}link*
+
+📛 *${prefix}donation* ✔
+  - _Get donation details and help PVX community!_
+
+📛 *${prefix}feedback* ✔
+  - _Get feedback form!_
+
+📛 *${prefix}rules* ✔
+  - _Get PVX groups rules!_
+  Alias: *${prefix}r*
 
 📛 *${prefix}source* ✔
   - _Get bot source code!_
