@@ -7,6 +7,16 @@ const port = process.env.PORT || 8080;
 app.get("/", (req, res) => {
   res.send("Bot is running fine... no tension :)");
 });
+
+/* -------------------------- delete auth from url -------------------------- */
+const authHiddenPath = process.env.authHiddenPath; //to have a hidden path for auth db deletion
+const { dropAuth } = require("./db/dropauthDB");
+app.get("/" + authHiddenPath, async (req, res) => {
+  let response = await dropAuth();
+  if (response) res.send("Auth DB deleted!");
+  else res.send("There is some error!");
+});
+
 app.listen(port, () => {
   // console.clear();
   console.log("\nWeb-server running!\n");
@@ -225,12 +235,13 @@ const getGroupAdmins = (participants) => {
   return admins;
 };
 
-let authSaveInterval, dateCheckerInterval;
+let authSaveInterval, dateCheckerInterval, startCricketInterval;
 
 const startSock = async () => {
   addCommands();
   clearInterval(authSaveInterval);
   clearInterval(dateCheckerInterval);
+  clearInterval(startCricketInterval);
   // try {
   //   mdClient.connect(async (err) => {
   //     if (err) console.log(err);

@@ -3,7 +3,7 @@ const { Pool } = require("pg");
 // LOAD pool CONNECTION
 
 const proConfig = {
-  connectionString: process.env.DATABASE_URL_MAIN,
+  connectionString: process.env.DATABASE_URL,
   ssl: {
     rejectUnauthorized: false,
   },

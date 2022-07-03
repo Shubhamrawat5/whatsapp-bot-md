@@ -120,7 +120,6 @@ Now Bot will start working!! Work even if the device is offline!!
 |  `!countstats`  |      Get stats of number of command used      |       |
 |     `!test`     |      execute code with whatsapp directly      |       |
 |    `!tagall`    |           Tag all members in group            |       |
-|  `!deleteauth`  |       Delete auth DB to get new qr scan       |       |
 |    `!gname`     |            Save group names to DB             |       |
 |      `!tg`      |            Make TG to WA stickers             |       |
 |     `!stg`      |            Stop TG to WA stickers             |       |

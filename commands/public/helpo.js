@@ -21,9 +21,6 @@ _Restricted command for owner only!_
 📛 *${prefix}tagall* ✔
   - _Tag all the members!_  
 
-📛 *${prefix}deleteauth* ❌
-  - _Delete auth DB to get new qr scan!_
-
 📛 *${prefix}groupbackup* ❌
   - _Take backup of group in DB!_  
 
