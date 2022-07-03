@@ -157,7 +157,6 @@ Create a `.env` file for enviromental variables in local directory with followin
 
     myNumber = "your-number-to-receive-all-updates"
     DATABASE_URL = "get-from-heroku-dashboard"
-    DATABASE_URL_MAIN = "same-value-as-DATABASE_URL"
 
 Get value of database_url from Heroku dashboard > settings > reveal config vars
 
