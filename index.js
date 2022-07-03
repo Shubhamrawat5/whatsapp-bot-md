@@ -375,6 +375,9 @@ const startSock = async () => {
       feed = await parser.parseURL(
         "https://www.thehindu.com/news/national/feeder/default.rss"
       );
+      feed = await parser.parseURL(
+        "https://timesofindia.indiatimes.com/rssfeedmostrecent.cms"
+      );
 
       let li = feed.items.map((item) => {
         return { title: item.title, link: item.link };

@@ -44,7 +44,7 @@
 // }
 // xyz();
 
-//(chatid,{})
+// (chatid,{})
 // let x = collection2.updateOne(
 //   { _id: 1 },
 //   { $set: { sessionAuth: "sessionDataAuth" } }
@@ -61,7 +61,7 @@
 //   }
 // });
 
-//delete auth
+// delete auth
 // require("dotenv").config();
 // const { MongoClient, ServerApiVersion } = require("mongodb");
 // const uri = process.env.uri;
@@ -81,4 +81,20 @@
 //   console.log(res);
 // });
 
-console.log(true.toString());
+let Parser = require("rss-parser");
+let parser = new Parser();
+const rss = async () => {
+  // feed = await parser.parseURL(
+  //     "https://www.thehindu.com/news/national/feeder/default.rss"
+  //     );
+  feed = await parser.parseURL(
+    "https://timesofindia.indiatimes.com/rssfeedmostrecent.cms"
+  );
+  let li = feed.items.map((item) => {
+    return { title: item.title, link: item.link };
+  });
+
+  console.log(li);
+};
+
+rss();
