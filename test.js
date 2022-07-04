@@ -87,8 +87,11 @@ const rss = async () => {
   // feed = await parser.parseURL(
   //     "https://www.thehindu.com/news/national/feeder/default.rss"
   //     );
+  // feed = await parser.parseURL(
+  //   "https://timesofindia.indiatimes.com/rssfeedmostrecent.cms"
+  // );
   feed = await parser.parseURL(
-    "https://timesofindia.indiatimes.com/rssfeedmostrecent.cms"
+    "https://www.mid-day.com/Resources/midday/rss/india-news.xml"
   );
   let li = feed.items.map((item) => {
     return { title: item.title, link: item.link };

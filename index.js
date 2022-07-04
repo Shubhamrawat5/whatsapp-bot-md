@@ -371,13 +371,12 @@ const startSock = async () => {
       }
       console.log(`STUDY NEWS FUNCTION ${count} times!`);
       let feed;
-      // let random = Math.floor(Math.random() * 2);
+      //   "https://www.thehindu.com/news/national/feeder/default.rss"
+      //   "https://timesofindia.indiatimes.com/rssfeedmostrecent.cms"
       feed = await parser.parseURL(
-        "https://www.thehindu.com/news/national/feeder/default.rss"
+        "https://www.mid-day.com/Resources/midday/rss/india-news.xml"
       );
-      feed = await parser.parseURL(
-        "https://timesofindia.indiatimes.com/rssfeedmostrecent.cms"
-      );
+      // https://zeenews.india.com/rss/india-national-news.xml
 
       let li = feed.items.map((item) => {
         return { title: item.title, link: item.link };
