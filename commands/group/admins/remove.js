@@ -72,16 +72,11 @@ const handler = async (sock, msg, from, args, msgInfoObj) => {
       reply("❌ Cannot remove admin!");
       return;
     }
-    try {
-      const response = await sock.groupParticipantsUpdate(
-        from,
-        taggedMessageUser,
-        "remove"
-      );
-      reply("_✔ Number removed from group!_");
-    } catch {
-      // reply("_❌ Some error!_");
-      reply(err.toString());
-    }
+    const response = await sock.groupParticipantsUpdate(
+      from,
+      taggedMessageUser,
+      "remove"
+    );
+    reply("_✔ Number removed from group!_");
   }
 };

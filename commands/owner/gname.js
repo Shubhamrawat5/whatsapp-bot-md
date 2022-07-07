@@ -10,26 +10,20 @@ module.exports.command = () => {
 const handler = async (sock, msg, from, args, msgInfoObj) => {
   let { prefix, reply } = msgInfoObj;
   let text = `*─「 <{PVX}> BOT 」 ─*\n\nYES! BOT IS ALIVE !!!`;
-  try {
-    let chats = await sock.groupFetchAllParticipating();
-    let groups = Object.values(chats)
-      .filter((v) => v.id.endsWith("g.us") && v.subject.startsWith("<{PVX}>"))
-      .map((v) => {
-        return { name: v.subject, id: v.id };
-      });
+  let chats = await sock.groupFetchAllParticipating();
+  let groups = Object.values(chats)
+    .filter((v) => v.id.endsWith("g.us") && v.subject.startsWith("<{PVX}>"))
+    .map((v) => {
+      return { name: v.subject, id: v.id };
+    });
 
-    // console.log(groups);
-    for (let group of groups) {
-      await setGroupName(group.id, group.name);
-    }
-    sock.sendMessage(
-      from,
-      { text: `✔ Group name data inserted!` },
-      { quoted: msg }
-    );
-  } catch (err) {
-    console.log(err);
-    reply(err.toString());
-    // sock.sendMessage(from, { text: `❌ Error!` }, { quoted: msg });
+  // console.log(groups);
+  for (let group of groups) {
+    await setGroupName(group.id, group.name);
   }
+  sock.sendMessage(
+    from,
+    { text: `✔ Group name data inserted!` },
+    { quoted: msg }
+  );
 };

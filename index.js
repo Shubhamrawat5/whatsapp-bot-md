@@ -730,64 +730,86 @@ const startSock = async () => {
       }
 
       //using 'm.messages[0]' to tag message, by giving 'msg' throw some error
-
-      /* ----------------------------- public commands ---------------------------- */
-      if (commandsPublic[command]) {
-        commandsPublic[command](sock, m.messages[0], from, args, msgInfoObj);
-        return;
-      }
-
-      /* ------------------------- group members commands ------------------------- */
-      if (commandsMembers[command]) {
-        if (isGroup) {
-          commandsMembers[command](sock, m.messages[0], from, args, msgInfoObj);
-          return;
-        }
-        await sock.sendMessage(
-          from,
-          {
-            text: "❌ Group command only!",
-          },
-          { quoted: m.messages[0] }
-        );
-        return;
-      }
-
-      /* -------------------------- group admins commands ------------------------- */
-      if (commandsAdmins[command]) {
-        if (!isGroup) {
-          reply("❌ Group command only!");
+      try {
+        /* ----------------------------- public commands ---------------------------- */
+        if (commandsPublic[command]) {
+          commandsPublic[command](sock, m.messages[0], from, args, msgInfoObj);
           return;
         }
 
-        if (isGroupAdmins) {
-          commandsAdmins[command](sock, m.messages[0], from, args, msgInfoObj);
+        /* ------------------------- group members commands ------------------------- */
+        if (commandsMembers[command]) {
+          if (isGroup) {
+            commandsMembers[command](
+              sock,
+              m.messages[0],
+              from,
+              args,
+              msgInfoObj
+            );
+            return;
+          }
+          await sock.sendMessage(
+            from,
+            {
+              text: "❌ Group command only!",
+            },
+            { quoted: m.messages[0] }
+          );
           return;
         }
-        await sock.sendMessage(
-          from,
-          {
-            text: "❌ Admin command!",
-          },
-          { quoted: m.messages[0] }
-        );
-        return;
-      }
 
-      /* ----------------------------- owner commands ----------------------------- */
-      if (commandsOwners[command]) {
-        if (myNumber + "@s.whatsapp.net" === sender) {
-          commandsOwners[command](sock, m.messages[0], from, args, msgInfoObj);
+        /* -------------------------- group admins commands ------------------------- */
+        if (commandsAdmins[command]) {
+          if (!isGroup) {
+            reply("❌ Group command only!");
+            return;
+          }
+
+          if (isGroupAdmins) {
+            commandsAdmins[command](
+              sock,
+              m.messages[0],
+              from,
+              args,
+              msgInfoObj
+            );
+            return;
+          }
+          await sock.sendMessage(
+            from,
+            {
+              text: "❌ Admin command!",
+            },
+            { quoted: m.messages[0] }
+          );
           return;
         }
-        await sock.sendMessage(
-          from,
-          {
-            text: "❌ Owner command only!",
-          },
-          { quoted: m.messages[0] }
-        );
-        return;
+
+        /* ----------------------------- owner commands ----------------------------- */
+        if (commandsOwners[command]) {
+          if (myNumber + "@s.whatsapp.net" === sender) {
+            commandsOwners[command](
+              sock,
+              m.messages[0],
+              from,
+              args,
+              msgInfoObj
+            );
+            return;
+          }
+          await sock.sendMessage(
+            from,
+            {
+              text: "❌ Owner command only!",
+            },
+            { quoted: m.messages[0] }
+          );
+          return;
+        }
+      } catch (err) {
+        console.log(err);
+        reply(err.toString());
       }
 
       /* ----------------------------- unknown command ---------------------------- */

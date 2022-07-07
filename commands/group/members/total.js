@@ -21,22 +21,17 @@ const handler = async (sock, msg, from, args, msgInfoObj) => {
     sender = msg.message.extendedTextMessage.contextInfo.participant;
   }
 
-  try {
-    let { name, count } = await getCountIndividualAllGroup(sender);
-    if (name == "") {
-      name = sender;
-      count = 0;
-    }
-
-    sock.sendMessage(
-      from,
-      {
-        text: `${name} have _${count} messages from 24 NOV_ in all PVX groups!`,
-      },
-      { quoted: msg }
-    );
-  } catch (err) {
-    console.log(err);
-    reply(err.toString());
+  let { name, count } = await getCountIndividualAllGroup(sender);
+  if (name == "") {
+    name = sender;
+    count = 0;
   }
+
+  sock.sendMessage(
+    from,
+    {
+      text: `${name} have _${count} messages from 24 NOV_ in all PVX groups!`,
+    },
+    { quoted: msg }
+  );
 };

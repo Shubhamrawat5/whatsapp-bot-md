@@ -26,62 +26,56 @@ const handler = async (sock, msg, from, args, msgInfoObj) => {
   }
   // https://t.me/tgstowebpbot <- animated 128px.zip
   // https://t.me/Stickerdownloadbot <- non-animated webp.zip
-  try {
-    const encmediatg =
-      msg.message.extendedTextMessage.contextInfo.quotedMessage.documentMessage;
+  const encmediatg =
+    msg.message.extendedTextMessage.contextInfo.quotedMessage.documentMessage;
 
-    console.log("downloading...");
-    const stream = await downloadContentFromMessage(encmediatg, "document");
-    let buffer = Buffer.from([]);
-    for await (const chunk of stream) {
-      buffer = Buffer.concat([buffer, chunk]);
-    }
-    // let buffer = await downloadContentFromMessage(encmediatg, "document");
-    const media = getRandom(".zip");
-    await writeFile(media, buffer);
-    console.log("downloaded");
-    // return;
-
-    // reading zip
-    let zip = new AdmZip(`./${media}`);
-    // extracts everything
-    zip.extractAllTo(`./`, true);
-    let zipEntries = zip.getEntries(); // an array of ZipEntry records
-
-    // let filestg = fs.readdirSync(dirNametg);
-    let stickerCounttg = zipEntries.length;
-    console.log("extracted: files " + stickerCounttg);
-
-    reply(`✔ Sending all ${stickerCounttg} stickers`);
-    let itg = -1;
-    setIntervaltg = setInterval(async () => {
-      itg += 1;
-
-      //last file
-      if (itg >= stickerCounttg - 1) {
-        stickertg = false;
-        clearInterval(setIntervaltg);
-        reply(`✔ Finished!`);
-      }
-      console.log("Sending sticker ", itg);
-      if (zipEntries[itg].entryName.endsWith(".webp")) {
-        let filepath = `./`;
-        //add slash of not present
-        filepath += zipEntries[itg].entryName.startsWith("/") ? "" : "/";
-        filepath += `${zipEntries[itg].entryName}`;
-
-        const sticker = new Sticker(filepath, {
-          pack: "BOT 🤖",
-          author: "pvxcommunity.com",
-          type: StickerTypes.DEFAULT,
-          quality: 75,
-        });
-        await sock.sendMessage(from, await sticker.toMessage());
-      }
-    }, 0);
-  } catch (err) {
-    console.log(err);
-    reply(err.toString());
-    // reply(`❌ Some error came!`);
+  console.log("downloading...");
+  const stream = await downloadContentFromMessage(encmediatg, "document");
+  let buffer = Buffer.from([]);
+  for await (const chunk of stream) {
+    buffer = Buffer.concat([buffer, chunk]);
   }
+  // let buffer = await downloadContentFromMessage(encmediatg, "document");
+  const media = getRandom(".zip");
+  await writeFile(media, buffer);
+  console.log("downloaded");
+  // return;
+
+  // reading zip
+  let zip = new AdmZip(`./${media}`);
+  // extracts everything
+  zip.extractAllTo(`./`, true);
+  let zipEntries = zip.getEntries(); // an array of ZipEntry records
+
+  // let filestg = fs.readdirSync(dirNametg);
+  let stickerCounttg = zipEntries.length;
+  console.log("extracted: files " + stickerCounttg);
+
+  reply(`✔ Sending all ${stickerCounttg} stickers`);
+  let itg = -1;
+  setIntervaltg = setInterval(async () => {
+    itg += 1;
+
+    //last file
+    if (itg >= stickerCounttg - 1) {
+      stickertg = false;
+      clearInterval(setIntervaltg);
+      reply(`✔ Finished!`);
+    }
+    console.log("Sending sticker ", itg);
+    if (zipEntries[itg].entryName.endsWith(".webp")) {
+      let filepath = `./`;
+      //add slash of not present
+      filepath += zipEntries[itg].entryName.startsWith("/") ? "" : "/";
+      filepath += `${zipEntries[itg].entryName}`;
+
+      const sticker = new Sticker(filepath, {
+        pack: "BOT 🤖",
+        author: "pvxcommunity.com",
+        type: StickerTypes.DEFAULT,
+        quality: 75,
+      });
+      await sock.sendMessage(from, await sticker.toMessage());
+    }
+  }, 0);
 };

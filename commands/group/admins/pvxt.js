@@ -10,23 +10,18 @@ module.exports.command = () => {
 
 const handler = async (sock, msg, from, args, msgInfoObj) => {
   let { groupName, groupMembers, reply } = msgInfoObj;
-  try {
-    const more = String.fromCharCode(8206);
-    const readMore = more.repeat(4001);
-    let resultCountGroupTop = await getCountTop();
-    let countGroupMsgTop = `*📛 PVX TOP MEMBERS 📛*\n_From 24 Nov 2021_${readMore}\n`;
+  const more = String.fromCharCode(8206);
+  const readMore = more.repeat(4001);
+  let resultCountGroupTop = await getCountTop();
+  let countGroupMsgTop = `*📛 PVX TOP MEMBERS 📛*\n_From 24 Nov 2021_${readMore}\n`;
 
-    let countGroupMsgTempTop = "\n";
-    let totalGrpCountTop = 0;
-    for (let member of resultCountGroupTop) {
-      totalGrpCountTop += Number(member.count);
-      countGroupMsgTempTop += `\n${member.count} - ${member.name}`;
-    }
-    countGroupMsgTop += `\n*Total Messages: ${totalGrpCountTop}*`;
-    countGroupMsgTop += countGroupMsgTempTop;
-    sock.sendMessage(from, { text: countGroupMsgTop }, { quoted: msg });
-  } catch (err) {
-    console.log(err);
-    reply(err.toString());
+  let countGroupMsgTempTop = "\n";
+  let totalGrpCountTop = 0;
+  for (let member of resultCountGroupTop) {
+    totalGrpCountTop += Number(member.count);
+    countGroupMsgTempTop += `\n${member.count} - ${member.name}`;
   }
+  countGroupMsgTop += `\n*Total Messages: ${totalGrpCountTop}*`;
+  countGroupMsgTop += countGroupMsgTempTop;
+  sock.sendMessage(from, { text: countGroupMsgTop }, { quoted: msg });
 };

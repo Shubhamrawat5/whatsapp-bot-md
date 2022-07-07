@@ -25,34 +25,29 @@ const handler = async (sock, msg, from, args, msgInfoObj) => {
     sender = msg.message.extendedTextMessage.contextInfo.participant;
   }
 
-  try {
-    let resultCountGroup = await getCountIndividualAllGroupWithName(sender);
+  let resultCountGroup = await getCountIndividualAllGroupWithName(sender);
 
-    let username = resultCountGroup.length
-      ? resultCountGroup[0].name
-      : sender.split("@")[0];
+  let username = resultCountGroup.length
+    ? resultCountGroup[0].name
+    : sender.split("@")[0];
 
-    let countGroupMsg = `*📛 ${username} PVX STATS 📛*\n_From 24 Nov 2021_${readMore}\n`;
-    let countGroupMsgTemp = "\n";
-    let totalGrpCount = 0;
-    for (let group of resultCountGroup) {
-      let grpName = group.gname;
-      grpName = grpName.replace("<{PVX}> ", "");
-      totalGrpCount += Number(group.count);
-      countGroupMsgTemp += `\n${group.count} - ${grpName}`;
-    }
-    countGroupMsg += `\n*TotaL Messages: ${totalGrpCount}*`;
-    countGroupMsg += countGroupMsgTemp;
-
-    sock.sendMessage(
-      from,
-      {
-        text: countGroupMsg,
-      },
-      { quoted: msg }
-    );
-  } catch (err) {
-    console.log(err);
-    reply(err.toString());
+  let countGroupMsg = `*📛 ${username} PVX STATS 📛*\n_From 24 Nov 2021_${readMore}\n`;
+  let countGroupMsgTemp = "\n";
+  let totalGrpCount = 0;
+  for (let group of resultCountGroup) {
+    let grpName = group.gname;
+    grpName = grpName.replace("<{PVX}> ", "");
+    totalGrpCount += Number(group.count);
+    countGroupMsgTemp += `\n${group.count} - ${grpName}`;
   }
+  countGroupMsg += `\n*TotaL Messages: ${totalGrpCount}*`;
+  countGroupMsg += countGroupMsgTemp;
+
+  sock.sendMessage(
+    from,
+    {
+      text: countGroupMsg,
+    },
+    { quoted: msg }
+  );
 };

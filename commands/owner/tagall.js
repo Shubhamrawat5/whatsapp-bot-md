@@ -16,37 +16,31 @@ const handler = async (sock, msg, from, args, msgInfoObj) => {
     myNumber,
     reply,
   } = msgInfoObj;
-  try {
-    if (
-      groupName.toUpperCase().includes("PVX") &&
-      ![myNumber + "@s.whatsapp.net", botNumberJid].includes(sender)
-    ) {
-      reply(`❌ Owner only command for avoiding spam in PVX Groups!`);
-      return;
-    }
-
-    let jids = [];
-    let message = "ALL: ";
-    if (
-      msg.message.extendedTextMessage &&
-      msg.message.extendedTextMessage.contextInfo.quotedMessage.conversation
-    ) {
-      message +=
-        msg.message.extendedTextMessage.contextInfo.quotedMessage.conversation +
-        "\n\n";
-    } else {
-      message += args.length ? args.join(" ") + "\n\n" : "";
-    }
-
-    for (let i of groupMembers) {
-      message += "@" + i.id.split("@")[0] + " ";
-      jids.push(i.id.replace("c.us", "s.whatsapp.net"));
-    }
-
-    sock.sendMessage(from, { text: message, mentions: jids }, { quoted: msg });
-  } catch (err) {
-    console.log(err);
-    // reply(`❌ Error!`);
-    reply(err.toString());
+  if (
+    groupName.toUpperCase().includes("PVX") &&
+    ![myNumber + "@s.whatsapp.net", botNumberJid].includes(sender)
+  ) {
+    reply(`❌ Owner only command for avoiding spam in PVX Groups!`);
+    return;
   }
+
+  let jids = [];
+  let message = "ALL: ";
+  if (
+    msg.message.extendedTextMessage &&
+    msg.message.extendedTextMessage.contextInfo.quotedMessage.conversation
+  ) {
+    message +=
+      msg.message.extendedTextMessage.contextInfo.quotedMessage.conversation +
+      "\n\n";
+  } else {
+    message += args.length ? args.join(" ") + "\n\n" : "";
+  }
+
+  for (let i of groupMembers) {
+    message += "@" + i.id.split("@")[0] + " ";
+    jids.push(i.id.replace("c.us", "s.whatsapp.net"));
+  }
+
+  sock.sendMessage(from, { text: message, mentions: jids }, { quoted: msg });
 };

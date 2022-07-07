@@ -8,25 +8,20 @@ module.exports.command = () => {
 
 const handler = async (sock, msg, from, args, msgInfoObj) => {
   let { botNumberJid, reply } = msgInfoObj;
-  try {
-    if (
-      !msg.message.extendedTextMessage ||
-      !(msg.message.extendedTextMessage.contextInfo.participant == botNumberJid)
-    ) {
-      reply("❌ Tag message of bot to delete.");
-      return;
-    }
-
-    const options = {
-      remoteJid: botNumberJid,
-      fromMe: true,
-      id: msg.message.extendedTextMessage.contextInfo.stanzaId,
-    };
-    await sock.sendMessage(from, {
-      delete: options,
-    });
-  } catch (err) {
-    console.log(err);
-    reply(err.toString());
+  if (
+    !msg.message.extendedTextMessage ||
+    !(msg.message.extendedTextMessage.contextInfo.participant == botNumberJid)
+  ) {
+    reply("❌ Tag message of bot to delete.");
+    return;
   }
+
+  const options = {
+    remoteJid: botNumberJid,
+    fromMe: true,
+    id: msg.message.extendedTextMessage.contextInfo.stanzaId,
+  };
+  await sock.sendMessage(from, {
+    delete: options,
+  });
 };

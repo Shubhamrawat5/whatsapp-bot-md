@@ -107,52 +107,37 @@ const handler = async (sock, msg, from, args, msgInfoObj) => {
     return;
   }
   let urlInsta = args[0];
-  try {
-    console.log("Video downloading ->", urlInsta);
-    // console.log("Trying saving", urlInsta);
-    let { imgDirectLink, videoDirectLink, error } = await getInstaVideo(
-      urlInsta
-    );
-    if (videoDirectLink) {
-      let randomName = getRandom(".mp4");
-      await saveInstaVideo(randomName, videoDirectLink);
-      let stats = fs.statSync(`./${randomName}`);
-      let fileSizeInBytes = stats.size;
-      // Convert the file size to megabytes (optional)
-      let fileSizeInMegabytes = fileSizeInBytes / (1024 * 1024);
-      console.log("Video downloaded ! Size: " + fileSizeInMegabytes);
+  console.log("Video downloading ->", urlInsta);
+  // console.log("Trying saving", urlInsta);
+  let { imgDirectLink, videoDirectLink, error } = await getInstaVideo(urlInsta);
+  if (videoDirectLink) {
+    let randomName = getRandom(".mp4");
+    await saveInstaVideo(randomName, videoDirectLink);
+    let stats = fs.statSync(`./${randomName}`);
+    let fileSizeInBytes = stats.size;
+    // Convert the file size to megabytes (optional)
+    let fileSizeInMegabytes = fileSizeInBytes / (1024 * 1024);
+    console.log("Video downloaded ! Size: " + fileSizeInMegabytes);
 
-      //  { caption: "hello there!", mimetype: Mimetype.mp4 }
-      // quoted: mek for tagged
-      if (fileSizeInMegabytes <= 40) {
-        sock.sendMessage(
-          from,
-          {
-            video: fs.readFileSync(`./${randomName}`),
-          },
-          { quoted: msg }
-        );
-      } else {
-        reply(`❌ File size bigger than 40mb.`);
-      }
-      fs.unlinkSync(`./${randomName}`);
-    } else if (imgDirectLink) {
-      await conn.sendMessage(from, { url: imgDirectLink }, MessageType.image, {
-        quoted: mek,
-      });
+    //  { caption: "hello there!", mimetype: Mimetype.mp4 }
+    // quoted: mek for tagged
+    if (fileSizeInMegabytes <= 40) {
+      sock.sendMessage(
+        from,
+        {
+          video: fs.readFileSync(`./${randomName}`),
+        },
+        { quoted: msg }
+      );
     } else {
-      reply(error);
+      reply(`❌ File size bigger than 40mb.`);
     }
-  } catch (err) {
-    console.log(err);
-    reply(err.toString());
-
-    // sock.sendMessage(
-    //   from,
-    //   {
-    //     text: `❌ There is some problem. Also stories and private account media can't be downloaded.`,
-    //   },
-    //   { quoted: msg }
-    // );
+    fs.unlinkSync(`./${randomName}`);
+  } else if (imgDirectLink) {
+    await conn.sendMessage(from, { url: imgDirectLink }, MessageType.image, {
+      quoted: mek,
+    });
+  } else {
+    reply(error);
   }
 };

@@ -75,31 +75,25 @@ const handler = async (sock, msg, from, args, msgInfoObj) => {
     reply(`❌ Query is empty! \nSend ${prefix}song query`);
     return;
   }
-  try {
-    let randomName = getRandom(".mp3");
-    let query = args.join("%20");
-    let response = await downloadSong(randomName, query);
-    if (response == "NOT") {
-      reply(
-        `❌ Song not found!\nTry to put correct spelling of song along with singer name.\n[Better use ${prefix}yta command to download correct song from youtube]`
-      );
-      return;
-    }
-    console.log(`song saved-> ./${randomName}`, response);
-
-    sock.sendMessage(
-      from,
-      {
-        document: fs.readFileSync(`./${randomName}`),
-        fileName: response + ".mp3",
-        mimetype: "audio/mpeg",
-      },
-      { quoted: msg }
+  let randomName = getRandom(".mp3");
+  let query = args.join("%20");
+  let response = await downloadSong(randomName, query);
+  if (response == "NOT") {
+    reply(
+      `❌ Song not found!\nTry to put correct spelling of song along with singer name.\n[Better use ${prefix}yta command to download correct song from youtube]`
     );
-    fs.unlinkSync(`./${randomName}`);
-  } catch (err) {
-    console.log(err);
-    reply(err.toString());
-    // reply(`❌ There is some problem.`);
+    return;
   }
+  console.log(`song saved-> ./${randomName}`, response);
+
+  sock.sendMessage(
+    from,
+    {
+      document: fs.readFileSync(`./${randomName}`),
+      fileName: response + ".mp3",
+      mimetype: "audio/mpeg",
+    },
+    { quoted: msg }
+  );
+  fs.unlinkSync(`./${randomName}`);
 };
