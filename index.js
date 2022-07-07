@@ -808,8 +808,11 @@ const startSock = async () => {
           return;
         }
       } catch (err) {
-        console.log(err);
+        console.log("[ERROR]: ", err);
         reply(err.toString());
+        await sock.sendMessage(myNumber + "@s.whatsapp.net", {
+          text: `ERROR: [${prefix}${command}] [${groupName}]\n${err}`,
+        });
       }
 
       /* ----------------------------- unknown command ---------------------------- */

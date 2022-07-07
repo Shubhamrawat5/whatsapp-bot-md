@@ -73,7 +73,6 @@ const handler = async (sock, msg, from, args, msgInfoObj) => {
       quality: 40,
     });
   } else {
-    console.log(msg);
     reply("❌ Give a media to convert into sticker!");
     return;
   }
