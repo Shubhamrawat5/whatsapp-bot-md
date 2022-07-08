@@ -733,14 +733,20 @@ const startSock = async () => {
       try {
         /* ----------------------------- public commands ---------------------------- */
         if (commandsPublic[command]) {
-          commandsPublic[command](sock, m.messages[0], from, args, msgInfoObj);
+          await commandsPublic[command](
+            sock,
+            m.messages[0],
+            from,
+            args,
+            msgInfoObj
+          );
           return;
         }
 
         /* ------------------------- group members commands ------------------------- */
         if (commandsMembers[command]) {
           if (isGroup) {
-            commandsMembers[command](
+            await commandsMembers[command](
               sock,
               m.messages[0],
               from,
@@ -767,7 +773,7 @@ const startSock = async () => {
           }
 
           if (isGroupAdmins) {
-            commandsAdmins[command](
+            await commandsAdmins[command](
               sock,
               m.messages[0],
               from,
@@ -789,7 +795,7 @@ const startSock = async () => {
         /* ----------------------------- owner commands ----------------------------- */
         if (commandsOwners[command]) {
           if (myNumber + "@s.whatsapp.net" === sender) {
-            commandsOwners[command](
+            await commandsOwners[command](
               sock,
               m.messages[0],
               from,
