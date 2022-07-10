@@ -235,7 +235,7 @@ const getGroupAdmins = (participants) => {
   return admins;
 };
 
-let authSaveInterval, dateCheckerInterval, startCricketInterval;
+let authSaveInterval, dateCheckerInterval;
 //CRICKET variables
 let matchIdGroups = {}; //to store every group name with its match ID
 let cricSetIntervalGroups = {}; //to store every group name with its setInterval value so that it can be stopped
@@ -247,6 +247,9 @@ const startSock = async () => {
   clearInterval(authSaveInterval);
   clearInterval(dateCheckerInterval);
   clearInterval(startCricketInterval);
+  Object.keys(cricSetIntervalGroups).forEach((e) => {
+    clearInterval(e);
+  });
   // try {
   //   mdClient.connect(async (err) => {
   //     if (err) console.log(err);
