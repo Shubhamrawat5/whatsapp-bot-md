@@ -937,7 +937,7 @@ const startSock = async () => {
       await sock.sendMessage(
         from,
         {
-          text: `Send ${prefix}help for <{PVX}> BOT commands!\n\nThis is a new bot of multi device, so many old commands are not available right now.`,
+          text: `Send ${prefix}help for <{PVX}> BOT commands!`,
         },
         { quoted: m.messages[0] }
       );

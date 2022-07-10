@@ -15,56 +15,56 @@ const handler = async (sock, msg, from, args, msgInfoObj) => {
   ${readMore}
 _Admin commands only!_
 
-📛 *${prefix}add <phone number>* ✔
+📛 *${prefix}add <phone number>*
   - _Add new member!_
  [or tag message of removed member with *${prefix}add*]
  
-📛 *${prefix}kick <mention>* ✔
+📛 *${prefix}kick <mention>*
   - _Kick member from group!_
  [or tag message of member with *${prefix}kick*]
 
-📛 *${prefix}mute | ${prefix}unmute* ✔
+📛 *${prefix}mute | ${prefix}unmute*
   - _Mute and Unmute the group!_
 
-📛 *${prefix}tagadmins* ✔
+📛 *${prefix}tagadmins*
   - _Tag all the admins!_
 Alias: *${prefix}ta*
 
-📛 *${prefix}pvxg* ✔
+📛 *${prefix}pvxg*
   - _Get stats of all groups message!_
   
-📛 *${prefix}pvxm* ✔
+📛 *${prefix}pvxm*
   - _Get stats of member messages of current group!_
   
-📛 *${prefix}pvxt* ✔
+📛 *${prefix}pvxt*
   - _Get top member stats of all groups!_
 
-📛 *${prefix}pvxt5* ✔
+📛 *${prefix}pvxt5*
   - _Get top 5 member stats of all groups!_
 
-📛 *${prefix}pvxt10* ✔
+📛 *${prefix}pvxt10*
   - _Get top 10 member stats of all groups!_
 
-📛 *${prefix}zero* ✔
+📛 *${prefix}zero*
   - _Get numbers with 0 message of current group!_
   
-📛 *${prefix}pvxstats* ✔
+📛 *${prefix}pvxstats*
   - _Get stats of PVX groups!_
 
-📛 *${prefix}rt* ✔
+📛 *${prefix}rt*
   - _Tag a random member!_  
 
-📛 *${prefix}warning* ✔
+📛 *${prefix}warning*
   - _Give warning to user!_
 
-📛 *${prefix}blacklist* ✔
+📛 *${prefix}blacklist*
   - _Get blacklist numbers!_ 
 
-📛 *${prefix}blacklistadd* ✔
+📛 *${prefix}blacklistadd*
   - _Add number to blacklist!_
 Alias: *${prefix}bla*
 
-📛 *${prefix}blacklistremove* ✔
+📛 *${prefix}blacklistremove*
   - Remove number from blacklist!_  
 Alias: *${prefix}blr*
 

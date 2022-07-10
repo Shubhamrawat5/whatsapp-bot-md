@@ -21,11 +21,11 @@ _Restricted command for owner only!_
 📛 *${prefix}tagall* ✔
   - _Tag all the members!_  
 
+📛 *${prefix}gname* ✔
+  - _Save all group name in DB!_   
+
 📛 *${prefix}groupbackup* ❌
   - _Take backup of group in DB!_  
-
-📛 *${prefix}gname* ✔
-  - _Save all group name in DB!_  
 
 📛 *${prefix}countstats* ❌
   - _Get stats of number of command used!_  
