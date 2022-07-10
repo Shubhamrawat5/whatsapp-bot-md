@@ -236,6 +236,11 @@ const getGroupAdmins = (participants) => {
 };
 
 let authSaveInterval, dateCheckerInterval, startCricketInterval;
+//CRICKET variables
+let matchIdGroups = {}; //to store every group name with its match ID
+let cricSetIntervalGroups = {}; //to store every group name with its setInterval value so that it can be stopped
+let cricStartedGroups = {}; //to store every group name with boolean value to know if cricket score is already started or not
+const { getCricketScore } = require("./functions/cricket");
 
 const startSock = async () => {
   addCommands();
@@ -727,6 +732,91 @@ const startSock = async () => {
           text: `${commandSent}) [${prefix}${command}] [${groupName}]`,
         });
         ++commandSent;
+      }
+
+      //return false when stopped in middle. return true when run fully
+      const startcHelper = async (isFromSetInterval = false) => {
+        if (!groupDesc) {
+          reply(
+            `❌ ERROR\n- Group description is empty.\n- Put match ID in starting of group description.\n- Get match ID from cricbuzz today match url.\n- example: https://www.cricbuzz.com/live-cricket-scores/37572/mi-vs-kkr-34th-match-indian-premier-league-2021 \n- so match ID is 37572 !\n# If you've put correct match ID in description starting and still facing this error then contact developer by !dev`
+          );
+
+          return false;
+        }
+
+        matchIdGroups[groupName] = groupDesc.slice(0, 5);
+        if (!isFromSetInterval) {
+          reply(
+            "✔️ Starting Cricket scores for matchID: " +
+              matchIdGroups[groupName] +
+              " (taken from description)"
+          );
+        }
+
+        let response = await getCricketScore(matchIdGroups[groupName]);
+
+        //response.info have "MO" only when command is startc
+        if (response.info === "MO") {
+          sock.sendMessage(from, { text: response.message });
+          reply("✔️ Match over! Stopping Cricket scores for this group !");
+          console.log("Match over! Stopping Cricket scores for " + groupName);
+          clearInterval(cricSetIntervalGroups[groupName]);
+          cricStartedGroups[groupName] = false;
+          return false;
+        } else if (response.info === "IO") {
+          sock.sendMessage(from, { text: response.message });
+          reply(
+            "✔️ Inning over! Open again live scores later when 2nd inning will start by !startc"
+          );
+          reply("✔️ Stopping Cricket scores for this group !");
+          console.log("Stopping Cricket scores for " + groupName);
+          clearInterval(cricSetIntervalGroups[groupName]);
+          cricStartedGroups[groupName] = false;
+          return false;
+        } else if (response.info === "ER") {
+          reply(
+            `❌ ERROR\n- Group description starting is "${matchIdGroups[groupName]}"\n- Put match ID in starting of group description. \n- Get match ID from cricbuzz today match url.\n- example: https://www.cricbuzz.com/live-cricket-scores/37572/mi-vs-kkr-34th-match-indian-premier-league-2021 \n- so match ID is 37572 !\n# If you've put correct match ID in description starting and still facing this error then contact developer by !dev`
+          );
+          return false;
+        }
+        sock.sendMessage(from, { text: response.message });
+        return true;
+      };
+
+      switch (command) {
+        case "startc":
+          if (!isGroup) {
+            reply("❌ Group command only!");
+            return;
+          }
+          if (cricStartedGroups[groupName]) {
+            reply("❌ CRICKET SCORES already started for this group!");
+            return;
+          }
+
+          let respCric = await startcHelper("startc");
+          if (!respCric) return;
+
+          cricStartedGroups[groupName] = true;
+          cricSetIntervalGroups[groupName] = setInterval(async () => {
+            respCric = await startcHelper("startc", true);
+            if (!respCric) return;
+          }, 1000 * 90); //1 min
+          return;
+
+        case "stopc":
+          if (!isGroup) {
+            reply("❌ Group command only!");
+            return;
+          }
+
+          if (cricStartedGroups[groupName]) {
+            reply("✔️ Stopping Cricket scores for this group !");
+            console.log("Stopping Cricket scores for " + groupName);
+            clearInterval(cricSetIntervalGroups[groupName]);
+            cricStartedGroups[groupName] = false;
+          } else reply("❌ CRICKET scores was never started for this group!");
+          break;
       }
 
       //using 'm.messages[0]' to tag message, by giving 'msg' throw some error
