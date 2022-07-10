@@ -73,14 +73,11 @@ const handler = async (sock, msg, from, args, msgInfoObj) => {
 📛 *${prefix}fb url* ❌
   - _Facebook videos downloader!_
 
-📛 *${prefix}text* ❌
-  - _Get text extractor from image!_
-
 📛 *${prefix}alive* ✔
   - _Check if bot is ON or OFF!_
   Alias: *${prefix}a*
 
-📛 *${prefix}cricketcommand* ❌
+📛 *${prefix}cricketcommand* ✔
   - _To get command details of cricket!_
   Alias: *${prefix}cc*
 
