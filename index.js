@@ -246,7 +246,6 @@ const startSock = async () => {
   addCommands();
   clearInterval(authSaveInterval);
   clearInterval(dateCheckerInterval);
-  clearInterval(startCricketInterval);
   Object.keys(cricSetIntervalGroups).forEach((e) => {
     clearInterval(e);
   });
@@ -819,7 +818,27 @@ const startSock = async () => {
             clearInterval(cricSetIntervalGroups[groupName]);
             cricStartedGroups[groupName] = false;
           } else reply("❌ CRICKET scores was never started for this group!");
-          break;
+          return;
+
+        case "test":
+          if (myNumber + "@s.whatsapp.net" !== sender) {
+            reply(`❌ Command only for owner for bot testing purpose!`);
+            return;
+          }
+
+          if (args.length === 0) {
+            reply(`❌ empty query!`);
+            return;
+          }
+          try {
+            let resultTest = eval(args[0]);
+            if (typeof resultTest === "object")
+              reply(JSON.stringify(resultTest));
+            else reply(resultTest.toString());
+          } catch (err) {
+            reply(err.toString());
+          }
+          return;
       }
 
       //using 'm.messages[0]' to tag message, by giving 'msg' throw some error
