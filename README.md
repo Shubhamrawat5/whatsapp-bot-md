@@ -118,6 +118,7 @@ Now Bot will start working!! Work even if the device is offline!!
 | `!donationadd`  |             Add Donation details              | `!da` |
 |  `!countstats`  |      Get stats of number of command used      |       |
 |     `!test`     |      execute code with whatsapp directly      |       |
+|  `!broadcast`   |       Broadcast a message to all groups       | `!bc` |
 |    `!tagall`    |           Tag all members in group            |       |
 |    `!gname`     |            Save group names to DB             |       |
 |      `!tg`      |            Make TG to WA stickers             |       |
