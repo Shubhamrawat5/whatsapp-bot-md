@@ -21,9 +21,6 @@ const handler = async (sock, msg, from, args, msgInfoObj) => {
 
   let zeroMsg = `${groupName}\nMembers with 0 message from 24 NOV:${readMore}\n`;
 
-  let countGroupMsgTempIndi = "\n";
-  let totalGrpCountIndi = 0;
-
   groupMembers.forEach((mem) => {
     if (!memWithMsg.has(mem.id)) {
       zeroMsg += `\n${mem.id.split("@")[0]}`;

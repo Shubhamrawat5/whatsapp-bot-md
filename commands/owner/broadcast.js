@@ -11,11 +11,11 @@ const handler = async (sock, msg, from, args, msgInfoObj) => {
   let chats = await sock.groupFetchAllParticipating();
   // console.log(chats);
   // !v.announce &&
-  let groups = Object.values(chats)
-    .filter((v) => v.id.endsWith("g.us") 
-    .map((v) => {
+  let groups = Object.values(chats).filter((v) =>
+    v.id.endsWith("g.us").map((v) => {
       return { subject: v.subject, id: v.id };
-    });
+    })
+  );
   // console.log(groups);
 
   let message = "Broadcast:\n";

@@ -19,7 +19,7 @@ const handler = async (sock, msg, from, args, msgInfoObj) => {
     return;
   }
 
-  console.log(msg);
+  // console.log(msg);
   /*
       1) when !ban OR !ban xyz
          message:{ conversation: '!ban' }

@@ -153,6 +153,7 @@ const { setCountVideo } = require("./db/countVideoDB");
 const { storeNewsTech } = require("./db/postTechDB");
 const { storeNewsStudy } = require("./db/postStudyDB");
 const { getBlacklist } = require("./db/blacklistDB");
+const { getCountVideo } = require("./db/countVideoDB");
 
 let countSent = 1;
 let commandSent = 1;
@@ -403,6 +404,35 @@ const startSock = async () => {
       }
     };
 
+    const kickZeroMano = async () => {
+      let resultCountGroupIndi = await getCountVideo(pvxmano);
+
+      let memWithMsg = new Set();
+      for (let member of resultCountGroupIndi) {
+        memWithMsg.add(member.memberjid);
+      }
+
+      const groupMetadata = await sock.groupMetadata(pvxmano);
+      const groupMembers = groupMetadata.participants;
+
+      let zeroMano = [];
+      groupMembers.forEach((mem) => {
+        if (!memWithMsg.has(mem.id)) {
+          zeroMano.push(mem.id);
+        }
+      });
+
+      let randomMemId = zeroMano[Math.floor(Math.random() * zeroMano.length)];
+      let num_split = `${randomMemId.split("@s.whatsapp.net")[0]}`;
+
+      console.log(`Removing ${randomMemId} from Mano.`);
+      await sock.sendMessage(pvxmano, {
+        text: `Removing  @${num_split}\nReason: 0 videos count! `,
+        mentions: [randomMemId],
+      });
+      await sock.groupParticipantsUpdate(pvxmano, [randomMemId], "remove");
+    };
+
     dateCheckerInterval = setInterval(() => {
       console.log("SET INTERVAL.");
       let todayDate = new Date().toLocaleDateString("en-GB", {
@@ -425,6 +455,7 @@ const startSock = async () => {
       if (usedDate !== todayDate) {
         usedDate = todayDate;
         checkTodayBday(todayDate);
+        kickZeroMano();
       }
     }, 1000 * 60 * 20); //20 min
   }
