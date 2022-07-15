@@ -83,15 +83,16 @@ module.exports.getRankInAllGroups = async (memberJid) => {
     "SELECT cmn.name,table1.count,table1.memberjid,table1.ranks from (SELECT memberjid,sum(count) as count,RANK () OVER (ORDER BY sum(count) DESC) ranks FROM countmember group by memberjid ) table1 INNER JOIN countmembername cmn on table1.memberjid = cmn.memberjid where table1.memberJid=$1;",
     [memberJid]
   );
+
+  let result2 = await pool.query(
+    "select count(*) from (select memberjid,count(*) from countmember GROUP BY memberjid) table1;"
+  );
   let resultObj = {};
   if (result.rowCount) {
     resultObj.name = result.rows[0].name;
     resultObj.count = result.rows[0].count;
     resultObj.ranks = result.rows[0].ranks;
-  } else {
-    resultObj.name = "";
-    resultObj.count = 0;
-    resultObj.ranks = "-";
+    resultObj.totalUsers = result2.rows[0].count;
   }
 
   return resultObj;

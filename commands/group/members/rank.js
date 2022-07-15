@@ -24,14 +24,18 @@ const handler = async (sock, msg, from, args, msgInfoObj) => {
     sender = msg.message.extendedTextMessage.contextInfo.participant;
   }
 
-  let { name, ranks, count } = await getRankInAllGroups(sender);
+  let { name, ranks, count, totalUsers } = await getRankInAllGroups(sender);
+  if (!name) {
+    reply("❌ ERROR: User NOT FOUND in Database!");
+    return;
+  }
   let res = await getCountIndividual(sender, from);
   let countCurGroup = res.count;
 
   sock.sendMessage(
     from,
     {
-      text: `User: ${name}\nRank: ${ranks}\n\n💬 Message count\nAll PVX groups: ${count}\nCurrent group: ${countCurGroup}`,
+      text: `User: ${name}\nRank: ${ranks} out of ${totalUsers}\n\n*💬 message count*\nAll PVX group: ${count}\nCurrent group: ${countCurGroup}`,
     },
     { quoted: msg }
   );
