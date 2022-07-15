@@ -76,6 +76,27 @@ module.exports.getCountIndividualAllGroup = async (memberJid) => {
   return resultObj;
 };
 
+//rank: rank in all groups message count
+module.exports.getRankInAllGroups = async (memberJid) => {
+  await createCountMemberTable();
+  let result = await pool.query(
+    "SELECT cmn.name,table1.count,table1.memberjid,table1.ranks from (SELECT memberjid,sum(count) as count,RANK () OVER (ORDER BY sum(count) DESC) ranks FROM countmember group by memberjid ) table1 INNER JOIN countmembername cmn on table1.memberjid = cmn.memberjid where table1.memberJid=$1;",
+    [memberJid]
+  );
+  let resultObj = {};
+  if (result.rowCount) {
+    resultObj.name = result.rows[0].name;
+    resultObj.count = result.rows[0].count;
+    resultObj.ranks = result.rows[0].ranks;
+  } else {
+    resultObj.name = "";
+    resultObj.count = 0;
+    resultObj.ranks = "-";
+  }
+
+  return resultObj;
+};
+
 //totalg: user all group (with group wise) message count
 module.exports.getCountIndividualAllGroupWithName = async (memberJid) => {
   await createCountMemberTable();
