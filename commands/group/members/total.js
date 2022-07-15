@@ -10,6 +10,9 @@ module.exports.command = () => {
 
 const handler = async (sock, msg, from, args, msgInfoObj) => {
   let { sender, reply } = msgInfoObj;
+  reply("Use !rank command");
+  return;
+
   if (args[0]) {
     sender = args[0] + "@s.whatsapp.net";
   }
@@ -30,7 +33,7 @@ const handler = async (sock, msg, from, args, msgInfoObj) => {
   sock.sendMessage(
     from,
     {
-      text: `${name} have _${count} messages from 24 NOV_ in all PVX groups!`,
+      text: `User:${name}\nTotal messages: _${count}\n\n_from 24 NOV_ in all PVX groups!_`,
     },
     { quoted: msg }
   );

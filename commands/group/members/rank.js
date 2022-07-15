@@ -1,6 +1,9 @@
 const { MessageType, Mimetype } = require("@adiwajshing/baileys");
 
-const { getRankInAllGroups } = require("../../../db/countMemberDB");
+const {
+  getRankInAllGroups,
+  getCountIndividual,
+} = require("../../../db/countMemberDB");
 
 module.exports.command = () => {
   let cmd = ["rank"];
@@ -22,16 +25,13 @@ const handler = async (sock, msg, from, args, msgInfoObj) => {
   }
 
   let { name, ranks, count } = await getRankInAllGroups(sender);
-  if (name == "") {
-    name = sender;
-    count = 0;
-    ranks = "-";
-  }
+  let res = await getCountIndividual(sender, from);
+  let countCurGroup = res.count;
 
   sock.sendMessage(
     from,
     {
-      text: `${name} rank is _${ranks} with total ${count} messages_ from 24 NOV in all PVX groups!`,
+      text: `User: ${name}\nRank: ${ranks}\n\n💬 Message count\nAll PVX groups: ${count}\nCurrent group: ${countCurGroup}`,
     },
     { quoted: msg }
   );
