@@ -40,6 +40,13 @@ Now Bot will start working!! Work even if the device is offline!!
 
 # Features:- :rocket:
 
+1. It count messages of every member in all the groups in DB. (just the message count, not actual text message), so that we can see stats like top members, top groups, etc.
+2. It also forwards every sticker that is sent to any of the PVX groups to another group i.e. Sticker Only, where members can have access to different different types of stickers 24x7.
+3. It posts tech news to tech group and trending india news to study group every 20 min.
+4. It notifys the birthday in the community group when new day starts.
+5. It welcomes new users when joined with some questions/rules.
+6. It automatically bans any user with a non-Indian number (any number without +91 code).
+
 ## Default prefix : `!`
 
 ## Commands :
