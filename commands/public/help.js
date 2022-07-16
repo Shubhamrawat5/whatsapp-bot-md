@@ -21,6 +21,12 @@ const { MessageType, Mimetype } = require("@adiwajshing/baileys");
 // 📛 *${prefix}slist* ❌
 //   - Get list of stickers command!_
 
+// 📛 *${prefix}count*
+//   - _Know your message count in current group!_
+
+// 📛 *${prefix}total*
+//   - _Know your message count in all PVX groups!_
+
 module.exports.command = () => {
   let cmd = ["help", "h"];
 
@@ -44,15 +50,9 @@ const handler = async (sock, msg, from, args, msgInfoObj) => {
 
 📛 *${prefix}image*
   - _Create image from sticker!_
-  
-📛 *${prefix}count*
-  - _Know your message count in current group!_
-
-📛 *${prefix}total*
-  - _Know your message count in all PVX groups!_
 
 📛 *${prefix}rank*
-  - _Know your message rank in all PVX groups!_
+  - _Know your message count & rank in all PVX groups!_
 
 📛 *${prefix}totalg*
   - _Know your message stats in all PVX groups!_

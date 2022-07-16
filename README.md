@@ -73,7 +73,7 @@ Now Bot will start working!! Work even if the device is offline!!
 | :-------------: | :-----------------------------------------------: | :------: |
 |    `!count`     |        Know message count in current group        |          |
 |    `!total`     |       Know message count in all PVX groups        |          |
-|     `!rank`     |        Know message rank in all PVX groups        |          |
+|     `!rank`     |    Know message count & rank in all PVX groups    |          |
 |    `!totalg`    |    Know message count group wise in PVX groups    |          |
 |   `!sticker`    |     Create sticker from different media types     |   `!s`   |
 |    `!block`     |      To block particular commands for group       |          |

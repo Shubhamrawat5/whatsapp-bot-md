@@ -1,6 +1,6 @@
 const { MessageType, Mimetype } = require("@adiwajshing/baileys");
 
-const { getCountIndividual } = require("../../../db/countMemberDB");
+const { getCountIndividual } = require("../../db/countMemberDB");
 
 module.exports.command = () => {
   let cmd = ["count"];

@@ -46,7 +46,7 @@ const handler = async (sock, msg, from, args, msgInfoObj) => {
     fs.unlinkSync(media);
   } else {
     reply(
-      "❌ There is some problem!\nOnly non-animated stickers can be convert to image!"
+      "❌ There is some problem!\nTag a non-animated sticker with command to convert to Image!"
     );
   }
 };

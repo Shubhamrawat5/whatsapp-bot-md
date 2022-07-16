@@ -431,6 +431,15 @@ const startSock = async () => {
         mentions: [randomMemId],
       });
       await sock.groupParticipantsUpdate(pvxmano, [randomMemId], "remove");
+
+      // randomMemId = zeroMano[Math.floor(Math.random() * zeroMano.length)];
+      // num_split = `${randomMemId.split("@s.whatsapp.net")[0]}`;
+      // console.log(`Removing ${randomMemId} from Mano.`);
+      // await sock.sendMessage(pvxmano, {
+      //   text: `Removing  @${num_split}\nReason: 0 videos count! `,
+      //   mentions: [randomMemId],
+      // });
+      // await sock.groupParticipantsUpdate(pvxmano, [randomMemId], "remove");
     };
 
     dateCheckerInterval = setInterval(() => {
