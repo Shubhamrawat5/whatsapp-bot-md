@@ -32,13 +32,19 @@ module.exports.getCountVideo = async (groupJid) => {
 
 module.exports.setCountVideo = async (memberJid, groupJid) => {
   if (!groupJid.endsWith("@g.us")) return;
-  await createCountVideoTable();
-
-  //check if groupjid is present in DB or not
-  let result = await pool.query(
-    "select * from countvideo WHERE memberjid=$1 AND groupjid=$2;",
-    [memberJid, groupJid]
-  );
+  let result;
+  try {
+    result = await pool.query(
+      "select * from countvideo WHERE memberjid=$1 AND groupjid=$2;",
+      [memberJid, groupJid]
+    );
+  } catch (err) {
+    await createCountVideoTable();
+    result = await pool.query(
+      "select * from countvideo WHERE memberjid=$1 AND groupjid=$2;",
+      [memberJid, groupJid]
+    );
+  }
 
   //present
   if (result.rows.length) {

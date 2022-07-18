@@ -561,7 +561,7 @@ const startSock = async () => {
         //for community group
         if (from === pvxcommunity) {
           await sock.sendMessage(from, {
-            text: `Welcome @${num_split} to PVX COMMUNITY.\nhttps://pvxcommunity.com/\n\nPlease follow the rules. Send ${prefix}rules to know all rules of PVX\nBe active and Don't spam`,
+            text: `Welcome @${num_split} to PVX COMMUNITY.\nhttps://pvxcommunity.com/\n\nSend ${prefix}rules to know all PVX rules.\nIf you're new to PVX, please share how did you find us.`,
             mentions: [numJid],
           });
         }
