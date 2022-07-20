@@ -53,6 +53,9 @@ const handler = async (sock, msg, from, args, msgInfoObj) => {
 
 📛 *${prefix}rank*
   - _Know your message count & rank in all PVX groups!_
+  
+📛 *${prefix}ranks*
+  - _Know ranks list of PVX groups!_
 
 📛 *${prefix}totalg*
   - _Know your message stats in all PVX groups!_

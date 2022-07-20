@@ -34,17 +34,17 @@ const handler = async (sock, msg, from, args, msgInfoObj) => {
 
   //find rank
   let rankName;
-  if (count <= 10) {
+  if (ranks <= 10) {
     rankName = "Prime 🔮";
-  } else if (count <= 50) {
+  } else if (ranks <= 50) {
     rankName = "Diamond 💎";
-  } else if (count <= 100) {
+  } else if (ranks <= 100) {
     rankName = "Platinum 🛡";
-  } else if (count <= 500) {
+  } else if (ranks <= 500) {
     rankName = "Elite 🔰";
-  } else if (count <= 1000) {
+  } else if (ranks <= 1000) {
     rankName = "Gold ⭐️ ";
-  } else if (count <= 1500) {
+  } else if (ranks <= 1500) {
     rankName = "Silver ⚔️";
   } else {
     rankName = "Bronze ⚱️";
@@ -53,7 +53,7 @@ const handler = async (sock, msg, from, args, msgInfoObj) => {
   sock.sendMessage(
     from,
     {
-      text: `${name}(#${ranks}/${totalUsers})\nRank: *${rankName}*\n\n*💬 message count*\nAll PVX groups: ${count}\nCurrent group : ${countCurGroup}`,
+      text: `${name} (#${ranks}/${totalUsers})\nRank: ${rankName}\n\n*💬 message count*\nAll PVX groups: ${count}\nCurrent group  : ${countCurGroup}`,
     },
     { quoted: msg }
   );
