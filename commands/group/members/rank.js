@@ -32,10 +32,28 @@ const handler = async (sock, msg, from, args, msgInfoObj) => {
   let res = await getCountIndividual(sender, from);
   let countCurGroup = res.count;
 
+  //find rank
+  let rankName;
+  if (count <= 10) {
+    rankName = "Prime 🔮";
+  } else if (count <= 50) {
+    rankName = "Diamond 💎";
+  } else if (count <= 100) {
+    rankName = "Platinum 🛡";
+  } else if (count <= 500) {
+    rankName = "Elite 🔰";
+  } else if (count <= 1000) {
+    rankName = "Gold ⭐️ ";
+  } else if (count <= 1500) {
+    rankName = "Silver ⚔️";
+  } else {
+    rankName = "Bronze ⚱️";
+  }
+
   sock.sendMessage(
     from,
     {
-      text: `User: ${name}\nRank: ${ranks} out of ${totalUsers}\n\n*💬 message count*\nAll PVX group: ${count}\nCurrent group: ${countCurGroup}`,
+      text: `${name}(#${ranks}/${totalUsers})\nRank: *${rankName}*\n\n*💬 message count*\nAll PVX groups: ${count}\nCurrent group : ${countCurGroup}`,
     },
     { quoted: msg }
   );
