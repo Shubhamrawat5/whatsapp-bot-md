@@ -36,7 +36,7 @@ Alias: *${prefix}ta*
 📛 *${prefix}pvxm*
   - _Get stats of member messages of current group!_
   
-📛 *${prefix}pvxt*
+📛 *${prefix}pvxt <number>*
   - _Get top member stats of all groups!_
 
 📛 *${prefix}pvxt5*

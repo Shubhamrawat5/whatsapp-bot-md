@@ -113,10 +113,10 @@ module.exports.getCountIndividualAllGroupWithName = async (memberJid) => {
 };
 
 //pvxt: top members stats of all groups
-module.exports.getCountTop = async () => {
+module.exports.getCountTop = async (noOfResult) => {
   await createCountMemberTable();
   let result = await pool.query(
-    "SELECT countmembername.name,countmember.memberJid,sum(countmember.count) as count FROM countmember,countmembername  WHERE countmember.memberjid=countmembername.memberjid GROUP BY countmember.memberjid,countmembername.name ORDER BY count DESC LIMIT 20;"
+    `SELECT countmembername.name,countmember.memberJid,sum(countmember.count) as count FROM countmember,countmembername  WHERE countmember.memberjid=countmembername.memberjid GROUP BY countmember.memberjid,countmembername.name ORDER BY count DESC LIMIT ${noOfResult};`
   );
   if (result.rowCount) {
     return result.rows;

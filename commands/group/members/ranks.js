@@ -11,7 +11,7 @@ const handler = async (sock, msg, from, args, msgInfoObj) => {
 
   let text = `*─「 <{PVX}> RANKS 」 ─*
 
-Send ${prefix}rank to know your rank (based on total messages in all PVX groups) and message count.
+Send ${prefix}rank to know your rank (based on total messages in all PVX groups from 24 Nov 2021) and message count.
 
 1-10 Prime 🔮
 11-50 Diamond 💎
