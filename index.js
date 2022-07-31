@@ -461,10 +461,11 @@ const startSock = async () => {
         postStudyInfo(0);
       }
 
+      if (hour % 12 == 0) kickZeroMano();
+
       if (usedDate !== todayDate) {
         usedDate = todayDate;
         checkTodayBday(todayDate);
-        kickZeroMano();
       }
     }, 1000 * 60 * 20); //20 min
   }
