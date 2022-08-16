@@ -69,10 +69,6 @@ const handler = async (sock, msg, from, args, msgInfoObj) => {
 📛 *${prefix}steal*
   - _Change sticker name to PVX BOT!_
 
-📛 *${prefix}delete*
-  - _Delete message of bot!_
-  Alias: *${prefix}d*
-
 📛 *${prefix}song name*
   - _Get songs in good quality!_
   [Better use ${prefix}yta command to download correct song from youtube]

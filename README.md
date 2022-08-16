@@ -57,7 +57,6 @@ Now Bot will start working!! Work even if the device is offline!!
 |     `!helpa`      |     Display admin commands     |       |
 |     `!helpo`      |   Display bot owner commands   |       |
 |    `!donation`    |      Get Donation details      |       |
-|     `!delete`     |     Delete message of bot      | `!d`  |
 |     `!alive`      |     Check bot is ON or OFF     | `!a`  |
 |    `!feedback`    |       Get feedback form        |       |
 |  `!votecommand`   |   Get list of vote commands    | `!vc` |
@@ -108,6 +107,7 @@ Now Bot will start working!! Work even if the device is offline!!
 |      `!kick`       |                 kick member from group                  | `!ban`  |
 |      `!mute`       |                     Mute the group                      |         |
 |     `!unmute`      |                    Unmute the group                     |         |
+|     `!delete`      |                  Delete anyone message                  |  `!d`   |
 |    `!tagadmins`    |                 Tag all admins of group                 |  `!ta`  |
 |     `!warning`     |                  Give warning to user                   | `!warn` |
 |      `!pvxg`       |          Get message count stats of PVX groups          |         |

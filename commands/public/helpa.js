@@ -26,6 +26,10 @@ _Admin commands only!_
 📛 *${prefix}mute | ${prefix}unmute*
   - _Mute and Unmute the group!_
 
+📛 *${prefix}delete*
+  - _Delete anyone message!_
+Alias: *${prefix}d*
+
 📛 *${prefix}tagadmins*
   - _Tag all the admins!_
 Alias: *${prefix}ta*
