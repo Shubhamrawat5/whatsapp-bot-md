@@ -31,6 +31,6 @@
     "qrcode-terminal": "^0.12.0",
     "rss-parser": "^3.12.0",
     "wa-sticker-formatter": "^4.3.2",
-    "ytdl-core": "^4.11.0"
+    "ytdl-core": "^4.10.0"
   }
 }
