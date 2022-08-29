@@ -3,9 +3,11 @@ const express = require("express");
 const app = express();
 
 app.use(express.urlencoded({ extended: true }));
+app.use(express.static("assert"));
 const port = process.env.PORT || 8080;
 app.get("/", (req, res) => {
-  res.send("Bot is running fine... no tension :)");
+  // res.send("Bot is running fine... no tension :)");
+  res.sendFile(__dirname + "/index.html");
 });
 
 /* -------------------------- delete auth from url -------------------------- */

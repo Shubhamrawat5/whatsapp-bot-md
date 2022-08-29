@@ -20,7 +20,7 @@ const createCountVideoTable = async () => {
 module.exports.getCountVideo = async (groupJid) => {
   await createCountVideoTable();
   let result = await pool.query(
-    "SELECT cv.memberJid,cv.count,cmn.name FROM countvideo cv INNER JOIN countmembername cmn ON cv.memberJid=cmn.memberJid WHERE groupJid=$1 ORDER BY count DESC;",
+    "SELECT cv.memberJid,cv.count,cmn.name FROM countvideo cv LEFT JOIN countmembername cmn ON cv.memberJid=cmn.memberJid WHERE groupJid=$1 ORDER BY count DESC;",
     [groupJid]
   );
   if (result.rowCount) {

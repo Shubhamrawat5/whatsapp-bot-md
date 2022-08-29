@@ -1,0 +1,139 @@
+@import url("https://fonts.googleapis.com/css2?family=Work+Sans:wght@300;400&display=swap");
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background-image: linear-gradient(
+    to bottom,
+    #072142,
+    #061c37,
+    #07182b,
+    #061220,
+    #020b16
+  );
+  min-height: 100vh;
+  display: flex;
+  font-family: "Work Sans", sans-serif;
+}
+
+section {
+  width: 50%;
+  min-height: 100vh;
+}
+
+.left-part {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.pvx-bot {
+  color: white;
+  font-weight: 400;
+  letter-spacing: 1px;
+  background-color: #ff0c0c;
+  width: 180px;
+  height: 45px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 25px;
+  margin: 20px 0;
+}
+
+.bot-img {
+  width: 150px;
+  height: 150px;
+  mix-blend-mode: lighten;
+}
+
+.main-heading {
+  font-weight: 400;
+  color: #ff0c0c;
+  letter-spacing: 5px;
+  font-size: 33px;
+  margin: 5px 0;
+}
+
+.sub-heading {
+  font-family: "Work Sans", sans-serif;
+  color: #ff0000;
+  letter-spacing: 5px;
+  margin: 10px 0;
+}
+
+.down-arrow {
+  width: 120px;
+  height: 120px;
+  margin-left: 50px;
+  opacity: 0.2;
+}
+
+.btn-container {
+  position: absolute;
+  bottom: 25px;
+}
+
+a {
+  font-size: 0;
+}
+
+button {
+  background: #f1ecec;
+  border-radius: 5px;
+  outline: none;
+  width: 130px;
+  font-family: inherit;
+  height: 40px;
+  color: #050f1c;
+  font-size: 16px;
+  margin: 10px;
+  cursor: pointer;
+  border: 0;
+}
+
+/* ------------------------------- RIGHT-PART ------------------------------- */
+.right-part {
+  height: 100%;
+  background: #f1ecec;
+  margin: auto;
+  padding: 50px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.features {
+  text-decoration: underline;
+  text-align: center;
+  margin: 20px 0;
+  color: #ff0000;
+  letter-spacing: 1px;
+}
+
+ol {
+  max-width: 750px;
+}
+
+li {
+  margin: 10px 0;
+  text-align: justify;
+  line-height: 25px;
+  color: #050f1c;
+}
+
+@media (max-width: 900px) {
+  body {
+    flex-direction: column;
+  }
+  section {
+    width: 100%;
+  }
+}
