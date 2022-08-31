@@ -81,6 +81,7 @@ svg {
   letter-spacing: 5px;
   font-size: 33px;
   margin: 5px 0;
+  text-align: center;
 }
 
 .sub-heading {
@@ -100,6 +101,7 @@ svg {
 .btn-container {
   position: absolute;
   bottom: 25px;
+  text-align: center;
 }
 
 a {
@@ -124,13 +126,15 @@ button {
 /* ------------------------------- RIGHT-PART ------------------------------- */
 .right-part {
   height: 100%;
-  background: #f1ecec;
+  background: #f1ecec03;
   margin: auto;
   padding: 50px;
+  font-weight: 200;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  color: honeydew;
 }
 
 .features {
@@ -142,6 +146,7 @@ button {
 }
 
 ol {
+  margin-left: 10px;
   max-width: 750px;
 }
 
@@ -149,12 +154,15 @@ li {
   margin: 10px 0;
   text-align: justify;
   line-height: 25px;
-  color: #050f1c;
 }
 
 @media (max-width: 900px) {
   body {
     flex-direction: column;
+  }
+  button {
+    width: 100px;
+    margin: 7px;
   }
   section {
     width: 100%;
