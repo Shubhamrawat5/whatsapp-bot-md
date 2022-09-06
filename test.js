@@ -102,16 +102,15 @@
 
 // rss();
 
-const handler = async () => {
-  a = b;
-};
+const gis = require("g-i-s");
+console.log(2);
+gis("cats", logResults);
 
-const x = async () => {
-  try {
-    await handler();
-  } catch (err) {
-    console.log("ERRORRRR: ");
+function logResults(error, results) {
+  console.log(1);
+  if (error) {
+    console.log(error);
+  } else {
+    console.log(JSON.stringify(results, null, "  "));
   }
-};
-
-x();
+}
