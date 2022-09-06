@@ -137,6 +137,7 @@ const handler = async (sock, msg, from, args, msgInfoObj) => {
 📛 *${prefix}helpo*
   - _To get list of owner commands!_
 
+send ${prefix}source for sourcecode of BOT
 ✔️ more cool commands coming...`;
 
   sock.sendMessage(from, { text }, { quoted: msg });

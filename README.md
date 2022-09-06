@@ -8,9 +8,9 @@ Easy deploy your bot, steps in the bottom.
 
 **_Requirements :_**
 
+- Git
 - Heroku account
 - Heroku cli
-- Git
 
 # Instructions:- :rocket:
 
@@ -80,7 +80,6 @@ Now Bot will start working!! Work even if the device is offline!!
 |    `!ranks`     |           Know ranks list of PVX groups           |          |
 |    `!totalg`    |    Know message count group wise in PVX groups    |          |
 |   `!sticker`    |     Create sticker from different media types     |   `!s`   |
-|    `!block`     |      To block particular commands for group       |          |
 |    `!image`     |             Create image from sticker             |          |
 | `!imagesearch`  |            Search image from any name             |  `!is`   |
 | `!searchsearch` |           Search sticker from any name            |  `!ss`   |
@@ -116,6 +115,8 @@ Now Bot will start working!! Work even if the device is offline!!
 |     `!delete`      |                  Delete anyone message                  |  `!d`   |
 |    `!tagadmins`    |                 Tag all admins of group                 |  `!ta`  |
 |     `!warning`     |                  Give warning to user                   | `!warn` |
+|     `!enable`      |            Enable command for current group             |         |
+|     `!disable`     |            Disable command for current group            |         |
 |      `!pvxg`       |          Get message count stats of PVX groups          |         |
 |      `!pvxm`       |  Get members message count stats of current PVX group   |         |
 |      `!pvxt`       |    Get top members message count stats of PVX groups    |         |
@@ -148,23 +149,9 @@ Now Bot will start working!! Work even if the device is offline!!
 
   > Get match ID from cricbuzz url, like https://www.cricbuzz.com/live-cricket-scores/37572/mi-vs-kkr-34th-match-indian-premier-league-2021 so match ID is `37572`
 
-- Block any command for particular group
+  EXAMPLE:
 
-  > Give command name (with comma seperated and without spaces) to be blocked in first line of group description like `score,add,quote`
-
-  > If matchId is to be added in description along with blocked commands then add in starting of first line, like `82621,score,add,quote`
-
-- Other than 91 numbers are not allowed
-
-  > Put `only91` text in first line of description of group to instant ban every number joined other than 91 indian numbers
-
-- GROUP DESCRIPTION EXAMPLE:
-
-   <img src="https://i.ibb.co/2Z8t9Qm/IMG-20211006-154704.jpg" width="400"/>
-
-  > Always put match ID in starting of first line!
-
-  > `91only` is command name and `only91` is to ban
+  <img src="https://i.ibb.co/2Z8t9Qm/IMG-20211006-154704.jpg" width="400"/>
 
 # Run locally:- :rocket:
 

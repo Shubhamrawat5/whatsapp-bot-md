@@ -52,6 +52,7 @@ Alias: *${prefix}bc*
   - _add by giving after command #name #amount!_
 Alias: *${prefix}da*
 
+send ${prefix}source for sourcecode of BOT
 ✔️ more cool commands coming...`;
 
   sock.sendMessage(from, { text }, { quoted: msg });

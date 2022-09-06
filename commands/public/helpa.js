@@ -34,6 +34,12 @@ Alias: *${prefix}d*
   - _Tag all the admins!_
 Alias: *${prefix}ta*
 
+📛 *${prefix}disable <command>*
+  - _Disable command for current group!_
+
+📛 *${prefix}enable <command>*
+  - _Enable command for current group!_
+
 📛 *${prefix}pvxg*
   - _Get stats of all groups message!_
   
@@ -72,6 +78,7 @@ Alias: *${prefix}bla*
   - Remove number from blacklist!_  
 Alias: *${prefix}blr*
 
+send ${prefix}source for sourcecode of BOT
 ✔️ more cool commands coming...`;
 
   sock.sendMessage(from, { text }, { quoted: msg });
