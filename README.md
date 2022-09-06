@@ -82,6 +82,7 @@ Now Bot will start working!! Work even if the device is offline!!
 |   `!sticker`    |     Create sticker from different media types     |   `!s`   |
 |    `!block`     |      To block particular commands for group       |          |
 |    `!image`     |             Create image from sticker             |          |
+| `!imagesearch`  |            Search image from any name             |  `!is`   |
 |     `!song`     |           Get any song in good quality            |          |
 |    `!insta`     |          Get insta reels or post videos           |   `!i`   |
 |      `!fb`      |                Get facebook videos                |          |

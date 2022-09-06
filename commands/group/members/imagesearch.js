@@ -29,7 +29,7 @@ const handler = async (sock, msg, from, args, msgInfoObj) => {
       sock.sendMessage(
         from,
         {
-          image: img,
+          image: { url: img },
         },
         {
           mimetype: "image/png",
