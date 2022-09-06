@@ -156,6 +156,7 @@ const { storeNewsTech } = require("./db/postTechDB");
 const { storeNewsStudy } = require("./db/postStudyDB");
 const { getBlacklist } = require("./db/blacklistDB");
 const { getCountVideo } = require("./db/countVideoDB");
+const { getDisableCommandData } = require("./db/disableCommandDB");
 
 let countSent = 1;
 let commandSent = 1;
@@ -749,6 +750,13 @@ const startSock = async () => {
         "[IN]",
         groupName
       );
+
+      //CHECK IF COMMAND IF DISABLED FOR CURRENT GROUP OR NOT
+      let resDisabled = await getDisableCommandData(from);
+      if (resDisabled.includes(command)) {
+        reply("❌ Command disabled for this group!");
+        return;
+      }
 
       let msgInfoObj = {
         prefix,
