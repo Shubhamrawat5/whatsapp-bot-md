@@ -3,7 +3,7 @@ const axios = require("axios");
 const gis = require("g-i-s");
 
 module.exports.command = () => {
-  return { cmd: ["imagesearchs", "is"], handler: handler };
+  return { cmd: ["imagesearch", "is"], handler: handler };
 };
 
 const handler = async (sock, msg, from, args, msgInfoObj) => {
@@ -15,10 +15,9 @@ const handler = async (sock, msg, from, args, msgInfoObj) => {
     return;
   }
 
-  let name = args[0];
+  let name = args.join(" ");
 
   gis(name, (error, results) => {
-    console.log(1);
     if (error) {
       console.log(error);
       reply(error);

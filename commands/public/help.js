@@ -54,6 +54,10 @@ const handler = async (sock, msg, from, args, msgInfoObj) => {
 📛 *${prefix}imagesearch*
   - _Search image from any name!_
   Alias: *${prefix}is*
+  
+📛 *${prefix}searchsearch*
+  - _Search sticker from any name!_
+  Alias: *${prefix}ss*
 
 📛 *${prefix}rank*
   - _Know your message count & rank in all PVX groups!_
