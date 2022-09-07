@@ -29,8 +29,8 @@ const handler = async (sock, msg, from, args, msgInfoObj) => {
     } else {
       //   console.log(JSON.stringify(results, null, "  "));
       let index = 0;
-      if (results.length >= 5) {
-        index = Math.floor(Math.random() * 5);
+      if (results.length >= 10) {
+        index = Math.floor(Math.random() * 10);
       }
       let img = results[index]["url"];
       console.log(img);

@@ -32,37 +32,57 @@ module.exports.getCountVideo = async (groupJid) => {
 
 module.exports.setCountVideo = async (memberJid, groupJid) => {
   if (!groupJid.endsWith("@g.us")) return;
-  let result;
+
   try {
-    result = await pool.query(
-      "select * from countvideo WHERE memberjid=$1 AND groupjid=$2;",
-      [memberJid, groupJid]
-    );
-  } catch (err) {
-    await createCountVideoTable();
-    result = await pool.query(
-      "select * from countvideo WHERE memberjid=$1 AND groupjid=$2;",
-      [memberJid, groupJid]
-    );
-  }
-
-  //present
-  if (result.rows.length) {
-    let count = result.rows[0].count;
-
     await pool.query(
       "UPDATE countvideo SET count = count+1 WHERE memberjid=$1 AND groupjid=$2;",
       [memberJid, groupJid]
     );
-    await pool.query("commit;");
-    return count + 1;
-  } else {
+  } catch (err) {
+    console.log(err);
+    await createCountVideoTable();
     await pool.query("INSERT INTO countvideo VALUES($1,$2,$3);", [
       memberJid,
       groupJid,
       1,
     ]);
     await pool.query("commit;");
-    return 1;
   }
 };
+
+// module.exports.setCountVideo = async (memberJid, groupJid) => {
+//   if (!groupJid.endsWith("@g.us")) return;
+//   let result;
+//   try {
+//     result = await pool.query(
+//       "select * from countvideo WHERE memberjid=$1 AND groupjid=$2;",
+//       [memberJid, groupJid]
+//     );
+//   } catch (err) {
+//     await createCountVideoTable();
+//     result = await pool.query(
+//       "select * from countvideo WHERE memberjid=$1 AND groupjid=$2;",
+//       [memberJid, groupJid]
+//     );
+//   }
+
+//   //present
+//   if (result.rows.length) {
+//     let count = result.rows[0].count;
+
+//     await pool.query(
+//       "UPDATE countvideo SET count = count+1 WHERE memberjid=$1 AND groupjid=$2;",
+//       [memberJid, groupJid]
+//     );
+//     await pool.query("commit;");
+//     return count + 1;
+//   } else {
+//     await pool.query("INSERT INTO countvideo VALUES($1,$2,$3);", [
+//       memberJid,
+//       groupJid,
+//       1,
+//     ]);
+//     await pool.query("commit;");
+//     return 1;
+//   }
+// };

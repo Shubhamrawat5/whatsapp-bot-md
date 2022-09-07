@@ -31,32 +31,21 @@ module.exports.getDisableCommandData = async (chat_id) => {
   }
 };
 
-const updateDisableCommandData = async (chat_id, disabled) => {
-  await pool.query("UPDATE disablecommand SET disabled=$1 WHERE chat_id=$2;", [
-    disabled,
-    chat_id,
-  ]);
-  await pool.query("commit;");
-};
-
 module.exports.setDisableCommandData = async (chat_id, disabled) => {
-  await createDisableCommandTable();
-
   disabled = JSON.stringify(disabled);
-  let result = await pool.query(
-    "SELECT * FROM disablecommand WHERE chat_id=$1",
-    [chat_id]
-  );
-  if (result.rows.length) {
-    //already present
-    await updateDisableCommandData(chat_id, disabled);
-    return;
-  }
 
-  //insert new
-  await pool.query("INSERT INTO disablecommand VALUES($1,$2);", [
-    chat_id,
-    disabled,
-  ]);
+  try {
+    await pool.query(
+      "UPDATE disablecommand SET disabled=$1 WHERE chat_id=$2;",
+      [disabled, chat_id]
+    );
+  } catch (err) {
+    console.log(err);
+    await createDisableCommandTable();
+    await pool.query("INSERT INTO disablecommand VALUES($1,$2);", [
+      chat_id,
+      disabled,
+    ]);
+  }
   await pool.query("commit;");
 };
