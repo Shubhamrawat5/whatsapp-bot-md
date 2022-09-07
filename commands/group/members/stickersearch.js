@@ -28,7 +28,11 @@ const handler = async (sock, msg, from, args, msgInfoObj) => {
       reply(error);
     } else {
       //   console.log(JSON.stringify(results, null, "  "));
-      let img = results[0]["url"];
+      let index = 0;
+      if (results.length >= 5) {
+        index = Math.floor(Math.random() * 5);
+      }
+      let img = results[index]["url"];
       console.log(img);
 
       let packName = "BOT 🤖";
@@ -43,13 +47,18 @@ const handler = async (sock, msg, from, args, msgInfoObj) => {
       const stickerFileName = getRandom(".webp");
       await stickerMake.toFile(stickerFileName);
 
-      await sock.sendMessage(
-        from,
-        {
-          sticker: fs.readFileSync(stickerFileName),
-        },
-        { quoted: msg }
-      );
+      //TODO: try catch not working when status code 401 or something
+      try {
+        await sock.sendMessage(
+          from,
+          {
+            sticker: fs.readFileSync(stickerFileName),
+          },
+          { quoted: msg }
+        );
+      } catch (err) {
+        reply("❌ Error in search!");
+      }
       try {
         fs.unlinkSync(stickerFileName);
       } catch {

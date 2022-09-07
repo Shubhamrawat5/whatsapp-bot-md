@@ -23,18 +23,27 @@ const handler = async (sock, msg, from, args, msgInfoObj) => {
       reply(error);
     } else {
       //   console.log(JSON.stringify(results, null, "  "));
-      let img = results[0]["url"];
+      let index = 0;
+      if (results.length >= 5) {
+        index = Math.floor(Math.random() * 5);
+      }
+      let img = results[index]["url"];
       console.log(img);
-      sock.sendMessage(
-        from,
-        {
-          image: { url: img },
-        },
-        {
-          mimetype: "image/png",
-          quoted: msg,
-        }
-      );
+
+      try {
+        sock.sendMessage(
+          from,
+          {
+            image: { url: img },
+          },
+          {
+            mimetype: "image/png",
+            quoted: msg,
+          }
+        );
+      } catch (err) {
+        reply("❌ Error in search!");
+      }
     }
   });
 };
