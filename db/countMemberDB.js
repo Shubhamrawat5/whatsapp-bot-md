@@ -167,66 +167,99 @@ module.exports.getCountGroups = async () => {
   }
 };
 
+// module.exports.setCountMember = async (memberJid, groupJid, name) => {
+//   if (!groupJid.endsWith("@g.us")) return;
+
+//   //check if groupjid is present in DB or not
+//   let result;
+//   try {
+//     result = await pool.query(
+//       "select * from countmember WHERE memberjid=$1 AND groupjid=$2;",
+//       [memberJid, groupJid]
+//     );
+//   } catch (err) {
+//     await createCountMemberTable();
+//     result = await pool.query(
+//       "select * from countmember WHERE memberjid=$1 AND groupjid=$2;",
+//       [memberJid, groupJid]
+//     );
+//   }
+
+//   //present
+//   if (result.rows.length) {
+//     let count = result.rows[0].count;
+
+//     await pool.query(
+//       "UPDATE countmember SET count = count+1 WHERE memberjid=$1 AND groupjid=$2;",
+//       [memberJid, groupJid]
+//     );
+//   } else {
+//     await pool.query("INSERT INTO countmember VALUES($1,$2,$3);", [
+//       memberJid,
+//       groupJid,
+//       1,
+//     ]);
+//   }
+//   await pool.query("commit;");
+
+//   let resultName;
+//   try {
+//     resultName = await pool.query(
+//       "select * from countmembername WHERE memberjid=$1;",
+//       [memberJid]
+//     );
+//   } catch (err) {
+//     await createCountMemberNameTable();
+//     resultName = await pool.query(
+//       "select * from countmembername WHERE memberjid=$1;",
+//       [memberJid]
+//     );
+//   }
+
+//   //present
+//   if (resultName.rows.length) {
+//     await pool.query(
+//       "UPDATE countmembername SET name = $1 WHERE memberjid=$2;",
+//       [name, groupJid]
+//     );
+//   } else {
+//     await pool.query("INSERT INTO countmembername VALUES($1,$2);", [
+//       memberJid,
+//       name,
+//     ]);
+//   }
+//   await pool.query("commit;");
+// };
+
 module.exports.setCountMember = async (memberJid, groupJid, name) => {
-  if (!groupJid.endsWith("@g.us")) return;
-
-  //check if groupjid is present in DB or not
-  let result;
   try {
-    result = await pool.query(
-      "select * from countmember WHERE memberjid=$1 AND groupjid=$2;",
-      [memberJid, groupJid]
-    );
-  } catch (err) {
-    await createCountMemberTable();
-    result = await pool.query(
-      "select * from countmember WHERE memberjid=$1 AND groupjid=$2;",
-      [memberJid, groupJid]
-    );
-  }
-
-  //present
-  if (result.rows.length) {
-    let count = result.rows[0].count;
-
     await pool.query(
       "UPDATE countmember SET count = count+1 WHERE memberjid=$1 AND groupjid=$2;",
       [memberJid, groupJid]
     );
-  } else {
+  } catch (err) {
+    console.log(err);
+    await createCountMemberTable();
     await pool.query("INSERT INTO countmember VALUES($1,$2,$3);", [
       memberJid,
       groupJid,
       1,
     ]);
   }
-  await pool.query("commit;");
 
-  let resultName;
   try {
-    resultName = await pool.query(
-      "select * from countmembername WHERE memberjid=$1;",
-      [memberJid]
-    );
-  } catch (err) {
-    await createCountMemberNameTable();
-    resultName = await pool.query(
-      "select * from countmembername WHERE memberjid=$1;",
-      [memberJid]
-    );
-  }
-
-  //present
-  if (resultName.rows.length) {
     await pool.query(
       "UPDATE countmembername SET name = $1 WHERE memberjid=$2;",
       [name, groupJid]
     );
-  } else {
+  } catch (err) {
+    console.log(err);
+    await createCountMemberNameTable();
     await pool.query("INSERT INTO countmembername VALUES($1,$2);", [
       memberJid,
       name,
     ]);
   }
+
   await pool.query("commit;");
 };
