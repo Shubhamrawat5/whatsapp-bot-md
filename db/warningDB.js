@@ -13,7 +13,7 @@ const pool = new Pool(proConfig);
 //create createCountWarningTable table if not there
 const createCountWarningTable = async () => {
   await pool.query(
-    "CREATE TABLE IF NOT EXISTS countwarning(memberjid text , groupjid text, count integer);"
+    "CREATE TABLE IF NOT EXISTS countwarning(memberjid text , groupjid text, count integer, PRIMARY KEY (memberjid, groupjid));"
   );
 };
 

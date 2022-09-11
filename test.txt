@@ -16,7 +16,8 @@ DROP table count;
 COMMIT;
 
 SELECT * FROM countmember WHERE memberjid='919503442316@s.whatsapp.net' and groupjid='919557666582-1584193120@g.us';
-SELECT *,count(*) FROM countmember GROUP BY memberjid, groupjid, count HAVING count(*) > 1; //duplicate rows
+SELECT *,count(*) FROM countmember GROUP BY memberjid, groupjid, count HAVING count(*) > 1; //duplicate rows with all 3 column same
+select memberjid,groupjid,count(*) from countmember group by memberjid,groupjid having count(*)>1; //duplicate rows with (memberjid,groupjid) same
 
 begin;
 set transaction read write;
@@ -43,6 +44,13 @@ COMMIT;
 begin;
 set transaction read write;
 delete FROM countmember where groupjid='919557666582-1553695938@g.us';
+COMMIT;
+
+begin;
+set transaction read write;
+Alter table countmember
+Add constraint combi
+primary key (memberjid,groupjid); 
 COMMIT;
 
 

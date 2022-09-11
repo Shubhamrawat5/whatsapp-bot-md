@@ -13,7 +13,7 @@ const pool = new Pool(proConfig);
 //create createCountVideoTable table if not there
 const createCountVideoTable = async () => {
   await pool.query(
-    "CREATE TABLE IF NOT EXISTS countvideo(memberjid text , groupjid text, count integer);"
+    "CREATE TABLE IF NOT EXISTS countvideo(memberjid text , groupjid text, count integer, PRIMARY KEY (memberjid, groupjid));"
   );
 };
 

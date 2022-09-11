@@ -13,7 +13,7 @@ const pool = new Pool(proConfig);
 //create donation table if not there
 const createDonationTable = async () => {
   await pool.query(
-    "CREATE TABLE IF NOT EXISTS donation(name text, amount integer);"
+    "CREATE TABLE IF NOT EXISTS donation(name text PRIMARY KEY, amount integer);"
   );
 };
 
