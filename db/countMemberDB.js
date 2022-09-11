@@ -248,10 +248,10 @@ module.exports.setCountMember = async (memberJid, groupJid, name) => {
   }
 
   try {
-    await pool.query(
-      "UPDATE countmembername SET name = $1 WHERE memberjid=$2;",
-      [name, groupJid]
-    );
+    await pool.query("UPDATE countmembername SET name=$1 WHERE memberjid=$2;", [
+      name,
+      memberJid,
+    ]);
   } catch (err) {
     console.log(err);
     await createCountMemberNameTable();
