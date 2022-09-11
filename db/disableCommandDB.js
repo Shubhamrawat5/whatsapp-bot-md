@@ -34,18 +34,19 @@ module.exports.getDisableCommandData = async (chat_id) => {
 module.exports.setDisableCommandData = async (chat_id, disabled) => {
   disabled = JSON.stringify(disabled);
 
-  try {
-    await pool.query(
-      "UPDATE disablecommand SET disabled=$1 WHERE chat_id=$2;",
-      [disabled, chat_id]
-    );
-  } catch (err) {
-    console.log(err);
+  let res = await pool.query(
+    "UPDATE disablecommand SET disabled=$1 WHERE chat_id=$2;",
+    [disabled, chat_id]
+  );
+
+  //not updated. time to insert
+  if (res.rowCount === 0) {
     await createDisableCommandTable();
     await pool.query("INSERT INTO disablecommand VALUES($1,$2);", [
       chat_id,
       disabled,
     ]);
   }
+
   await pool.query("commit;");
 };
