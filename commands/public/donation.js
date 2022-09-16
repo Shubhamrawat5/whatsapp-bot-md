@@ -22,7 +22,7 @@ const handler = async (sock, msg, from, args, msgInfoObj) => {
     donaMsgTemp += `\n❤️ Rs ${dona.amount} - ${dona.name}`;
   });
 
-  let donaMsg = `Helping PVX COMMUNITY${readMore} to grow and provide good stuff for all members.\nUse cases: domain name for PVX website, giveaways, tournaments in future, server for all bots and website, etc etc.\n\n*Any amount is appreciated.*\n\nUPI: shubhamraw123@okhdfcbank\n\nAfter sending donation, take a screenshot and send to https://wa.me/919557666582 with your name. [Your name will be shown here after that]\n\n*Total Donations: Rs ${totalDona}*`;
+  let donaMsg = `Helping PVX COMMUNITY to grow and provide good stuff for all members.\nUse cases: domain name for PVX website, giveaways, tournaments in future, server for all bots and website, etc etc.\n\n*Any amount is appreciated.*\n\nUPI: shubhamraw123@okhdfcbank , shubhamraw123@okaxis\n\nAfter sending donation, take a screenshot and send to https://wa.me/919557666582 with your name. [Your name will be shown here after that]\n\n*Total Donations: Rs ${totalDona}*`;
 
   donaMsg += donaMsgTemp;
 
