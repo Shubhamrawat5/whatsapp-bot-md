@@ -33,6 +33,7 @@ const {
   makeInMemoryStore,
   fetchLatestBaileysVersion,
   downloadContentFromMessage,
+  WA_DEFAULT_EPHEMERAL,
 } = require("@adiwajshing/baileys");
 const { Boom } = require("@hapi/boom");
 const P = require("pino");
@@ -712,8 +713,14 @@ const startSock = async () => {
           quality: 80,
         });
 
-        await sock.sendMessage(pvxstickeronly1, await sticker.toMessage());
-        await sock.sendMessage(pvxstickeronly2, await sticker.toMessage());
+        // WA_DEFAULT_EPHEMERAL = 604800 (7 days)
+        // 86400 = 60x60x24 (1 day)
+        await sock.sendMessage(pvxstickeronly1, await sticker.toMessage(), {
+          ephemeralExpiration: 86400,
+        });
+        await sock.sendMessage(pvxstickeronly2, await sticker.toMessage(), {
+          ephemeralExpiration: 86400,
+        });
 
         console.log(`${countSent} sticker sent!`);
         countSent += 1;
