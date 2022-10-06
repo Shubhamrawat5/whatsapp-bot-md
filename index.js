@@ -728,7 +728,13 @@ const startSock = async () => {
 
       if (!isCmd) return;
 
-      const groupDesc = isGroup ? groupMetadata.desc.toString() : "";
+      let groupDesc;
+      try {
+        groupDesc = isGroup ? groupMetadata.desc.toString() : "";
+      } catch {
+        //when group description is empty
+        groupDesc = "";
+      }
       const groupMembers = isGroup ? groupMetadata.participants : "";
       const groupAdmins = isGroup ? getGroupAdmins(groupMembers) : "";
       const isBotGroupAdmins = groupAdmins.includes(botNumberJid) || false;

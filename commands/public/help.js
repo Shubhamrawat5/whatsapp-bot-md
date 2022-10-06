@@ -122,9 +122,6 @@ const handler = async (sock, msg, from, args, msgInfoObj) => {
 📛 *${prefix}dev*
   - _Get dev contact to report bug or to add new feature!_
 
-📛 *${prefix}block*
-  - _To block particular commands for this group!_
-
 📛 *${prefix}91only*
   - _To instant ban all numbers other than 91 when joined in group!_
 
