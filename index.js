@@ -29,7 +29,7 @@ const {
   DisconnectReason,
   AnyMessageContent,
   delay,
-  useSingleFileAuthState,
+  useSingleFileAuthState, 
   makeInMemoryStore,
   fetchLatestBaileysVersion,
   downloadContentFromMessage,
@@ -309,7 +309,7 @@ const startSock = async () => {
       d = d.startsWith("0") ? d[1] : d;
       let m = todayDate[1];
       m = m.startsWith("0") ? m[1] : m;
-      let url = "https://pvxgroup.herokuapp.com/api/bday";
+      let url = "https://chat-with-mee.web.app";
       let { data } = await axios.get(url);
       let bday = [];
 
@@ -324,12 +324,12 @@ const startSock = async () => {
       if (bday.length) {
         let bdayComb = bday.join(" & ");
         await sock.sendMessage(pvxcommunity, {
-          text: `*─「 🔥 <{PVX}> BOT 🔥 」─* \n\nToday is ${bdayComb} Birthday 🍰 🎉🎉`,
+          text: `*Bot Imrany☠* \n\nToday is ${bdayComb} Birthday 🍰 🎉🎉`,
         });
       } else {
         console.log("NO BIRTHDAY!");
         await sock.sendMessage(pvxcommunity, {
-          text: `*─「 🔥 <{PVX}> BOT 🔥 」─* \n\nThere is no Birthday today!`,
+          text: `*Bot Imrany☠* \n\nThere is no Birthday today!`,
         });
       }
       try {

@@ -8,7 +8,7 @@ module.exports.command = () => {
 
 const handler = async (sock, msg, from, args, msgInfoObj) => {
   let { prefix } = msgInfoObj;
-  let text = `*─「 <{PVX}> BOT 」 ─*\n\nhttps://github.com/Shubhamrawat5/whatsapp-bot-md \n\nGive a star if you like or using this. Many new cool helpful commands will be keep on adding.\n\nTutorial: https://youtu.be/2gBzapttokk`;
+  let text = `*Bot Imrany☠* \n Please follow me on:\n instagram :https://instagram.com/imrany00\nTwitter: https://twitter.com/imran_matano`;
 
   sock.sendMessage(from, { text }, { quoted: msg });
 };

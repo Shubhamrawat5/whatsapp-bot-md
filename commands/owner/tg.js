@@ -70,8 +70,8 @@ const handler = async (sock, msg, from, args, msgInfoObj) => {
       filepath += `${zipEntries[itg].entryName}`;
 
       const sticker = new Sticker(filepath, {
-        pack: "BOT 🤖",
-        author: "pvxcommunity.com",
+        pack: "Aliya 🤖",
+        author: "Imran",
         type: StickerTypes.DEFAULT,
         quality: 75,
       });

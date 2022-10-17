@@ -20,8 +20,8 @@ module.exports.command = () => {
 const handler = async (sock, msg, from, args, msgInfoObj) => {
   let { isTaggedSticker, reply } = msgInfoObj;
 
-  let packName = "BOT 🤖";
-  let authorName = "pvxcommunity.com";
+  let packName = "BOT Imranyy☠";
+  let authorName = "Imran";
   if (isTaggedSticker) {
     let downloadFilePath =
       msg.message.extendedTextMessage.contextInfo.quotedMessage.stickerMessage;
