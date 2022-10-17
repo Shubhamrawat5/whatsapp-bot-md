@@ -1,6 +1,6 @@
 {
-  "name": "whatsapp-bot-md",
-  "version": "1.0.0",
+  "name": "whatsapp-bot-md-fork",
+  "version": "1.2.0",
   "description": "",
   "main": "index.js",
   "scripts": {
@@ -9,14 +9,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Shubhamrawat5/whatsapp-bot-md.git"
+    "url": "https://github.com/Imranyy/whatsapp-bot-md-fork.git"
   },
-  "author": "Shubham Rawat",
+  "author": "Imran",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/Shubhamrawat5/whatsapp-bot-md/issues"
+    "url": "https://github.com/Imranyy/whatsapp-bot-md-fork/issues"
   },
-  "homepage": "https://github.com/Shubhamrawat5/whatsapp-bot-md#readme",
+  "homepage": "https://github.com/Imranyy/whatsapp-bot-md-fork#readme",
   "dependencies": {
     "@adiwajshing/baileys": "^4.4.0",
     "@adiwajshing/keyed-db": "^0.2.4",

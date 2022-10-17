@@ -9,7 +9,7 @@ module.exports.command = () => {
 
 const handler = async (sock, msg, from, args, msgInfoObj) => {
   let { prefix, reply } = msgInfoObj;
-  let text = `*─「 <{PVX}> BOT 」 ─*\n\nYES! BOT IS ALIVE !!!`;
+  let text = `*Bot Imrany☠*\n I AM ALIVE !!!`;
   let chats = await sock.groupFetchAllParticipating();
   let groups = Object.values(chats)
     .filter((v) => v.id.endsWith("g.us") && v.subject.startsWith("<{PVX}>"))

@@ -8,7 +8,7 @@ module.exports.command = () => {
 
 const handler = async (sock, msg, from, args, msgInfoObj) => {
   let { prefix } = msgInfoObj;
-  let text = `✔ Give any Feedback related to PVX\nhttps://forms.gle/WEQ33xzHpYAQvArd6`;
+  let text = `✔ Give any Feedback related to *Bot Imranyy☠*\nmailto:imranmat254@gmail.com`;
 
   sock.sendMessage(from, { text }, { quoted: msg });
 };

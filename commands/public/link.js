@@ -9,7 +9,7 @@ module.exports.command = () => {
 const handler = async (sock, msg, from, args, msgInfoObj) => {
   let { prefix } = msgInfoObj;
   let text =
-    "*─「 🔥 JOIN <{PVX}> FAMILY 🔥 」─*\n\n>> https://pvxcommunity.com <<";
+    "*Bot Imranyy☠*\n\n>> https://instagram.com/imrany00/ <<";
 
   sock.sendMessage(from, { text }, { quoted: msg, detectLinks: true });
 };

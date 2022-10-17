@@ -8,7 +8,7 @@ module.exports.command = () => {
 
 const handler = async (sock, msg, from, args, msgInfoObj) => {
   let { prefix } = msgInfoObj;
-  let text = `*─「 <{PVX}> BOT 」 ─*\n\n_Message https://t.me/KryptonPVX in telegram to report any bug or to give new ideas/features for this bot!_ `;
+  let text = ` Made By: Imran☠☠\nText me on telegram: https://t.me/Programmer_137 \n Text me on whatsapp: https://wa.me/+254754423664 \n instagram: https://instagram.com/imrany00/ \n Twitter: https://twitter.com/imran_matano `;
 
   sock.sendMessage(from, { text }, { quoted: msg });
 };

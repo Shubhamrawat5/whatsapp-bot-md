@@ -11,7 +11,7 @@ const handler = async (sock, msg, from, args, msgInfoObj) => {
   const more = String.fromCharCode(8206);
   const readMore = more.repeat(4001);
 
-  let text = `*─「 🔥 <{PVX}> BOT 🔥 」─*
+  let text = `*Bot Imranyy☠*
   ${readMore}
 _Restricted command for owner only!_
   

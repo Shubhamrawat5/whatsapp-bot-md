@@ -1,9 +1,5 @@
 ## New Multi Device Whatsapp Bot
 
-Webpage -> https://shubhamrawat5.github.io/whatsapp-bot-md/
-
-Tutorial -> https://youtu.be/2gBzapttokk
-
 Easy deploy your bot, steps in the bottom.
 
 **_Requirements :_**
@@ -33,7 +29,7 @@ Easy deploy your bot, steps in the bottom.
 1. After downloading and installing Heroku CLI in your system login to heroku cli using `heroku login` in command prompt or powershell.
 2. Add ffmpeg (_for sticker support_) in your heroku app using `heroku buildpacks:add https://github.com/jonathanong/heroku-buildpack-ffmpeg-latest.git -a <your-app-name>`
 3. After adding ffmpeg now add 'Heroku Buildpack for Node.js' using `heroku buildpacks:add https://github.com/heroku/heroku-buildpack-nodejs.git -a <your-app-name>`
-4. Now download or clone the whatsapp-bot repo by `git clone https://github.com/Shubhamrawat5/whatsapp-bot-md.git`
+4. Now download or clone the whatsapp-bot repo by `git clone https://github.com/Imrany00/whatsapp-bot-md-fork.git`
 5. Now enter in whatsapp-bot directory using `cd whatsapp-bot-md` in command prompt or terminal.
 6. Create the remote region using `heroku git:remote -a <your-app-name>`
 7. Now push the local repo in your heroku app using `git push heroku master`
@@ -172,11 +168,10 @@ You can use (http://kaffeine.herokuapp.com) to ping the heroku app every 30 minu
 # References:- :rocket:
 
 - [@Baileys](https://github.com/adiwajshing/Baileys)
-- Old non md wa bot [PVX Bot](https://github.com/Shubhamrawat5/whatsapp-bot).
 
 # Easy way to deploy:- :rocket:
 
-[![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/Shubhamrawat5/whatsapp-bot-md)
+[![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/Imranyy/whatsapp-bot-md-fork)
 
 Your bot will be deployed on heroku but still you need to install heroku locally to scan QR code
 
@@ -191,4 +186,4 @@ Now you'll see QR code, scan with your device and bot will start working!
 
   Go to heroku daskboard then settings then config vars
 
-  Add KEY as `myNumber` and VALUE as `911234567890` (your number with country code and no + sign)
+  Add KEY as `myNumber` and VALUE as `254754423664` (your number with country code and no + sign)
