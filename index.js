@@ -465,7 +465,7 @@ const startSock = async () => {
         postStudyInfo(0);
       }
 
-      if (hour % 12 == 0) kickZeroMano();
+      // if (hour % 12 == 0) kickZeroMano();
 
       if (usedDate !== todayDate) {
         usedDate = todayDate;
