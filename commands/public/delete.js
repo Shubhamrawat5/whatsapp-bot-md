@@ -17,14 +17,26 @@ const handler = async (sock, msg, from, args, msgInfoObj) => {
   //bot message, anyone can delete
   if (msg.message.extendedTextMessage.contextInfo.participant == botNumberJid) {
     // reply("❌ Tag message of bot to delete.");
-    const options = {
-      remoteJid: botNumberJid,
-      fromMe: true,
-      id: msg.message.extendedTextMessage.contextInfo.stanzaId,
-    };
-    await sock.sendMessage(from, {
-      delete: options,
-    });
+
+    //check for welcome message, (Message with tagged user has .quotedMessage.extendedTextMessage.text, non tagged has .quotedMessage.conversation)
+    if (
+      msg.message.extendedTextMessage.contextInfo.quotedMessage
+        .extendedTextMessage &&
+      msg.message.extendedTextMessage.contextInfo.quotedMessage.extendedTextMessage.text.startsWith(
+        "Welcome"
+      )
+    ) {
+      reply("❌ Cannot delete a welcome message.");
+    } else {
+      const options = {
+        remoteJid: botNumberJid,
+        fromMe: true,
+        id: msg.message.extendedTextMessage.contextInfo.stanzaId,
+      };
+      await sock.sendMessage(from, {
+        delete: options,
+      });
+    }
     return;
   }
 
