@@ -232,33 +232,40 @@ module.exports.getCountGroups = async () => {
 // };
 
 module.exports.setCountMember = async (memberJid, groupJid, name) => {
-  let res1 = await pool.query(
-    "UPDATE countmember SET count = count+1 WHERE memberjid=$1 AND groupjid=$2;",
-    [memberJid, groupJid]
-  );
+  try {
+    let res1 = await pool.query(
+      "UPDATE countmember SET count = count+1 WHERE memberjid=$1 AND groupjid=$2;",
+      [memberJid, groupJid]
+    );
 
-  // console.log(name);
-  //not updated. time to insert
-  if (res1.rowCount === 0) {
+    //not updated. time to insert
+    if (res1.rowCount === 0) {
+      await pool.query("INSERT INTO countmember VALUES($1,$2,$3);", [
+        memberJid,
+        groupJid,
+        1,
+      ]);
+    }
+  } catch (err) {
+    console.log(err);
     await createCountMemberTable();
-    await pool.query("INSERT INTO countmember VALUES($1,$2,$3);", [
-      memberJid,
-      groupJid,
-      1,
-    ]);
   }
 
-  let res2 = await pool.query(
-    "UPDATE countmembername SET name=$1 WHERE memberjid=$2;",
-    [name, memberJid]
-  );
-  //not updated. time to insert
-  if (res2.rowCount === 0) {
+  try {
+    let res2 = await pool.query(
+      "UPDATE countmembername SET name=$1 WHERE memberjid=$2;",
+      [name, memberJid]
+    );
+    //not updated. time to insert
+    if (res2.rowCount === 0) {
+      await pool.query("INSERT INTO countmembername VALUES($1,$2);", [
+        memberJid,
+        name,
+      ]);
+    }
+  } catch (err) {
+    console.log(err);
     await createCountMemberNameTable();
-    await pool.query("INSERT INTO countmembername VALUES($1,$2);", [
-      memberJid,
-      name,
-    ]);
   }
 
   await pool.query("commit;");

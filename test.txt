@@ -19,6 +19,9 @@ SELECT * FROM countmember WHERE memberjid='919503442316@s.whatsapp.net' and grou
 SELECT *,count(*) FROM countmember GROUP BY memberjid, groupjid, count HAVING count(*) > 1; //duplicate rows with all 3 column same
 select memberjid,groupjid,count(*) from countmember group by memberjid,groupjid having count(*)>1; //duplicate rows with (memberjid,groupjid) same
 
+//delete duplicate with every column same
+delete from countwarning a using countwarning b where a=b and a.ctid < b.ctid;
+
 begin;
 set transaction read write;
 ALTER TABLE countmember ADD COLUMN day text;

@@ -33,19 +33,23 @@ module.exports.getCountVideo = async (groupJid) => {
 module.exports.setCountVideo = async (memberJid, groupJid) => {
   if (!groupJid.endsWith("@g.us")) return;
 
-  let res = await pool.query(
-    "UPDATE countvideo SET count = count+1 WHERE memberjid=$1 AND groupjid=$2;",
-    [memberJid, groupJid]
-  );
+  try {
+    let res = await pool.query(
+      "UPDATE countvideo SET count = count+1 WHERE memberjid=$1 AND groupjid=$2;",
+      [memberJid, groupJid]
+    );
 
-  //not updated. time to insert
-  if (res.rowCount === 0) {
+    //not updated. time to insert
+    if (res.rowCount === 0) {
+      await pool.query("INSERT INTO countvideo VALUES($1,$2,$3);", [
+        memberJid,
+        groupJid,
+        1,
+      ]);
+    }
+  } catch (err) {
+    console.log(err);
     await createCountVideoTable();
-    await pool.query("INSERT INTO countvideo VALUES($1,$2,$3);", [
-      memberJid,
-      groupJid,
-      1,
-    ]);
   }
 
   await pool.query("commit;");

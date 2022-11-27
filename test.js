@@ -102,15 +102,28 @@
 
 // rss();
 
-const gis = require("g-i-s");
-console.log(2);
-gis("cats", logResults);
+// const gis = require("g-i-s");
+// console.log(2);
+// gis("cats", logResults);
 
-function logResults(error, results) {
-  console.log(1);
-  if (error) {
-    console.log(error);
-  } else {
-    console.log(JSON.stringify(results, null, "  "));
-  }
+// function logResults(error, results) {
+//   console.log(1);
+//   if (error) {
+//     console.log(error);
+//   } else {
+//     console.log(JSON.stringify(results, null, "  "));
+//   }
+// }
+
+index = 1;
+time = 0;
+
+function test(time) {
+  setTimeout(() => {
+    console.log(time);
+  }, time);
+}
+for (let i = 0; i < 10; ++i) {
+  time += 100;
+  test(time);
 }

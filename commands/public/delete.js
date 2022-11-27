@@ -18,7 +18,8 @@ const handler = async (sock, msg, from, args, msgInfoObj) => {
   if (msg.message.extendedTextMessage.contextInfo.participant == botNumberJid) {
     // reply("❌ Tag message of bot to delete.");
 
-    //check for welcome message, (Message with tagged user has .quotedMessage.extendedTextMessage.text, non tagged has .quotedMessage.conversation)
+    //check for welcome message,
+    //Message with tagged user has (.quotedMessage.extendedTextMessage.text), non tagged has (.quotedMessage.conversation)
     if (
       msg.message.extendedTextMessage.contextInfo.quotedMessage
         .extendedTextMessage &&
