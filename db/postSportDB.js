@@ -21,7 +21,7 @@ module.exports.storeNewsSport = async (news) => {
   try {
     await createSportTable();
     await pool.query("INSERT INTO sportsnews VALUES($1);", [news]);
-    await pool.query("commit;");
+    //await pool.query("commit;");
     return true;
   } catch (err) {
     // console.log(err);

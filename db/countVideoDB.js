@@ -52,7 +52,7 @@ module.exports.setCountVideo = async (memberJid, groupJid) => {
     await createCountVideoTable();
   }
 
-  await pool.query("commit;");
+  //await pool.query("commit;");
 };
 
 // module.exports.setCountVideo = async (memberJid, groupJid) => {
@@ -79,7 +79,7 @@ module.exports.setCountVideo = async (memberJid, groupJid) => {
 //       "UPDATE countvideo SET count = count+1 WHERE memberjid=$1 AND groupjid=$2;",
 //       [memberJid, groupJid]
 //     );
-//     await pool.query("commit;");
+//     //await pool.query("commit;");
 //     return count + 1;
 //   } else {
 //     await pool.query("INSERT INTO countvideo VALUES($1,$2,$3);", [
@@ -87,7 +87,7 @@ module.exports.setCountVideo = async (memberJid, groupJid) => {
 //       groupJid,
 //       1,
 //     ]);
-//     await pool.query("commit;");
+//     //await pool.query("commit;");
 //     return 1;
 //   }
 // };

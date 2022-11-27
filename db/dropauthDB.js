@@ -13,5 +13,5 @@ const pool = new Pool(proConfig);
 
 module.exports.dropAuth = async () => {
   await pool.query("DROP table auth;");
-  pool.query("commit;");
+  //await pool.query("commit;");
 };

@@ -33,7 +33,7 @@ module.exports.takeGroupbackup = async (groupName, groupDesc, groupData) => {
       membersCount,
       groupData,
     ]);
-    await pool.query("commit;");
+    //await pool.query("commit;");
     return true;
   } catch (err) {
     console.log(err);

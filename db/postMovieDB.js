@@ -21,7 +21,7 @@ module.exports.storeNewsMovie = async (news) => {
   try {
     await createMovieTable();
     await pool.query("INSERT INTO moviesnews VALUES($1);", [news]);
-    await pool.query("commit;");
+    //await pool.query("commit;");
     return true;
   } catch (err) {
     // console.log(err);

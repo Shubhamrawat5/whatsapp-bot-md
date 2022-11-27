@@ -53,7 +53,7 @@ const updateVotingData = async (
       chat_id,
     ]
   );
-  await pool.query("commit;");
+  //await pool.query("commit;");
 };
 
 module.exports.stopVotingData = async (chat_id) => {
@@ -66,7 +66,7 @@ module.exports.stopVotingData = async (chat_id) => {
     "UPDATE voting SET chat_id=$1, is_started=$2 WHERE chat_id=$3;",
     [new_chat_id, false, chat_id]
   );
-  await pool.query("commit;");
+  //await pool.query("commit;");
 };
 
 module.exports.setVotingData = async (
@@ -114,5 +114,5 @@ module.exports.setVotingData = async (
     members_voted_for,
     voted_members,
   ]);
-  await pool.query("commit;");
+  //await pool.query("commit;");
 };

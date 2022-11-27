@@ -200,7 +200,7 @@ module.exports.getCountGroups = async () => {
 //       1,
 //     ]);
 //   }
-//   await pool.query("commit;");
+//   //await pool.query("commit;");
 
 //   let resultName;
 //   try {
@@ -228,7 +228,7 @@ module.exports.getCountGroups = async () => {
 //       name,
 //     ]);
 //   }
-//   await pool.query("commit;");
+//   //await pool.query("commit;");
 // };
 
 module.exports.setCountMember = async (memberJid, groupJid, name) => {
@@ -268,5 +268,5 @@ module.exports.setCountMember = async (memberJid, groupJid, name) => {
     await createCountMemberNameTable();
   }
 
-  await pool.query("commit;");
+  //await pool.query("commit;");
 };

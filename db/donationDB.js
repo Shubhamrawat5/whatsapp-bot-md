@@ -30,7 +30,7 @@ module.exports.addDonation = async (name, amount) => {
   try {
     await createDonationTable();
     await pool.query("INSERT INTO donation VALUES($1,$2);", [name, amount]);
-    await pool.query("commit;");
+    //await pool.query("commit;");
     return true;
   } catch (err) {
     console.log(err);

@@ -44,9 +44,9 @@ module.exports.setGroupName = async (groupJid, gname) => {
       gname,
       groupJid,
     ]);
-    await pool.query("commit;");
+    //await pool.query("commit;");
   } else {
     await pool.query("INSERT INTO groupname VALUES($1,$2);", [groupJid, gname]);
-    await pool.query("commit;");
+    //await pool.query("commit;");
   }
 };
