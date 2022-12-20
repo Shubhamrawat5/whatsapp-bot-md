@@ -1,15 +1,4 @@
-require("dotenv").config();
-const { Pool } = require("pg");
-// LOAD pool CONNECTION
-
-const proConfig = {
-  connectionString: process.env.DATABASE_URL,
-  ssl: {
-    rejectUnauthorized: false,
-  },
-};
-
-const pool = new Pool(proConfig);
+const pool = require("./pool");
 
 module.exports.dropAuth = async () => {
   await pool.query("DROP table auth;");

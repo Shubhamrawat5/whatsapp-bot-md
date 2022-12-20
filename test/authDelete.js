@@ -21,17 +21,7 @@
 //   process.exit(1);
 // });
 
-require("dotenv").config();
-const { Pool } = require("pg");
-
-const proConfig = {
-  connectionString: process.env.DATABASE_URL,
-  ssl: {
-    rejectUnauthorized: false,
-  },
-};
-
-const pool = new Pool(proConfig);
+const pool = require("./pool");
 
 const x = pool.query("DROP table auth;");
 console.log(x);

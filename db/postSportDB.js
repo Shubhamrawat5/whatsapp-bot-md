@@ -1,14 +1,4 @@
-require("dotenv").config();
-const { Pool } = require("pg");
-
-const proConfig = {
-  connectionString: process.env.DATABASE_URL,
-  ssl: {
-    rejectUnauthorized: false,
-  },
-};
-
-const pool = new Pool(proConfig);
+const pool = require("./pool");
 
 //create count table if not there
 const createSportTable = async () => {

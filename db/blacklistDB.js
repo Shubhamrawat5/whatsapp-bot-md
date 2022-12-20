@@ -1,14 +1,4 @@
-require("dotenv").config();
-const { Pool } = require("pg");
-
-const proConfig = {
-  connectionString: process.env.DATABASE_URL,
-  ssl: {
-    rejectUnauthorized: false,
-  },
-};
-
-const pool = new Pool(proConfig);
+const pool = require("./pool");
 
 //create blacklist table if not there
 const createBlacklistTable = async () => {

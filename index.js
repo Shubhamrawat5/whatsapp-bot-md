@@ -65,13 +65,14 @@ const { state, saveState } = useSingleFileAuthState("./auth_info_multi.json");
 // console.log('state : ', state.creds);
 //------------------------------------------------------------------------------//
 //--------------------------------------DATABASE--------------------------------//
-const db = require("./db/authDB");
+const pool = require("./db/pool");
 //------------------------------------------------------------------------------//
 //--------------------------------AUTH-FETCH------------------------------------//
 let cred, auth_row_count;
 async function fetchauth() {
   try {
-    auth_result = await db.query("select * from auth;"); //checking auth table
+    auth_result = await pool.query("select * from auth;"); //checking auth table
+
     console.log("Fetching login data...");
     auth_row_count = await auth_result.rowCount;
     let data = auth_result.rows[0];
@@ -123,7 +124,7 @@ async function fetchauth() {
   } catch (err) {
     console.log(err);
     console.log("Creating database..."); //if login fail create a db
-    await db.query(
+    await pool.query(
       "CREATE TABLE auth(noiseKey text, signedIdentityKey text, signedPreKey text, registrationId text, advSecretKey text, nextPreKeyId text, firstUnuploadedPreKeyId text, serverHasPreKeys text, account text, me text, signalIdentities text, lastAccountSyncTimestamp text, myAppStateKeyId text);"
     );
 
@@ -1028,7 +1029,7 @@ const startSock = async () => {
       ) {
         console.log("CONNECTION CLOSE.");
         ++startCount;
-        console.log("--- START SOCK COUNT ---", startCount);
+        console.log("--- START SOCK COUNT -->", startCount);
         startSock();
       } else {
         console.log("Connection closed. You are logged out.");
@@ -1064,7 +1065,7 @@ const startSock = async () => {
       // INSERT / UPDATE LOGIN DATA
       if (auth_row_count == 0) {
         console.log("Inserting login data...");
-        db.query(
+        pool.query(
           "INSERT INTO auth VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13);",
           [
             noiseKey,
@@ -1082,11 +1083,11 @@ const startSock = async () => {
             myAppStateKeyId,
           ]
         );
-        db.query("commit;");
+        // pool.query("commit;");
         console.log("New login data inserted!");
       } else {
         // console.log("Updating login data....");
-        db.query(
+        pool.query(
           "UPDATE auth SET noiseKey = $1, signedIdentityKey = $2, signedPreKey = $3, registrationId = $4, advSecretKey = $5, nextPreKeyId = $6, firstUnuploadedPreKeyId = $7, serverHasPreKeys = $8, account = $9, me = $10, signalIdentities = $11, lastAccountSyncTimestamp = $12, myAppStateKeyId = $13;",
           [
             noiseKey,
@@ -1104,7 +1105,7 @@ const startSock = async () => {
             myAppStateKeyId,
           ]
         );
-        db.query("commit;");
+        // pool.query("commit;");
         console.log("Login data updated!");
       }
     } catch (err) {
