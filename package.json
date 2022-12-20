@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "pm2-runtime start ecosystem.config.js --env production"
+    "start": "node index.js",
+    "start2": "pm2-runtime start ecosystem.config.js --env production"
   },
   "repository": {
     "type": "git",
