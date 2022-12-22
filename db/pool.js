@@ -6,7 +6,7 @@ const proConfig = {
   ssl: {
     rejectUnauthorized: false,
   },
-  max: 3, //max connection limit
+  max: 4, //max connection limit
 };
 
 const pool = new Pool(proConfig);
