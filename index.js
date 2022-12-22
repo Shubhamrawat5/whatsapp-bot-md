@@ -40,8 +40,7 @@ const { Boom } = require("@hapi/boom");
 const P = require("pino");
 const { Sticker, StickerTypes } = require("wa-sticker-formatter");
 const util = require("util");
-const axios = require("axios");
-const Parser = require("rss-parser");
+
 const fs = require("fs");
 
 // start a connection
@@ -50,12 +49,12 @@ const fs = require("fs");
 /* ----------------------------- add local files ---------------------------- */
 const { setCountMember } = require("./db/countMemberDB");
 const { setCountVideo } = require("./db/countVideoDB");
-const { storeNewsTech } = require("./db/postTechDB");
-const { storeNewsStudy } = require("./db/postStudyDB");
 const { getBlacklist } = require("./db/blacklistDB");
-const { getCountVideo } = require("./db/countVideoDB");
 const { getDisableCommandData } = require("./db/disableCommandDB");
 const { getCricketScore } = require("./functions/cricket");
+const { postStudyInfo } = require("./functions/postStudyInfo");
+const { postTechNews } = require("./functions/postTechNews");
+const { checkTodayBday } = require("./functions/checkTodayBday");
 const { storeAuth, fetchAuth } = require("./db/authDB");
 
 require("dotenv").config();
@@ -93,10 +92,8 @@ const pvxsticker1 = "919557666582-1580308963@g.us";
 const pvxsticker2 = "919557666582-1621700558@g.us";
 const pvxstickeronly1 = "919557666582-1628610549@g.us";
 const pvxstickeronly2 = "919557666582-1586018947@g.us";
-const mano = "19016677357-1630334490@g.us";
 const pvxdeals = "919557666582-1582555632@g.us";
 
-const parser = new Parser();
 const store = makeInMemoryStore({
   logger: P().child({ level: "debug", stream: "store" }),
 });
@@ -113,13 +110,12 @@ const logger = MAIN_LOGGER.child({});
 logger.level = "warn";
 
 const addCommands = async () => {
-  console.log("Commands Added!");
   let path = "./commands/public/";
   let filenames = await readdir(path);
   filenames.forEach((file) => {
     if (file.endsWith(".js")) {
       let { command } = require(path + file);
-      let cmdinfo = command(); // {cmd:"", handler:function, alias:[]}
+      let cmdinfo = command(); // {cmd:["",""], handler:function}
       // console.log(cmdinfo.cmd);
       for (let c of cmdinfo.cmd) {
         commandsPublic[c] = cmdinfo.handler;
@@ -132,7 +128,7 @@ const addCommands = async () => {
   filenames.forEach((file) => {
     if (file.endsWith(".js")) {
       let { command } = require(path + file);
-      let cmdinfo = command(); // {cmd:"", handler:function, alias:[]}
+      let cmdinfo = command(); // {cmd:["",""], handler:function}
       // console.log(cmdinfo.cmd);
       for (let c of cmdinfo.cmd) {
         commandsMembers[c] = cmdinfo.handler;
@@ -145,7 +141,7 @@ const addCommands = async () => {
   filenames.forEach((file) => {
     if (file.endsWith(".js")) {
       let { command } = require(path + file);
-      let cmdinfo = command(); // {cmd:"", handler:function, alias:[]}
+      let cmdinfo = command(); // {cmd:["",""], handler:function}
       // console.log(cmdinfo.cmd);
       for (let c of cmdinfo.cmd) {
         commandsAdmins[c] = cmdinfo.handler;
@@ -158,13 +154,14 @@ const addCommands = async () => {
   filenames.forEach((file) => {
     if (file.endsWith(".js")) {
       let { command } = require(path + file);
-      let cmdinfo = command(); // {cmd:"", handler:function, alias:[]}
+      let cmdinfo = command(); // {cmd:["",""], handler:function}
       // console.log(cmdinfo.cmd);
       for (let c of cmdinfo.cmd) {
         commandsOwners[c] = cmdinfo.handler;
       }
     }
   });
+  console.log("Commands Added!");
 };
 
 const getGroupAdmins = (participants) => {
@@ -212,150 +209,6 @@ const startBot = async () => {
       .toLocaleString("en-GB", { timeZone: "Asia/kolkata" })
       .split(",")[0];
 
-    const checkTodayBday = async (todayDate) => {
-      console.log("CHECKING TODAY BDAY...", todayDate);
-      todayDate = todayDate.split("/");
-      let d = todayDate[0];
-      d = d.startsWith("0") ? d[1] : d;
-      let m = todayDate[1];
-      m = m.startsWith("0") ? m[1] : m;
-      let url = "https://pvxgroup.herokuapp.com/api/bday";
-      let { data } = await axios.get(url);
-      let bday = [];
-
-      data.data.forEach((member) => {
-        if (member.month == m && member.date == d) {
-          bday.push(
-            `${member.name.toUpperCase()} (${member.username.toUpperCase()})`
-          );
-          console.log(`Today is ${member.name} Birthday!`);
-        }
-      });
-      if (bday.length) {
-        let bdayComb = bday.join(" & ");
-        await bot.sendMessage(pvxcommunity, {
-          text: `*─「 🔥 <{PVX}> BOT 🔥 」─* \n\nToday is ${bdayComb} Birthday 🍰 🎉🎉`,
-        });
-      } else {
-        console.log("NO BIRTHDAY!");
-        await bot.sendMessage(pvxcommunity, {
-          text: `*─「 🔥 <{PVX}> BOT 🔥 」─* \n\nThere is no Birthday today!`,
-        });
-      }
-      try {
-        await bot.groupUpdateSubject(pvxcommunity, "<{PVX}> COMMUNITY ❤️");
-      } catch (err) {
-        console.log(err);
-      }
-    };
-
-    const postTechNews = async (count) => {
-      if (count > 20) {
-        //20 times, already posted news comes up
-        return;
-      }
-      console.log(`TECH NEWS FUNCTION ${count} times!`);
-
-      let url = "https://pvx-api-vercel.vercel.app/api/news";
-      let { data } = await axios.get(url);
-      delete data["about"];
-
-      let newsWeb = [
-        "gadgets-ndtv",
-        "gadgets-now",
-        "xda-developers",
-        "inshorts",
-        "beebom",
-        "india",
-        "mobile-reuters",
-        "techcrunch",
-        "engadget",
-      ];
-
-      let randomWeb = newsWeb[Math.floor(Math.random() * newsWeb.length)]; //random website
-      let index = Math.floor(Math.random() * data[randomWeb].length);
-
-      let news = data[randomWeb][index];
-      let techRes = await storeNewsTech(news);
-      if (techRes) {
-        console.log("NEW TECH NEWS!");
-        bot.sendMessage(pvxtech, { text: `📰 ${news}` });
-      } else {
-        console.log("OLD TECH NEWS!");
-        postTechNews(count + 1);
-      }
-    };
-
-    const postStudyInfo = async (count) => {
-      if (count > 20) {
-        //20 times already posted news came
-        return;
-      }
-      console.log(`STUDY NEWS FUNCTION ${count} times!`);
-      let feed;
-      //   "https://www.thehindu.com/news/national/feeder/default.rss"
-      //   "https://timesofindia.indiatimes.com/rssfeedmostrecent.cms"
-      feed = await parser.parseURL(
-        "https://www.mid-day.com/Resources/midday/rss/india-news.xml"
-      );
-      // https://zeenews.india.com/rss/india-national-news.xml
-
-      let li = feed.items.map((item) => {
-        return { title: item.title, link: item.link };
-      });
-
-      let index = Math.floor(Math.random() * li.length);
-
-      let news = li[index];
-
-      let techRes = await storeNewsStudy(news.title);
-      if (techRes) {
-        console.log("NEW STUDY NEWS!");
-        bot.sendMessage(pvxstudy, { text: `📰 ${news.title}` });
-      } else {
-        console.log("OLD STUDY NEWS!");
-        postStudyInfo(count + 1);
-      }
-    };
-
-    const kickZeroMano = async () => {
-      let resultCountGroupIndi = await getCountVideo(pvxmano);
-
-      let memWithMsg = new Set();
-      for (let member of resultCountGroupIndi) {
-        memWithMsg.add(member.memberjid);
-      }
-
-      const groupMetadata = await bot.groupMetadata(pvxmano);
-      const groupMembers = groupMetadata.participants;
-
-      let zeroMano = [];
-      groupMembers.forEach((mem) => {
-        if (!memWithMsg.has(mem.id)) {
-          zeroMano.push(mem.id);
-        }
-      });
-
-      let randomMemId = zeroMano[Math.floor(Math.random() * zeroMano.length)];
-      let num_split = `${randomMemId.split("@s.whatsapp.net")[0]}`;
-
-      console.log(`Removing ${randomMemId} from Mano.`);
-      await bot.sendMessage(pvxmano, {
-        text: `Removing  @${num_split}\nReason: 0 videos count! `,
-        mentions: [randomMemId],
-      });
-      await bot.groupParticipantsUpdate(pvxmano, [randomMemId], "remove");
-
-      // randomMemId = zeroMano[Math.floor(Math.random() * zeroMano.length)];
-      // num_split = `${randomMemId.split("@s.whatsapp.net")[0]}`;
-      // console.log(`Removing ${randomMemId} from Mano.`);
-      // await bot.sendMessage(pvxmano, {
-      //   text: `Removing  @${num_split}\nReason: 0 videos count! `,
-      //   mentions: [randomMemId],
-      // });
-      // await bot.groupParticipantsUpdate(pvxmano, [randomMemId], "remove");
-    };
-
     dateCheckerInterval = setInterval(() => {
       console.log("SET INTERVAL.");
       let todayDate = new Date().toLocaleDateString("en-GB", {
@@ -371,15 +224,15 @@ const startBot = async () => {
       );
       //8 to 24 ON
       if (hour >= 8) {
-        postTechNews(0);
-        postStudyInfo(0);
+        postTechNews(bot, 0);
+        postStudyInfo(bot, 0);
       }
 
-      // if (hour % 12 == 0) kickZeroMano();
+      // if (hour % 12 == 0) kickZeroMano(bot);
 
       if (usedDate !== todayDate) {
         usedDate = todayDate;
-        checkTodayBday(todayDate);
+        checkTodayBday(bot, todayDate);
       }
     }, 1000 * 60 * 20); //20 min
   }
@@ -510,9 +363,9 @@ const startBot = async () => {
           botNumberJid.slice(botNumberJid.search("@"));
         if (numJid === botNumberJid) {
           console.log("Bot is added to new group!");
-          // await bot.sendMessage(myNumber + "@s.whatsapp.net", {
-          //   text: `*─「 🔥 <{PVX}> BOT 🔥 」─* \n\nSEND ${prefix}help FOR BOT COMMANDS`,
-          // });
+          await bot.sendMessage(myNumber + "@s.whatsapp.net", {
+            text: `*─「 🔥 <{PVX}> BOT 🔥 」─* \n\nSEND ${prefix}help FOR BOT COMMANDS`,
+          });
         }
         console.log(`[GROUP] ${groupSubject} [JOINED] ${numJid}`);
       }
@@ -521,6 +374,9 @@ const startBot = async () => {
       }
     } catch (err) {
       console.log(err);
+      await bot.sendMessage(myNumber + "@s.whatsapp.net", {
+        text: `ERROR: ${err}`,
+      });
     }
   });
 
@@ -601,7 +457,7 @@ const startBot = async () => {
         groupName.toUpperCase().startsWith("<{PVX}>") &&
         from !== pvxstickeronly1 &&
         from != pvxstickeronly2 &&
-        from !== mano
+        from !== pvxmano
       ) {
         // msg.key.fromMe == false &&
         // "<{PVX}> BOT 🤖"
@@ -917,6 +773,9 @@ const startBot = async () => {
       );
     } catch (err) {
       console.log(err);
+      await bot.sendMessage(myNumber + "@s.whatsapp.net", {
+        text: `ERROR: [${prefix}${command}] [${groupName}]\n${err}`,
+      });
       return;
     }
   });
