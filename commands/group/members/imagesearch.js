@@ -6,7 +6,7 @@ module.exports.command = () => {
   return { cmd: ["imagesearch", "is"], handler: handler };
 };
 
-const handler = async (sock, msg, from, args, msgInfoObj) => {
+const handler = async (bot, msg, from, args, msgInfoObj) => {
   let { prefix, reply } = msgInfoObj;
 
   if (args.length === 0) {
@@ -31,7 +31,7 @@ const handler = async (sock, msg, from, args, msgInfoObj) => {
       console.log(img);
 
       try {
-        sock.sendMessage(
+        bot.sendMessage(
           from,
           {
             image: { url: img },

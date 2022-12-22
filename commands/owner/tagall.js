@@ -6,7 +6,7 @@ module.exports.command = () => {
   return { cmd, handler };
 };
 
-const handler = async (sock, msg, from, args, msgInfoObj) => {
+const handler = async (bot, msg, from, args, msgInfoObj) => {
   let {
     sender,
     prefix,
@@ -42,5 +42,5 @@ const handler = async (sock, msg, from, args, msgInfoObj) => {
     jids.push(i.id.replace("c.us", "s.whatsapp.net"));
   }
 
-  sock.sendMessage(from, { text: message, mentions: jids }, { quoted: msg });
+  bot.sendMessage(from, { text: message, mentions: jids }, { quoted: msg });
 };

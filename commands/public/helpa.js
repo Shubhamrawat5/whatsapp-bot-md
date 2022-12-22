@@ -6,7 +6,7 @@ module.exports.command = () => {
   return { cmd, handler };
 };
 
-const handler = async (sock, msg, from, args, msgInfoObj) => {
+const handler = async (bot, msg, from, args, msgInfoObj) => {
   let { prefix } = msgInfoObj;
   const more = String.fromCharCode(8206);
   const readMore = more.repeat(4001);
@@ -81,5 +81,5 @@ Alias: *${prefix}blr*
 send ${prefix}source for sourcecode of BOT
 ✔️ more cool commands coming...`;
 
-  sock.sendMessage(from, { text }, { quoted: msg });
+  bot.sendMessage(from, { text }, { quoted: msg });
 };

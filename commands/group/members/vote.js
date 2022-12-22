@@ -7,7 +7,7 @@ module.exports.command = () => {
   return { cmd, handler };
 };
 
-const handler = async (sock, msg, from, args, msgInfoObj) => {
+const handler = async (bot, msg, from, args, msgInfoObj) => {
   let { prefix, reply, sender, senderName } = msgInfoObj;
   let votingResult = await getVotingData(from);
   if (!votingResult.is_started) {

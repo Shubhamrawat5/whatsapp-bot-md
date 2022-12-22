@@ -12,7 +12,7 @@ const getRandom = (ext) => {
   return `${Math.floor(Math.random() * 10000)}${ext}`;
 };
 
-const handler = async (sock, msg, from, args, msgInfoObj) => {
+const handler = async (bot, msg, from, args, msgInfoObj) => {
   let { prefix, isMedia, isTaggedSticker, reply } = msgInfoObj;
 
   if ((isMedia && !msg.message.stickerMessage.isAnimated) || isTaggedSticker) {
@@ -32,7 +32,7 @@ const handler = async (sock, msg, from, args, msgInfoObj) => {
     const media = getRandom(".jpeg");
     await writeFile(media, buffer);
 
-    sock.sendMessage(
+    bot.sendMessage(
       from,
       {
         image: fs.readFileSync(media),

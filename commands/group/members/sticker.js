@@ -16,7 +16,7 @@ const getRandom = (ext) => {
   return `${Math.floor(Math.random() * 10000)}${ext}`;
 };
 
-const handler = async (sock, msg, from, args, msgInfoObj) => {
+const handler = async (bot, msg, from, args, msgInfoObj) => {
   let { type, isMedia, isTaggedImage, isTaggedVideo, reply } = msgInfoObj;
   let packName = "BOT 🤖";
   let authorName = "pvxcommunity.com";
@@ -78,7 +78,7 @@ const handler = async (sock, msg, from, args, msgInfoObj) => {
   }
 
   await stickerMake.toFile(stickerFileName);
-  await sock.sendMessage(
+  await bot.sendMessage(
     from,
     {
       sticker: fs.readFileSync(stickerFileName),

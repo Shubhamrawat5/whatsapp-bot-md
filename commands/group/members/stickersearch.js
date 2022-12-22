@@ -11,7 +11,7 @@ module.exports.command = () => {
   return { cmd: ["stickersearch", "ss"], handler: handler };
 };
 
-const handler = async (sock, msg, from, args, msgInfoObj) => {
+const handler = async (bot, msg, from, args, msgInfoObj) => {
   let { prefix, reply } = msgInfoObj;
 
   if (args.length === 0) {
@@ -49,7 +49,7 @@ const handler = async (sock, msg, from, args, msgInfoObj) => {
 
       //TODO: try catch not working when status code 401 or something
       try {
-        await sock.sendMessage(
+        await bot.sendMessage(
           from,
           {
             sticker: fs.readFileSync(stickerFileName),

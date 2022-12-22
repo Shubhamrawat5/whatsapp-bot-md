@@ -6,7 +6,7 @@ module.exports.command = () => {
   return { cmd, handler };
 };
 
-const handler = async (sock, msg, from, args, msgInfoObj) => {
+const handler = async (bot, msg, from, args, msgInfoObj) => {
   let { prefix, groupAdmins, isBotGroupAdmins, reply } = msgInfoObj;
 
   if (!isBotGroupAdmins) {
@@ -52,7 +52,7 @@ const handler = async (sock, msg, from, args, msgInfoObj) => {
         reply("❌ Cannot remove admin!");
         return;
       }
-      const response = await sock.groupParticipantsUpdate(
+      const response = await bot.groupParticipantsUpdate(
         from,
         mentioned,
         "remove"
@@ -72,7 +72,7 @@ const handler = async (sock, msg, from, args, msgInfoObj) => {
       reply("❌ Cannot remove admin!");
       return;
     }
-    const response = await sock.groupParticipantsUpdate(
+    const response = await bot.groupParticipantsUpdate(
       from,
       taggedMessageUser,
       "remove"

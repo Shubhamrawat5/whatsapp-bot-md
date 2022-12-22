@@ -7,12 +7,12 @@ module.exports.command = () => {
   return { cmd, handler };
 };
 
-const handler = async (sock, msg, from, args, msgInfoObj) => {
+const handler = async (bot, msg, from, args, msgInfoObj) => {
   let { reply, groupMembers } = msgInfoObj;
 
   let pvxmano = "19016677357-1630334490@g.us";
   if (from != pvxmano) {
-    sock.sendMessage(
+    bot.sendMessage(
       from,
       { text: "❌ Only Mano Group command!" },
       { quoted: msg }
@@ -46,7 +46,7 @@ const handler = async (sock, msg, from, args, msgInfoObj) => {
   countGroupMsgIndi += `\n*Total Messages: ${totalGrpCountIndi}*`;
   countGroupMsgIndi += countGroupMsgTempIndi;
 
-  sock.sendMessage(
+  bot.sendMessage(
     from,
     {
       text: countGroupMsgIndi,

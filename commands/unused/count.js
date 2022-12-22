@@ -8,7 +8,7 @@ module.exports.command = () => {
   return { cmd, handler };
 };
 
-const handler = async (sock, msg, from, args, msgInfoObj) => {
+const handler = async (bot, msg, from, args, msgInfoObj) => {
   let { sender, reply } = msgInfoObj;
   reply("Use !rank command");
   return;
@@ -30,7 +30,7 @@ const handler = async (sock, msg, from, args, msgInfoObj) => {
     count = 0;
   }
 
-  sock.sendMessage(
+  bot.sendMessage(
     from,
     {
       text: `User:${name}\nTotal messages: ${count}\n\n_from 24 NOV_ in this group!_`,

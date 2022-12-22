@@ -8,7 +8,7 @@ module.exports.command = () => {
   return { cmd, handler };
 };
 
-const handler = async (sock, msg, from, args, msgInfoObj) => {
+const handler = async (bot, msg, from, args, msgInfoObj) => {
   let { groupName, groupMembers, reply } = msgInfoObj;
   const more = String.fromCharCode(8206);
   const readMore = more.repeat(4001);
@@ -25,5 +25,5 @@ const handler = async (sock, msg, from, args, msgInfoObj) => {
     countGroupMsgTempTop10 += `\n${member.count} - ${member.name}`;
   }
   countGroupMsgTop10 += countGroupMsgTempTop10;
-  sock.sendMessage(from, { text: countGroupMsgTop10 }, { quoted: msg });
+  bot.sendMessage(from, { text: countGroupMsgTop10 }, { quoted: msg });
 };

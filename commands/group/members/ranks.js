@@ -6,7 +6,7 @@ module.exports.command = () => {
   return { cmd, handler };
 };
 
-const handler = async (sock, msg, from, args, msgInfoObj) => {
+const handler = async (bot, msg, from, args, msgInfoObj) => {
   let { prefix } = msgInfoObj;
 
   let text = `*─「 <{PVX}> RANKS 」 ─*
@@ -21,5 +21,5 @@ Send ${prefix}rank to know your rank (based on total messages in all PVX groups 
 1001-1500 Silver ⚔️
 1500+ Bronze ⚱️`;
 
-  sock.sendMessage(from, { text }, { quoted: msg });
+  bot.sendMessage(from, { text }, { quoted: msg });
 };

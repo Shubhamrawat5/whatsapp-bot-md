@@ -6,7 +6,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.static(__dirname));
 const port = process.env.PORT || 8080;
 app.get("/", (req, res) => {
-  // res.send("Bot is running fine... no tension :)");
+  // res.send("Bot is running");
   res.sendFile(__dirname + "/index.html");
 });
 
@@ -24,6 +24,7 @@ app.listen(port, () => {
   console.log("\nWeb-server running!\n");
 });
 
+/* ------------------------------ add packages ------------------------------ */
 const {
   default: makeWASocket,
   DisconnectReason,
@@ -38,20 +39,67 @@ const {
 const { Boom } = require("@hapi/boom");
 const P = require("pino");
 const { Sticker, StickerTypes } = require("wa-sticker-formatter");
-
-//----------------------------------------------------------------------------//
-
-let MAIN_LOGGER = P({ timestamp: () => `,"time":"${new Date().toJSON()}"` });
-const logger = MAIN_LOGGER.child({});
-logger.level = "warn";
-
-//--------------------------------------AUTH-FILE--------------------------------//
+const util = require("util");
+const axios = require("axios");
+const Parser = require("rss-parser");
 const fs = require("fs");
-// const mdClient = require("./db/dbConnection.js");
+
+// start a connection
+// console.log('state : ', state.creds);
+
+/* ----------------------------- add local files ---------------------------- */
+const { setCountMember } = require("./db/countMemberDB");
+const { setCountVideo } = require("./db/countVideoDB");
+const { storeNewsTech } = require("./db/postTechDB");
+const { storeNewsStudy } = require("./db/postStudyDB");
+const { getBlacklist } = require("./db/blacklistDB");
+const { getCountVideo } = require("./db/countVideoDB");
+const { getDisableCommandData } = require("./db/disableCommandDB");
+const { getCricketScore } = require("./functions/cricket");
+const { storeAuth, fetchAuth } = require("./db/authDB");
+
+require("dotenv").config();
+const myNumber = process.env.myNumber;
+const pvx = process.env.pvx;
+
+const readdir = util.promisify(fs.readdir);
+const readFile = util.promisify(fs.readFile);
+
+const commandsPublic = {};
+const commandsMembers = {};
+const commandsAdmins = {};
+const commandsOwners = {};
+
+const prefix = "!";
+
+let countSent = 1;
+let commandSent = 1;
+let startCount = 1;
+
+let authSaveInterval, dateCheckerInterval;
+let matchIdGroups = {}; //to store every group name with its match ID
+let cricSetIntervalGroups = {}; //to store every group name with its setInterval value so that it can be stopped
+let cricStartedGroups = {}; //to store every group name with boolean value to know if cricket score is already started or not
+
+const pvxcommunity = "919557666582-1467533860@g.us";
+const pvxprogrammer = "919557666582-1584193120@g.us";
+const pvxadmin = "919557666582-1498394056@g.us";
+const pvxstudy = "919557666582-1617595892@g.us";
+const pvxmano = "19016677357-1630334490@g.us";
+const pvxtech = "919557666582-1551290369@g.us";
+const pvxsport = "919557666582-1559476348@g.us";
+const pvxmovies = "919557666582-1506690003@g.us";
+const pvxsticker1 = "919557666582-1580308963@g.us";
+const pvxsticker2 = "919557666582-1621700558@g.us";
+const pvxstickeronly1 = "919557666582-1628610549@g.us";
+const pvxstickeronly2 = "919557666582-1586018947@g.us";
+const mano = "19016677357-1630334490@g.us";
+const pvxdeals = "919557666582-1582555632@g.us";
+
+const parser = new Parser();
 const store = makeInMemoryStore({
   logger: P().child({ level: "debug", stream: "store" }),
 });
-let startCount = 1;
 
 try {
   fs.unlinkSync("./auth_info_multi.json");
@@ -60,55 +108,9 @@ try {
 }
 
 const { state, saveState } = useSingleFileAuthState("./auth_info_multi.json");
-
-// start a connection
-// console.log('state : ', state.creds);
-
-/* -------------------------- Extra package include ------------------------- */
-const util = require("util");
-const axios = require("axios");
-let Parser = require("rss-parser");
-let parser = new Parser();
-
-const readdir = util.promisify(fs.readdir);
-const readFile = util.promisify(fs.readFile);
-
-let commandsPublic = {};
-let commandsMembers = {};
-let commandsAdmins = {};
-let commandsOwners = {};
-
-const prefix = "!";
-
-require("dotenv").config();
-const myNumber = process.env.myNumber;
-const pvx = process.env.pvx;
-
-const { setCountMember } = require("./db/countMemberDB");
-const { setCountVideo } = require("./db/countVideoDB");
-const { storeNewsTech } = require("./db/postTechDB");
-const { storeNewsStudy } = require("./db/postStudyDB");
-const { getBlacklist } = require("./db/blacklistDB");
-const { getCountVideo } = require("./db/countVideoDB");
-const { getDisableCommandData } = require("./db/disableCommandDB");
-
-let countSent = 1;
-let commandSent = 1;
-
-let pvxcommunity = "919557666582-1467533860@g.us";
-let pvxprogrammer = "919557666582-1584193120@g.us";
-let pvxadmin = "919557666582-1498394056@g.us";
-let pvxstudy = "919557666582-1617595892@g.us";
-let pvxmano = "19016677357-1630334490@g.us";
-let pvxtech = "919557666582-1551290369@g.us";
-let pvxsport = "919557666582-1559476348@g.us";
-let pvxmovies = "919557666582-1506690003@g.us";
-let pvxsticker1 = "919557666582-1580308963@g.us";
-let pvxsticker2 = "919557666582-1621700558@g.us";
-let pvxstickeronly1 = "919557666582-1628610549@g.us";
-let pvxstickeronly2 = "919557666582-1586018947@g.us";
-let mano = "19016677357-1630334490@g.us";
-let pvxdeals = "919557666582-1582555632@g.us";
+const MAIN_LOGGER = P({ timestamp: () => `,"time":"${new Date().toJSON()}"` });
+const logger = MAIN_LOGGER.child({});
+logger.level = "warn";
 
 const addCommands = async () => {
   console.log("Commands Added!");
@@ -173,41 +175,13 @@ const getGroupAdmins = (participants) => {
   return admins;
 };
 
-let authSaveInterval, dateCheckerInterval;
-//CRICKET variables
-let matchIdGroups = {}; //to store every group name with its match ID
-let cricSetIntervalGroups = {}; //to store every group name with its setInterval value so that it can be stopped
-let cricStartedGroups = {}; //to store every group name with boolean value to know if cricket score is already started or not
-const { getCricketScore } = require("./functions/cricket");
-const { storeAuth, fetchAuth } = require("./db/authDB");
-
-const startSock = async () => {
+const startBot = async () => {
   addCommands();
   clearInterval(authSaveInterval);
   clearInterval(dateCheckerInterval);
   Object.keys(cricSetIntervalGroups).forEach((e) => {
     clearInterval(e);
   });
-  // try {
-  //   mdClient.connect(async (err) => {
-  //     if (err) console.log(err);
-  //   });
-  //   // throw "YES";
-  //   let collection2 = mdClient.db("bot").collection("auth");
-  //   let result = await collection2.findOne({ _id: 1 });
-  //   if (result._id === 1) {
-  //     let sessionAuth = result["sessionAuth"];
-  //     sessionAuth = JSON.parse(sessionAuth);
-  //     // delete sessionAuth.keys;
-  //     // sessionAuth["creds"]["lastAccountSyncTimestamp"] = 0;
-  //     sessionAuth = JSON.stringify(sessionAuth);
-  //     fs.writeFileSync("./auth_info_multi.json", sessionAuth);
-  //   }
-  //   //console.log(session);
-  //   console.log("Local file written");
-  // } catch (err) {
-  //   console.error("Local file writing error :", err);
-  // }
 
   // store.readFromFile("./baileys_store_multi.json");
   // save every 1m
@@ -223,7 +197,7 @@ const startSock = async () => {
   if (auth_row_count != 0) {
     state.creds = cred.creds;
   }
-  const sock = makeWASocket({
+  const bot = makeWASocket({
     version,
     logger: noLogs,
     defaultQueryTimeoutMs: undefined,
@@ -231,7 +205,7 @@ const startSock = async () => {
     auth: state,
   });
 
-  store.bind(sock.ev);
+  store.bind(bot.ev);
 
   if (pvx) {
     let usedDate = new Date()
@@ -259,17 +233,17 @@ const startSock = async () => {
       });
       if (bday.length) {
         let bdayComb = bday.join(" & ");
-        await sock.sendMessage(pvxcommunity, {
+        await bot.sendMessage(pvxcommunity, {
           text: `*─「 🔥 <{PVX}> BOT 🔥 」─* \n\nToday is ${bdayComb} Birthday 🍰 🎉🎉`,
         });
       } else {
         console.log("NO BIRTHDAY!");
-        await sock.sendMessage(pvxcommunity, {
+        await bot.sendMessage(pvxcommunity, {
           text: `*─「 🔥 <{PVX}> BOT 🔥 」─* \n\nThere is no Birthday today!`,
         });
       }
       try {
-        await sock.groupUpdateSubject(pvxcommunity, "<{PVX}> COMMUNITY ❤️");
+        await bot.groupUpdateSubject(pvxcommunity, "<{PVX}> COMMUNITY ❤️");
       } catch (err) {
         console.log(err);
       }
@@ -305,7 +279,7 @@ const startSock = async () => {
       let techRes = await storeNewsTech(news);
       if (techRes) {
         console.log("NEW TECH NEWS!");
-        sock.sendMessage(pvxtech, { text: `📰 ${news}` });
+        bot.sendMessage(pvxtech, { text: `📰 ${news}` });
       } else {
         console.log("OLD TECH NEWS!");
         postTechNews(count + 1);
@@ -337,7 +311,7 @@ const startSock = async () => {
       let techRes = await storeNewsStudy(news.title);
       if (techRes) {
         console.log("NEW STUDY NEWS!");
-        sock.sendMessage(pvxstudy, { text: `📰 ${news.title}` });
+        bot.sendMessage(pvxstudy, { text: `📰 ${news.title}` });
       } else {
         console.log("OLD STUDY NEWS!");
         postStudyInfo(count + 1);
@@ -352,7 +326,7 @@ const startSock = async () => {
         memWithMsg.add(member.memberjid);
       }
 
-      const groupMetadata = await sock.groupMetadata(pvxmano);
+      const groupMetadata = await bot.groupMetadata(pvxmano);
       const groupMembers = groupMetadata.participants;
 
       let zeroMano = [];
@@ -366,20 +340,20 @@ const startSock = async () => {
       let num_split = `${randomMemId.split("@s.whatsapp.net")[0]}`;
 
       console.log(`Removing ${randomMemId} from Mano.`);
-      await sock.sendMessage(pvxmano, {
+      await bot.sendMessage(pvxmano, {
         text: `Removing  @${num_split}\nReason: 0 videos count! `,
         mentions: [randomMemId],
       });
-      await sock.groupParticipantsUpdate(pvxmano, [randomMemId], "remove");
+      await bot.groupParticipantsUpdate(pvxmano, [randomMemId], "remove");
 
       // randomMemId = zeroMano[Math.floor(Math.random() * zeroMano.length)];
       // num_split = `${randomMemId.split("@s.whatsapp.net")[0]}`;
       // console.log(`Removing ${randomMemId} from Mano.`);
-      // await sock.sendMessage(pvxmano, {
+      // await bot.sendMessage(pvxmano, {
       //   text: `Removing  @${num_split}\nReason: 0 videos count! `,
       //   mentions: [randomMemId],
       // });
-      // await sock.groupParticipantsUpdate(pvxmano, [randomMemId], "remove");
+      // await bot.groupParticipantsUpdate(pvxmano, [randomMemId], "remove");
     };
 
     dateCheckerInterval = setInterval(() => {
@@ -410,34 +384,34 @@ const startSock = async () => {
     }, 1000 * 60 * 20); //20 min
   }
 
-  // store.bind(sock.ev);
+  // store.bind(bot.ev);
 
   const sendMessageWTyping = async (msg, jid) => {
-    await sock.presenceSubscribe(jid);
+    await bot.presenceSubscribe(jid);
     await delay(500);
-    await sock.sendPresenceUpdate("composing", jid);
+    await bot.sendPresenceUpdate("composing", jid);
     await delay(2000);
-    await sock.sendPresenceUpdate("paused", jid);
-    await sock.sendMessage(jid, msg);
+    await bot.sendPresenceUpdate("paused", jid);
+    await bot.sendMessage(jid, msg);
   };
 
-  // sock.ev.on("chats.set", (item) =>
+  // bot.ev.on("chats.set", (item) =>
   //   console.log(`recv ${item.chats.length} chats (is latest: ${item.isLatest})`)
   // );
-  // sock.ev.on("messages.set", (item) =>
+  // bot.ev.on("messages.set", (item) =>
   //   console.log(
   //     `recv ${item.messages.length} messages (is latest: ${item.isLatest})`
   //   )
   // );
-  // sock.ev.on("contacts.set", (item) =>
+  // bot.ev.on("contacts.set", (item) =>
   //   console.log(`recv ${item.contacts.length} contacts`)
   // );
 
   //---------------------------------------group-participants.update-----------------------------------------//
-  sock.ev.on("group-participants.update", async (msg) => {
+  bot.ev.on("group-participants.update", async (msg) => {
     try {
       let from = msg.id;
-      const groupMetadata = await sock.groupMetadata(from);
+      const groupMetadata = await bot.groupMetadata(from);
       let groupDesc = groupMetadata.desc.toString();
       let groupSubject = groupMetadata.subject;
       let blockCommandsInDesc = []; //commands to be blocked
@@ -456,12 +430,12 @@ const startSock = async () => {
           !num_split.startsWith(91) &&
           groupSubject.toUpperCase().includes("<{PVX}>")
         ) {
-          await sock.sendMessage(from, {
+          await bot.sendMessage(from, {
             text: `*─「 🔥 <{PVX}> BOT 🔥 」─* \n\nOnly +91 numbers are allowed !!!!`,
           });
-          await sock.groupParticipantsUpdate(from, [numJid], "remove");
+          await bot.groupParticipantsUpdate(from, [numJid], "remove");
 
-          await sock.sendMessage(myNumber + "@s.whatsapp.net", {
+          await bot.sendMessage(myNumber + "@s.whatsapp.net", {
             text: `${num_split} is removed from ${groupSubject}. Not 91!`,
           });
           return;
@@ -472,12 +446,12 @@ const startSock = async () => {
         blacklistRes = blacklistRes.map((num) => num.number);
         // console.log(blacklistRes);
         if (blacklistRes.includes(num_split)) {
-          await sock.sendMessage(from, {
+          await bot.sendMessage(from, {
             text: `*─「 🔥 <{PVX}> BOT 🔥 」─* \n\nNumber is blacklisted !!!!`,
           });
 
-          await sock.groupParticipantsUpdate(from, [numJid], "remove");
-          await sock.sendMessage(myNumber + "@s.whatsapp.net", {
+          await bot.groupParticipantsUpdate(from, [numJid], "remove");
+          await bot.sendMessage(myNumber + "@s.whatsapp.net", {
             text: `${num_split} is removed from ${groupSubject}. Blacklisted!`,
           });
           return;
@@ -485,7 +459,7 @@ const startSock = async () => {
 
         //for study group
         if (from === pvxstudy) {
-          await sock.sendMessage(from, {
+          await bot.sendMessage(from, {
             text: `Welcome @${num_split} to PVX Study group.\nhttps://pvxcommunity.com/\n\nKindly fill the Biodata form (mandatory for all)\n\n👇🏻👇🏻👇🏻👇🏻👇🏻\nhttps://forms.gle/uuvUwV5fTk8JAjoTA`,
             mentions: [numJid],
           });
@@ -493,7 +467,7 @@ const startSock = async () => {
 
         //for movies group
         if (from === pvxmovies) {
-          await sock.sendMessage(from, {
+          await bot.sendMessage(from, {
             text: `Welcome @${num_split} to PVX Movies.\nhttps://pvxcommunity.com/\n\nWhat are your currently watching..?`,
             mentions: [numJid],
           });
@@ -501,7 +475,7 @@ const startSock = async () => {
 
         //for community group
         if (from === pvxcommunity) {
-          await sock.sendMessage(from, {
+          await bot.sendMessage(from, {
             text: `Welcome @${num_split} to PVX COMMUNITY.\nhttps://pvxcommunity.com/\n\nSend ${prefix}rules to know all PVX rules.\nIf you're new to PVX, please share how did you find us.`,
             mentions: [numJid],
           });
@@ -509,7 +483,7 @@ const startSock = async () => {
 
         //for mano
         if (from === pvxmano) {
-          await sock.sendMessage(from, {
+          await bot.sendMessage(from, {
             text: `Welcome  @${num_split} to PVX MANORANJAN 🔥\n\n1) Send videos regularly especially new members.\n2) Don't Send CP or any other illegal videos.\n 3) A group bot will be counting the number of videos you've sent.\nSend ${prefix}pvxv to know video count.\nInactive members will be kicked time to time.`,
             mentions: [numJid],
           });
@@ -517,26 +491,26 @@ const startSock = async () => {
 
         //for programmer group
         if (from === pvxprogrammer) {
-          await sock.sendMessage(from, {
+          await bot.sendMessage(from, {
             text: `Welcome @${num_split} to PVX Programmers Group.\nhttps://pvxcommunity.com/\n\n*Kindly give your intro like*\nName:\nCollege/Degree:\nInterest:\nSkills:\nCompany(if working):`,
             mentions: [numJid],
           });
         }
 
         if (from === pvxsticker1 || from === pvxsticker2) {
-          await sock.sendMessage(from, {
+          await bot.sendMessage(from, {
             text: `Welcome @${num_split} to PVX Stickers\nhttps://pvxcommunity.com/\n\n1) Don't make any type of sticker that targets any caste, community, religion, sex, creed, etc.\n2) The use of any kind of 18+ media (be it nudes or semi nudes) is not allowed.\n3) Every sticker you make here gets PVX branding in it along with website, so You'll get instant ban on disobeying any rule`,
             mentions: [numJid],
           });
         }
 
-        let botNumberJid = sock.user.id; //'1506xxxxx54:3@s.whatsapp.net'
+        let botNumberJid = bot.user.id; //'1506xxxxx54:3@s.whatsapp.net'
         botNumberJid =
           botNumberJid.slice(0, botNumberJid.search(":")) +
           botNumberJid.slice(botNumberJid.search("@"));
         if (numJid === botNumberJid) {
           console.log("Bot is added to new group!");
-          // await sock.sendMessage(myNumber + "@s.whatsapp.net", {
+          // await bot.sendMessage(myNumber + "@s.whatsapp.net", {
           //   text: `*─「 🔥 <{PVX}> BOT 🔥 」─* \n\nSEND ${prefix}help FOR BOT COMMANDS`,
           // });
         }
@@ -550,7 +524,7 @@ const startSock = async () => {
     }
   });
 
-  sock.ev.on("messages.upsert", async (m) => {
+  bot.ev.on("messages.upsert", async (m) => {
     // console.log(JSON.stringify(m, undefined, 2));
     // console.log(m.messages);
     // if (msg.key && msg.key.remoteJid == "status@broadcast") return;
@@ -563,7 +537,7 @@ const startSock = async () => {
       // console.log(msg);
       const type = Object.keys(msg.message)[0];
 
-      let botNumberJid = sock.user.id; //'1506xxxxx54:3@s.whatsapp.net'
+      let botNumberJid = bot.user.id; //'1506xxxxx54:3@s.whatsapp.net'
       botNumberJid =
         botNumberJid.slice(0, botNumberJid.search(":")) +
         botNumberJid.slice(botNumberJid.search("@"));
@@ -592,7 +566,7 @@ const startSock = async () => {
       const isCmd = body.startsWith(prefix);
 
       const isGroup = from.endsWith("@g.us");
-      const groupMetadata = isGroup ? await sock.groupMetadata(from) : "";
+      const groupMetadata = isGroup ? await bot.groupMetadata(from) : "";
       const groupName = isGroup ? groupMetadata.subject : "";
       let sender = isGroup ? msg.key.participant : from;
       if (msg.key.fromMe) sender = botNumberJid;
@@ -651,10 +625,10 @@ const startSock = async () => {
 
         // WA_DEFAULT_EPHEMERAL = 604800 (7 days)
         // 86400 = 60x60x24 (1 day)
-        await sock.sendMessage(pvxstickeronly1, await sticker.toMessage(), {
+        await bot.sendMessage(pvxstickeronly1, await sticker.toMessage(), {
           ephemeralExpiration: 86400,
         });
-        await sock.sendMessage(pvxstickeronly2, await sticker.toMessage(), {
+        await bot.sendMessage(pvxstickeronly2, await sticker.toMessage(), {
           ephemeralExpiration: 86400,
         });
 
@@ -687,7 +661,7 @@ const startSock = async () => {
         type === "extendedTextMessage" && content.includes("documentMessage");
 
       const reply = (text) => {
-        sock.sendMessage(from, { text }, { quoted: m.messages[0] });
+        bot.sendMessage(from, { text }, { quoted: m.messages[0] });
       };
 
       // Display every command info
@@ -730,7 +704,7 @@ const startSock = async () => {
 
       // send every command info to my whatsapp, won't work when i send something for bot
       if (myNumber && myNumber + "@s.whatsapp.net" !== sender) {
-        await sock.sendMessage(myNumber + "@s.whatsapp.net", {
+        await bot.sendMessage(myNumber + "@s.whatsapp.net", {
           text: `${commandSent}) [${prefix}${command}] [${groupName}]`,
         });
         ++commandSent;
@@ -759,14 +733,14 @@ const startSock = async () => {
 
         //response.info have "MO" only when command is startc
         if (response.info === "MO") {
-          sock.sendMessage(from, { text: response.message });
+          bot.sendMessage(from, { text: response.message });
           reply("✔️ Match over! Stopping Cricket scores for this group !");
           console.log("Match over! Stopping Cricket scores for " + groupName);
           clearInterval(cricSetIntervalGroups[groupName]);
           cricStartedGroups[groupName] = false;
           return false;
         } else if (response.info === "IO") {
-          sock.sendMessage(from, { text: response.message });
+          bot.sendMessage(from, { text: response.message });
           reply(
             "✔️ Inning over! Open again live scores later when 2nd inning will start by !startc"
           );
@@ -781,7 +755,7 @@ const startSock = async () => {
           );
           return false;
         }
-        sock.sendMessage(from, { text: response.message });
+        bot.sendMessage(from, { text: response.message });
         return true;
       };
 
@@ -846,7 +820,7 @@ const startSock = async () => {
         /* ----------------------------- public commands ---------------------------- */
         if (commandsPublic[command]) {
           await commandsPublic[command](
-            sock,
+            bot,
             m.messages[0],
             from,
             args,
@@ -859,7 +833,7 @@ const startSock = async () => {
         if (commandsMembers[command]) {
           if (isGroup) {
             await commandsMembers[command](
-              sock,
+              bot,
               m.messages[0],
               from,
               args,
@@ -867,7 +841,7 @@ const startSock = async () => {
             );
             return;
           }
-          await sock.sendMessage(
+          await bot.sendMessage(
             from,
             {
               text: "❌ Group command only!",
@@ -886,7 +860,7 @@ const startSock = async () => {
 
           if (isGroupAdmins) {
             await commandsAdmins[command](
-              sock,
+              bot,
               m.messages[0],
               from,
               args,
@@ -894,7 +868,7 @@ const startSock = async () => {
             );
             return;
           }
-          await sock.sendMessage(
+          await bot.sendMessage(
             from,
             {
               text: "❌ Admin command!",
@@ -908,7 +882,7 @@ const startSock = async () => {
         if (commandsOwners[command]) {
           if (myNumber + "@s.whatsapp.net" === sender) {
             await commandsOwners[command](
-              sock,
+              bot,
               m.messages[0],
               from,
               args,
@@ -916,7 +890,7 @@ const startSock = async () => {
             );
             return;
           }
-          await sock.sendMessage(
+          await bot.sendMessage(
             from,
             {
               text: "❌ Owner command only!",
@@ -928,13 +902,13 @@ const startSock = async () => {
       } catch (err) {
         console.log("[ERROR]: ", err);
         reply(err.toString());
-        await sock.sendMessage(myNumber + "@s.whatsapp.net", {
+        await bot.sendMessage(myNumber + "@s.whatsapp.net", {
           text: `ERROR: [${prefix}${command}] [${groupName}]\n${err}`,
         });
       }
 
       /* ----------------------------- unknown command ---------------------------- */
-      await sock.sendMessage(
+      await bot.sendMessage(
         from,
         {
           text: `Send ${prefix}help for <{PVX}> BOT commands!`,
@@ -947,13 +921,13 @@ const startSock = async () => {
     }
   });
 
-  // sock.ev.on("messages.update", (m) => console.log(m));
-  // sock.ev.on("message-receipt.update", (m) => console.log(m));
-  // sock.ev.on("presence.update", (m) => console.log(m));
-  // sock.ev.on("chats.update", (m) => console.log(m));
-  // sock.ev.on("contacts.upsert", (m) => console.log(m));
+  // bot.ev.on("messages.update", (m) => console.log(m));
+  // bot.ev.on("message-receipt.update", (m) => console.log(m));
+  // bot.ev.on("presence.update", (m) => console.log(m));
+  // bot.ev.on("chats.update", (m) => console.log(m));
+  // bot.ev.on("contacts.upsert", (m) => console.log(m));
 
-  sock.ev.on("connection.update", (update) => {
+  bot.ev.on("connection.update", (update) => {
     const { connection, lastDisconnect } = update;
     if (connection === "close") {
       // reconnect if not logged out
@@ -965,7 +939,7 @@ const startSock = async () => {
         console.log("CONNECTION CLOSE.");
         ++startCount;
         console.log("--- START SOCK COUNT -->", startCount);
-        startSock();
+        startBot();
       } else {
         console.log("Connection closed. You are logged out.");
       }
@@ -978,42 +952,12 @@ const startSock = async () => {
     console.log("connection update", update);
   });
   // listen for when the auth credentials is updated
-  sock.ev.on("creds.update", async () => {
+  bot.ev.on("creds.update", async () => {
     saveState();
     await storeAuth(state);
   });
 
-  // sock.ev.on("creds.update", async () => {
-  //   saveState();
-  //   // authSaveInterval = setInterval(async () => {
-  //   // console.log("Auth updating to DB");
-  //   store.writeToFile("./baileys_store_multi.json");
-  //   try {
-  //     let sessionDataAuth = fs.readFileSync("./auth_info_multi.json");
-  //     sessionDataAuth = JSON.parse(sessionDataAuth);
-  //     // delete sessionDataAuth.keys;
-  //     sessionDataAuth = JSON.stringify(sessionDataAuth);
-  //     //console.log(sessionData);
-  //     let collection2 = mdClient.db("bot").collection("auth");
-  //     //(chatid,{})
-  //     const res = await collection2.updateOne(
-  //       { _id: 1 },
-  //       { $set: { sessionAuth: sessionDataAuth } }
-  //     );
-  //     if (res.matchedCount) {
-  //       console.log("DB UPDATED");
-  //     } else {
-  //       collection2.insertOne({ _id: 1, sessionAuth: sessionDataAuth });
-  //       console.log("DB INSERTED");
-  //     }
-  //   } catch (err) {
-  //     console.log("Db updation error : ", err);
-  //   }
-
-  //   // }, 1000 * 60);
-  // });
-
-  return sock;
+  return bot;
 };
 
-startSock();
+startBot();

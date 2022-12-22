@@ -7,7 +7,7 @@ module.exports.command = () => {
   return { cmd, handler };
 };
 
-const handler = async (sock, msg, from, args, msgInfoObj) => {
+const handler = async (bot, msg, from, args, msgInfoObj) => {
   let { groupAdmins, isBotGroupAdmins, reply } = msgInfoObj;
 
   if (!msg.message.extendedTextMessage) {
@@ -24,7 +24,7 @@ const handler = async (sock, msg, from, args, msgInfoObj) => {
         warnCount + 1
       }/3). Don't repeat this type of behaviour again or you'll be banned from the group!`;
 
-      await sock.sendMessage(from, {
+      await bot.sendMessage(from, {
         text: warnMsg,
         mentions: mentioned,
       });
@@ -40,7 +40,7 @@ const handler = async (sock, msg, from, args, msgInfoObj) => {
 
           return;
         }
-        await sock.groupParticipantsUpdate(from, mentioned, "remove");
+        await bot.groupParticipantsUpdate(from, mentioned, "remove");
         reply("_✔ Number removed from group!_");
       }
     } else {
@@ -58,7 +58,7 @@ const handler = async (sock, msg, from, args, msgInfoObj) => {
       warnCount + 1
     }/3). Don't repeat this type of behaviour again or you'll be banned from group!`;
 
-    await sock.sendMessage(from, {
+    await bot.sendMessage(from, {
       text: warnMsg,
       mentions: taggedMessageUser,
     });
@@ -72,7 +72,7 @@ const handler = async (sock, msg, from, args, msgInfoObj) => {
         reply("❌ Cannot remove admin!");
         return;
       }
-      await sock.groupParticipantsUpdate(from, taggedMessageUser, "remove");
+      await bot.groupParticipantsUpdate(from, taggedMessageUser, "remove");
       reply("_✔ Number removed from group!_");
     }
   }

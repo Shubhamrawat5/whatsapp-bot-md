@@ -6,7 +6,7 @@ module.exports.command = () => {
   return { cmd, handler };
 };
 
-const handler = async (sock, msg, from, args, msgInfoObj) => {
+const handler = async (bot, msg, from, args, msgInfoObj) => {
   let { prefix } = msgInfoObj;
 
   const more = String.fromCharCode(8206);
@@ -41,5 +41,5 @@ _Do not give any spoilers of any new movie or series._
 ✔ Rule 09 -
 _Only numbers starting with the code +91 (i.e. Indians) are allowed to join._`;
 
-  sock.sendMessage(from, { text }, { quoted: msg });
+  bot.sendMessage(from, { text }, { quoted: msg });
 };

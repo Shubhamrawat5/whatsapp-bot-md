@@ -8,7 +8,7 @@ module.exports.command = () => {
   return { cmd, handler };
 };
 
-const handler = async (sock, msg, from, args, msgInfoObj) => {
+const handler = async (bot, msg, from, args, msgInfoObj) => {
   let { prefix } = msgInfoObj;
   const more = String.fromCharCode(8206);
   const readMore = more.repeat(4001);
@@ -26,7 +26,7 @@ const handler = async (sock, msg, from, args, msgInfoObj) => {
 
   donaMsg += donaMsgTemp;
 
-  sock.sendMessage(
+  bot.sendMessage(
     from,
     {
       image: fs.readFileSync(__dirname + "/../../assert/donation.jpg"),

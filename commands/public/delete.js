@@ -6,7 +6,7 @@ module.exports.command = () => {
   return { cmd, handler };
 };
 
-const handler = async (sock, msg, from, args, msgInfoObj) => {
+const handler = async (bot, msg, from, args, msgInfoObj) => {
   let { botNumberJid, reply, isGroupAdmins } = msgInfoObj;
 
   if (!msg.message.extendedTextMessage) {
@@ -34,7 +34,7 @@ const handler = async (sock, msg, from, args, msgInfoObj) => {
         fromMe: true,
         id: msg.message.extendedTextMessage.contextInfo.stanzaId,
       };
-      await sock.sendMessage(from, {
+      await bot.sendMessage(from, {
         delete: options,
       });
     }
@@ -49,7 +49,7 @@ const handler = async (sock, msg, from, args, msgInfoObj) => {
       id: msg.message.extendedTextMessage.contextInfo.stanzaId,
       participant: msg.message.extendedTextMessage.contextInfo.participant,
     };
-    await sock.sendMessage(from, {
+    await bot.sendMessage(from, {
       delete: options,
     });
   } else {

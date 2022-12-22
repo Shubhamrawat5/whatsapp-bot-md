@@ -6,7 +6,7 @@ module.exports.command = () => {
   return { cmd, handler };
 };
 
-const handler = async (sock, msg, from, args, msgInfoObj) => {
+const handler = async (bot, msg, from, args, msgInfoObj) => {
   let { prefix } = msgInfoObj;
   let text = `_*🏏  CRICKET COMMANDS:*_
 
@@ -25,5 +25,5 @@ const handler = async (sock, msg, from, args, msgInfoObj) => {
 📛 *${prefix}stopc*
   - _Stop match live score!_`;
 
-  sock.sendMessage(from, { text }, { quoted: msg, detectLinks: false });
+  bot.sendMessage(from, { text }, { quoted: msg, detectLinks: false });
 };

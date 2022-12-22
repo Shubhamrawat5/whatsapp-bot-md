@@ -17,7 +17,7 @@ module.exports.command = () => {
   return { cmd: ["gender"], handler: handler };
 };
 
-const handler = async (sock, msg, from, args, msgInfoObj) => {
+const handler = async (bot, msg, from, args, msgInfoObj) => {
   let { prefix, reply } = msgInfoObj;
 
   if (args.length === 0) {

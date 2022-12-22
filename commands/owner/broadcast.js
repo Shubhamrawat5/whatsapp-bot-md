@@ -6,9 +6,9 @@ module.exports.command = () => {
   return { cmd, handler };
 };
 
-const handler = async (sock, msg, from, args, msgInfoObj) => {
+const handler = async (bot, msg, from, args, msgInfoObj) => {
   let { prefix, reply } = msgInfoObj;
-  let chats = await sock.groupFetchAllParticipating();
+  let chats = await bot.groupFetchAllParticipating();
   // console.log(chats);
   // !v.announce &&
   let groups = Object.values(chats)
@@ -47,7 +47,7 @@ const handler = async (sock, msg, from, args, msgInfoObj) => {
   reply("Broadcasting...");
   groups.forEach((group) => {
     setTimeout(() => {
-      sock.sendMessage(group.id, { text: message, detectLinks: true });
+      bot.sendMessage(group.id, { text: message, detectLinks: true });
     }, time);
     time += 1000 * 30; //30 sec
   });

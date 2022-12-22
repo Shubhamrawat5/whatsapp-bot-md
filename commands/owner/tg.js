@@ -17,7 +17,7 @@ const getRandom = (ext) => {
   return `${Math.floor(Math.random() * 10000)}${ext}`;
 };
 
-const handler = async (sock, msg, from, args, msgInfoObj) => {
+const handler = async (bot, msg, from, args, msgInfoObj) => {
   let { prefix, reply, isTaggedDocument } = msgInfoObj;
 
   if (!isTaggedDocument) {
@@ -75,7 +75,7 @@ const handler = async (sock, msg, from, args, msgInfoObj) => {
         type: StickerTypes.DEFAULT,
         quality: 75,
       });
-      await sock.sendMessage(from, await sticker.toMessage());
+      await bot.sendMessage(from, await sticker.toMessage());
     }
   }, 0);
 };
