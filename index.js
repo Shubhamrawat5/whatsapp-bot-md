@@ -312,49 +312,145 @@ const startBot = async () => {
 
         //for study group
         if (from === pvxstudy) {
-          await bot.sendMessage(from, {
-            text: `Welcome @${num_split} to PVX Study group.\nhttps://pvxcommunity.com/\n\nKindly fill the Biodata form (mandatory for all)\n\n👇🏻👇🏻👇🏻👇🏻👇🏻\nhttps://forms.gle/uuvUwV5fTk8JAjoTA`,
-            mentions: [numJid],
-          });
+          await bot.sendMessage(
+            from,
+            {
+              text: `Welcome @${num_split}\nhttps://pvxcommunity.com/\n\nKindly fill the Biodata form (mandatory for all)\n\n👇🏻👇🏻👇🏻👇🏻👇🏻\nhttps://forms.gle/uuvUwV5fTk8JAjoTA`,
+              mentions: [numJid],
+            },
+            {
+              quoted: {
+                key: {
+                  remoteJid: from,
+                  fromMe: false,
+                  id: "710B5CF29EE7471fakeid",
+                  participant: "0@s.whatsapp.net",
+                },
+                messageTimestamp: 1671784177,
+                pushName: "WhatsApp",
+                message: { conversation: "Welcome to PVX STUDY" },
+              },
+            }
+          );
         }
 
         //for movies group
         if (from === pvxmovies) {
-          await bot.sendMessage(from, {
-            text: `Welcome @${num_split} to PVX Movies.\nhttps://pvxcommunity.com/\n\nWhat are your currently watching..?`,
-            mentions: [numJid],
-          });
+          await bot.sendMessage(
+            from,
+            {
+              text: `Welcome @${num_split}\nhttps://pvxcommunity.com/\n\nWhat are your currently watching..?`,
+              mentions: [numJid],
+            },
+            {
+              quoted: {
+                key: {
+                  remoteJid: from,
+                  fromMe: false,
+                  id: "710B5CF29EE7471fakeid",
+                  participant: "0@s.whatsapp.net",
+                },
+                messageTimestamp: 1671784177,
+                pushName: "WhatsApp",
+                message: { conversation: "Welcome to PVX MOVIES" },
+              },
+            }
+          );
         }
 
         //for community group
         if (from === pvxcommunity) {
-          await bot.sendMessage(from, {
-            text: `Welcome @${num_split} to PVX COMMUNITY.\nhttps://pvxcommunity.com/\n\nSend ${prefix}rules to know all PVX rules.\nIf you're new to PVX, please share how did you find us.`,
-            mentions: [numJid],
-          });
+          await bot.sendMessage(
+            from,
+            {
+              text: `Welcome @${num_split}\nhttps://pvxcommunity.com/\n\nSend ${prefix}rules to know all PVX rules.\nIf you're new to PVX, please share how did you find us.`,
+              mentions: [numJid],
+            },
+            {
+              quoted: {
+                key: {
+                  remoteJid: from,
+                  fromMe: false,
+                  id: "710B5CF29EE7471fakeid",
+                  participant: "0@s.whatsapp.net",
+                },
+                messageTimestamp: 1671784177,
+                pushName: "WhatsApp",
+                message: { conversation: "Welcome to PVX COMMUNITY" },
+              },
+            }
+          );
         }
 
         //for mano
         if (from === pvxmano) {
-          await bot.sendMessage(from, {
-            text: `Welcome  @${num_split} to PVX MANORANJAN 🔥\n\n1) Send videos regularly especially new members.\n2) Don't Send CP or any other illegal videos.\n 3) A group bot will be counting the number of videos you've sent.\nSend ${prefix}pvxv to know video count.\nInactive members will be kicked time to time.`,
-            mentions: [numJid],
-          });
+          await bot.sendMessage(
+            from,
+            {
+              text: `Welcome @${num_split}🔥\n\n1) Send videos regularly especially new members.\n2) Don't Send CP or any other illegal videos.\n 3) A group bot will be counting the number of videos you've sent.\nSend ${prefix}pvxv to know video count.\nInactive members will be kicked time to time.`,
+              mentions: [numJid],
+            },
+            {
+              quoted: {
+                key: {
+                  remoteJid: from,
+                  fromMe: false,
+                  id: "710B5CF29EE7471fakeid",
+                  participant: "0@s.whatsapp.net",
+                },
+                messageTimestamp: 1671784177,
+                pushName: "WhatsApp",
+                message: { conversation: "Welcome to PVX MANORANJAN" },
+              },
+            }
+          );
         }
 
         //for programmer group
         if (from === pvxprogrammer) {
-          await bot.sendMessage(from, {
-            text: `Welcome @${num_split} to PVX Programmers Group.\nhttps://pvxcommunity.com/\n\n*Kindly give your intro like*\nName:\nCollege/Degree:\nInterest:\nSkills:\nCompany(if working):`,
-            mentions: [numJid],
-          });
+          await bot.sendMessage(
+            from,
+            {
+              text: `Welcome @${num_split}\nhttps://pvxcommunity.com/\n\n*Kindly give your intro like*\nName:\nCollege/Degree:\nInterest:\nSkills:\nCompany(if working):`,
+              mentions: [numJid],
+            },
+            {
+              quoted: {
+                key: {
+                  remoteJid: from,
+                  fromMe: false,
+                  id: "710B5CF29EE7471fakeid",
+                  participant: "0@s.whatsapp.net",
+                },
+                messageTimestamp: 1671784177,
+                pushName: "WhatsApp",
+                message: { conversation: "Welcome to PVX PROGRAMMERS" },
+              },
+            }
+          );
         }
 
         if (from === pvxsticker1 || from === pvxsticker2) {
-          await bot.sendMessage(from, {
-            text: `Welcome @${num_split} to PVX Stickers\nhttps://pvxcommunity.com/\n\n1) Don't make any type of sticker that targets any caste, community, religion, sex, creed, etc.\n2) The use of any kind of 18+ media (be it nudes or semi nudes) is not allowed.\n3) Every sticker you make here gets PVX branding in it along with website, so You'll get instant ban on disobeying any rule`,
-            mentions: [numJid],
-          });
+          await bot.sendMessage(
+            from,
+            {
+              text: `Welcome @${num_split}https://pvxcommunity.com/\n\n1) Don't make any type of sticker that targets any caste, community, religion, sex, creed, etc.\n2) The use of any kind of 18+ media (be it nudes or semi nudes) is not allowed.\n3) Every sticker you make here gets PVX branding in it along with website, so You'll get instant ban on disobeying any rule`,
+              mentions: [numJid],
+            },
+            {
+              quoted: {
+                key: {
+                  remoteJid: from,
+                  fromMe: false,
+                  id: "710B5CF29EE7471fakeid",
+                  participant: "0@s.whatsapp.net",
+                },
+                messageTimestamp: 1671784177,
+                pushName: "WhatsApp",
+                message: { conversation: "Welcome to PVX STICKER" },
+              },
+            }
+          );
         }
 
         let botNumberJid = bot.user.id; //'1506xxxxx54:3@s.whatsapp.net'
@@ -774,7 +870,7 @@ const startBot = async () => {
     } catch (err) {
       console.log(err);
       await bot.sendMessage(myNumber + "@s.whatsapp.net", {
-        text: `ERROR: [${prefix}${command}] [${groupName}]\n${err}`,
+        text: `ERROR: ${err}`,
       });
       return;
     }
@@ -797,7 +893,7 @@ const startBot = async () => {
       ) {
         console.log("CONNECTION CLOSE.");
         ++startCount;
-        console.log("--- START SOCK COUNT -->", startCount);
+        console.log("--- START BOT COUNT -->", startCount);
         startBot();
       } else {
         console.log("Connection closed. You are logged out.");
