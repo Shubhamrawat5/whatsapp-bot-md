@@ -28,16 +28,12 @@ app.listen(port, () => {
 const {
   default: makeWASocket,
   DisconnectReason,
-  AnyMessageContent,
   delay,
-  useSingleFileAuthState,
-  makeInMemoryStore,
+  useMultiFileAuthState,
   fetchLatestBaileysVersion,
   downloadContentFromMessage,
-  WA_DEFAULT_EPHEMERAL,
 } = require("@adiwajshing/baileys");
-const { Boom } = require("@hapi/boom");
-const P = require("pino");
+const pino = require("pino");
 const { Sticker, StickerTypes } = require("wa-sticker-formatter");
 const util = require("util");
 
@@ -94,20 +90,11 @@ const pvxstickeronly1 = "919557666582-1628610549@g.us";
 const pvxstickeronly2 = "919557666582-1586018947@g.us";
 const pvxdeals = "919557666582-1582555632@g.us";
 
-const store = makeInMemoryStore({
-  logger: P().child({ level: "debug", stream: "store" }),
-});
-
 try {
   fs.unlinkSync("./auth_info_multi.json");
 } catch (err) {
   console.log("Local auth file already deleted");
 }
-
-const { state, saveState } = useSingleFileAuthState("./auth_info_multi.json");
-const MAIN_LOGGER = P({ timestamp: () => `,"time":"${new Date().toJSON()}"` });
-const logger = MAIN_LOGGER.child({});
-logger.level = "warn";
 
 const addCommands = async () => {
   let path = "./commands/public/";
@@ -173,6 +160,10 @@ const getGroupAdmins = (participants) => {
 };
 
 const startBot = async () => {
+  const { state, saveCreds } = await useMultiFileAuthState(
+    "./auth_info_multi.json"
+  );
+
   addCommands();
   clearInterval(authSaveInterval);
   clearInterval(dateCheckerInterval);
@@ -180,14 +171,11 @@ const startBot = async () => {
     clearInterval(e);
   });
 
-  // store.readFromFile("./baileys_store_multi.json");
-  // save every 1m
-
   const { version, isLatest } = await fetchLatestBaileysVersion();
   console.log(`using WA v${version.join(".")}, isLatest: ${isLatest}`);
 
-  let noLogs = P({ level: "silent" }); //to hide the chat logs
-  let yesLogs = P({ level: "debug" });
+  let noLogs = pino({ level: "silent" }); //to hide the chat logs
+  let yesLogs = pino({ level: "debug" });
 
   //Fetch login auth
   const { cred, auth_row_count } = await fetchAuth(state);
@@ -201,8 +189,6 @@ const startBot = async () => {
     printQRInTerminal: true,
     auth: state,
   });
-
-  store.bind(bot.ev);
 
   if (pvx) {
     let usedDate = new Date()
@@ -236,8 +222,6 @@ const startBot = async () => {
       }
     }, 1000 * 60 * 20); //20 min
   }
-
-  // store.bind(bot.ev);
 
   const sendMessageWTyping = async (msg, jid) => {
     await bot.presenceSubscribe(jid);
@@ -908,7 +892,7 @@ const startBot = async () => {
   });
   // listen for when the auth credentials is updated
   bot.ev.on("creds.update", async () => {
-    saveState();
+    saveCreds();
     await storeAuth(state);
   });
 
