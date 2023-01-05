@@ -35,8 +35,6 @@ const {
 } = require("@adiwajshing/baileys");
 const pino = require("pino");
 const { Sticker, StickerTypes } = require("wa-sticker-formatter");
-const util = require("util");
-
 const fs = require("fs");
 
 // start a connection
@@ -52,18 +50,12 @@ const { postStudyInfo } = require("./functions/postStudyInfo");
 const { postTechNews } = require("./functions/postTechNews");
 const { checkTodayBday } = require("./functions/checkTodayBday");
 const { storeAuth, fetchAuth } = require("./db/authDB");
+const { getGroupAdmins } = require("./functions/getGroupAdmins");
+const { addCommands } = require("./functions/addCommands");
 
 require("dotenv").config();
 const myNumber = process.env.myNumber;
 const pvx = process.env.pvx;
-
-const readdir = util.promisify(fs.readdir);
-const readFile = util.promisify(fs.readFile);
-
-const commandsPublic = {};
-const commandsMembers = {};
-const commandsAdmins = {};
-const commandsOwners = {};
 
 const prefix = "!";
 
@@ -96,75 +88,13 @@ try {
   console.log("Local auth file already deleted");
 }
 
-const addCommands = async () => {
-  let path = "./commands/public/";
-  let filenames = await readdir(path);
-  filenames.forEach((file) => {
-    if (file.endsWith(".js")) {
-      let { command } = require(path + file);
-      let cmdinfo = command(); // {cmd:["",""], handler:function}
-      // console.log(cmdinfo.cmd);
-      for (let c of cmdinfo.cmd) {
-        commandsPublic[c] = cmdinfo.handler;
-      }
-    }
-  });
-
-  path = "./commands/group/members/";
-  filenames = await readdir(path);
-  filenames.forEach((file) => {
-    if (file.endsWith(".js")) {
-      let { command } = require(path + file);
-      let cmdinfo = command(); // {cmd:["",""], handler:function}
-      // console.log(cmdinfo.cmd);
-      for (let c of cmdinfo.cmd) {
-        commandsMembers[c] = cmdinfo.handler;
-      }
-    }
-  });
-
-  path = "./commands/group/admins/";
-  filenames = await readdir(path);
-  filenames.forEach((file) => {
-    if (file.endsWith(".js")) {
-      let { command } = require(path + file);
-      let cmdinfo = command(); // {cmd:["",""], handler:function}
-      // console.log(cmdinfo.cmd);
-      for (let c of cmdinfo.cmd) {
-        commandsAdmins[c] = cmdinfo.handler;
-      }
-    }
-  });
-
-  path = "./commands/owner/";
-  filenames = await readdir(path);
-  filenames.forEach((file) => {
-    if (file.endsWith(".js")) {
-      let { command } = require(path + file);
-      let cmdinfo = command(); // {cmd:["",""], handler:function}
-      // console.log(cmdinfo.cmd);
-      for (let c of cmdinfo.cmd) {
-        commandsOwners[c] = cmdinfo.handler;
-      }
-    }
-  });
-  console.log("Commands Added!");
-};
-
-const getGroupAdmins = (participants) => {
-  admins = [];
-  for (let memb of participants) {
-    memb.admin ? admins.push(memb.id) : "";
-  }
-  return admins;
-};
-
 const startBot = async () => {
   const { state, saveCreds } = await useMultiFileAuthState(
     "./auth_info_multi.json"
   );
 
-  addCommands();
+  const { commandsPublic, commandsMembers, commandsAdmins, commandsOwners } =
+    await addCommands();
   clearInterval(authSaveInterval);
   clearInterval(dateCheckerInterval);
   Object.keys(cricSetIntervalGroups).forEach((e) => {
@@ -312,7 +242,7 @@ const startBot = async () => {
                 },
                 messageTimestamp: 1671784177,
                 pushName: "WhatsApp",
-                message: { conversation: "Welcome to PVX STUDY" },
+                message: { conversation: "PVX STUDY" },
               },
             }
           );
@@ -336,7 +266,7 @@ const startBot = async () => {
                 },
                 messageTimestamp: 1671784177,
                 pushName: "WhatsApp",
-                message: { conversation: "Welcome to PVX MOVIES" },
+                message: { conversation: "PVX MOVIES" },
               },
             }
           );
@@ -360,7 +290,7 @@ const startBot = async () => {
                 },
                 messageTimestamp: 1671784177,
                 pushName: "WhatsApp",
-                message: { conversation: "Welcome to PVX COMMUNITY" },
+                message: { conversation: "PVX COMMUNITY" },
               },
             }
           );
@@ -384,7 +314,7 @@ const startBot = async () => {
                 },
                 messageTimestamp: 1671784177,
                 pushName: "WhatsApp",
-                message: { conversation: "Welcome to PVX MANORANJAN" },
+                message: { conversation: "PVX MANORANJAN" },
               },
             }
           );
@@ -408,7 +338,7 @@ const startBot = async () => {
                 },
                 messageTimestamp: 1671784177,
                 pushName: "WhatsApp",
-                message: { conversation: "Welcome to PVX PROGRAMMERS" },
+                message: { conversation: "PVX PROGRAMMERS" },
               },
             }
           );
@@ -431,7 +361,7 @@ const startBot = async () => {
                 },
                 messageTimestamp: 1671784177,
                 pushName: "WhatsApp",
-                message: { conversation: "Welcome to PVX STICKER" },
+                message: { conversation: "PVX STICKER" },
               },
             }
           );
