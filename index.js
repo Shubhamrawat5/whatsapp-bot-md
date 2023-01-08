@@ -88,6 +88,12 @@ try {
   console.log("Local auth file already deleted");
 }
 
+// if (pvx) {
+//   setTimeout(() => {
+//     throw new Error("To restart app");
+//   }, 1000 * 60 * 60 * 1); //1 hour
+// }
+
 const startBot = async () => {
   const { state, saveCreds } = await useMultiFileAuthState(
     "./auth_info_multi.json"
@@ -410,26 +416,17 @@ const startBot = async () => {
 
       //body will have the text message
       let body =
-        type === "conversation" && msg.message.conversation.startsWith(prefix)
+        type === "conversation"
           ? msg.message.conversation
-          : type == "imageMessage" &&
-            msg.message.imageMessage.caption &&
-            msg.message.imageMessage.caption.startsWith(prefix)
+          : type == "imageMessage" && msg.message.imageMessage.caption
           ? msg.message.imageMessage.caption
-          : type == "videoMessage" &&
-            msg.message.videoMessage.caption &&
-            msg.message.videoMessage.caption.startsWith(prefix)
+          : type == "videoMessage" && msg.message.videoMessage.caption
           ? msg.message.videoMessage.caption
           : type == "extendedTextMessage" &&
-            msg.message.extendedTextMessage.text &&
-            msg.message.extendedTextMessage.text.startsWith(prefix)
+            msg.message.extendedTextMessage.text
           ? msg.message.extendedTextMessage.text
           : "";
       // console.log(body);
-      if (body[1] == " ") body = body[0] + body.slice(2); //remove space when space btw prefix and commandName like "! help"
-      const command = body.slice(1).trim().split(/ +/).shift().toLowerCase();
-      const args = body.trim().split(/ +/).slice(1);
-      const isCmd = body.startsWith(prefix);
 
       const isGroup = from.endsWith("@g.us");
       const groupMetadata = isGroup ? await bot.groupMetadata(from) : "";
@@ -502,15 +499,33 @@ const startBot = async () => {
         countSent += 1;
       }
 
+      console.log(
+        "[Message]",
+        body.substr(0, 10),
+        "[FROM]",
+        sender.split("@")[0],
+        "[IN]",
+        groupName
+      );
+      const isCmd = body.startsWith(prefix);
       if (!isCmd) return;
 
-      let groupDesc;
-      try {
-        groupDesc = isGroup ? groupMetadata.desc.toString() : "";
-      } catch {
-        //when group description is empty
-        groupDesc = "";
-      }
+      if (body[1] == " ") body = body[0] + body.slice(2); //remove space when space btw prefix and commandName like "! help"
+      const command = body.slice(1).trim().split(/ +/).shift().toLowerCase();
+      const args = body.trim().split(/ +/).slice(1);
+
+      // Display every command info
+      console.log(
+        "[COMMAND]",
+        command,
+        "[FROM]",
+        sender.split("@")[0],
+        "[IN]",
+        groupName
+      );
+
+      const groupDesc =
+        isGroup && groupMetadata.desc ? groupMetadata.desc.toString() : "";
       const groupMembers = isGroup ? groupMetadata.participants : "";
       const groupAdmins = isGroup ? getGroupAdmins(groupMembers) : "";
       const isBotGroupAdmins = groupAdmins.includes(botNumberJid) || false;
@@ -529,16 +544,6 @@ const startBot = async () => {
       const reply = (text) => {
         bot.sendMessage(from, { text }, { quoted: m.messages[0] });
       };
-
-      // Display every command info
-      console.log(
-        "[COMMAND]",
-        command,
-        "[FROM]",
-        sender.split("@")[0],
-        "[IN]",
-        groupName
-      );
 
       //CHECK IF COMMAND IF DISABLED FOR CURRENT GROUP OR NOT
       let resDisabled = await getDisableCommandData(from);
@@ -805,7 +810,7 @@ const startBot = async () => {
           lastDisconnect.error.output &&
           lastDisconnect.error.output.statusCode) !== DisconnectReason.loggedOut
       ) {
-        console.log("CONNECTION CLOSE.");
+        console.log("CONNECTION CLOSE DUE TO ", lastDisconnect.error);
         ++startCount;
         console.log("--- START BOT COUNT -->", startCount);
         startBot();
