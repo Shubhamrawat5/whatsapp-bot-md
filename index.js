@@ -397,17 +397,38 @@ const startBot = async () => {
   });
 
   bot.ev.on("messages.upsert", async (m) => {
-    // console.log(JSON.stringify(m, undefined, 2));
+    // console.log("m", JSON.stringify(m, undefined, 2));
     // console.log(m.messages);
-    // if (msg.key && msg.key.remoteJid == "status@broadcast") return;
     try {
       const msg = JSON.parse(JSON.stringify(m)).messages[0];
+      // console.log("msg", msg);
+      if (msg.key && msg.key.remoteJid == "status@broadcast") return;
       if (!msg.message) return; //when demote, add, remove, etc happen then msg.message is not there
 
       const content = JSON.stringify(msg.message);
       const from = msg.key.remoteJid;
       // console.log(msg);
-      const type = Object.keys(msg.message)[0];
+      // let type = Object.keys(msg.message)[0];
+      // if (type === "senderKeyDistributionMessage") {
+      //   type = Object.keys(msg.message)[1];
+      // }
+      const type = msg.message.conversation
+        ? "conversation"
+        : msg.message.reactionMessage
+        ? "reactionMessage"
+        : msg.message.imageMessage
+        ? "imageMessage"
+        : msg.message.videoMessage
+        ? "videoMessage"
+        : msg.message.extendedTextMessage
+        ? "extendedTextMessage"
+        : msg.message.stickerMessage
+        ? "stickerMessage"
+        : msg.message.documentMessage
+        ? "documentMessage"
+        : msg.message.ephemeralMessage
+        ? "ephemeralMessage"
+        : "";
 
       let botNumberJid = bot.user.id; //'1506xxxxx54:3@s.whatsapp.net'
       botNumberJid =
@@ -418,6 +439,8 @@ const startBot = async () => {
       let body =
         type === "conversation"
           ? msg.message.conversation
+          : type === "reactionMessage" && msg.message.reactionMessage.text
+          ? msg.message.reactionMessage.text
           : type == "imageMessage" && msg.message.imageMessage.caption
           ? msg.message.imageMessage.caption
           : type == "videoMessage" && msg.message.videoMessage.caption
@@ -499,14 +522,20 @@ const startBot = async () => {
         countSent += 1;
       }
 
-      console.log(
-        "[Message]",
-        body.substr(0, 10),
-        "[FROM]",
-        sender.split("@")[0],
-        "[IN]",
-        groupName
-      );
+      const messageLog =
+        "[Message] " +
+        (body ? body.substr(0, 20) : type) +
+        " [FROM] " +
+        sender.split("@")[0] +
+        " [IN] " +
+        groupName +
+        "\n";
+      // fs.appendFile("./message.txt", messageLog, "utf-8", function (err) {
+      //   if (err) throw err;
+      //   console.log("Data is appended to file successfully.");
+      // });
+      console.log(messageLog);
+
       const isCmd = body.startsWith(prefix);
       if (!isCmd) return;
 
