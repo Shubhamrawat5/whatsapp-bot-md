@@ -52,6 +52,7 @@ const { checkTodayBday } = require("./functions/checkTodayBday");
 const { storeAuth, fetchAuth } = require("./db/authDB");
 const { getGroupAdmins } = require("./functions/getGroupAdmins");
 const { addCommands } = require("./functions/addCommands");
+const { LoggerTg } = require("./functions/loggerTg");
 
 require("dotenv").config();
 const myNumber = process.env.myNumber;
@@ -528,7 +529,7 @@ const startBot = async () => {
       }
 
       const messageLog =
-        "[Message] " +
+        "[MESSAGE] " +
         (body ? body.substr(0, 20) : type) +
         " [FROM] " +
         sender.split("@")[0] +
@@ -545,6 +546,14 @@ const startBot = async () => {
       // fs.appendFile("./message.txt", messageLog + "\n", "utf-8", function (err) {
       //   if (err) console.log(err);
       // });
+      if (pvx && from === pvxcommunity && type !== "reactionMessage") {
+        let msgLogForTg =
+          (body ? body.substr(0, 40) : type) +
+          `\n[${senderName}] ` +
+          sender.split("@")[0];
+        LoggerTg(msgLogForTg);
+        // LoggerTg(JSON.stringify(msg.message) + "\n" + messageLog);
+      }
       console.log(messageLog);
 
       const isCmd = body.startsWith(prefix);
