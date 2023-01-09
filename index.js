@@ -248,7 +248,7 @@ const startBot = async () => {
                 },
                 messageTimestamp: 1671784177,
                 pushName: "WhatsApp",
-                message: { conversation: "PVX STUDY" },
+                message: { conversation: "WELCOME TO PVX STUDY" },
               },
             }
           );
@@ -272,7 +272,7 @@ const startBot = async () => {
                 },
                 messageTimestamp: 1671784177,
                 pushName: "WhatsApp",
-                message: { conversation: "PVX MOVIES" },
+                message: { conversation: "WELCOME TO PVX MOVIES" },
               },
             }
           );
@@ -296,7 +296,7 @@ const startBot = async () => {
                 },
                 messageTimestamp: 1671784177,
                 pushName: "WhatsApp",
-                message: { conversation: "PVX COMMUNITY" },
+                message: { conversation: "WELCOME TO PVX COMMUNITY" },
               },
             }
           );
@@ -320,7 +320,7 @@ const startBot = async () => {
                 },
                 messageTimestamp: 1671784177,
                 pushName: "WhatsApp",
-                message: { conversation: "PVX MANORANJAN" },
+                message: { conversation: "WELCOME TO PVX MANORANJAN" },
               },
             }
           );
@@ -344,7 +344,7 @@ const startBot = async () => {
                 },
                 messageTimestamp: 1671784177,
                 pushName: "WhatsApp",
-                message: { conversation: "PVX PROGRAMMERS" },
+                message: { conversation: "WELCOME TO PVX PROGRAMMERS" },
               },
             }
           );
@@ -354,7 +354,7 @@ const startBot = async () => {
           await bot.sendMessage(
             from,
             {
-              text: `Welcome @${num_split}https://pvxcommunity.com/\n\n1) Don't make any type of sticker that targets any caste, community, religion, sex, creed, etc.\n2) The use of any kind of 18+ media (be it nudes or semi nudes) is not allowed.\n3) Every sticker you make here gets PVX branding in it along with website, so You'll get instant ban on disobeying any rule`,
+              text: `Welcome @${num_split}\nhttps://pvxcommunity.com/\n\n1) Don't make any type of sticker that targets any caste, community, religion, sex, creed, etc.\n2) The use of any kind of 18+ media (be it nudes or semi nudes) is not allowed.\n3) Every sticker you make here gets PVX branding in it along with website, so You'll get instant ban on disobeying any rule`,
               mentions: [numJid],
             },
             {
@@ -367,7 +367,7 @@ const startBot = async () => {
                 },
                 messageTimestamp: 1671784177,
                 pushName: "WhatsApp",
-                message: { conversation: "PVX STICKER" },
+                message: { conversation: "WELCOME TO PVX STICKER" },
               },
             }
           );
@@ -428,7 +428,12 @@ const startBot = async () => {
         ? "documentMessage"
         : msg.message.ephemeralMessage
         ? "ephemeralMessage"
+        : msg.message.protocolMessage
+        ? "protocolMessage"
+        : msg.message.senderKeyDistributionMessage
+        ? "senderKeyDistributionMessage"
         : "";
+      //ephemeralMessage are from disappearing chat
 
       let botNumberJid = bot.user.id; //'1506xxxxx54:3@s.whatsapp.net'
       botNumberJid =
@@ -528,11 +533,17 @@ const startBot = async () => {
         " [FROM] " +
         sender.split("@")[0] +
         " [IN] " +
-        groupName +
-        "\n";
-      // fs.appendFile("./message.txt", messageLog, "utf-8", function (err) {
-      //   if (err) throw err;
-      //   console.log("Data is appended to file successfully.");
+        groupName;
+      // fs.appendFile(
+      //   "./message.txt",
+      //   "\n" + JSON.stringify(msg.message) + "\n",
+      //   "utf-8",
+      //   function (err) {
+      //     if (err) console.log(err);
+      //   }
+      // );
+      // fs.appendFile("./message.txt", messageLog + "\n", "utf-8", function (err) {
+      //   if (err) console.log(err);
       // });
       console.log(messageLog);
 
