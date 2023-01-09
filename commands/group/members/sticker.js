@@ -5,6 +5,9 @@ const {
 } = require("@adiwajshing/baileys");
 const fs = require("fs");
 const { Sticker, StickerTypes } = require("wa-sticker-formatter");
+const ffmpegPath = require("@ffmpeg-installer/ffmpeg").path;
+const ffmpeg = require("fluent-ffmpeg");
+ffmpeg.setFfmpegPath(ffmpegPath);
 
 module.exports.command = () => {
   let cmd = ["sticker", "s"];
