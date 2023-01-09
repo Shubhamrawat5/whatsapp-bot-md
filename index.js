@@ -181,6 +181,11 @@ const startBot = async () => {
   //   console.log(`recv ${item.contacts.length} contacts`)
   // );
 
+  let botNumberJid = bot.user.id; //'1506xxxxx54:3@s.whatsapp.net'
+  botNumberJid =
+    botNumberJid.slice(0, botNumberJid.search(":")) +
+    botNumberJid.slice(botNumberJid.search("@"));
+
   //---------------------------------------group-participants.update-----------------------------------------//
   bot.ev.on("group-participants.update", async (msg) => {
     try {
@@ -374,10 +379,6 @@ const startBot = async () => {
           );
         }
 
-        let botNumberJid = bot.user.id; //'1506xxxxx54:3@s.whatsapp.net'
-        botNumberJid =
-          botNumberJid.slice(0, botNumberJid.search(":")) +
-          botNumberJid.slice(botNumberJid.search("@"));
         if (numJid === botNumberJid) {
           console.log("Bot is added to new group!");
           await bot.sendMessage(myNumber + "@s.whatsapp.net", {
@@ -435,11 +436,6 @@ const startBot = async () => {
         ? "senderKeyDistributionMessage"
         : "";
       //ephemeralMessage are from disappearing chat
-
-      let botNumberJid = bot.user.id; //'1506xxxxx54:3@s.whatsapp.net'
-      botNumberJid =
-        botNumberJid.slice(0, botNumberJid.search(":")) +
-        botNumberJid.slice(botNumberJid.search("@"));
 
       //body will have the text message
       let body =
@@ -534,7 +530,10 @@ const startBot = async () => {
         " [FROM] " +
         sender.split("@")[0] +
         " [IN] " +
-        groupName;
+        (groupName || from);
+      console.log(messageLog);
+
+      // if (pvx && from === pvxcommunity && type !== "reactionMessage") {
       // fs.appendFile(
       //   "./message.txt",
       //   "\n" + JSON.stringify(msg.message) + "\n",
@@ -546,15 +545,12 @@ const startBot = async () => {
       // fs.appendFile("./message.txt", messageLog + "\n", "utf-8", function (err) {
       //   if (err) console.log(err);
       // });
-      if (pvx && from === pvxcommunity && type !== "reactionMessage") {
-        let msgLogForTg =
-          (body ? body.substr(0, 40) : type) +
-          `\n[${senderName}] ` +
-          sender.split("@")[0];
-        LoggerTg(msgLogForTg);
-        // LoggerTg(JSON.stringify(msg.message) + "\n" + messageLog);
-      }
-      console.log(messageLog);
+      // let msgLogForTg =
+      //   (body ? body.substr(0, 40) : type) +
+      //   `\n[${senderName}] ` +
+      //   sender.split("@")[0];
+      // LoggerTg(msgLogForTg);
+      // }
 
       const isCmd = body.startsWith(prefix);
       if (!isCmd) return;
@@ -570,7 +566,7 @@ const startBot = async () => {
         "[FROM]",
         sender.split("@")[0],
         "[IN]",
-        groupName
+        groupName || from
       );
 
       const groupDesc =
