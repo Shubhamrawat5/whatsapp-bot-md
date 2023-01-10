@@ -188,14 +188,29 @@ const startBot = async () => {
     botNumberJid.slice(0, botNumberJid.search(":")) +
     botNumberJid.slice(botNumberJid.search("@"));
 
+  bot.ev.on("groups.upsert", async (msg) => {
+    //new group added
+    console.log("[groups.upsert]");
+    const from = msg[0].id;
+    cache.del(from + ":groupMetadata");
+  });
+
+  bot.ev.on("groups.update", async (msg) => {
+    //subject change, etc
+    console.log("[groups.update]");
+    const from = msg[0].id;
+    cache.del(from + ":groupMetadata");
+  });
+
   //---------------------------------------group-participants.update-----------------------------------------//
   bot.ev.on("group-participants.update", async (msg) => {
+    console.log("[group-participants.update]");
     try {
       let from = msg.id;
+      cache.del(from + ":groupMetadata");
       const groupMetadata = await bot.groupMetadata(from);
       let groupDesc = groupMetadata.desc.toString();
       let groupSubject = groupMetadata.subject;
-      let blockCommandsInDesc = []; //commands to be blocked
       if (groupDesc) {
         let firstLineDesc = groupDesc.split("\n")[0];
         blockCommandsInDesc = firstLineDesc.split(",");
@@ -456,12 +471,17 @@ const startBot = async () => {
       // console.log(body);
 
       const isGroup = from.endsWith("@g.us");
+
       let groupMetadata = "";
       if (isGroup) {
-        groupMetadata = cache.get(from + "groupMetadata");
+        groupMetadata = cache.get(from + ":groupMetadata");
         if (!groupMetadata) {
           groupMetadata = await bot.groupMetadata(from);
-          const success = cache.set(from + "groupMetadata", groupMetadata, 60);
+          const success = cache.set(
+            from + ":groupMetadata",
+            groupMetadata,
+            60 * 30
+          );
         }
       }
 
@@ -574,10 +594,10 @@ const startBot = async () => {
       //CHECK IF COMMAND IF DISABLED FOR CURRENT GROUP OR NOT
       let resDisabled = [];
       if (isGroup) {
-        resDisabled = cache.get(from + "resDisabled");
+        resDisabled = cache.get(from + ":resDisabled");
         if (!resDisabled) {
           resDisabled = await getDisableCommandData(from);
-          const success = cache.set(from + "resDisabled", resDisabled, 60);
+          const success = cache.set(from + ":resDisabled", resDisabled, 60);
         }
       }
       if (resDisabled.includes(command)) {
