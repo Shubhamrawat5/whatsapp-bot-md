@@ -33,11 +33,11 @@ const {
   delay,
   useMultiFileAuthState,
   fetchLatestBaileysVersion,
-  downloadContentFromMessage,
 } = require("@adiwajshing/baileys");
 const pino = require("pino");
-const { Sticker, StickerTypes } = require("wa-sticker-formatter");
 const fs = require("fs");
+const NodeCache = require("node-cache");
+const cache = new NodeCache();
 
 // start a connection
 // console.log('state : ', state.creds);
@@ -55,6 +55,7 @@ const { storeAuth, fetchAuth } = require("./db/authDB");
 const { getGroupAdmins } = require("./functions/getGroupAdmins");
 const { addCommands } = require("./functions/addCommands");
 const { LoggerTg } = require("./functions/loggerTg");
+const { forwardSticker } = require("./functions/forwardSticker");
 
 require("dotenv").config();
 const myNumber = process.env.myNumber;
@@ -62,7 +63,6 @@ const pvx = process.env.pvx;
 
 const prefix = "!";
 
-let countSent = 1;
 let commandSent = 1;
 let startCount = 1;
 
@@ -456,7 +456,15 @@ const startBot = async () => {
       // console.log(body);
 
       const isGroup = from.endsWith("@g.us");
-      const groupMetadata = isGroup ? await bot.groupMetadata(from) : "";
+      let groupMetadata = "";
+      if (isGroup) {
+        groupMetadata = cache.get(from + "groupMetadata");
+        if (!groupMetadata) {
+          groupMetadata = await bot.groupMetadata(from);
+          const success = cache.set(from + "groupMetadata", groupMetadata, 60);
+        }
+      }
+
       const groupName = isGroup ? groupMetadata.subject : "";
       let sender = isGroup ? msg.key.participant : from;
       if (msg.key.fromMe) sender = botNumberJid;
@@ -494,36 +502,7 @@ const startBot = async () => {
         from !== pvxmano
       ) {
         // msg.key.fromMe == false &&
-        // "<{PVX}> BOT 🤖"
-
-        let downloadFilePath = msg.message.stickerMessage;
-        const stream = await downloadContentFromMessage(
-          downloadFilePath,
-          "sticker"
-        );
-        let buffer = Buffer.from([]);
-        for await (const chunk of stream) {
-          buffer = Buffer.concat([buffer, chunk]);
-        }
-
-        const sticker = new Sticker(buffer, {
-          pack: "BOT 🤖",
-          author: "pvxcommunity.com",
-          type: StickerTypes.DEFAULT,
-          quality: 80,
-        });
-
-        // WA_DEFAULT_EPHEMERAL = 604800 (7 days)
-        // 86400 = 60x60x24 (1 day)
-        await bot.sendMessage(pvxstickeronly1, await sticker.toMessage(), {
-          ephemeralExpiration: 86400,
-        });
-        await bot.sendMessage(pvxstickeronly2, await sticker.toMessage(), {
-          ephemeralExpiration: 86400,
-        });
-
-        console.log(`${countSent} sticker sent!`);
-        countSent += 1;
+        forwardSticker(bot, msg);
       }
 
       const messageLog =
@@ -593,7 +572,14 @@ const startBot = async () => {
       };
 
       //CHECK IF COMMAND IF DISABLED FOR CURRENT GROUP OR NOT
-      let resDisabled = await getDisableCommandData(from);
+      let resDisabled = [];
+      if (isGroup) {
+        resDisabled = cache.get(from + "resDisabled");
+        if (!resDisabled) {
+          resDisabled = await getDisableCommandData(from);
+          const success = cache.set(from + "resDisabled", resDisabled, 60);
+        }
+      }
       if (resDisabled.includes(command)) {
         reply("❌ Command disabled for this group!");
         return;
@@ -622,7 +608,7 @@ const startBot = async () => {
 
       // send every command info to my whatsapp, won't work when i send something for bot
       if (myNumber && myNumber + "@s.whatsapp.net" !== sender) {
-        await bot.sendMessage(myNumber + "@s.whatsapp.net", {
+        bot.sendMessage(myNumber + "@s.whatsapp.net", {
           text: `${commandSent}) [${prefix}${command}] [${groupName}]`,
         });
         ++commandSent;
