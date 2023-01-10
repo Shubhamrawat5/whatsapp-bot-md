@@ -7,6 +7,7 @@ app.use(express.static(__dirname));
 const port = process.env.PORT || 8080;
 app.get("/", (req, res) => {
   // res.send("Bot is running");
+  console.log("Get request to /");
   res.sendFile(__dirname + "/index.html");
 });
 
@@ -14,6 +15,7 @@ app.get("/", (req, res) => {
 const authHiddenPath = process.env.authHiddenPath; //to have a hidden path for auth db deletion
 const { dropAuth } = require("./db/dropauthDB");
 app.get("/" + authHiddenPath, async (req, res) => {
+  console.log("Get request to /" + authHiddenPath);
   let response = await dropAuth();
   if (response) res.send("Auth DB deleted!");
   else res.send("There is some error!");
@@ -848,24 +850,31 @@ const startBot = async () => {
 
   bot.ev.on("connection.update", (update) => {
     const { connection, lastDisconnect } = update;
-    if (connection === "close") {
+    if (connection === "open") {
+      console.log("Connected");
+      bot.sendMessage(myNumber + "@s.whatsapp.net", {
+        text: `[BOT STARTED] - ${startCount}`,
+      });
+    } else if (connection === "close") {
       // reconnect if not logged out
       if (
         (lastDisconnect.error &&
           lastDisconnect.error.output &&
           lastDisconnect.error.output.statusCode) !== DisconnectReason.loggedOut
       ) {
-        console.log("CONNECTION CLOSE DUE TO ", lastDisconnect.error);
+        console.log(
+          `CONNECTION CLOSE DUE TO ${lastDisconnect.error.toString()}`
+        );
         ++startCount;
         console.log("--- START BOT COUNT -->", startCount);
+        LoggerTg(
+          `CONNECTION CLOSE DUE TO ${lastDisconnect.error.toString()}\nBot start count: ${startCount}`
+        );
         startBot();
       } else {
-        console.log("Connection closed. You are logged out.");
+        LoggerTg(`"CONNECTION CLOSED. You are logged out"`);
+        console.log("CONNECTION CLOSED. You are logged out");
       }
-    }
-
-    if (connection === "open") {
-      console.log("Connected");
     }
 
     console.log("connection update", update);
