@@ -526,7 +526,7 @@ const startBot = async () => {
 
       const messageLog =
         "[MESSAGE] " +
-        (body ? body.substr(0, 20) : type) +
+        (body ? body.substr(0, 30) : type) +
         " [FROM] " +
         sender.split("@")[0] +
         " [IN] " +
