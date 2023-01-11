@@ -255,7 +255,7 @@ const startBot = async () => {
 
         //for study group
         if (from === pvxstudy) {
-          await bot.sendMessage(
+          bot.sendMessage(
             from,
             {
               text: `Welcome @${num_split}\nhttps://pvxcommunity.com/\n\nKindly fill the Biodata form (mandatory for all)\n\n👇🏻👇🏻👇🏻👇🏻👇🏻\nhttps://forms.gle/uuvUwV5fTk8JAjoTA`,
@@ -279,7 +279,7 @@ const startBot = async () => {
 
         //for movies group
         if (from === pvxmovies) {
-          await bot.sendMessage(
+          bot.sendMessage(
             from,
             {
               text: `Welcome @${num_split}\nhttps://pvxcommunity.com/\n\nWhat are your currently watching..?`,
@@ -303,7 +303,7 @@ const startBot = async () => {
 
         //for community group
         if (from === pvxcommunity) {
-          await bot.sendMessage(
+          bot.sendMessage(
             from,
             {
               text: `Welcome @${num_split}\nhttps://pvxcommunity.com/\n\nSend ${prefix}rules to know all PVX rules.\nIf you're new to PVX, please share how did you find us.`,
@@ -327,7 +327,7 @@ const startBot = async () => {
 
         //for mano
         if (from === pvxmano) {
-          await bot.sendMessage(
+          bot.sendMessage(
             from,
             {
               text: `Welcome @${num_split}🔥\n\n1) Send videos regularly especially new members.\n2) Don't Send CP or any other illegal videos.\n 3) A group bot will be counting the number of videos you've sent.\nSend ${prefix}pvxv to know video count.\nInactive members will be kicked time to time.`,
@@ -351,7 +351,7 @@ const startBot = async () => {
 
         //for programmer group
         if (from === pvxprogrammer) {
-          await bot.sendMessage(
+          bot.sendMessage(
             from,
             {
               text: `Welcome @${num_split}\nhttps://pvxcommunity.com/\n\n*Kindly give your intro like*\nName:\nCollege/Degree:\nInterest:\nSkills:\nCompany(if working):`,
@@ -374,7 +374,7 @@ const startBot = async () => {
         }
 
         if (from === pvxsticker1 || from === pvxsticker2) {
-          await bot.sendMessage(
+          bot.sendMessage(
             from,
             {
               text: `Welcome @${num_split}\nhttps://pvxcommunity.com/\n\n1) Don't make any type of sticker that targets any caste, community, religion, sex, creed, etc.\n2) The use of any kind of 18+ media (be it nudes or semi nudes) is not allowed.\n3) Every sticker you make here gets PVX branding in it along with website, so You'll get instant ban on disobeying any rule`,
@@ -398,7 +398,7 @@ const startBot = async () => {
 
         if (numJid === botNumberJid) {
           console.log("Bot is added to new group!");
-          await bot.sendMessage(myNumber + "@s.whatsapp.net", {
+          bot.sendMessage(myNumber + "@s.whatsapp.net", {
             text: `*─「 🔥 <{PVX}> BOT 🔥 」─* \n\nSEND ${prefix}help FOR BOT COMMANDS`,
           });
         }
@@ -409,7 +409,7 @@ const startBot = async () => {
       }
     } catch (err) {
       console.log(err);
-      await bot.sendMessage(myNumber + "@s.whatsapp.net", {
+      bot.sendMessage(myNumber + "@s.whatsapp.net", {
         text: `ERROR: ${err}`,
       });
     }
@@ -743,20 +743,14 @@ const startBot = async () => {
       try {
         /* ----------------------------- public commands ---------------------------- */
         if (commandsPublic[command]) {
-          await commandsPublic[command](
-            bot,
-            m.messages[0],
-            from,
-            args,
-            msgInfoObj
-          );
+          commandsPublic[command](bot, m.messages[0], from, args, msgInfoObj);
           return;
         }
 
         /* ------------------------- group members commands ------------------------- */
         if (commandsMembers[command]) {
           if (isGroup) {
-            await commandsMembers[command](
+            commandsMembers[command](
               bot,
               m.messages[0],
               from,
@@ -765,7 +759,7 @@ const startBot = async () => {
             );
             return;
           }
-          await bot.sendMessage(
+          bot.sendMessage(
             from,
             {
               text: "❌ Group command only!",
@@ -783,16 +777,10 @@ const startBot = async () => {
           }
 
           if (isGroupAdmins) {
-            await commandsAdmins[command](
-              bot,
-              m.messages[0],
-              from,
-              args,
-              msgInfoObj
-            );
+            commandsAdmins[command](bot, m.messages[0], from, args, msgInfoObj);
             return;
           }
-          await bot.sendMessage(
+          bot.sendMessage(
             from,
             {
               text: "❌ Admin command!",
@@ -805,16 +793,10 @@ const startBot = async () => {
         /* ----------------------------- owner commands ----------------------------- */
         if (commandsOwners[command]) {
           if (myNumber + "@s.whatsapp.net" === sender) {
-            await commandsOwners[command](
-              bot,
-              m.messages[0],
-              from,
-              args,
-              msgInfoObj
-            );
+            commandsOwners[command](bot, m.messages[0], from, args, msgInfoObj);
             return;
           }
-          await bot.sendMessage(
+          bot.sendMessage(
             from,
             {
               text: "❌ Owner command only!",
@@ -825,14 +807,15 @@ const startBot = async () => {
         }
       } catch (err) {
         console.log("[ERROR]: ", err);
+        LoggerTg(`ERROR: [${prefix}${command}] [${groupName}]\n${err}`);
         reply(err.toString());
-        await bot.sendMessage(myNumber + "@s.whatsapp.net", {
+        bot.sendMessage(myNumber + "@s.whatsapp.net", {
           text: `ERROR: [${prefix}${command}] [${groupName}]\n${err}`,
         });
       }
 
       /* ----------------------------- unknown command ---------------------------- */
-      await bot.sendMessage(
+      bot.sendMessage(
         from,
         {
           text: `Send ${prefix}help for <{PVX}> BOT commands!`,
@@ -841,7 +824,8 @@ const startBot = async () => {
       );
     } catch (err) {
       console.log(err);
-      await bot.sendMessage(myNumber + "@s.whatsapp.net", {
+      LoggerTg(`ERROR: ${err}`);
+      bot.sendMessage(myNumber + "@s.whatsapp.net", {
         text: `ERROR: ${err}`,
       });
       return;
@@ -868,18 +852,16 @@ const startBot = async () => {
           lastDisconnect.error.output &&
           lastDisconnect.error.output.statusCode) !== DisconnectReason.loggedOut
       ) {
-        console.log(
-          `CONNECTION CLOSE DUE TO ${lastDisconnect.error.toString()}`
-        );
+        console.log(`CONNECTION CLOSED: ${lastDisconnect.error.toString()}`);
         ++startCount;
         console.log("--- START BOT COUNT -->", startCount);
         LoggerTg(
-          `CONNECTION CLOSE DUE TO ${lastDisconnect.error.toString()}\nBot start count: ${startCount}`
+          `CONNECTION CLOSED: ${lastDisconnect.error.toString()}\nBot start count: ${startCount}`
         );
         startBot();
       } else {
-        LoggerTg(`"CONNECTION CLOSED. You are logged out"`);
-        console.log("CONNECTION CLOSED. You are logged out");
+        LoggerTg(`CONNECTION CLOSED: You are logged out`);
+        console.log("CONNECTION CLOSED: You are logged out");
       }
     }
 
@@ -888,7 +870,7 @@ const startBot = async () => {
   // listen for when the auth credentials is updated
   bot.ev.on("creds.update", async () => {
     saveCreds();
-    await storeAuth(state);
+    storeAuth(state);
   });
 
   return bot;
