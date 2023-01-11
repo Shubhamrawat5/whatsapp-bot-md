@@ -858,6 +858,7 @@ const startBot = async () => {
     // bot.ev.on("contacts.upsert", (m) => console.log(m));
 
     bot.ev.on("connection.update", (update) => {
+      LoggerTg(`connection.update: ${JSON.stringify(update)}`);
       const { connection, lastDisconnect } = update;
       if (connection === "open") {
         console.log("Connected");
