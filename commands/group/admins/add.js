@@ -36,22 +36,18 @@ const handler = async (bot, msg, from, args, msgInfoObj) => {
   }
 
   const response = await bot.groupParticipantsUpdate(from, [num], "add");
-  // console.log("RES:", response);
-
-  //TODO: response is not object
-  let number = `${num.split("@s.whatsapp.net")[0]}`;
-  let get_status = response[`${number}@c.us`];
-  if (get_status == 400) {
+  let { status } = response[0];
+  if (status == 400) {
     reply("_❌ Invalid number, include country code also!_");
-  } else if (get_status == 403) {
+  } else if (status == 403) {
     reply("_❌ Number has privacy on adding group!_");
-  } else if (get_status == 408) {
+  } else if (status == 408) {
     reply("_❌ Number has left the group recently!_");
-  } else if (get_status == 409) {
+  } else if (status == 409) {
     reply("_❌ Number is already in group!_");
-  } else if (get_status == 500) {
+  } else if (status == 500) {
     reply("_❌ Group is currently full!_");
-  } else if (get_status == 200) {
+  } else if (status == 200) {
     reply("_✔ Number added to group!_");
   }
 };

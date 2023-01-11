@@ -86,6 +86,7 @@ const pvxstickeronly2 = "919557666582-1586018947@g.us";
 const pvxdeals = "919557666582-1582555632@g.us";
 
 try {
+  // fs.rmSync("./auth_info_multi.json", { recursive: true, force: true });
   fs.unlinkSync("./auth_info_multi.json");
 } catch (err) {
   console.log("Local auth file already deleted");
@@ -184,7 +185,7 @@ const startBot = async () => {
     //   console.log(`recv ${item.contacts.length} contacts`)
     // );
 
-    let botNumberJid = bot.user.id; //'1506xxxxx54:3@s.whatsapp.net'
+    let botNumberJid = bot.user ? bot.user.id : ""; //'1506xxxxx54:3@s.whatsapp.net'
     botNumberJid =
       botNumberJid.slice(0, botNumberJid.search(":")) +
       botNumberJid.slice(botNumberJid.search("@"));

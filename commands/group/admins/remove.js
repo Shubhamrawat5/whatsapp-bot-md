@@ -57,7 +57,8 @@ const handler = async (bot, msg, from, args, msgInfoObj) => {
         mentioned,
         "remove"
       );
-      reply("_✔ Number removed from group!_");
+      if (response[0].status === "200") reply("_✔ Number removed from group!_");
+      else reply("_❌ There is some problem!_");
     } else {
       //if multiple members are tagged
       reply("❌ Mention only 1 member!");
@@ -77,6 +78,7 @@ const handler = async (bot, msg, from, args, msgInfoObj) => {
       taggedMessageUser,
       "remove"
     );
-    reply("_✔ Number removed from group!_");
+    if (response[0].status === "200") reply("_✔ Number removed from group!_");
+    else reply("_❌ There is some problem!_");
   }
 };
