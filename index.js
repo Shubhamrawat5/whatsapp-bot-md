@@ -278,7 +278,7 @@ const startBot = async () => {
 
           //for study group
           if (from === pvxstudy) {
-            bot.sendMessage(
+            await bot.sendMessage(
               from,
               {
                 text: `Welcome @${num_split}\nhttps://pvxcommunity.com/\n\nKindly fill the Biodata form (mandatory for all)\n\n👇🏻👇🏻👇🏻👇🏻👇🏻\nhttps://forms.gle/uuvUwV5fTk8JAjoTA`,
@@ -302,7 +302,7 @@ const startBot = async () => {
 
           //for movies group
           if (from === pvxmovies) {
-            bot.sendMessage(
+            await bot.sendMessage(
               from,
               {
                 text: `Welcome @${num_split}\nhttps://pvxcommunity.com/\n\nWhat are your currently watching..?`,
@@ -326,7 +326,7 @@ const startBot = async () => {
 
           //for community group
           if (from === pvxcommunity) {
-            bot.sendMessage(
+            await bot.sendMessage(
               from,
               {
                 text: `Welcome @${num_split}\nhttps://pvxcommunity.com/\n\nSend ${prefix}rules to know all PVX rules.\nIf you're new to PVX, please share how did you find us.`,
@@ -350,7 +350,7 @@ const startBot = async () => {
 
           //for mano
           if (from === pvxmano) {
-            bot.sendMessage(
+            await bot.sendMessage(
               from,
               {
                 text: `Welcome @${num_split}🔥\n\n1) Send videos regularly especially new members.\n2) Don't Send CP or any other illegal videos.\n 3) A group bot will be counting the number of videos you've sent.\nSend ${prefix}pvxv to know video count.\nInactive members will be kicked time to time.`,
@@ -374,7 +374,7 @@ const startBot = async () => {
 
           //for programmer group
           if (from === pvxprogrammer) {
-            bot.sendMessage(
+            await bot.sendMessage(
               from,
               {
                 text: `Welcome @${num_split}\nhttps://pvxcommunity.com/\n\n*Kindly give your intro like*\nName:\nCollege/Degree:\nInterest:\nSkills:\nCompany(if working):`,
@@ -397,7 +397,7 @@ const startBot = async () => {
           }
 
           if (from === pvxsticker1 || from === pvxsticker2) {
-            bot.sendMessage(
+            await bot.sendMessage(
               from,
               {
                 text: `Welcome @${num_split}\nhttps://pvxcommunity.com/\n\n1) Don't make any type of sticker that targets any caste, community, religion, sex, creed, etc.\n2) The use of any kind of 18+ media (be it nudes or semi nudes) is not allowed.\n3) Every sticker you make here gets PVX branding in it along with website, so You'll get instant ban on disobeying any rule`,
@@ -421,7 +421,7 @@ const startBot = async () => {
 
           if (numJid === botNumberJid) {
             console.log("Bot is added to new group!");
-            bot.sendMessage(myNumber + "@s.whatsapp.net", {
+            await bot.sendMessage(myNumber + "@s.whatsapp.net", {
               text: `*─「 🔥 <{PVX}> BOT 🔥 」─* \n\nSEND ${prefix}help FOR BOT COMMANDS`,
             });
           }
@@ -607,8 +607,8 @@ const startBot = async () => {
         const isTaggedDocument =
           type === "extendedTextMessage" && content.includes("documentMessage");
 
-        const reply = (text) => {
-          bot.sendMessage(from, { text }, { quoted: m.messages[0] });
+        const reply = async (text) => {
+          await bot.sendMessage(from, { text }, { quoted: m.messages[0] });
         };
 
         //CHECK IF COMMAND IF DISABLED FOR CURRENT GROUP OR NOT
@@ -621,7 +621,7 @@ const startBot = async () => {
           }
         }
         if (resDisabled.includes(command)) {
-          reply("❌ Command disabled for this group!");
+          await reply("❌ Command disabled for this group!");
           return;
         }
 
@@ -648,7 +648,7 @@ const startBot = async () => {
 
         // send every command info to my whatsapp, won't work when i send something for bot
         if (myNumber && myNumber + "@s.whatsapp.net" !== sender) {
-          bot.sendMessage(myNumber + "@s.whatsapp.net", {
+          await bot.sendMessage(myNumber + "@s.whatsapp.net", {
             text: `${commandSent}) [${prefix}${command}] [${groupName}]`,
           });
           ++commandSent;
@@ -657,7 +657,7 @@ const startBot = async () => {
         //return false when stopped in middle. return true when run fully
         const startcHelper = async (isFromSetInterval = false) => {
           if (!groupDesc) {
-            reply(
+            await reply(
               `❌ ERROR\n- Group description is empty.\n- Put match ID in starting of group description.\n- Get match ID from cricbuzz today match url.\n- example: https://www.cricbuzz.com/live-cricket-scores/37572/mi-vs-kkr-34th-match-indian-premier-league-2021 \n- so match ID is 37572 !\n# If you've put correct match ID in description starting and still facing this error then contact developer by !dev`
             );
 
@@ -666,7 +666,7 @@ const startBot = async () => {
 
           matchIdGroups[groupName] = groupDesc.slice(0, 5);
           if (!isFromSetInterval) {
-            reply(
+            await reply(
               "✔️ Starting Cricket scores for matchID: " +
                 matchIdGroups[groupName] +
                 " (taken from description)"
@@ -677,40 +677,42 @@ const startBot = async () => {
 
           //response.info have "MO" only when command is startc
           if (response.info === "MO") {
-            bot.sendMessage(from, { text: response.message });
-            reply("✔️ Match over! Stopping Cricket scores for this group !");
+            await bot.sendMessage(from, { text: response.message });
+            await reply(
+              "✔️ Match over! Stopping Cricket scores for this group !"
+            );
             console.log("Match over! Stopping Cricket scores for " + groupName);
             clearInterval(cricSetIntervalGroups[groupName]);
             cricStartedGroups[groupName] = false;
             return false;
           } else if (response.info === "IO") {
-            bot.sendMessage(from, { text: response.message });
-            reply(
+            await bot.sendMessage(from, { text: response.message });
+            await reply(
               "✔️ Inning over! Open again live scores later when 2nd inning will start by !startc"
             );
-            reply("✔️ Stopping Cricket scores for this group !");
+            await reply("✔️ Stopping Cricket scores for this group !");
             console.log("Stopping Cricket scores for " + groupName);
             clearInterval(cricSetIntervalGroups[groupName]);
             cricStartedGroups[groupName] = false;
             return false;
           } else if (response.info === "ER") {
-            reply(
+            await reply(
               `❌ ERROR\n- Group description starting is "${matchIdGroups[groupName]}"\n- Put match ID in starting of group description. \n- Get match ID from cricbuzz today match url.\n- example: https://www.cricbuzz.com/live-cricket-scores/37572/mi-vs-kkr-34th-match-indian-premier-league-2021 \n- so match ID is 37572 !\n# If you've put correct match ID in description starting and still facing this error then contact developer by !dev`
             );
             return false;
           }
-          bot.sendMessage(from, { text: response.message });
+          await bot.sendMessage(from, { text: response.message });
           return true;
         };
 
         switch (command) {
           case "startc":
             if (!isGroup) {
-              reply("❌ Group command only!");
+              await reply("❌ Group command only!");
               return;
             }
             if (cricStartedGroups[groupName]) {
-              reply("❌ CRICKET SCORES already started for this group!");
+              await reply("❌ CRICKET SCORES already started for this group!");
               return;
             }
 
@@ -726,35 +728,38 @@ const startBot = async () => {
 
           case "stopc":
             if (!isGroup) {
-              reply("❌ Group command only!");
+              await reply("❌ Group command only!");
               return;
             }
 
             if (cricStartedGroups[groupName]) {
-              reply("✔️ Stopping Cricket scores for this group !");
+              await reply("✔️ Stopping Cricket scores for this group !");
               console.log("Stopping Cricket scores for " + groupName);
               clearInterval(cricSetIntervalGroups[groupName]);
               cricStartedGroups[groupName] = false;
-            } else reply("❌ CRICKET scores was never started for this group!");
+            } else
+              await reply(
+                "❌ CRICKET scores was never started for this group!"
+              );
             return;
 
           case "test":
             if (myNumber + "@s.whatsapp.net" !== sender) {
-              reply(`❌ Command only for owner for bot testing purpose!`);
+              await reply(`❌ Command only for owner for bot testing purpose!`);
               return;
             }
 
             if (args.length === 0) {
-              reply(`❌ empty query!`);
+              await reply(`❌ empty query!`);
               return;
             }
             try {
               let resultTest = eval(args[0]);
               if (typeof resultTest === "object")
-                reply(JSON.stringify(resultTest));
-              else reply(resultTest.toString());
+                await reply(JSON.stringify(resultTest));
+              else await reply(resultTest.toString());
             } catch (err) {
-              reply(err.toString());
+              await reply(err.toString());
             }
             return;
         }
@@ -779,7 +784,7 @@ const startBot = async () => {
               );
               return;
             }
-            bot.sendMessage(
+            await bot.sendMessage(
               from,
               {
                 text: "❌ Group command only!",
@@ -792,7 +797,7 @@ const startBot = async () => {
           /* -------------------------- group admins commands ------------------------- */
           if (commandsAdmins[command]) {
             if (!isGroup) {
-              reply("❌ Group command only!");
+              await reply("❌ Group command only!");
               return;
             }
 
@@ -806,7 +811,7 @@ const startBot = async () => {
               );
               return;
             }
-            bot.sendMessage(
+            await bot.sendMessage(
               from,
               {
                 text: "❌ Admin command!",
@@ -828,7 +833,7 @@ const startBot = async () => {
               );
               return;
             }
-            bot.sendMessage(
+            await bot.sendMessage(
               from,
               {
                 text: "❌ Owner command only!",
@@ -838,12 +843,12 @@ const startBot = async () => {
             return;
           }
         } catch (err) {
-          reply(err.toString());
+          await reply(err.toString());
           LoggerBot(bot, "COMMAND-ERROR", err, msg);
         }
 
         /* ----------------------------- unknown command ---------------------------- */
-        bot.sendMessage(
+        await bot.sendMessage(
           from,
           {
             text: `Send ${prefix}help for <{PVX}> BOT commands!`,
@@ -861,13 +866,13 @@ const startBot = async () => {
     // bot.ev.on("chats.update", (m) => console.log(m));
     // bot.ev.on("contacts.upsert", (m) => console.log(m));
 
-    bot.ev.on("connection.update", (update) => {
+    bot.ev.on("connection.update", async (update) => {
       try {
         LoggerTg(`connection.update: ${JSON.stringify(update)}`);
         const { connection, lastDisconnect } = update;
         if (connection === "open") {
           console.log("Connected");
-          bot.sendMessage(myNumber + "@s.whatsapp.net", {
+          await bot.sendMessage(myNumber + "@s.whatsapp.net", {
             text: `[BOT STARTED] - ${startCount}`,
           });
         } else if (connection === "close") {
@@ -895,8 +900,8 @@ const startBot = async () => {
     // listen for when the auth credentials is updated
     bot.ev.on("creds.update", async () => {
       try {
-        saveCreds();
-        storeAuth(state);
+        await saveCreds();
+        await storeAuth(state);
       } catch (err) {
         LoggerBot(false, "creds.update", err, msg);
       }
