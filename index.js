@@ -57,7 +57,7 @@ const { checkTodayBday } = require("./functions/checkTodayBday");
 const { storeAuth, fetchAuth } = require("./db/authDB");
 const { getGroupAdmins } = require("./functions/getGroupAdmins");
 const { addCommands } = require("./functions/addCommands");
-const { LoggerTg } = require("./functions/loggerTg");
+const { LoggerBot, LoggerTg } = require("./functions/loggerBot");
 const { forwardSticker } = require("./functions/forwardSticker");
 
 require("dotenv").config();
@@ -102,6 +102,8 @@ try {
 // }
 
 const startBot = async () => {
+  console.log(`[STARTING BOT]: ${startCount}`);
+  LoggerTg(`[STARTING BOT]: ${startCount}`);
   try {
     const { state, saveCreds } = await useMultiFileAuthState(
       "./auth_info_multi.json"
@@ -208,17 +210,7 @@ const startBot = async () => {
         const from = msg[0].id;
         cache.del(from + ":groupMetadata");
       } catch (err) {
-        console.log(
-          `ERR [groups.upsert]: ${err.toString()}\nmsg: ${JSON.stringify(msg)}`
-        );
-        bot.sendMessage(myNumber + "@s.whatsapp.net", {
-          text: `ERR [groups.upsert]: ${err.toString()}\nmsg: ${JSON.stringify(
-            msg
-          )}`,
-        });
-        LoggerTg(
-          `ERR [groups.upsert]: ${err.toString()}\nmsg: ${JSON.stringify(msg)}`
-        );
+        LoggerBot(bot, "groups.upsert", err, msg);
       }
     });
 
@@ -229,17 +221,7 @@ const startBot = async () => {
         const from = msg[0].id;
         cache.del(from + ":groupMetadata");
       } catch (err) {
-        console.log(
-          `ERR [groups.update]: ${err.toString()}\nmsg: ${JSON.stringify(msg)}`
-        );
-        bot.sendMessage(myNumber + "@s.whatsapp.net", {
-          text: `ERR [groups.update]: ${err.toString()}\nmsg: ${JSON.stringify(
-            msg
-          )}`,
-        });
-        LoggerTg(
-          `ERR [groups.update]: ${err.toString()}\nmsg: ${JSON.stringify(msg)}`
-        );
+        LoggerBot(bot, "groups.update", err, msg);
       }
     });
 
@@ -449,21 +431,7 @@ const startBot = async () => {
           console.log(`[GROUP] ${groupSubject} [LEAVED] ${numJid}`);
         }
       } catch (err) {
-        console.log(
-          `ERR [group-participants.update]: ${err.toString()}\nmsg: ${JSON.stringify(
-            msg
-          )}`
-        );
-        bot.sendMessage(myNumber + "@s.whatsapp.net", {
-          text: `ERR [group-participants.update]: ${err.toString()}\nmsg: ${JSON.stringify(
-            msg
-          )}`,
-        });
-        LoggerTg(
-          `ERR [group-participants.update]: ${err.toString()}\nmsg: ${JSON.stringify(
-            msg
-          )}`
-        );
+        LoggerBot(bot, "group-participants.update", err, msg);
       }
     });
 
@@ -870,14 +838,8 @@ const startBot = async () => {
             return;
           }
         } catch (err) {
-          console.log("[COMMAND ERROR]: ", err);
-          LoggerTg(
-            `COMMAND ERROR: [${prefix}${command}] [${groupName}]\n${err.toString()}`
-          );
           reply(err.toString());
-          bot.sendMessage(myNumber + "@s.whatsapp.net", {
-            text: `COMMAND ERROR: [${prefix}${command}] [${groupName}]\n${err.toString()}`,
-          });
+          LoggerBot(bot, "COMMAND-ERROR", err, msg);
         }
 
         /* ----------------------------- unknown command ---------------------------- */
@@ -889,22 +851,7 @@ const startBot = async () => {
           { quoted: m.messages[0] }
         );
       } catch (err) {
-        console.log(
-          `ERR [messages.upsert]: ${err.toString()}\nmsg: ${JSON.stringify(
-            msg
-          )}`
-        );
-        bot.sendMessage(myNumber + "@s.whatsapp.net", {
-          text: `ERR [messages.upsert]: ${err.toString()}\nmsg: ${JSON.stringify(
-            msg
-          )}`,
-        });
-        LoggerTg(
-          `ERR [messages.upsert]: ${err.toString()}\nmsg: ${JSON.stringify(
-            msg
-          )}`
-        );
-        return;
+        LoggerBot(bot, "messages.upsert", err, msg);
       }
     });
 
@@ -931,33 +878,18 @@ const startBot = async () => {
               lastDisconnect.error.output.statusCode) !==
             DisconnectReason.loggedOut
           ) {
-            console.log(
-              `CONNECTION CLOSED: ${lastDisconnect.error.toString()}`
-            );
+            LoggerBot(false, "CONNECTION-CLOSED", lastDisconnect.error, update);
             ++startCount;
-            console.log("--- START BOT COUNT -->", startCount);
-            LoggerTg(
-              `CONNECTION CLOSED: ${lastDisconnect.error.toString()}\nBot start count: ${startCount}`
-            );
             startBot();
           } else {
-            LoggerTg(`CONNECTION CLOSED: You are logged out`);
-            console.log("CONNECTION CLOSED: You are logged out");
+            LoggerTg(`[CONNECTION-CLOSED]: You are logged out`);
+            console.log("[CONNECTION-CLOSED]: You are logged out");
           }
         }
 
         console.log("connection update", update);
       } catch (err) {
-        console.log(
-          `ERR [connection.update]: ${err.toString()}\nupdate: ${JSON.stringify(
-            update
-          )}`
-        );
-        LoggerTg(
-          `ERR [connection.update]: ${err.toString()}\nupdate: ${JSON.stringify(
-            update
-          )}`
-        );
+        LoggerBot(false, "connection.update", err, msg);
       }
     });
     // listen for when the auth credentials is updated
@@ -966,23 +898,13 @@ const startBot = async () => {
         saveCreds();
         storeAuth(state);
       } catch (err) {
-        console.log(
-          `ERR [creds.update]: ${err.toString()}\nupdate: ${JSON.stringify(
-            update
-          )}`
-        );
-        LoggerTg(
-          `ERR [creds.update]: ${err.toString()}\nupdate: ${JSON.stringify(
-            update
-          )}`
-        );
+        LoggerBot(false, "creds.update", err, msg);
       }
     });
 
     return bot;
   } catch (err) {
-    console.log(`[BOT ERROR]: ${err}`);
-    LoggerTg(`[BOT ERROR]: ${err.toString()}`);
+    LoggerBot(false, "BOT-ERROR", err, msg);
   }
 };
 
