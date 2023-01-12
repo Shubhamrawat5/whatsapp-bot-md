@@ -33,11 +33,14 @@ const {
   delay,
   useMultiFileAuthState,
   fetchLatestBaileysVersion,
+  makeCacheableSignalKeyStore,
+  isJidBroadcast,
 } = require("@adiwajshing/baileys");
 const pino = require("pino");
 const fs = require("fs");
 const NodeCache = require("node-cache");
 const cache = new NodeCache();
+const msgRetryCounterMap = {};
 
 // start a connection
 // console.log('state : ', state.creds);
@@ -115,8 +118,8 @@ const startBot = async () => {
     const { version, isLatest } = await fetchLatestBaileysVersion();
     console.log(`using WA v${version.join(".")}, isLatest: ${isLatest}`);
 
-    let noLogs = pino({ level: "silent" }); //to hide the chat logs
-    let yesLogs = pino({ level: "debug" });
+    let silentLogs = pino({ level: "silent" }); //to hide the chat logs
+    let debugLogs = pino({ level: "debug" });
 
     //Fetch login auth
     const { cred, auth_row_count } = await fetchAuth(state);
@@ -125,10 +128,27 @@ const startBot = async () => {
     }
     const bot = makeWASocket({
       version,
-      logger: noLogs,
-      defaultQueryTimeoutMs: undefined,
+      logger: silentLogs,
       printQRInTerminal: true,
-      auth: state,
+      auth: {
+        creds: state.creds,
+        keys: makeCacheableSignalKeyStore(state.keys, silentLogs),
+      },
+      msgRetryCounterMap,
+      generateHighQualityLinkPreview: true,
+      shouldIgnoreJid: (jid) => isJidBroadcast(jid),
+      // implement to handle retries
+      getMessage: async (key) => {
+        if (store) {
+          const msg = await store.loadMessage(key.remoteJid, key.id);
+          return msg.message ? msg.message : undefined;
+        }
+
+        // only if store is present
+        return {
+          conversation: "hello",
+        };
+      },
     });
 
     if (pvx) {
