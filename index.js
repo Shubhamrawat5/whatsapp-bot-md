@@ -89,8 +89,8 @@ const pvxstickeronly2 = "919557666582-1586018947@g.us";
 const pvxdeals = "919557666582-1582555632@g.us";
 
 try {
-  // fs.rmSync("./auth_info_multi.json", { recursive: true, force: true });
-  fs.unlinkSync("./auth_info_multi.json");
+  fs.rmSync("./auth_info_multi.json", { recursive: true, force: true });
+  // fs.unlinkSync("./auth_info_multi.json");
 } catch (err) {
   console.log("Local auth file already deleted");
 }
@@ -184,15 +184,6 @@ const startBot = async () => {
       }, 1000 * 60 * 20); //20 min
     }
 
-    const sendMessageWTyping = async (msg, jid) => {
-      await bot.presenceSubscribe(jid);
-      await delay(500);
-      await bot.sendPresenceUpdate("composing", jid);
-      await delay(2000);
-      await bot.sendPresenceUpdate("paused", jid);
-      await bot.sendMessage(jid, msg);
-    };
-
     // bot.ev.on("chats.set", (item) =>
     //   console.log(`recv ${item.chats.length} chats (is latest: ${item.isLatest})`)
     // );
@@ -212,16 +203,44 @@ const startBot = async () => {
 
     bot.ev.on("groups.upsert", async (msg) => {
       //new group added
-      console.log("[groups.upsert]");
-      const from = msg[0].id;
-      cache.del(from + ":groupMetadata");
+      try {
+        console.log("[groups.upsert]");
+        const from = msg[0].id;
+        cache.del(from + ":groupMetadata");
+      } catch (err) {
+        console.log(
+          `ERR [groups.upsert]: ${err.toString()}\nmsg: ${JSON.stringify(msg)}`
+        );
+        bot.sendMessage(myNumber + "@s.whatsapp.net", {
+          text: `ERR [groups.upsert]: ${err.toString()}\nmsg: ${JSON.stringify(
+            msg
+          )}`,
+        });
+        LoggerTg(
+          `ERR [groups.upsert]: ${err.toString()}\nmsg: ${JSON.stringify(msg)}`
+        );
+      }
     });
 
     bot.ev.on("groups.update", async (msg) => {
       //subject change, etc
-      console.log("[groups.update]");
-      const from = msg[0].id;
-      cache.del(from + ":groupMetadata");
+      try {
+        console.log("[groups.update]");
+        const from = msg[0].id;
+        cache.del(from + ":groupMetadata");
+      } catch (err) {
+        console.log(
+          `ERR [groups.update]: ${err.toString()}\nmsg: ${JSON.stringify(msg)}`
+        );
+        bot.sendMessage(myNumber + "@s.whatsapp.net", {
+          text: `ERR [groups.update]: ${err.toString()}\nmsg: ${JSON.stringify(
+            msg
+          )}`,
+        });
+        LoggerTg(
+          `ERR [groups.update]: ${err.toString()}\nmsg: ${JSON.stringify(msg)}`
+        );
+      }
     });
 
     //---------------------------------------group-participants.update-----------------------------------------//
@@ -430,10 +449,21 @@ const startBot = async () => {
           console.log(`[GROUP] ${groupSubject} [LEAVED] ${numJid}`);
         }
       } catch (err) {
-        console.log(err);
+        console.log(
+          `ERR [group-participants.update]: ${err.toString()}\nmsg: ${JSON.stringify(
+            msg
+          )}`
+        );
         bot.sendMessage(myNumber + "@s.whatsapp.net", {
-          text: `ERROR: ${err.toString()}`,
+          text: `ERR [group-participants.update]: ${err.toString()}\nmsg: ${JSON.stringify(
+            msg
+          )}`,
         });
+        LoggerTg(
+          `ERR [group-participants.update]: ${err.toString()}\nmsg: ${JSON.stringify(
+            msg
+          )}`
+        );
       }
     });
 
@@ -860,14 +890,20 @@ const startBot = async () => {
         );
       } catch (err) {
         console.log(
-          `[MESSAGE ERROR]: ${err.toString()}\nmsg: ${JSON.stringify(msg)}`
-        );
-        LoggerTg(
-          `MESSAGE ERROR: ${err.toString()}\nmsg: ${JSON.stringify(msg)}`
+          `ERR [messages.upsert]: ${err.toString()}\nmsg: ${JSON.stringify(
+            msg
+          )}`
         );
         bot.sendMessage(myNumber + "@s.whatsapp.net", {
-          text: `MESSAGE ERROR: ${err.toString()}\nmsg: ${JSON.stringify(msg)}`,
+          text: `ERR [messages.upsert]: ${err.toString()}\nmsg: ${JSON.stringify(
+            msg
+          )}`,
         });
+        LoggerTg(
+          `ERR [messages.upsert]: ${err.toString()}\nmsg: ${JSON.stringify(
+            msg
+          )}`
+        );
         return;
       }
     });
@@ -879,46 +915,74 @@ const startBot = async () => {
     // bot.ev.on("contacts.upsert", (m) => console.log(m));
 
     bot.ev.on("connection.update", (update) => {
-      LoggerTg(`connection.update: ${JSON.stringify(update)}`);
-      const { connection, lastDisconnect } = update;
-      if (connection === "open") {
-        console.log("Connected");
-        bot.sendMessage(myNumber + "@s.whatsapp.net", {
-          text: `[BOT STARTED] - ${startCount}`,
-        });
-      } else if (connection === "close") {
-        // reconnect if not logged out
-        if (
-          (lastDisconnect.error &&
-            lastDisconnect.error.output &&
-            lastDisconnect.error.output.statusCode) !==
-          DisconnectReason.loggedOut
-        ) {
-          console.log(`CONNECTION CLOSED: ${lastDisconnect.error.toString()}`);
-          ++startCount;
-          console.log("--- START BOT COUNT -->", startCount);
-          LoggerTg(
-            `CONNECTION CLOSED: ${lastDisconnect.error.toString()}\nBot start count: ${startCount}`
-          );
-          startBot();
-        } else {
-          LoggerTg(`CONNECTION CLOSED: You are logged out`);
-          console.log("CONNECTION CLOSED: You are logged out");
+      try {
+        LoggerTg(`connection.update: ${JSON.stringify(update)}`);
+        const { connection, lastDisconnect } = update;
+        if (connection === "open") {
+          console.log("Connected");
+          bot.sendMessage(myNumber + "@s.whatsapp.net", {
+            text: `[BOT STARTED] - ${startCount}`,
+          });
+        } else if (connection === "close") {
+          // reconnect if not logged out
+          if (
+            (lastDisconnect.error &&
+              lastDisconnect.error.output &&
+              lastDisconnect.error.output.statusCode) !==
+            DisconnectReason.loggedOut
+          ) {
+            console.log(
+              `CONNECTION CLOSED: ${lastDisconnect.error.toString()}`
+            );
+            ++startCount;
+            console.log("--- START BOT COUNT -->", startCount);
+            LoggerTg(
+              `CONNECTION CLOSED: ${lastDisconnect.error.toString()}\nBot start count: ${startCount}`
+            );
+            startBot();
+          } else {
+            LoggerTg(`CONNECTION CLOSED: You are logged out`);
+            console.log("CONNECTION CLOSED: You are logged out");
+          }
         }
-      }
 
-      console.log("connection update", update);
+        console.log("connection update", update);
+      } catch (err) {
+        console.log(
+          `ERR [connection.update]: ${err.toString()}\nupdate: ${JSON.stringify(
+            update
+          )}`
+        );
+        LoggerTg(
+          `ERR [connection.update]: ${err.toString()}\nupdate: ${JSON.stringify(
+            update
+          )}`
+        );
+      }
     });
     // listen for when the auth credentials is updated
     bot.ev.on("creds.update", async () => {
-      saveCreds();
-      storeAuth(state);
+      try {
+        saveCreds();
+        storeAuth(state);
+      } catch (err) {
+        console.log(
+          `ERR [creds.update]: ${err.toString()}\nupdate: ${JSON.stringify(
+            update
+          )}`
+        );
+        LoggerTg(
+          `ERR [creds.update]: ${err.toString()}\nupdate: ${JSON.stringify(
+            update
+          )}`
+        );
+      }
     });
 
     return bot;
   } catch (err) {
     console.log(`[BOT ERROR]: ${err}`);
-    LoggerTg(`BOT ERROR: ${err.toString()}`);
+    LoggerTg(`[BOT ERROR]: ${err.toString()}`);
   }
 };
 

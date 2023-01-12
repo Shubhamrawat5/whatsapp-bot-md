@@ -118,26 +118,14 @@
 index = 1;
 time = 0;
 
-function test(time) {
-  setTimeout(() => {
-    console.log(time);
-  }, time);
-}
-for (let i = 0; i < 10; ++i) {
-  time += 1000;
-  test(time);
-}
-
-const addNumber = async (chatId, i) => {
-  console.log(i);
-};
-
 const main = async () => {
-  const timer = (m) => new Promise((res) => setTimeout(res, m));
-  for (i = 0; i < 10; i++) {
-    await addNumber("chatId", i);
-    await timer(2000);
-  }
-};
+  try {
+    const addNumber = async () => {
+      const a = b / 2;
+      return a;
+    };
 
-// main();
+    const c = addNumber();
+  } catch (error) {}
+};
+main();
