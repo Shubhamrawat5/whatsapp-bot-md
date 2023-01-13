@@ -73,14 +73,14 @@ const handler = async (bot, msg, from, args, msgInfoObj) => {
   let { prefix, reply } = msgInfoObj;
 
   if (args.length === 0) {
-    reply(`❌ Query is empty! \nSend ${prefix}song query`);
+    await reply(`❌ Query is empty! \nSend ${prefix}song query`);
     return;
   }
   let randomName = getRandom(".mp3");
   let query = args.join("%20");
   let response = await downloadSong(randomName, query);
   if (response == "NOT") {
-    reply(
+    await reply(
       `❌ Song not found!\nTry to put correct spelling of song along with singer name.\n[Better use ${prefix}yta command to download correct song from youtube]`
     );
     return;

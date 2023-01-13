@@ -45,7 +45,7 @@ const handler = async (bot, msg, from, args, msgInfoObj) => {
 
     fs.unlinkSync(media);
   } else {
-    reply(
+    await reply(
       "❌ There is some problem!\nTag a non-animated sticker with command to convert to Image!"
     );
   }

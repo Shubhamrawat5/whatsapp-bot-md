@@ -920,7 +920,8 @@ const startBot = async () => {
 
     return bot;
   } catch (err) {
-    await LoggerBot(false, "BOT-ERROR", err, msg);
+    console.log(err);
+    await LoggerBot(false, "BOT-ERROR", err, "");
   }
 };
 

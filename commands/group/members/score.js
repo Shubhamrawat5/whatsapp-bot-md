@@ -19,13 +19,13 @@ const handler = async (bot, msg, from, args, msgInfoObj) => {
 # If you've put correct match ID in description starting and still facing this error then contact developer by !dev`;
 
   if (!groupDesc) {
-    reply(descErrorMessage);
+    await reply(descErrorMessage);
     return;
   }
 
   let matchId = groupDesc.slice(0, 5);
   if (isNaN(Number(matchId))) {
-    reply(descErrorMessage);
+    await reply(descErrorMessage);
     return;
   }
 
@@ -33,7 +33,7 @@ const handler = async (bot, msg, from, args, msgInfoObj) => {
 
   //response.info have "MO" only when command is startc
   //   if (response.info === "ER") {
-  //     reply(`❌ ERROR
+  //     await reply(`❌ ERROR
   // - Group description starting is "${matchId}"
   // - Put match ID in starting of group description.
   // - Get match ID from cricbuzz today match url.

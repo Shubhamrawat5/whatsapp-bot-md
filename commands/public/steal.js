@@ -43,5 +43,5 @@ const handler = async (bot, msg, from, args, msgInfoObj) => {
     await bot.sendMessage(from, await sticker.toMessage(), { quoted: msg });
     return;
   }
-  reply("❌ Tag a sticker!");
+  await reply("❌ Tag a sticker!");
 };

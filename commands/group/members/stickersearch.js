@@ -16,7 +16,7 @@ const handler = async (bot, msg, from, args, msgInfoObj) => {
 
   if (args.length === 0) {
     let message = `❌ Query is not given! \nSend ${prefix}is query`;
-    reply(message);
+    await reply(message);
     return;
   }
 
@@ -25,7 +25,7 @@ const handler = async (bot, msg, from, args, msgInfoObj) => {
   gis(name, async (error, results) => {
     if (error) {
       console.log(error);
-      reply(error);
+      await reply(error);
     } else {
       //   console.log(JSON.stringify(results, null, "  "));
       let index = 0;
@@ -57,7 +57,7 @@ const handler = async (bot, msg, from, args, msgInfoObj) => {
           { quoted: msg }
         );
       } catch (err) {
-        reply("❌ Error in search!");
+        await reply("❌ Error in search!");
       }
       try {
         fs.unlinkSync(stickerFileName);

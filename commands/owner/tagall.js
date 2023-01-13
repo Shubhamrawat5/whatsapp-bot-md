@@ -20,7 +20,7 @@ const handler = async (bot, msg, from, args, msgInfoObj) => {
     groupName.toUpperCase().includes("PVX") &&
     ![myNumber + "@s.whatsapp.net", botNumberJid].includes(sender)
   ) {
-    reply(`❌ Owner only command for avoiding spam in PVX Groups!`);
+    await reply(`❌ Owner only command for avoiding spam in PVX Groups!`);
     return;
   }
 

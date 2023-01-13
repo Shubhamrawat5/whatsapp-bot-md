@@ -26,7 +26,7 @@ const handler = async (bot, msg, from, args, msgInfoObj) => {
 
   let { name, ranks, count, totalUsers } = await getRankInAllGroups(sender);
   if (!name) {
-    reply(`❌ ERROR: ${sender} NOT FOUND in Database!`);
+    await reply(`❌ ERROR: ${sender} NOT FOUND in Database!`);
     return;
   }
   let res = await getCountIndividual(sender, from);

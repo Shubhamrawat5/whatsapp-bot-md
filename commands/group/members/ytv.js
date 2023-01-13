@@ -16,18 +16,18 @@ module.exports.command = () => {
 const handler = async (bot, msg, from, args, msgInfoObj) => {
   let { prefix, reply } = msgInfoObj;
   if (args.length === 0) {
-    reply(`❌ URL is empty! \nSend ${prefix}ytv url`);
+    await reply(`❌ URL is empty! \nSend ${prefix}ytv url`);
     return;
   }
   let urlYt = args[0];
   if (!urlYt.startsWith("http")) {
-    reply(`❌ Give youtube link!`);
+    await reply(`❌ Give youtube link!`);
     return;
   }
   let infoYt = await ytdl.getInfo(urlYt);
   //30 MIN
   if (infoYt.videoDetails.lengthSeconds >= 1800) {
-    reply(`❌ Video file too big!`);
+    await reply(`❌ Video file too big!`);
     return;
   }
   let titleYt = infoYt.videoDetails.title;
@@ -38,7 +38,7 @@ const handler = async (bot, msg, from, args, msgInfoObj) => {
   }).pipe(fs.createWriteStream(`./${randomName}`));
   //22 - 1080p/720p and 18 - 360p
   console.log("Video downloading ->", urlYt);
-  // reply("Downloading.. This may take upto 5 min!");
+  // await reply("Downloading.. This may take upto 5 min!");
   await new Promise((resolve, reject) => {
     stream.on("error", reject);
     stream.on("finish", resolve);
@@ -59,7 +59,7 @@ const handler = async (bot, msg, from, args, msgInfoObj) => {
       { quoted: msg }
     );
   } else {
-    reply(`❌ File size bigger than 40mb.`);
+    await reply(`❌ File size bigger than 40mb.`);
   }
 
   fs.unlinkSync(`./${randomName}`);

@@ -76,7 +76,7 @@ const handler = async (bot, msg, from, args, msgInfoObj) => {
       quality: 40,
     });
   } else {
-    reply("❌ Give a media to convert into sticker!");
+    await reply("❌ Give a media to convert into sticker!");
     return;
   }
 

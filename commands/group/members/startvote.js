@@ -10,14 +10,16 @@ module.exports.command = () => {
 const handler = async (bot, msg, from, args, msgInfoObj) => {
   let { prefix, reply, sender } = msgInfoObj;
   if (args.length === 0) {
-    reply(
+    await reply(
       `❌ Give some values seperated with # to vote on like ${prefix}startvote #title #name1 #name2 #name3`
     );
     return;
   }
   let votingResult = await getVotingData(from);
   if (votingResult.is_started) {
-    reply(`❌ Voting already going on, Stop by ${prefix}stopvote command`);
+    await reply(
+      `❌ Voting already going on, Stop by ${prefix}stopvote command`
+    );
     return;
   }
   let body = msg.message.conversation;
@@ -27,7 +29,7 @@ const handler = async (bot, msg, from, args, msgInfoObj) => {
   let voteChoices = voteList.slice(2);
 
   if (voteChoices.length < 2) {
-    reply("❌ Give more than 1 voting choices!");
+    await reply("❌ Give more than 1 voting choices!");
     return;
   }
 
@@ -54,5 +56,5 @@ const handler = async (bot, msg, from, args, msgInfoObj) => {
   });
 
   voteMsg += `\n\n_send ${prefix}checkvote or ${prefix}cv to see current status and ${prefix}stopvote to stop voting and see the result._`;
-  reply(voteMsg);
+  await reply(voteMsg);
 };

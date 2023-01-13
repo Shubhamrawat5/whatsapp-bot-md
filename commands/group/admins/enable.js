@@ -17,7 +17,7 @@ const handler = async (bot, msg, from, args, msgInfoObj) => {
   let res = await getDisableCommandData(from);
 
   if (!res.includes(cmd)) {
-    reply("❌ Already enabled!");
+    await reply("❌ Already enabled!");
     return;
   }
 
@@ -27,5 +27,5 @@ const handler = async (bot, msg, from, args, msgInfoObj) => {
 
   await setDisableCommandData(from, resNew);
 
-  reply("✔️ Command enabled under 1 min!");
+  await reply("✔️ Command enabled under 1 min!");
 };

@@ -21,7 +21,7 @@ const handler = async (bot, msg, from, args, msgInfoObj) => {
   let { prefix, reply, isTaggedDocument } = msgInfoObj;
 
   if (!isTaggedDocument) {
-    reply(`❌ Send zip document file!`);
+    await reply(`❌ Send zip document file!`);
     return;
   }
   // https://t.me/tgstowebpbot <- animated 128px.zip
@@ -51,7 +51,7 @@ const handler = async (bot, msg, from, args, msgInfoObj) => {
   let stickerCounttg = zipEntries.length;
   console.log("extracted: files " + stickerCounttg);
 
-  reply(`✔ Sending all ${stickerCounttg} stickers`);
+  await reply(`✔ Sending all ${stickerCounttg} stickers`);
   let itg = -1;
   setIntervaltg = setInterval(async () => {
     itg += 1;
@@ -60,7 +60,7 @@ const handler = async (bot, msg, from, args, msgInfoObj) => {
     if (itg >= stickerCounttg - 1) {
       stickertg = false;
       clearInterval(setIntervaltg);
-      reply(`✔ Finished!`);
+      await reply(`✔ Finished!`);
     }
     console.log("Sending sticker ", itg);
     if (zipEntries[itg].entryName.endsWith(".webp")) {

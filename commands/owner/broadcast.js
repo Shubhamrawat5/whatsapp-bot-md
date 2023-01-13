@@ -39,12 +39,12 @@ const handler = async (bot, msg, from, args, msgInfoObj) => {
 
   console.log(message == "Broadcast:\n");
   if (message == "Broadcast:\n") {
-    reply("❌ ERROR: EMPTY MESSAGE!");
+    await reply("❌ ERROR: EMPTY MESSAGE!");
     return;
   }
 
   let time = 0;
-  reply("Broadcasting...");
+  await reply("Broadcasting...");
   groups.forEach((group) => {
     setTimeout(async () => {
       await bot.sendMessage(group.id, { text: message, detectLinks: true });

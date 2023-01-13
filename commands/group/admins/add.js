@@ -10,7 +10,7 @@ const handler = async (bot, msg, from, args, msgInfoObj) => {
   let { prefix, isBotGroupAdmins, reply } = msgInfoObj;
 
   if (!isBotGroupAdmins) {
-    reply("❌ I'm not Admin here!");
+    await reply("❌ I'm not Admin here!");
     return;
   }
 
@@ -21,7 +21,7 @@ const handler = async (bot, msg, from, args, msgInfoObj) => {
   } else {
     //number is given like !add 919557---82
     if (args.length === 0) {
-      reply("❌ Give number to add!");
+      await reply("❌ Give number to add!");
       return;
     }
     num = `${args.join("").replace(/ |-|\(|\)/g, "")}@s.whatsapp.net`; //remove spaces , ( , ) and -
@@ -34,16 +34,16 @@ const handler = async (bot, msg, from, args, msgInfoObj) => {
   const response = await bot.groupParticipantsUpdate(from, [num], "add");
   let { status } = response[0];
   if (status == 400) {
-    reply("_❌ Invalid number, include country code also!_");
+    await reply("_❌ Invalid number, include country code also!_");
   } else if (status == 403) {
-    reply("_❌ Number has privacy on adding group!_");
+    await reply("_❌ Number has privacy on adding group!_");
   } else if (status == 408) {
-    reply("_❌ Number has left the group recently!_");
+    await reply("_❌ Number has left the group recently!_");
   } else if (status == 409) {
-    reply("_❌ Number is already in group!_");
+    await reply("_❌ Number is already in group!_");
   } else if (status == 500) {
-    reply("_❌ Group is currently full!_");
+    await reply("_❌ Group is currently full!_");
   } else if (status == 200) {
-    reply("_✔ Number added to group!_");
+    await reply("_✔ Number added to group!_");
   }
 };

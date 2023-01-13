@@ -22,15 +22,15 @@ const handler = async (bot, msg, from, args, msgInfoObj) => {
 
   if (args.length === 0) {
     let message = `❌ Name is not given! \nSend ${prefix}gender firstname`;
-    reply(message);
+    await reply(message);
     return;
   }
   let namePerson = args[0];
   if (namePerson.includes("@")) {
     let message = `❌ Don't tag! \nSend ${prefix}gender firstname`;
-    reply(message);
+    await reply(message);
     return;
   }
   let text = await getGender(namePerson);
-  reply(text);
+  await reply(text);
 };

@@ -17,11 +17,11 @@ const handler = async (bot, msg, from, args, msgInfoObj) => {
   let res = await getDisableCommandData(from);
 
   if (res.includes(cmd)) {
-    reply("❌ Already disabled!");
+    await reply("❌ Already disabled!");
     return;
   }
   res.push(cmd);
   await setDisableCommandData(from, res);
 
-  reply("✔️ Command disabled under 1 min!");
+  await reply("✔️ Command disabled under 1 min!");
 };

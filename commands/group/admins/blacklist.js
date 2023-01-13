@@ -15,5 +15,5 @@ const handler = async (bot, msg, from, args, msgInfoObj) => {
     blacklistMsg += `\n${num.number}`;
   });
 
-  reply(blacklistMsg);
+  await reply(blacklistMsg);
 };

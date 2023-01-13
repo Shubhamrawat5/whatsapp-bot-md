@@ -11,7 +11,7 @@ const handler = async (bot, msg, from, args, msgInfoObj) => {
   let { groupAdmins, isBotGroupAdmins, reply } = msgInfoObj;
 
   if (!msg.message.extendedTextMessage) {
-    reply("❌ Tag someone!");
+    await reply("❌ Tag someone!");
     return;
   }
   let mentioned = msg.message.extendedTextMessage.contextInfo.mentionedJid;
@@ -31,21 +31,21 @@ const handler = async (bot, msg, from, args, msgInfoObj) => {
       await setCountWarning(mentioned[0], from);
       if (warnCount >= 2) {
         if (!isBotGroupAdmins) {
-          reply("❌ I'm not Admin here!");
+          await reply("❌ I'm not Admin here!");
 
           return;
         }
         if (groupAdmins.includes(mentioned[0])) {
-          reply("❌ Cannot remove admin!");
+          await reply("❌ Cannot remove admin!");
 
           return;
         }
         await bot.groupParticipantsUpdate(from, mentioned, "remove");
-        reply("_✔ Number removed from group!_");
+        await reply("_✔ Number removed from group!_");
       }
     } else {
       //if multiple members are tagged
-      reply("❌ Mention only 1 member!");
+      await reply("❌ Mention only 1 member!");
     }
   } else {
     //when message is tagged with command
@@ -65,15 +65,15 @@ const handler = async (bot, msg, from, args, msgInfoObj) => {
     await setCountWarning(taggedMessageUser[0], from);
     if (warnCount >= 2) {
       if (!isBotGroupAdmins) {
-        reply("❌ I'm not Admin here!");
+        await reply("❌ I'm not Admin here!");
         return;
       }
       if (groupAdmins.includes(taggedMessageUser[0])) {
-        reply("❌ Cannot remove admin!");
+        await reply("❌ Cannot remove admin!");
         return;
       }
       await bot.groupParticipantsUpdate(from, taggedMessageUser, "remove");
-      reply("_✔ Number removed from group!_");
+      await reply("_✔ Number removed from group!_");
     }
   }
 };

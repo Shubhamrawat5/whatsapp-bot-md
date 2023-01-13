@@ -10,12 +10,12 @@ const handler = async (bot, msg, from, args, msgInfoObj) => {
   let { prefix, groupAdmins, isBotGroupAdmins, reply } = msgInfoObj;
 
   if (!isBotGroupAdmins) {
-    reply("❌ I'm not Admin here!");
+    await reply("❌ I'm not Admin here!");
     return;
   }
 
   if (!msg.message.extendedTextMessage) {
-    reply("❌ Tag someone!");
+    await reply("❌ Tag someone!");
     return;
   }
 
@@ -49,7 +49,7 @@ const handler = async (bot, msg, from, args, msgInfoObj) => {
     if (mentioned.length === 1) {
       if (groupAdmins.includes(mentioned[0])) {
         //if admin then don't remove
-        reply("❌ Cannot remove admin!");
+        await reply("❌ Cannot remove admin!");
         return;
       }
       const response = await bot.groupParticipantsUpdate(
@@ -57,11 +57,12 @@ const handler = async (bot, msg, from, args, msgInfoObj) => {
         mentioned,
         "remove"
       );
-      if (response[0].status === "200") reply("_✔ Number removed from group!_");
-      else reply("_❌ There is some problem!_");
+      if (response[0].status === "200")
+        await reply("_✔ Number removed from group!_");
+      else await reply("_❌ There is some problem!_");
     } else {
       //if multiple members are tagged
-      reply("❌ Mention only 1 member!");
+      await reply("❌ Mention only 1 member!");
     }
   } else {
     //when message is tagged with command
@@ -70,7 +71,7 @@ const handler = async (bot, msg, from, args, msgInfoObj) => {
     ];
     if (groupAdmins.includes(taggedMessageUser[0])) {
       //if admin then don't remove
-      reply("❌ Cannot remove admin!");
+      await reply("❌ Cannot remove admin!");
       return;
     }
     const response = await bot.groupParticipantsUpdate(
@@ -78,7 +79,8 @@ const handler = async (bot, msg, from, args, msgInfoObj) => {
       taggedMessageUser,
       "remove"
     );
-    if (response[0].status === "200") reply("_✔ Number removed from group!_");
-    else reply("_❌ There is some problem!_");
+    if (response[0].status === "200")
+      await reply("_✔ Number removed from group!_");
+    else await reply("_❌ There is some problem!_");
   }
 };

@@ -11,7 +11,7 @@ const handler = async (bot, msg, from, args, msgInfoObj) => {
   let { prefix, reply } = msgInfoObj;
   let votingResult = await getVotingData(from);
   if (!votingResult.is_started) {
-    reply(
+    await reply(
       `❌ Voting is not started here, Start by \n${prefix}startvote #title #name1 #name2 #name3`
     );
     return;
@@ -40,5 +40,5 @@ const handler = async (bot, msg, from, args, msgInfoObj) => {
       resultVoteMsg += `_${mem},_ `;
     });
   });
-  reply(resultVoteMsg);
+  await reply(resultVoteMsg);
 };

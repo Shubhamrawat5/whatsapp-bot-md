@@ -10,13 +10,13 @@ const handler = async (bot, msg, from, args, msgInfoObj) => {
   let { botNumberJid, reply, isGroupAdmins } = msgInfoObj;
 
   if (!msg.message.extendedTextMessage) {
-    reply("❌ Tag message to delete.");
+    await reply("❌ Tag message to delete.");
     return;
   }
 
   //bot message, anyone can delete
   if (msg.message.extendedTextMessage.contextInfo.participant == botNumberJid) {
-    // reply("❌ Tag message of bot to delete.");
+    // await reply("❌ Tag message of bot to delete.");
 
     //check for welcome message,
     //Message with tagged user has (.quotedMessage.extendedTextMessage.text), non tagged has (.quotedMessage.conversation)
@@ -27,7 +27,7 @@ const handler = async (bot, msg, from, args, msgInfoObj) => {
         "Welcome"
       )
     ) {
-      reply("❌ Cannot delete a welcome message.");
+      await reply("❌ Cannot delete a welcome message.");
     } else {
       const options = {
         remoteJid: botNumberJid,
@@ -53,6 +53,6 @@ const handler = async (bot, msg, from, args, msgInfoObj) => {
       delete: options,
     });
   } else {
-    reply("❌ Only admin can delete member's message.");
+    await reply("❌ Only admin can delete member's message.");
   }
 };

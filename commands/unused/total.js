@@ -10,7 +10,7 @@ module.exports.command = () => {
 
 const handler = async (bot, msg, from, args, msgInfoObj) => {
   let { sender, reply } = msgInfoObj;
-  reply("Use !rank command");
+  await reply("Use !rank command");
   return;
 
   if (args[0]) {
