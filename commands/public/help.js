@@ -27,6 +27,9 @@ const { MessageType, Mimetype } = require("@adiwajshing/baileys");
 // 📛 *${prefix}total*
 //   - _Know your message count in all PVX groups!_
 
+// 📛 *${prefix}91only*
+// - _To instant ban all numbers other than 91 when joined in group!_
+
 module.exports.command = () => {
   let cmd = ["help", "h"];
 
@@ -121,9 +124,6 @@ const handler = async (bot, msg, from, args, msgInfoObj) => {
 
 📛 *${prefix}dev*
   - _Get dev contact to report bug or to add new feature!_
-
-📛 *${prefix}91only*
-  - _To instant ban all numbers other than 91 when joined in group!_
 
 📛 *${prefix}help*
   - _To get list of public commands!_
