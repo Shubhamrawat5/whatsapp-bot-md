@@ -48,9 +48,7 @@ const msgRetryCounterMap = {};
 /* ----------------------------- add local files ---------------------------- */
 const { setCountMember } = require("./db/countMemberDB");
 const { setCountVideo } = require("./db/countVideoDB");
-const { getBlacklist } = require("./db/blacklistDB");
 const { getDisableCommandData } = require("./db/disableCommandDB");
-const { getCricketScore } = require("./functions/cricket");
 const { postStudyInfo } = require("./functions/postStudyInfo");
 const { postTechNews } = require("./functions/postTechNews");
 const { checkTodayBday } = require("./functions/checkTodayBday");
@@ -59,6 +57,7 @@ const { getGroupAdmins } = require("./functions/getGroupAdmins");
 const { addCommands } = require("./functions/addCommands");
 const { LoggerBot, LoggerTg } = require("./functions/loggerBot");
 const { forwardSticker } = require("./functions/forwardSticker");
+const { memberAddCheck } = require("./functions/memberAddCheck");
 
 require("dotenv").config();
 const myNumber = process.env.myNumber;
@@ -68,11 +67,7 @@ const prefix = "!";
 
 let commandSent = 1;
 let startCount = 1;
-
-let authSaveInterval, dateCheckerInterval;
-let matchIdGroups = {}; //to store every group name with its match ID
-let cricSetIntervalGroups = {}; //to store every group name with its setInterval value so that it can be stopped
-let cricStartedGroups = {}; //to store every group name with boolean value to know if cricket score is already started or not
+let dateCheckerInterval;
 
 const pvxcommunity = "919557666582-1467533860@g.us";
 const pvxprogrammer = "919557666582-1584193120@g.us";
@@ -111,11 +106,7 @@ const startBot = async () => {
 
     const { commandsPublic, commandsMembers, commandsAdmins, commandsOwners } =
       await addCommands();
-    clearInterval(authSaveInterval);
     clearInterval(dateCheckerInterval);
-    Object.keys(cricSetIntervalGroups).forEach((e) => {
-      clearInterval(e);
-    });
 
     const { version, isLatest } = await fetchLatestBaileysVersion();
     console.log(`using WA v${version.join(".")}, isLatest: ${isLatest}`);
@@ -209,6 +200,10 @@ const startBot = async () => {
         console.log("[groups.upsert]");
         const from = msg[0].id;
         cache.del(from + ":groupMetadata");
+
+        await bot.sendMessage(from, {
+          text: `*─「 🔥 <{PVX}> BOT 🔥 」─* \n\nSEND ${prefix}help FOR BOT COMMANDS`,
+        });
       } catch (err) {
         await LoggerBot(bot, "groups.upsert", err, msg);
       }
@@ -232,200 +227,13 @@ const startBot = async () => {
         let from = msg.id;
         cache.del(from + ":groupMetadata");
         const groupMetadata = await bot.groupMetadata(from);
-        let groupDesc = groupMetadata.desc.toString();
         let groupSubject = groupMetadata.subject;
-        if (groupDesc) {
-          let firstLineDesc = groupDesc.split("\n")[0];
-          blockCommandsInDesc = firstLineDesc.split(",");
-        }
 
         let numJid = msg.participants[0];
         let num_split = `${numJid.split("@s.whatsapp.net")[0]}`;
 
         if (msg.action == "add") {
-          // other than +91 are blocked from joining when description have written in first line -> only91
-          // blockCommandsInDesc.includes("only91")
-          if (
-            !num_split.startsWith(91) &&
-            groupSubject.toUpperCase().includes("<{PVX}>")
-          ) {
-            await bot.sendMessage(from, {
-              text: `*─「 🔥 <{PVX}> BOT 🔥 」─* \n\nOnly +91 numbers are allowed !!!!`,
-            });
-            await bot.groupParticipantsUpdate(from, [numJid], "remove");
-
-            await bot.sendMessage(myNumber + "@s.whatsapp.net", {
-              text: `${num_split} is removed from ${groupSubject}. Not 91!`,
-            });
-            return;
-          }
-
-          //if number is blacklisted
-          let blacklistRes = await getBlacklist();
-          blacklistRes = blacklistRes.map((num) => num.number);
-          // console.log(blacklistRes);
-          if (blacklistRes.includes(num_split)) {
-            await bot.sendMessage(from, {
-              text: `*─「 🔥 <{PVX}> BOT 🔥 」─* \n\nNumber is blacklisted !!!!`,
-            });
-
-            await bot.groupParticipantsUpdate(from, [numJid], "remove");
-            await bot.sendMessage(myNumber + "@s.whatsapp.net", {
-              text: `${num_split} is removed from ${groupSubject}. Blacklisted!`,
-            });
-            return;
-          }
-
-          //for study group
-          if (from === pvxstudy) {
-            await bot.sendMessage(
-              from,
-              {
-                text: `Welcome @${num_split}\nhttps://pvxcommunity.com/\n\nKindly fill the Biodata form (mandatory for all)\n\n👇🏻👇🏻👇🏻👇🏻👇🏻\nhttps://forms.gle/uuvUwV5fTk8JAjoTA`,
-                mentions: [numJid],
-              },
-              {
-                quoted: {
-                  key: {
-                    remoteJid: from,
-                    fromMe: false,
-                    id: "710B5CF29EE7471fakeid",
-                    participant: "0@s.whatsapp.net",
-                  },
-                  messageTimestamp: 1671784177,
-                  pushName: "WhatsApp",
-                  message: { conversation: "WELCOME TO PVX STUDY" },
-                },
-              }
-            );
-          }
-
-          //for movies group
-          if (from === pvxmovies) {
-            await bot.sendMessage(
-              from,
-              {
-                text: `Welcome @${num_split}\nhttps://pvxcommunity.com/\n\nWhat are your currently watching..?`,
-                mentions: [numJid],
-              },
-              {
-                quoted: {
-                  key: {
-                    remoteJid: from,
-                    fromMe: false,
-                    id: "710B5CF29EE7471fakeid",
-                    participant: "0@s.whatsapp.net",
-                  },
-                  messageTimestamp: 1671784177,
-                  pushName: "WhatsApp",
-                  message: { conversation: "WELCOME TO PVX MOVIES" },
-                },
-              }
-            );
-          }
-
-          //for community group
-          if (from === pvxcommunity) {
-            await bot.sendMessage(
-              from,
-              {
-                text: `Welcome @${num_split}\nhttps://pvxcommunity.com/\n\nSend ${prefix}rules to know all PVX rules.\nIf you're new to PVX, please share how did you find us.`,
-                mentions: [numJid],
-              },
-              {
-                quoted: {
-                  key: {
-                    remoteJid: from,
-                    fromMe: false,
-                    id: "710B5CF29EE7471fakeid",
-                    participant: "0@s.whatsapp.net",
-                  },
-                  messageTimestamp: 1671784177,
-                  pushName: "WhatsApp",
-                  message: { conversation: "WELCOME TO PVX COMMUNITY" },
-                },
-              }
-            );
-          }
-
-          //for mano
-          if (from === pvxmano) {
-            await bot.sendMessage(
-              from,
-              {
-                text: `Welcome @${num_split}🔥\n\n1) Send videos regularly especially new members.\n2) Don't Send CP or any other illegal videos.\n 3) A group bot will be counting the number of videos you've sent.\nSend ${prefix}pvxv to know video count.\nInactive members will be kicked time to time.`,
-                mentions: [numJid],
-              },
-              {
-                quoted: {
-                  key: {
-                    remoteJid: from,
-                    fromMe: false,
-                    id: "710B5CF29EE7471fakeid",
-                    participant: "0@s.whatsapp.net",
-                  },
-                  messageTimestamp: 1671784177,
-                  pushName: "WhatsApp",
-                  message: { conversation: "WELCOME TO PVX MANORANJAN" },
-                },
-              }
-            );
-          }
-
-          //for programmer group
-          if (from === pvxprogrammer) {
-            await bot.sendMessage(
-              from,
-              {
-                text: `Welcome @${num_split}\nhttps://pvxcommunity.com/\n\n*Kindly give your intro like*\nName:\nCollege/Degree:\nInterest:\nSkills:\nCompany(if working):`,
-                mentions: [numJid],
-              },
-              {
-                quoted: {
-                  key: {
-                    remoteJid: from,
-                    fromMe: false,
-                    id: "710B5CF29EE7471fakeid",
-                    participant: "0@s.whatsapp.net",
-                  },
-                  messageTimestamp: 1671784177,
-                  pushName: "WhatsApp",
-                  message: { conversation: "WELCOME TO PVX PROGRAMMERS" },
-                },
-              }
-            );
-          }
-
-          if (from === pvxsticker1 || from === pvxsticker2) {
-            await bot.sendMessage(
-              from,
-              {
-                text: `Welcome @${num_split}\nhttps://pvxcommunity.com/\n\n1) Don't make any type of sticker that targets any caste, community, religion, sex, creed, etc.\n2) The use of any kind of 18+ media (be it nudes or semi nudes) is not allowed.\n3) Every sticker you make here gets PVX branding in it along with website, so You'll get instant ban on disobeying any rule`,
-                mentions: [numJid],
-              },
-              {
-                quoted: {
-                  key: {
-                    remoteJid: from,
-                    fromMe: false,
-                    id: "710B5CF29EE7471fakeid",
-                    participant: "0@s.whatsapp.net",
-                  },
-                  messageTimestamp: 1671784177,
-                  pushName: "WhatsApp",
-                  message: { conversation: "WELCOME TO PVX STICKER" },
-                },
-              }
-            );
-          }
-
-          if (numJid === botNumberJid) {
-            console.log("Bot is added to new group!");
-            await bot.sendMessage(myNumber + "@s.whatsapp.net", {
-              text: `*─「 🔥 <{PVX}> BOT 🔥 」─* \n\nSEND ${prefix}help FOR BOT COMMANDS`,
-            });
-          }
-          console.log(`[GROUP] ${groupSubject} [JOINED] ${numJid}`);
+          await memberAddCheck(bot, from, num_split, numJid, groupSubject);
         }
         if (msg.action == "remove") {
           console.log(`[GROUP] ${groupSubject} [LEAVED] ${numJid}`);
@@ -643,6 +451,7 @@ const startBot = async () => {
           myNumber,
           botNumberJid,
           reply,
+          command,
         };
 
         // send every command info to my whatsapp, won't work when i send something for bot
@@ -653,95 +462,7 @@ const startBot = async () => {
           ++commandSent;
         }
 
-        //return false when stopped in middle. return true when run fully
-        const startcHelper = async (isFromSetInterval = false) => {
-          if (!groupDesc) {
-            await reply(
-              `❌ ERROR\n- Group description is empty.\n- Put match ID in starting of group description.\n- Get match ID from cricbuzz today match url.\n- example: https://www.cricbuzz.com/live-cricket-scores/37572/mi-vs-kkr-34th-match-indian-premier-league-2021 \n- so match ID is 37572 !\n# If you've put correct match ID in description starting and still facing this error then contact developer by !dev`
-            );
-
-            return false;
-          }
-
-          matchIdGroups[groupName] = groupDesc.slice(0, 5);
-          if (!isFromSetInterval) {
-            await reply(
-              "✔️ Starting Cricket scores for matchID: " +
-                matchIdGroups[groupName] +
-                " (taken from description)"
-            );
-          }
-
-          let response = await getCricketScore(matchIdGroups[groupName]);
-
-          //response.info have "MO" only when command is startc
-          if (response.info === "MO") {
-            await bot.sendMessage(from, { text: response.message });
-            await reply(
-              "✔️ Match over! Stopping Cricket scores for this group !"
-            );
-            console.log("Match over! Stopping Cricket scores for " + groupName);
-            clearInterval(cricSetIntervalGroups[groupName]);
-            cricStartedGroups[groupName] = false;
-            return false;
-          } else if (response.info === "IO") {
-            await bot.sendMessage(from, { text: response.message });
-            await reply(
-              "✔️ Inning over! Open again live scores later when 2nd inning will start by !startc"
-            );
-            await reply("✔️ Stopping Cricket scores for this group !");
-            console.log("Stopping Cricket scores for " + groupName);
-            clearInterval(cricSetIntervalGroups[groupName]);
-            cricStartedGroups[groupName] = false;
-            return false;
-          } else if (response.info === "ER") {
-            await reply(
-              `❌ ERROR\n- Group description starting is "${matchIdGroups[groupName]}"\n- Put match ID in starting of group description. \n- Get match ID from cricbuzz today match url.\n- example: https://www.cricbuzz.com/live-cricket-scores/37572/mi-vs-kkr-34th-match-indian-premier-league-2021 \n- so match ID is 37572 !\n# If you've put correct match ID in description starting and still facing this error then contact developer by !dev`
-            );
-            return false;
-          }
-          await bot.sendMessage(from, { text: response.message });
-          return true;
-        };
-
         switch (command) {
-          case "startc":
-            if (!isGroup) {
-              await reply("❌ Group command only!");
-              return;
-            }
-            if (cricStartedGroups[groupName]) {
-              await reply("❌ CRICKET SCORES already started for this group!");
-              return;
-            }
-
-            let respCric = await startcHelper("startc");
-            if (!respCric) return;
-
-            cricStartedGroups[groupName] = true;
-            cricSetIntervalGroups[groupName] = setInterval(async () => {
-              respCric = await startcHelper("startc", true);
-              if (!respCric) return;
-            }, 1000 * 90); //1 min
-            return;
-
-          case "stopc":
-            if (!isGroup) {
-              await reply("❌ Group command only!");
-              return;
-            }
-
-            if (cricStartedGroups[groupName]) {
-              await reply("✔️ Stopping Cricket scores for this group !");
-              console.log("Stopping Cricket scores for " + groupName);
-              clearInterval(cricSetIntervalGroups[groupName]);
-              cricStartedGroups[groupName] = false;
-            } else
-              await reply(
-                "❌ CRICKET scores was never started for this group!"
-              );
-            return;
-
           case "test":
             if (myNumber + "@s.whatsapp.net" !== sender) {
               await reply(`❌ Command only for owner for bot testing purpose!`);
@@ -865,12 +586,6 @@ const startBot = async () => {
         await LoggerBot(bot, "messages.upsert", err, msg);
       }
     });
-
-    // bot.ev.on("messages.update", (m) => console.log(m));
-    // bot.ev.on("message-receipt.update", (m) => console.log(m));
-    // bot.ev.on("presence.update", (m) => console.log(m));
-    // bot.ev.on("chats.update", (m) => console.log(m));
-    // bot.ev.on("contacts.upsert", (m) => console.log(m));
 
     bot.ev.on("connection.update", async (update) => {
       try {
