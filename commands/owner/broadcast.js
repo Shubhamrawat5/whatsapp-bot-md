@@ -46,8 +46,8 @@ const handler = async (bot, msg, from, args, msgInfoObj) => {
   let time = 0;
   reply("Broadcasting...");
   groups.forEach((group) => {
-    setTimeout(() => {
-      bot.sendMessage(group.id, { text: message, detectLinks: true });
+    setTimeout(async () => {
+      await bot.sendMessage(group.id, { text: message, detectLinks: true });
     }, time);
     time += 1000 * 30; //30 sec
   });

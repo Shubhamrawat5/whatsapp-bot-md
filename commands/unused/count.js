@@ -30,7 +30,7 @@ const handler = async (bot, msg, from, args, msgInfoObj) => {
     count = 0;
   }
 
-  bot.sendMessage(
+  await bot.sendMessage(
     from,
     {
       text: `User:${name}\nTotal messages: ${count}\n\n_from 24 NOV_ in this group!_`,

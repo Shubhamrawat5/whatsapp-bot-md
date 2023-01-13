@@ -137,5 +137,5 @@ const handler = async (bot, msg, from, args, msgInfoObj) => {
 send ${prefix}source for sourcecode of BOT
 ✔️ more cool commands coming...`;
 
-  bot.sendMessage(from, { text }, { quoted: msg });
+  await bot.sendMessage(from, { text }, { quoted: msg });
 };

@@ -10,5 +10,5 @@ const handler = async (bot, msg, from, args, msgInfoObj) => {
   let { prefix } = msgInfoObj;
   let text = `✔ Give any Feedback related to PVX\nhttps://forms.gle/WEQ33xzHpYAQvArd6`;
 
-  bot.sendMessage(from, { text }, { quoted: msg });
+  await bot.sendMessage(from, { text }, { quoted: msg });
 };

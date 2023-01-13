@@ -27,5 +27,5 @@ const handler = async (bot, msg, from, args, msgInfoObj) => {
     }
   });
 
-  bot.sendMessage(from, { text: zeroMsg }, { quoted: msg });
+  await bot.sendMessage(from, { text: zeroMsg }, { quoted: msg });
 };

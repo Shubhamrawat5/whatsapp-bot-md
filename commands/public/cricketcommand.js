@@ -25,5 +25,5 @@ const handler = async (bot, msg, from, args, msgInfoObj) => {
 📛 *${prefix}stopc*
   - _Stop match live score!_`;
 
-  bot.sendMessage(from, { text }, { quoted: msg, detectLinks: false });
+  await bot.sendMessage(from, { text }, { quoted: msg, detectLinks: false });
 };

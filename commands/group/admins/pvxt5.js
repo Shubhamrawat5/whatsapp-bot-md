@@ -26,5 +26,5 @@ const handler = async (bot, msg, from, args, msgInfoObj) => {
   }
 
   countGroupMsgTop5 += countGroupMsgTempTop5;
-  bot.sendMessage(from, { text: countGroupMsgTop5 }, { quoted: msg });
+  await bot.sendMessage(from, { text: countGroupMsgTop5 }, { quoted: msg });
 };

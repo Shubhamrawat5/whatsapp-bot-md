@@ -87,7 +87,7 @@ const handler = async (bot, msg, from, args, msgInfoObj) => {
   }
   console.log(`song saved-> ./${randomName}`, response);
 
-  bot.sendMessage(
+  await bot.sendMessage(
     from,
     {
       document: fs.readFileSync(`./${randomName}`),

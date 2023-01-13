@@ -17,5 +17,5 @@ score,add,quote
 _- If cricket matchId is also to be added in description, then always give matchId in starting, like:_
 82621,score,add,only91,quote`;
 
-  bot.sendMessage(from, { text }, { quoted: msg });
+  await bot.sendMessage(from, { text }, { quoted: msg });
 };

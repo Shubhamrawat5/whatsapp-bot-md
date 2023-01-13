@@ -41,5 +41,5 @@ _Do not give any spoilers of any new movie or series._
 ✔ Rule 09 -
 _Only numbers starting with the code +91 (i.e. Indians) are allowed to join._`;
 
-  bot.sendMessage(from, { text }, { quoted: msg });
+  await bot.sendMessage(from, { text }, { quoted: msg });
 };

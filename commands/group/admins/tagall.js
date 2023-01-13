@@ -42,5 +42,9 @@ const handler = async (bot, msg, from, args, msgInfoObj) => {
     jids.push(i.id.replace("c.us", "s.whatsapp.net"));
   }
 
-  bot.sendMessage(from, { text: message, mentions: jids }, { quoted: msg });
+  await bot.sendMessage(
+    from,
+    { text: message, mentions: jids },
+    { quoted: msg }
+  );
 };

@@ -38,5 +38,5 @@ const handler = async (bot, msg, from, args, msgInfoObj) => {
   countGroupMsgIndi += `\n*Total Messages: ${totalGrpCountIndi}*`;
   countGroupMsgIndi += countGroupMsgTempIndi;
 
-  bot.sendMessage(from, { text: countGroupMsgIndi }, { quoted: msg });
+  await bot.sendMessage(from, { text: countGroupMsgIndi }, { quoted: msg });
 };

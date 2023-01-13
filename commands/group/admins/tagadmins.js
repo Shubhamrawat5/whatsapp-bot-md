@@ -26,5 +26,9 @@ const handler = async (bot, msg, from, args, msgInfoObj) => {
     jids.push(admin.replace("c.us", "s.whatsapp.net"));
   }
 
-  bot.sendMessage(from, { text: message, mentions: jids }, { quoted: msg });
+  await bot.sendMessage(
+    from,
+    { text: message, mentions: jids },
+    { quoted: msg }
+  );
 };

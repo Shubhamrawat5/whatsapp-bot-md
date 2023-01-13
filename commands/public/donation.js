@@ -26,7 +26,7 @@ const handler = async (bot, msg, from, args, msgInfoObj) => {
 
   donaMsg += donaMsgTemp;
 
-  bot.sendMessage(
+  await bot.sendMessage(
     from,
     {
       image: fs.readFileSync(__dirname + "/../../assert/donation.jpg"),

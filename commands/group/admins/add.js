@@ -7,11 +7,7 @@ module.exports.command = () => {
 };
 
 const handler = async (bot, msg, from, args, msgInfoObj) => {
-  let { prefix, isBotGroupAdmins } = msgInfoObj;
-
-  const reply = (text) => {
-    bot.sendMessage(from, { text }, { quoted: msg });
-  };
+  let { prefix, isBotGroupAdmins, reply } = msgInfoObj;
 
   if (!isBotGroupAdmins) {
     reply("❌ I'm not Admin here!");

@@ -23,5 +23,5 @@ const handler = async (bot, msg, from, args, msgInfoObj) => {
 📛 *${prefix}stopvote*
   - _Stop voting and see final result!_`;
 
-  bot.sendMessage(from, { text }, { quoted: msg });
+  await bot.sendMessage(from, { text }, { quoted: msg });
 };

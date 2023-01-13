@@ -79,5 +79,5 @@ const handler = async (bot, msg, from, args, msgInfoObj) => {
 
   //     return;
   //   }
-  bot.sendMessage(from, { text: response }, { quoted: msg });
+  await bot.sendMessage(from, { text: response }, { quoted: msg });
 };

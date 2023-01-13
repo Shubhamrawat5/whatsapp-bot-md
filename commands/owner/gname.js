@@ -21,7 +21,7 @@ const handler = async (bot, msg, from, args, msgInfoObj) => {
   for (let group of groups) {
     await setGroupName(group.id, group.name);
   }
-  bot.sendMessage(
+  await bot.sendMessage(
     from,
     { text: `✔ Group name data inserted!` },
     { quoted: msg }

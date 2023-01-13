@@ -541,7 +541,6 @@ const startBot = async () => {
           from != pvxstickeronly2 &&
           from !== pvxmano
         ) {
-          // msg.key.fromMe == false &&
           await forwardSticker(bot, msg);
         }
 

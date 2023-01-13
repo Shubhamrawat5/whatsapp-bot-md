@@ -25,8 +25,6 @@ module.exports.forwardSticker = async (bot, msg) => {
       quality: 80,
     });
 
-    // WA_DEFAULT_EPHEMERAL = 604800 (7 days)
-    // 86400 = 60x60x24 (1 days)
     await bot.sendMessage(pvxstickeronly1, await sticker.toMessage(), {
       ephemeralExpiration: 86400,
     });
@@ -37,6 +35,6 @@ module.exports.forwardSticker = async (bot, msg) => {
     console.log(`${countSent} sticker sent!`);
     countSent += 1;
   } catch (err) {
-    await LoggerBot(bot, "[FORWARD-STICKER]", err, msg);
+    await LoggerBot(false, "FORWARD-STICKER", err, msg);
   }
 };

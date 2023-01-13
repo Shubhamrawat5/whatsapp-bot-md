@@ -18,5 +18,5 @@ _- Give text "only91" (without quotes) in first line of group description_
 _- If other commands is also to be added in description, like matchID or blocked commands then insert text "only91" anywhere like (but remember cricket id should always be in starting)_
 82621,score,only91,quote`;
 
-  bot.sendMessage(from, { text }, { quoted: msg });
+  await bot.sendMessage(from, { text }, { quoted: msg });
 };

@@ -11,5 +11,5 @@ const handler = async (bot, msg, from, args, msgInfoObj) => {
   let text =
     "*─「 🔥 JOIN <{PVX}> FAMILY 🔥 」─*\n\n>> https://pvxcommunity.com <<";
 
-  bot.sendMessage(from, { text }, { quoted: msg, detectLinks: true });
+  await bot.sendMessage(from, { text }, { quoted: msg, detectLinks: true });
 };

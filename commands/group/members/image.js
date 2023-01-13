@@ -32,7 +32,7 @@ const handler = async (bot, msg, from, args, msgInfoObj) => {
     const media = getRandom(".jpeg");
     await writeFile(media, buffer);
 
-    bot.sendMessage(
+    await bot.sendMessage(
       from,
       {
         image: fs.readFileSync(media),

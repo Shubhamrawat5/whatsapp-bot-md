@@ -50,5 +50,5 @@ const handler = async (bot, msg, from, args, msgInfoObj) => {
   pvxMsg += `\nTotal Groups: ${groups.length}\nTotal Members: ${totalMem}\nUnique Members: ${uniqueMem.size}`;
   pvxMsg += temppvxMsg;
 
-  bot.sendMessage(from, { text: pvxMsg }, { quoted: msg });
+  await bot.sendMessage(from, { text: pvxMsg }, { quoted: msg });
 };

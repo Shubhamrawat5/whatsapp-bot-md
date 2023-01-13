@@ -49,7 +49,7 @@ const handler = async (bot, msg, from, args, msgInfoObj) => {
   let fileSizeInMegabytes = fileSizeInBytes / (1024 * 1024);
   console.log("Audio downloaded ! Size: " + fileSizeInMegabytes);
   if (fileSizeInMegabytes <= 40) {
-    bot.sendMessage(
+    await bot.sendMessage(
       from,
       {
         document: fs.readFileSync(`./${randomName}`),

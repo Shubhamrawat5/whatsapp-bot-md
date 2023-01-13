@@ -50,7 +50,7 @@ const handler = async (bot, msg, from, args, msgInfoObj) => {
     rankName = "Bronze ⚱️";
   }
 
-  bot.sendMessage(
+  await bot.sendMessage(
     from,
     {
       text: `${name} (#${ranks}/${totalUsers})\nRank: ${rankName}\n\n*💬 message count*\nAll PVX groups: ${count}\nCurrent group  : ${countCurGroup}`,

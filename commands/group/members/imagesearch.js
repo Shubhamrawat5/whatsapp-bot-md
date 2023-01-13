@@ -17,7 +17,7 @@ const handler = async (bot, msg, from, args, msgInfoObj) => {
 
   let name = args.join(" ");
 
-  gis(name, (error, results) => {
+  gis(name, async (error, results) => {
     if (error) {
       console.log(error);
       reply(error);
@@ -31,7 +31,7 @@ const handler = async (bot, msg, from, args, msgInfoObj) => {
       console.log(img);
 
       try {
-        bot.sendMessage(
+        await bot.sendMessage(
           from,
           {
             image: { url: img },

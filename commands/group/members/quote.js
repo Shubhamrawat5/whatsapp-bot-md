@@ -24,5 +24,5 @@ const handler = async (bot, msg, from, args, msgInfoObj) => {
   let { prefix } = msgInfoObj;
 
   let text = await getQuote();
-  bot.sendMessage(from, { text }, { quoted: msg });
+  await bot.sendMessage(from, { text }, { quoted: msg });
 };

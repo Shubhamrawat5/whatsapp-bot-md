@@ -21,5 +21,5 @@ Send ${prefix}rank to know your rank (based on total messages in all PVX groups 
 1001-1500 Silver ⚔️
 1500+ Bronze ⚱️`;
 
-  bot.sendMessage(from, { text }, { quoted: msg });
+  await bot.sendMessage(from, { text }, { quoted: msg });
 };

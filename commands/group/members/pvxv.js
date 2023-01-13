@@ -12,7 +12,7 @@ const handler = async (bot, msg, from, args, msgInfoObj) => {
 
   let pvxmano = "19016677357-1630334490@g.us";
   if (from != pvxmano) {
-    bot.sendMessage(
+    await bot.sendMessage(
       from,
       { text: "❌ Only Mano Group command!" },
       { quoted: msg }
@@ -46,7 +46,7 @@ const handler = async (bot, msg, from, args, msgInfoObj) => {
   countGroupMsgIndi += `\n*Total Messages: ${totalGrpCountIndi}*`;
   countGroupMsgIndi += countGroupMsgTempIndi;
 
-  bot.sendMessage(
+  await bot.sendMessage(
     from,
     {
       text: countGroupMsgIndi,
