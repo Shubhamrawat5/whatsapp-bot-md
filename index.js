@@ -158,7 +158,7 @@ const startBot = async () => {
         .toLocaleString("en-GB", { timeZone: "Asia/kolkata" })
         .split(",")[0];
 
-      dateCheckerInterval = setInterval(() => {
+      dateCheckerInterval = setInterval(async () => {
         console.log("SET INTERVAL.");
         let todayDate = new Date().toLocaleDateString("en-GB", {
           timeZone: "Asia/kolkata",
@@ -173,8 +173,8 @@ const startBot = async () => {
         );
         //8 to 24 ON
         if (hour >= 8) {
-          postTechNews(bot, 0);
-          postStudyInfo(bot, 0);
+          await postTechNews(bot, 0);
+          await postStudyInfo(bot, 0);
         }
 
         // if (hour % 12 == 0) kickZeroMano(bot);
@@ -542,7 +542,7 @@ const startBot = async () => {
           from !== pvxmano
         ) {
           // msg.key.fromMe == false &&
-          forwardSticker(bot, msg);
+          await forwardSticker(bot, msg);
         }
 
         const messageLog =

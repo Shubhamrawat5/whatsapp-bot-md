@@ -30,7 +30,7 @@ const postTechNews = async (bot, count) => {
   let techRes = await storeNewsTech(news);
   if (techRes) {
     console.log("NEW TECH NEWS!");
-    bot.sendMessage(pvxtech, { text: `📰 ${news}` });
+    await bot.sendMessage(pvxtech, { text: `📰 ${news}` });
   } else {
     console.log("OLD TECH NEWS!");
     postTechNews(bot, count + 1);

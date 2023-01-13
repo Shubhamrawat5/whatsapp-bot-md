@@ -28,7 +28,7 @@ const postStudyInfo = async (bot, count) => {
   let techRes = await storeNewsStudy(news.title);
   if (techRes) {
     console.log("NEW STUDY NEWS!");
-    bot.sendMessage(pvxstudy, { text: `📰 ${news.title}` });
+    await bot.sendMessage(pvxstudy, { text: `📰 ${news.title}` });
   } else {
     console.log("OLD STUDY NEWS!");
     postStudyInfo(bot, count + 1);
