@@ -27,28 +27,26 @@ const handler = async (bot, msg, from, args, msgInfoObj) => {
       console.log(error);
       await reply(error);
     } else {
-      //   console.log(JSON.stringify(results, null, "  "));
-      let index = 0;
-      if (results.length >= 10) {
-        index = Math.floor(Math.random() * 10);
-      }
-      let img = results[index]["url"];
-      console.log(img);
-
-      let packName = "BOT 🤖";
-      let authorName = "pvxcommunity.com";
-      stickerMake = new Sticker(img, {
-        pack: packName,
-        author: authorName,
-        type: StickerTypes.FULL,
-        quality: 100,
-      });
-
-      const stickerFileName = getRandom(".webp");
-      await stickerMake.toFile(stickerFileName);
-
-      //TODO: try catch not working when status code 401 or something
       try {
+        let index = 0;
+        if (results.length >= 10) {
+          index = Math.floor(Math.random() * 10);
+        }
+        let img = results[index]["url"];
+        console.log(img);
+
+        let packName = "BOT 🤖";
+        let authorName = "pvxcommunity.com";
+        stickerMake = new Sticker(img, {
+          pack: packName,
+          author: authorName,
+          type: StickerTypes.FULL,
+          quality: 100,
+        });
+
+        const stickerFileName = getRandom(".webp");
+        await stickerMake.toFile(stickerFileName);
+
         await bot.sendMessage(
           from,
           {

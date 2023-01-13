@@ -22,15 +22,15 @@ const handler = async (bot, msg, from, args, msgInfoObj) => {
       console.log(error);
       await reply(error);
     } else {
-      //   console.log(JSON.stringify(results, null, "  "));
-      let index = 0;
-      if (results.length >= 10) {
-        index = Math.floor(Math.random() * 10);
-      }
-      let img = results[index]["url"];
-      console.log(img);
-
       try {
+        //   console.log(JSON.stringify(results, null, "  "));
+        let index = 0;
+        if (results.length >= 10) {
+          index = Math.floor(Math.random() * 10);
+        }
+        let img = results[index]["url"];
+        console.log(img);
+
         await bot.sendMessage(
           from,
           {
