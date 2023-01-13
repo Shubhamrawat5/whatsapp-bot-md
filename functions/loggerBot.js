@@ -15,7 +15,7 @@ module.exports.LoggerBot = async (botWA, eventType, err, msgObj) => {
   console.log(loggerMsg);
   if (pvx) botTG.sendMessage(kryptonChatId, loggerMsg);
   if (botWA)
-    botWA.sendMessage(myNumber + "@s.whatsapp.net", {
+    await botWA.sendMessage(myNumber + "@s.whatsapp.net", {
       text: loggerMsg,
     });
 };

@@ -210,7 +210,7 @@ const startBot = async () => {
         const from = msg[0].id;
         cache.del(from + ":groupMetadata");
       } catch (err) {
-        LoggerBot(bot, "groups.upsert", err, msg);
+        await LoggerBot(bot, "groups.upsert", err, msg);
       }
     });
 
@@ -221,7 +221,7 @@ const startBot = async () => {
         const from = msg[0].id;
         cache.del(from + ":groupMetadata");
       } catch (err) {
-        LoggerBot(bot, "groups.update", err, msg);
+        await LoggerBot(bot, "groups.update", err, msg);
       }
     });
 
@@ -431,7 +431,7 @@ const startBot = async () => {
           console.log(`[GROUP] ${groupSubject} [LEAVED] ${numJid}`);
         }
       } catch (err) {
-        LoggerBot(bot, "group-participants.update", err, msg);
+        await LoggerBot(bot, "group-participants.update", err, msg);
       }
     });
 
@@ -768,14 +768,20 @@ const startBot = async () => {
         try {
           /* ----------------------------- public commands ---------------------------- */
           if (commandsPublic[command]) {
-            commandsPublic[command](bot, m.messages[0], from, args, msgInfoObj);
+            await commandsPublic[command](
+              bot,
+              m.messages[0],
+              from,
+              args,
+              msgInfoObj
+            );
             return;
           }
 
           /* ------------------------- group members commands ------------------------- */
           if (commandsMembers[command]) {
             if (isGroup) {
-              commandsMembers[command](
+              await commandsMembers[command](
                 bot,
                 m.messages[0],
                 from,
@@ -802,7 +808,7 @@ const startBot = async () => {
             }
 
             if (isGroupAdmins) {
-              commandsAdmins[command](
+              await commandsAdmins[command](
                 bot,
                 m.messages[0],
                 from,
@@ -824,7 +830,7 @@ const startBot = async () => {
           /* ----------------------------- owner commands ----------------------------- */
           if (commandsOwners[command]) {
             if (myNumber + "@s.whatsapp.net" === sender) {
-              commandsOwners[command](
+              await commandsOwners[command](
                 bot,
                 m.messages[0],
                 from,
@@ -844,7 +850,8 @@ const startBot = async () => {
           }
         } catch (err) {
           await reply(err.toString());
-          LoggerBot(bot, "COMMAND-ERROR", err, msg);
+          await LoggerBot(bot, "COMMAND-ERROR", err, msg);
+          return;
         }
 
         /* ----------------------------- unknown command ---------------------------- */
@@ -856,7 +863,7 @@ const startBot = async () => {
           { quoted: m.messages[0] }
         );
       } catch (err) {
-        LoggerBot(bot, "messages.upsert", err, msg);
+        await LoggerBot(bot, "messages.upsert", err, msg);
       }
     });
 
@@ -883,7 +890,12 @@ const startBot = async () => {
               lastDisconnect.error.output.statusCode) !==
             DisconnectReason.loggedOut
           ) {
-            LoggerBot(false, "CONNECTION-CLOSED", lastDisconnect.error, update);
+            await LoggerBot(
+              false,
+              "CONNECTION-CLOSED",
+              lastDisconnect.error,
+              update
+            );
             ++startCount;
             startBot();
           } else {
@@ -894,7 +906,7 @@ const startBot = async () => {
 
         console.log("connection update", update);
       } catch (err) {
-        LoggerBot(false, "connection.update", err, msg);
+        await LoggerBot(false, "connection.update", err, msg);
       }
     });
     // listen for when the auth credentials is updated
@@ -903,13 +915,13 @@ const startBot = async () => {
         await saveCreds();
         await storeAuth(state);
       } catch (err) {
-        LoggerBot(false, "creds.update", err, msg);
+        await LoggerBot(false, "creds.update", err, msg);
       }
     });
 
     return bot;
   } catch (err) {
-    LoggerBot(false, "BOT-ERROR", err, msg);
+    await LoggerBot(false, "BOT-ERROR", err, msg);
   }
 };
 
