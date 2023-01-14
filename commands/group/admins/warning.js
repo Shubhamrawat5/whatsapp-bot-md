@@ -20,8 +20,12 @@ const handler = async (bot, msg, from, args, msgInfoObj) => {
     if (mentioned.length === 1) {
       let warnCount = await getCountWarning(mentioned[0], from);
       let num_split = mentioned[0].split("@s.whatsapp.net")[0];
-      await setCountWarning(mentioned[0], from);
-      let warnMsg = `@${num_split} ,You have been warned. Warning status (${
+
+      if (warnCount < 2) {
+        //on 1st, 2nd warning
+        await setCountWarning(mentioned[0], from);
+      }
+      let warnMsg = `@${num_split} ,You have been warned. Warning status: (${
         warnCount + 1
       }/3). Don't repeat this type of behaviour again or you'll be banned from the group!`;
 
@@ -30,6 +34,7 @@ const handler = async (bot, msg, from, args, msgInfoObj) => {
         mentions: mentioned,
       });
       if (warnCount >= 2) {
+        //on 3rd warning
         if (!isBotGroupAdmins) {
           await reply("❌ I'm not Admin here!");
 
@@ -54,6 +59,11 @@ const handler = async (bot, msg, from, args, msgInfoObj) => {
     ];
     let warnCount = await getCountWarning(taggedMessageUser[0], from);
     let num_split = taggedMessageUser[0].split("@s.whatsapp.net")[0];
+
+    if (warnCount < 2) {
+      //on 1st, 2nd warning
+      await setCountWarning(taggedMessageUser[0], from);
+    }
     await setCountWarning(taggedMessageUser[0], from);
     let warnMsg = `@${num_split} ,You have been warned. Warning status (${
       warnCount + 1
@@ -64,6 +74,7 @@ const handler = async (bot, msg, from, args, msgInfoObj) => {
       mentions: taggedMessageUser,
     });
     if (warnCount >= 2) {
+      //on 3rd warning
       if (!isBotGroupAdmins) {
         await reply("❌ I'm not Admin here!");
         return;

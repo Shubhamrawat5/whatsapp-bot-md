@@ -36,9 +36,9 @@ const handler = async (bot, msg, from, args, msgInfoObj) => {
       if (warnCount === 1) await clearCountWarning(mentioned[0], from);
       else await reduceCountWarning(mentioned[0], from);
 
-      let warnMsg = `@${num_split} ,Your warning have been reduced by 1. Warning status: ${
+      let warnMsg = `@${num_split} ,Your warning have been reduced by 1. Warning status: (${
         warnCount - 1
-      }`;
+      }/3)`;
 
       await bot.sendMessage(from, {
         text: warnMsg,
@@ -67,9 +67,9 @@ const handler = async (bot, msg, from, args, msgInfoObj) => {
     if (warnCount === 1) await clearCountWarning(taggedMessageUser[0], from);
     else await reduceCountWarning(taggedMessageUser[0], from);
 
-    let warnMsg = `@${num_split} ,Your warning have been reduced by 1. Warning status: ${
+    let warnMsg = `@${num_split} ,Your warning have been reduced by 1. Warning status: (${
       warnCount - 1
-    }`;
+    }/3)`;
 
     await bot.sendMessage(from, {
       text: warnMsg,
