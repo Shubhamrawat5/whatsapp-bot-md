@@ -31,11 +31,14 @@ const handler = async (bot, msg, from, args, msgInfoObj) => {
     }
   }
 
+  let response;
   try {
-    const response = await bot.groupParticipantsUpdate(from, [num], "add");
+    response = await bot.groupParticipantsUpdate(from, [num], "add");
   } catch (err) {
     console.log(err);
-    reply("_❌ Error. Check the number, include country code also!_");
+    reply(
+      `_❌ Check the number, include country code also!_\nError: ${err.stack}`
+    );
     return;
   }
 

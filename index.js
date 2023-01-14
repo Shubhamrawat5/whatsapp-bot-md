@@ -570,7 +570,7 @@ const startBot = async () => {
           }
         } catch (err) {
           await reply(err.stack);
-          await LoggerBot(bot, "COMMAND-ERROR", err, msg);
+          await LoggerBot(bot, `COMMAND-ERROR in ${groupName}`, err, msg);
           return;
         }
 
