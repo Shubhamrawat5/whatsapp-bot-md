@@ -635,7 +635,6 @@ const startBot = async () => {
 
     return bot;
   } catch (err) {
-    console.log(err);
     await LoggerBot(false, "BOT-ERROR", err, "");
   }
 };
