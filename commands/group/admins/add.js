@@ -31,7 +31,14 @@ const handler = async (bot, msg, from, args, msgInfoObj) => {
     }
   }
 
-  const response = await bot.groupParticipantsUpdate(from, [num], "add");
+  try {
+    const response = await bot.groupParticipantsUpdate(from, [num], "add");
+  } catch (err) {
+    console.log(err);
+    reply("_❌ Error. Check the number, include country code also!_");
+    return;
+  }
+
   let { status } = response[0];
   if (status == 400) {
     await reply("_❌ Invalid number, include country code also!_");

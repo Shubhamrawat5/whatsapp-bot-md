@@ -34,7 +34,7 @@ const getScoreCard = async (matchID) => {
     return message;
   } catch (err) {
     console.log(err);
-    return err.toString();
+    return err.stack;
   }
 };
 

@@ -479,7 +479,7 @@ const startBot = async () => {
                 await reply(JSON.stringify(resultTest));
               else await reply(resultTest.toString());
             } catch (err) {
-              await reply(err.toString());
+              await reply(err.stack);
             }
             return;
         }
@@ -569,7 +569,7 @@ const startBot = async () => {
             return;
           }
         } catch (err) {
-          await reply(err.toString());
+          await reply(err.stack);
           await LoggerBot(bot, "COMMAND-ERROR", err, msg);
           return;
         }

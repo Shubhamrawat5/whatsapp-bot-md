@@ -140,7 +140,7 @@ _recent balls_ \n${recentballs}`;
     obj.message = message;
   } catch (err) {
     console.log(err);
-    obj.message = err.toString();
+    obj.message = err.stack;
     obj.info = "ER";
   }
   return obj;
