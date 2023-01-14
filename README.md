@@ -106,28 +106,29 @@ Now Bot will start working!! Work even if the device is offline!!
 
 <hr>
 
-|   Admin Commands   |                       Description                       |          Alias          |
-| :----------------: | :-----------------------------------------------------: | :---------------------: |
-|       `!add`       |                   Add member to group                   |                         |
-|      `!kick`       |                 kick member from group                  |         `!ban`          |
-|      `!mute`       |                     Mute the group                      |                         |
-|     `!unmute`      |                    Unmute the group                     |                         |
-|     `!delete`      |                  Delete anyone message                  |          `!d`           |
-|    `!tagadmins`    |                 Tag all admins of group                 |          `!ta`          |
-|     `!warning`     |                  Give warning to user                   |         `!warn`         |
-|  `!warningremove`  |               Remove all warning to user                | `!warnremove`, `!warnr` |
-|  `!warningcheck`   |                  Check warning to user                  | `!warncheck`, `!warnc`  |
-|     `!enable`      |            Enable command for current group             |                         |
-|     `!disable`     |            Disable command for current group            |                         |
-|      `!pvxg`       |          Get message count stats of PVX groups          |                         |
-|      `!pvxm`       |  Get members message count stats of current PVX group   |                         |
-|      `!pvxt`       |    Get top members message count stats of PVX groups    |                         |
-|      `!pvxt5`      | Get top 5 members message count stats of all PVX groups |                         |
-|      `!zero`       |          Get members list with 0 message count          |                         |
-|    `!pvxstats`     |                 Get stats of PVX groups                 |                         |
-|    `!blacklist`    |                  Get blacklist numbers                  |                         |
-|  `!blacklistadd`   |                 Add number to blacklist                 |         `!bla`          |
-| `!blacklistremove` |              Remove number from blacklist               |         `!blr`          |
+|   Admin Commands   |                       Description                       |     Alias     |
+| :----------------: | :-----------------------------------------------------: | :-----------: |
+|       `!add`       |                   Add member to group                   |               |
+|      `!kick`       |                 kick member from group                  |    `!ban`     |
+|      `!mute`       |                     Mute the group                      |               |
+|     `!unmute`      |                    Unmute the group                     |               |
+|     `!delete`      |                  Delete anyone message                  |     `!d`      |
+|    `!tagadmins`    |                 Tag all admins of group                 |     `!ta`     |
+|     `!warning`     |                  Give warning to user                   |    `!warn`    |
+|  `!warningreduce`  |                 Reduce warning to user                  | `!warnreduce` |
+|  `!warningclear`   |                Clear all warning to user                | `!warnclear`  |
+|  `!warningcheck`   |                  Check warning to user                  | `!warncheck`  |
+|     `!enable`      |            Enable command for current group             |               |
+|     `!disable`     |            Disable command for current group            |               |
+|      `!pvxg`       |          Get message count stats of PVX groups          |               |
+|      `!pvxm`       |  Get members message count stats of current PVX group   |               |
+|      `!pvxt`       |    Get top members message count stats of PVX groups    |               |
+|      `!pvxt5`      | Get top 5 members message count stats of all PVX groups |               |
+|      `!zero`       |          Get members list with 0 message count          |               |
+|    `!pvxstats`     |                 Get stats of PVX groups                 |               |
+|    `!blacklist`    |                  Get blacklist numbers                  |               |
+|  `!blacklistadd`   |                 Add number to blacklist                 |    `!bla`     |
+| `!blacklistremove` |              Remove number from blacklist               |    `!blr`     |
 
 <hr>
 

@@ -1,8 +1,12 @@
 const { MessageType, Mimetype } = require("@adiwajshing/baileys");
-const { setCountWarning, getCountWarning } = require("../../../db/warningDB");
+const {
+  reduceCountWarning,
+  getCountWarning,
+  clearCountWarning,
+} = require("../../../db/warningDB");
 
 module.exports.command = () => {
-  let cmd = ["warncheck", "warningcheck"];
+  let cmd = ["warnreduce", "warningreduce"];
 
   return { cmd, handler };
 };
@@ -20,7 +24,21 @@ const handler = async (bot, msg, from, args, msgInfoObj) => {
     if (mentioned.length === 1) {
       let warnCount = await getCountWarning(mentioned[0], from);
       let num_split = mentioned[0].split("@s.whatsapp.net")[0];
-      let warnMsg = `@${num_split} ,Your warning count is ${warnCount} for this group!`;
+
+      if (warnCount < 1) {
+        let warnMsg = `@${num_split} ,Your warning is already 0`;
+        await bot.sendMessage(from, {
+          text: warnMsg,
+          mentions: mentioned,
+        });
+        return;
+      }
+      if (warnCount === 1) await clearCountWarning(mentioned[0], from);
+      else await reduceCountWarning(mentioned[0], from);
+
+      let warnMsg = `@${num_split} ,Your warning have been reduced by 1. Warning status: ${
+        warnCount - 1
+      }`;
 
       await bot.sendMessage(from, {
         text: warnMsg,
@@ -37,7 +55,21 @@ const handler = async (bot, msg, from, args, msgInfoObj) => {
     ];
     let warnCount = await getCountWarning(taggedMessageUser[0], from);
     let num_split = taggedMessageUser[0].split("@s.whatsapp.net")[0];
-    let warnMsg = `@${num_split} ,Your warning count is ${warnCount} for this group!`;
+
+    if (warnCount < 1) {
+      let warnMsg = `@${num_split} ,Your warning is already 0`;
+      await bot.sendMessage(from, {
+        text: warnMsg,
+        mentions: taggedMessageUser,
+      });
+      return;
+    }
+    if (warnCount === 1) await clearCountWarning(taggedMessageUser[0], from);
+    else await reduceCountWarning(taggedMessageUser[0], from);
+
+    let warnMsg = `@${num_split} ,Your warning have been reduced by 1. Warning status: ${
+      warnCount - 1
+    }`;
 
     await bot.sendMessage(from, {
       text: warnMsg,

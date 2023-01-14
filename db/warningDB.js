@@ -51,7 +51,36 @@ module.exports.setCountWarning = async (memberJid, groupJid) => {
   }
 };
 
-module.exports.removeCountWarning = async (memberJid, groupJid) => {
+module.exports.reduceCountWarning = async (memberJid, groupJid) => {
+  if (!groupJid.endsWith("@g.us")) return;
+  await createCountWarningTable();
+
+  //check if groupjid is present in DB or not
+  let result = await pool.query(
+    "select * from countwarning WHERE memberjid=$1 AND groupjid=$2;",
+    [memberJid, groupJid]
+  );
+
+  //present
+  if (result.rows.length) {
+    let count = result.rows[0].count;
+
+    await pool.query(
+      "UPDATE countwarning SET count = count-1 WHERE memberjid=$1 AND groupjid=$2;",
+      [memberJid, groupJid]
+    );
+    return count - 1;
+  } else {
+    await pool.query("INSERT INTO countwarning VALUES($1,$2,$3);", [
+      memberJid,
+      groupJid,
+      1,
+    ]);
+    return 1;
+  }
+};
+
+module.exports.clearCountWarning = async (memberJid, groupJid) => {
   if (!groupJid.endsWith("@g.us")) return;
   await createCountWarningTable();
 
@@ -69,8 +98,8 @@ module.exports.removeCountWarning = async (memberJid, groupJid) => {
       "delete from countwarning WHERE memberjid=$1 AND groupjid=$2;",
       [memberJid, groupJid]
     );
-    return true;
+    return 1;
   } else {
-    return false;
+    return 0;
   }
 };
