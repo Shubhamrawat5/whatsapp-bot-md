@@ -64,7 +64,6 @@ const handler = async (bot, msg, from, args, msgInfoObj) => {
       //on 1st, 2nd warning
       await setCountWarning(taggedMessageUser[0], from);
     }
-    await setCountWarning(taggedMessageUser[0], from);
     let warnMsg = `@${num_split} ,You have been warned. Warning status (${
       warnCount + 1
     }/3). Don't repeat this type of behaviour again or you'll be banned from group!`;
