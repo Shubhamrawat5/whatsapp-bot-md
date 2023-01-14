@@ -66,6 +66,15 @@ Alias: *${prefix}ta*
 
 📛 *${prefix}warning*
   - _Give warning to user!_
+Alias: *${prefix}warn*
+
+📛 *${prefix}warningremove*
+  - _Remove all warning to user!_
+Alias: *${prefix}warnr*, *${prefix}warnremove*
+
+📛 *${prefix}warningcheck*
+  - Check warning to user!_
+Alias: *${prefix}warnc*, *${prefix}warncheck*
 
 📛 *${prefix}blacklist*
   - _Get blacklist numbers!_ 

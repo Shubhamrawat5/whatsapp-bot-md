@@ -50,3 +50,27 @@ module.exports.setCountWarning = async (memberJid, groupJid) => {
     return 1;
   }
 };
+
+module.exports.removeCountWarning = async (memberJid, groupJid) => {
+  if (!groupJid.endsWith("@g.us")) return;
+  await createCountWarningTable();
+
+  //check if groupjid is present in DB or not
+  let result = await pool.query(
+    "select * from countwarning WHERE memberjid=$1 AND groupjid=$2;",
+    [memberJid, groupJid]
+  );
+
+  //present
+  if (result.rows.length) {
+    let count = result.rows[0].count;
+
+    await pool.query(
+      "delete from countwarning WHERE memberjid=$1 AND groupjid=$2;",
+      [memberJid, groupJid]
+    );
+    return true;
+  } else {
+    return false;
+  }
+};
