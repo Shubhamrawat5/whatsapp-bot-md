@@ -68,6 +68,10 @@ Alias: *${prefix}ta*
   - _Give warning to user!_
 Alias: *${prefix}warn*
 
+📛 *${prefix}warninglist*
+  - _Check warning of all members!_
+Alias: *${prefix}warnlist*
+
 📛 *${prefix}warningreduce*
   - Reduce warning to user!_
 Alias: *${prefix}warnreduce*

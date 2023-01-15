@@ -20,6 +20,19 @@ module.exports.getCountWarning = async (memberjid, groupJid) => {
   }
 };
 
+module.exports.getCountWarningAll = async (groupJid) => {
+  await createCountWarningTable();
+  let result = await pool.query(
+    "SELECT cw.memberjid,cw.count,cmn.name FROM countwarning cw INNER JOIN countmembername cmn ON cw.memberjid=cmn.memberjid WHERE groupjid=$1 ORDER BY count DESC;",
+    [groupJid]
+  );
+  if (result.rowCount) {
+    return result.rows;
+  } else {
+    return [];
+  }
+};
+
 module.exports.setCountWarning = async (memberJid, groupJid) => {
   if (!groupJid.endsWith("@g.us")) return;
   await createCountWarningTable();

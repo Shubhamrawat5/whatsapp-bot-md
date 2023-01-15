@@ -115,6 +115,7 @@ Now Bot will start working!! Work even if the device is offline!!
 |     `!delete`      |                  Delete anyone message                  |     `!d`      |
 |    `!tagadmins`    |                 Tag all admins of group                 |     `!ta`     |
 |     `!warning`     |                  Give warning to user                   |    `!warn`    |
+|   `!warninglist`   |              Check warning of all members               |  `!warnlist`  |
 |  `!warningreduce`  |                 Reduce warning to user                  | `!warnreduce` |
 |  `!warningclear`   |                Clear all warning to user                | `!warnclear`  |
 |  `!warningcheck`   |                  Check warning to user                  | `!warncheck`  |
