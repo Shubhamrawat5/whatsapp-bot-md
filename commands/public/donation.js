@@ -1,5 +1,4 @@
-const { MessageType, Mimetype } = require("@adiwajshing/baileys");
-const { addDonation, getDonation } = require("../../db/donationDB");
+const { getDonation } = require("../../db/donationDB");
 const fs = require("fs");
 
 module.exports.command = () => {
@@ -9,7 +8,6 @@ module.exports.command = () => {
 };
 
 const handler = async (bot, msg, from, args, msgInfoObj) => {
-  let { prefix } = msgInfoObj;
   const more = String.fromCharCode(8206);
   const readMore = more.repeat(4001);
 

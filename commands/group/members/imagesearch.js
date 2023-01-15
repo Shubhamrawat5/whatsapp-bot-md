@@ -1,4 +1,3 @@
-const { MessageType, Mimetype } = require("@adiwajshing/baileys");
 const gis = require("g-i-s");
 
 module.exports.command = () => {

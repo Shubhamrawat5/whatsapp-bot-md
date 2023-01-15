@@ -1,5 +1,3 @@
-const { MessageType, Mimetype } = require("@adiwajshing/baileys");
-
 const { getCountTop } = require("../../../db/countMemberDB");
 
 module.exports.command = () => {
@@ -9,8 +7,6 @@ module.exports.command = () => {
 };
 
 const handler = async (bot, msg, from, args, msgInfoObj) => {
-  let { groupName, groupMembers, reply } = msgInfoObj;
-
   let noOfResult = 20;
   //get number from args if available
   if (args.length) {

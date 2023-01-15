@@ -1,5 +1,3 @@
-const { MessageType, Mimetype } = require("@adiwajshing/baileys");
-
 module.exports.command = () => {
   let cmd = ["rules", "r"];
 
@@ -7,8 +5,6 @@ module.exports.command = () => {
 };
 
 const handler = async (bot, msg, from, args, msgInfoObj) => {
-  let { prefix } = msgInfoObj;
-
   const more = String.fromCharCode(8206);
   const readMore = more.repeat(4001);
 

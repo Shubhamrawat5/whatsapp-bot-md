@@ -1,5 +1,4 @@
-const { MessageType, Mimetype } = require("@adiwajshing/baileys");
-const { setCountWarning, getCountWarning } = require("../../../db/warningDB");
+const { getCountWarning } = require("../../../db/warningDB");
 
 module.exports.command = () => {
   let cmd = ["warncheck", "warningcheck"];

@@ -1,6 +1,7 @@
 const Parser = require("rss-parser");
 const parser = new Parser();
 const { storeNewsStudy } = require("../db/postStudyDB");
+const { LoggerBot } = require("./loggerBot");
 const pvxstudy = "919557666582-1617595892@g.us";
 
 const postStudyInfo = async (bot, count) => {

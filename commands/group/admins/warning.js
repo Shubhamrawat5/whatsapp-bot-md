@@ -1,4 +1,3 @@
-const { MessageType, Mimetype } = require("@adiwajshing/baileys");
 const { setCountWarning, getCountWarning } = require("../../../db/warningDB");
 
 module.exports.command = () => {

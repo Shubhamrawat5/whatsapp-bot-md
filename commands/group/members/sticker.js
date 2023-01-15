@@ -1,8 +1,4 @@
-const {
-  MessageType,
-  Mimetype,
-  downloadContentFromMessage,
-} = require("@adiwajshing/baileys");
+const { downloadContentFromMessage } = require("@adiwajshing/baileys");
 const fs = require("fs");
 const { Sticker, StickerTypes } = require("wa-sticker-formatter");
 const ffmpegPath = require("@ffmpeg-installer/ffmpeg").path;
@@ -20,7 +16,7 @@ const getRandom = (ext) => {
 };
 
 const handler = async (bot, msg, from, args, msgInfoObj) => {
-  let { type, isMedia, isTaggedImage, isTaggedVideo, reply } = msgInfoObj;
+  let { type, isTaggedImage, isTaggedVideo, reply } = msgInfoObj;
   let packName = "BOT 🤖";
   let authorName = "pvxcommunity.com";
   const stickerFileName = getRandom(".webp");

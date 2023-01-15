@@ -93,7 +93,14 @@ connection update {
 
 
 $node --trace_gc index.js
+--inspect
 v8.writeHeapSnapshot
 process.memoryUsage
 
+
+$node --inspect index.js
+chrome://inspect
+
+
 alter table countwarning add check(count BETWEEN 1 and 3);
+

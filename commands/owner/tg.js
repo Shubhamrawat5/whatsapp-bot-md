@@ -1,8 +1,4 @@
-const {
-  MessageType,
-  Mimetype,
-  downloadContentFromMessage,
-} = require("@adiwajshing/baileys");
+const { downloadContentFromMessage } = require("@adiwajshing/baileys");
 const { writeFile } = require("fs/promises");
 const AdmZip = require("adm-zip");
 const { Sticker, StickerTypes } = require("wa-sticker-formatter");
@@ -18,7 +14,7 @@ const getRandom = (ext) => {
 };
 
 const handler = async (bot, msg, from, args, msgInfoObj) => {
-  let { prefix, reply, isTaggedDocument } = msgInfoObj;
+  let { reply, isTaggedDocument } = msgInfoObj;
 
   if (!isTaggedDocument) {
     await reply(`❌ Send zip document file!`);

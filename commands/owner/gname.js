@@ -1,4 +1,3 @@
-const { MessageType, Mimetype } = require("@adiwajshing/baileys");
 const { setGroupName } = require("../../db/groupNameDB");
 
 module.exports.command = () => {
@@ -8,7 +7,6 @@ module.exports.command = () => {
 };
 
 const handler = async (bot, msg, from, args, msgInfoObj) => {
-  let { prefix, reply } = msgInfoObj;
   let text = `*─「 <{PVX}> BOT 」 ─*\n\nYES! BOT IS ALIVE !!!`;
   let chats = await bot.groupFetchAllParticipating();
   let groups = Object.values(chats)

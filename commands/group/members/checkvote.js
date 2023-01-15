@@ -1,4 +1,3 @@
-const { MessageType, Mimetype } = require("@adiwajshing/baileys");
 const { getVotingData } = require("../../../db/VotingDB");
 
 module.exports.command = () => {

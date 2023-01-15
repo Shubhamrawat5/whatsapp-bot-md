@@ -1,4 +1,3 @@
-const { MessageType, Mimetype } = require("@adiwajshing/baileys");
 const { getCricketScore } = require("../../../functions/cricket");
 let cricSetIntervalGroups = {}; //to store every group name with its setInterval value so that it can be stopped
 let matchIdGroups = {}; //to store every group name with its match ID

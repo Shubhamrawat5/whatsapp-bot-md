@@ -1,5 +1,3 @@
-const { MessageType, Mimetype } = require("@adiwajshing/baileys");
-
 const ytdl = require("ytdl-core");
 const fs = require("fs");
 

@@ -13,7 +13,7 @@ const getRandom = (ext) => {
 };
 
 const handler = async (bot, msg, from, args, msgInfoObj) => {
-  let { prefix, isMedia, isTaggedSticker, reply } = msgInfoObj;
+  let { isMedia, isTaggedSticker, reply } = msgInfoObj;
 
   if ((isMedia && !msg.message.stickerMessage.isAnimated) || isTaggedSticker) {
     let downloadFilePath;

@@ -1,5 +1,3 @@
-const { MessageType, Mimetype } = require("@adiwajshing/baileys");
-
 module.exports.command = () => {
   let cmd = ["block"];
 
@@ -7,8 +5,6 @@ module.exports.command = () => {
 };
 
 const handler = async (bot, msg, from, args, msgInfoObj) => {
-  let { prefix } = msgInfoObj;
-
   let text = `*─「 <{PVX}> BOT 」 ─*
 
 _- Give command name (with comma seperated and without spaces) to be blocked in *first line of group description* , like:_

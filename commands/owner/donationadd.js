@@ -1,4 +1,3 @@
-const { MessageType, Mimetype } = require("@adiwajshing/baileys");
 const { addDonation } = require("../../db/donationDB");
 module.exports.command = () => {
   let cmd = ["donationadd", "da"];

@@ -1,4 +1,3 @@
-const { MessageType, Mimetype } = require("@adiwajshing/baileys");
 const { getCountVideo } = require("../../../db/countVideoDB");
 
 module.exports.command = () => {
@@ -8,7 +7,7 @@ module.exports.command = () => {
 };
 
 const handler = async (bot, msg, from, args, msgInfoObj) => {
-  let { reply, groupMembers } = msgInfoObj;
+  let { groupMembers } = msgInfoObj;
 
   let pvxmano = "19016677357-1630334490@g.us";
   if (from != pvxmano) {

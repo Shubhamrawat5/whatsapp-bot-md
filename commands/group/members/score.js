@@ -1,5 +1,3 @@
-const { MessageType, Mimetype } = require("@adiwajshing/baileys");
-
 const { getCricketScore } = require("../../../functions/cricket");
 
 module.exports.command = () => {

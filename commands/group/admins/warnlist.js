@@ -1,4 +1,3 @@
-const { MessageType, Mimetype } = require("@adiwajshing/baileys");
 const { getCountWarningAll } = require("../../../db/warningDB");
 
 module.exports.command = () => {
@@ -8,7 +7,7 @@ module.exports.command = () => {
 };
 
 const handler = async (bot, msg, from, args, msgInfoObj) => {
-  let { groupAdmins, isBotGroupAdmins, reply, groupName } = msgInfoObj;
+  let { reply, groupName } = msgInfoObj;
   const more = String.fromCharCode(8206);
   const readMore = more.repeat(4001);
 

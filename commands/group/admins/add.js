@@ -1,5 +1,3 @@
-const { MessageType, Mimetype } = require("@adiwajshing/baileys");
-
 module.exports.command = () => {
   let cmd = ["add"];
 
@@ -7,7 +5,7 @@ module.exports.command = () => {
 };
 
 const handler = async (bot, msg, from, args, msgInfoObj) => {
-  let { prefix, isBotGroupAdmins, reply } = msgInfoObj;
+  let { isBotGroupAdmins, reply } = msgInfoObj;
 
   if (!isBotGroupAdmins) {
     await reply("❌ I'm not Admin here!");

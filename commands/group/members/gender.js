@@ -1,4 +1,3 @@
-const { MessageType, Mimetype } = require("@adiwajshing/baileys");
 const axios = require("axios");
 
 const getGender = async (name) => {

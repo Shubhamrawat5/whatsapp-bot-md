@@ -1,15 +1,6 @@
-const {
-  MessageType,
-  Mimetype,
-  downloadContentFromMessage,
-} = require("@adiwajshing/baileys");
+const { downloadContentFromMessage } = require("@adiwajshing/baileys");
 
-const fs = require("fs");
 const { Sticker, StickerTypes } = require("wa-sticker-formatter");
-
-const getRandom = (ext) => {
-  return `${Math.floor(Math.random() * 10000)}${ext}`;
-};
 
 module.exports.command = () => {
   let cmd = ["steal"];

@@ -1,5 +1,3 @@
-const { MessageType, Mimetype } = require("@adiwajshing/baileys");
-
 module.exports.command = () => {
   let cmd = ["rt", "randomtag"];
 
@@ -7,7 +5,7 @@ module.exports.command = () => {
 };
 
 const handler = async (bot, msg, from, args, msgInfoObj) => {
-  let { prefix, groupMembers, reply } = msgInfoObj;
+  let { groupMembers, reply } = msgInfoObj;
   let jids = [];
   let message = "Hey ";
   if (

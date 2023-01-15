@@ -30,7 +30,6 @@ app.listen(port, () => {
 const {
   default: makeWASocket,
   DisconnectReason,
-  delay,
   useMultiFileAuthState,
   fetchLatestBaileysVersion,
   makeCacheableSignalKeyStore,
@@ -583,7 +582,7 @@ const startBot = async () => {
           { quoted: m.messages[0] }
         );
       } catch (err) {
-        await LoggerBot(bot, "messages.upsert", err, m);
+        await LoggerBot(bot, "messages.upsert", err, msg);
       }
     });
 

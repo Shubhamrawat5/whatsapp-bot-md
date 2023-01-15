@@ -1,5 +1,3 @@
-const { MessageType, Mimetype } = require("@adiwajshing/baileys");
-
 const axios = require("axios");
 
 const getQuote = async () => {
@@ -21,8 +19,6 @@ module.exports.command = () => {
 };
 
 const handler = async (bot, msg, from, args, msgInfoObj) => {
-  let { prefix } = msgInfoObj;
-
   let text = await getQuote();
   await bot.sendMessage(from, { text }, { quoted: msg });
 };

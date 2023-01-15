@@ -1,5 +1,3 @@
-const { MessageType, Mimetype } = require("@adiwajshing/baileys");
-
 const axios = require("axios");
 
 const getScoreCard = async (matchID) => {

@@ -1,5 +1,3 @@
-const { MessageType, Mimetype } = require("@adiwajshing/baileys");
-
 const {
   getCountIndividualAllGroupWithName,
 } = require("../../../db/countMemberDB");
@@ -11,7 +9,7 @@ module.exports.command = () => {
 };
 
 const handler = async (bot, msg, from, args, msgInfoObj) => {
-  let { sender, reply } = msgInfoObj;
+  let { sender } = msgInfoObj;
   const more = String.fromCharCode(8206);
   const readMore = more.repeat(4001);
   if (args[0]) {

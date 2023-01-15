@@ -1,5 +1,3 @@
-const { MessageType, Mimetype } = require("@adiwajshing/baileys");
-
 // 📛 ${prefix}wall text
 // 📛 ${prefix}matrix text
 // 📛 ${prefix}flame text

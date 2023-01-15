@@ -1,5 +1,3 @@
-const { MessageType, Mimetype } = require("@adiwajshing/baileys");
-
 module.exports.command = () => {
   let cmd = ["tagall"];
 
@@ -7,15 +5,7 @@ module.exports.command = () => {
 };
 
 const handler = async (bot, msg, from, args, msgInfoObj) => {
-  let {
-    sender,
-    prefix,
-    groupName,
-    groupMembers,
-    botNumberJid,
-    myNumber,
-    reply,
-  } = msgInfoObj;
+  let { groupMembers } = msgInfoObj;
   //if (
   //  groupName.toUpperCase().includes("PVX") &&
   //  ![myNumber + "@s.whatsapp.net", botNumberJid].includes(sender)

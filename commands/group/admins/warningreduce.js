@@ -1,4 +1,3 @@
-const { MessageType, Mimetype } = require("@adiwajshing/baileys");
 const {
   reduceCountWarning,
   getCountWarning,
@@ -12,7 +11,7 @@ module.exports.command = () => {
 };
 
 const handler = async (bot, msg, from, args, msgInfoObj) => {
-  let { groupAdmins, isBotGroupAdmins, reply } = msgInfoObj;
+  let { reply } = msgInfoObj;
 
   if (!msg.message.extendedTextMessage) {
     await reply("❌ Tag someone!");

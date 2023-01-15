@@ -1,7 +1,3 @@
-const { MessageType, Mimetype } = require("@adiwajshing/baileys");
-
-const { getCountGroupMembers } = require("../../../db/countMemberDB");
-
 module.exports.command = () => {
   let cmd = ["pvxstats"];
 
@@ -9,7 +5,6 @@ module.exports.command = () => {
 };
 
 const handler = async (bot, msg, from, args, msgInfoObj) => {
-  let { groupName, groupMembers, reply } = msgInfoObj;
   const more = String.fromCharCode(8206);
   const readMore = more.repeat(4001);
   let chats = await bot.groupFetchAllParticipating();

@@ -1,4 +1,3 @@
-const { MessageType, Mimetype } = require("@adiwajshing/baileys");
 const {
   getDisableCommandData,
   setDisableCommandData,
@@ -11,7 +10,7 @@ module.exports.command = () => {
 };
 
 const handler = async (bot, msg, from, args, msgInfoObj) => {
-  let { prefix, reply } = msgInfoObj;
+  let { reply } = msgInfoObj;
 
   let cmd = args[0];
   let res = await getDisableCommandData(from);

@@ -1,5 +1,3 @@
-const { MessageType, Mimetype } = require("@adiwajshing/baileys");
-
 const { getCountTop5 } = require("../../../db/countMemberDB");
 
 module.exports.command = () => {
@@ -9,7 +7,6 @@ module.exports.command = () => {
 };
 
 const handler = async (bot, msg, from, args, msgInfoObj) => {
-  let { groupName, groupMembers, reply } = msgInfoObj;
   const more = String.fromCharCode(8206);
   const readMore = more.repeat(4001);
   let resultCountGroupTop5 = await getCountTop5();

@@ -1,5 +1,3 @@
-const { MessageType, Mimetype } = require("@adiwajshing/baileys");
-
 module.exports.command = () => {
   let cmd = ["broadcast", "bc"];
 
@@ -7,7 +5,7 @@ module.exports.command = () => {
 };
 
 const handler = async (bot, msg, from, args, msgInfoObj) => {
-  let { prefix, reply } = msgInfoObj;
+  let { reply } = msgInfoObj;
   let chats = await bot.groupFetchAllParticipating();
   // console.log(chats);
   // !v.announce &&

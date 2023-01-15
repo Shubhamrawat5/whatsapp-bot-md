@@ -1,4 +1,3 @@
-const { MessageType, Mimetype } = require("@adiwajshing/baileys");
 const { getBlacklist } = require("../../../db/blacklistDB");
 
 module.exports.command = () => {
