@@ -21,19 +21,17 @@ const handler = async (bot, msg, from, args, msgInfoObj) => {
       let warnCount = await getCountWarning(mentioned[0], from);
       let num_split = mentioned[0].split("@s.whatsapp.net")[0];
 
-      if (warnCount < 2) {
-        //on 1st, 2nd warning
-        await setCountWarning(mentioned[0], from);
+      if (warnCount < 3) {
+        //0,1,2
+        warnCount = await setCountWarning(mentioned[0], from);
       }
-      let warnMsg = `@${num_split} ,You have been warned. Warning status: (${
-        warnCount + 1
-      }/3). Don't repeat this type of behaviour again or you'll be banned from the group!`;
+      let warnMsg = `@${num_split} ,You have been warned. Warning status: (${warnCount}/3). Don't repeat this type of behaviour again or you'll be banned from the group!`;
 
       await bot.sendMessage(from, {
         text: warnMsg,
         mentions: mentioned,
       });
-      if (warnCount >= 2) {
+      if (warnCount >= 3) {
         //on 3rd warning
         if (!isBotGroupAdmins) {
           await reply("❌ I'm not Admin here!");
@@ -60,19 +58,17 @@ const handler = async (bot, msg, from, args, msgInfoObj) => {
     let warnCount = await getCountWarning(taggedMessageUser[0], from);
     let num_split = taggedMessageUser[0].split("@s.whatsapp.net")[0];
 
-    if (warnCount < 2) {
-      //on 1st, 2nd warning
-      await setCountWarning(taggedMessageUser[0], from);
+    if (warnCount < 3) {
+      //0,1,2
+      warnCount = await setCountWarning(taggedMessageUser[0], from);
     }
-    let warnMsg = `@${num_split} ,You have been warned. Warning status (${
-      warnCount + 1
-    }/3). Don't repeat this type of behaviour again or you'll be banned from group!`;
+    let warnMsg = `@${num_split} ,You have been warned. Warning status (${warnCount}/3). Don't repeat this type of behaviour again or you'll be banned from group!`;
 
     await bot.sendMessage(from, {
       text: warnMsg,
       mentions: taggedMessageUser,
     });
-    if (warnCount >= 2) {
+    if (warnCount >= 3) {
       //on 3rd warning
       if (!isBotGroupAdmins) {
         await reply("❌ I'm not Admin here!");
