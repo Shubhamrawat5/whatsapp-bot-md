@@ -583,7 +583,7 @@ const startBot = async () => {
           { quoted: m.messages[0] }
         );
       } catch (err) {
-        await LoggerBot(bot, "messages.upsert", err, msg);
+        await LoggerBot(bot, "messages.upsert", err, m);
       }
     });
 

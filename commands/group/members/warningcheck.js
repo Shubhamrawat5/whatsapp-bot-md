@@ -8,12 +8,20 @@ module.exports.command = () => {
 };
 
 const handler = async (bot, msg, from, args, msgInfoObj) => {
-  let { groupAdmins, isBotGroupAdmins, reply } = msgInfoObj;
+  let { sender, reply } = msgInfoObj;
 
   if (!msg.message.extendedTextMessage) {
-    await reply("❌ Tag someone!");
+    if (args.length === 0) {
+      //check for user
+      let warnCount = await getCountWarning(sender, from);
+      let warnMsg = `Your warning count is ${warnCount} for this group!`;
+      await reply(warnMsg);
+    } else {
+      await reply("❌ Tag someone!");
+    }
     return;
   }
+
   let mentioned = msg.message.extendedTextMessage.contextInfo.mentionedJid;
   if (mentioned.length) {
     //when member are mentioned with command
