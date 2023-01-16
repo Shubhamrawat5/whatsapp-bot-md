@@ -348,7 +348,7 @@ const startBot = async () => {
           from != pvxstickeronly2 &&
           from !== pvxmano
         ) {
-          await forwardSticker(bot, msg);
+          // await forwardSticker(bot, msg);
         }
 
         const messageLog =
@@ -432,6 +432,8 @@ const startBot = async () => {
         }
 
         let msgInfoObj = {
+          from,
+          args,
           prefix,
           sender,
           senderName,
