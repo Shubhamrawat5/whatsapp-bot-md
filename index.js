@@ -348,7 +348,11 @@ const startBot = async () => {
           from != pvxstickeronly2 &&
           from !== pvxmano
         ) {
-          // await forwardSticker(bot, msg);
+          await new Promise(async (resolve) => {
+            setTimeout(resolve, 1000 * 30);
+            await forwardSticker(bot, msg);
+            resolve();
+          });
         }
 
         const messageLog =

@@ -13,6 +13,8 @@ module.exports.forwardSticker = async (bot, msg) => {
       downloadFilePath,
       "sticker"
     );
+    if (!stream) return;
+    
     let buffer = Buffer.from([]);
     for await (const chunk of stream) {
       buffer = Buffer.concat([buffer, chunk]);
