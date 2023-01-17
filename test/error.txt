@@ -1,6 +1,86 @@
+[MESSAGE] !s [FROM] 918087555874 [IN] SARCASMVILLA HINDU FAMILY
+[COMMAND] s [FROM] 918087555874 [IN] SARCASMVILLA HINDU FAMILY
+[MESSAGE] 8) [!s] [SARCASMVILLA HINDU FA [FROM] 919720391303 [IN] 916397867115@s.whatsapp.net
 Killed
 npm notice
 npm notice New major version of npm available! 8.12.1 -> 9.3.0
 npm notice Changelog: <https://github.com/npm/cli/releases/tag/v9.3.0>
 npm notice Run `npm install -g npm@9.3.0` to update!
 npm notice
+> whatsapp-bot-md@1.0.0 start
+> node index.js
+[STARTING BOT]: 1
+Web-server running!
+Commands Added!
+using WA v2.2243.7, isLatest: true
+Fetching login data...
+Login data found!
+connection update {
+connection: 'connecting',
+receivedPendingNotifications: false,
+qr: undefined
+}
+Error: WebSocket Error (Opening handshake has timed out)
+at WebSocket.<anonymous> (/workspace/node_modules/@adiwajshing/baileys/lib/Socket/socket.js:359:33)
+at WebSocket.emit (node:events:537:28)
+at emitErrorAndClose (/workspace/node_modules/ws/lib/websocket.js:1002:13)
+at process.processTicksAndRejections (node:internal/process/task_queues:82:21) {
+data: Error: Opening handshake has timed out
+at ClientRequest.<anonymous> (/workspace/node_modules/ws/lib/websocket.js:846:7)
+at ClientRequest.emit (node:events:537:28)
+at TLSSocket.emitRequestTimeout (node:_http_client:781:9)
+at Object.onceWrapper (node:events:651:28)
+at TLSSocket.emit (node:events:537:28)
+at Socket._onTimeout (node:net:525:8)
+at listOnTimeout (node:internal/timers:564:17)
+at process.processTimers (node:internal/timers:507:7),
+isBoom: true,
+isServer: true,
+output: {
+statusCode: 500,
+payload: {
+statusCode: 500,
+error: 'Internal Server Error',
+message: 'An internal server error occurred'
+},
+headers: {}
+}
+}
+[STARTING BOT]: 2
+connection update {
+connection: 'close',
+lastDisconnect: {
+error: Error: WebSocket Error (Opening handshake has timed out)
+at WebSocket.<anonymous> (/workspace/node_modules/@adiwajshing/baileys/lib/Socket/socket.js:359:33)
+at WebSocket.emit (node:events:537:28)
+at emitErrorAndClose (/workspace/node_modules/ws/lib/websocket.js:1002:13)
+at process.processTicksAndRejections (node:internal/process/task_queues:82:21) {
+data: Error: Opening handshake has timed out
+at ClientRequest.<anonymous> (/workspace/node_modules/ws/lib/websocket.js:846:7)
+at ClientRequest.emit (node:events:537:28)
+at TLSSocket.emitRequestTimeout (node:_http_client:781:9)
+at Object.onceWrapper (node:events:651:28)
+at TLSSocket.emit (node:events:537:28)
+at Socket._onTimeout (node:net:525:8)
+at listOnTimeout (node:internal/timers:564:17)
+at process.processTimers (node:internal/timers:507:7),
+isBoom: true,
+isServer: true,
+output: [Object]
+},
+date: 2023-01-16T07:23:00.437Z
+}
+}
+Commands Added!
+using WA v2.2243.7, isLatest: true
+Fetching login data...
+Login data found!
+connection update {
+connection: 'connecting',
+receivedPendingNotifications: false,
+qr: undefined
+}
+Login data updated!
+connection update { isOnline: true }
+Connected
+connection update { receivedPendingNotifications: true }

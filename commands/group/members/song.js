@@ -19,7 +19,7 @@ const downloadSong = async (randomName, query) => {
 
     if (data["audios"][""].length <= 1) {
       console.log("==[ SONG NOT FOUND! ]==");
-      return "NOT";
+      return { info: "NF" };
     }
 
     //avoid remix,revisited,mix
@@ -64,7 +64,7 @@ const downloadSong = async (randomName, query) => {
     });
   } catch (err) {
     console.log(err);
-    return "ERROR";
+    return { info: "ERR", err: err.stack };
   }
 };
 
@@ -78,10 +78,14 @@ const handler = async (bot, msg, from, args, msgInfoObj) => {
   let randomName = getRandom(".mp3");
   let query = args.join("%20");
   let response = await downloadSong(randomName, query);
-  if (response == "NOT") {
+  if (response && response.info == "NF") {
     await reply(
       `❌ Song not found!\nTry to put correct spelling of song along with singer name.\n[Better use ${prefix}yta command to download correct song from youtube]`
     );
+    return;
+  }
+  if (response && response.info === "ERR") {
+    await reply(response.err);
     return;
   }
   console.log(`song saved-> ./${randomName}`, response);

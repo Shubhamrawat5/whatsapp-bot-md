@@ -322,6 +322,15 @@ const startBot = async () => {
             sender.slice(sender.search("@"));
         const senderName = msg.pushName;
 
+        const messageLog =
+          "[MESSAGE] " +
+          (body ? body.substr(0, 30) : type) +
+          " [FROM] " +
+          sender.split("@")[0] +
+          " [IN] " +
+          (groupName || from);
+        console.log(messageLog);
+
         //Count message
         if (
           isGroup &&
@@ -348,21 +357,8 @@ const startBot = async () => {
           from != pvxstickeronly2 &&
           from !== pvxmano
         ) {
-          await new Promise(async (resolve) => {
-            setTimeout(resolve, 1000 * 30);
-            await forwardSticker(bot, msg);
-            resolve();
-          });
+          await forwardSticker(bot, msg);
         }
-
-        const messageLog =
-          "[MESSAGE] " +
-          (body ? body.substr(0, 30) : type) +
-          " [FROM] " +
-          sender.split("@")[0] +
-          " [IN] " +
-          (groupName || from);
-        console.log(messageLog);
 
         // if (pvx && from === pvxcommunity && type !== "reactionMessage") {
         // fs.appendFile(
@@ -588,7 +584,7 @@ const startBot = async () => {
           { quoted: m.messages[0] }
         );
       } catch (err) {
-        await LoggerBot(bot, "messages.upsert", err, msg);
+        await LoggerBot(bot, "messages.upsert", err, m);
       }
     });
 
@@ -625,7 +621,7 @@ const startBot = async () => {
 
         console.log("connection update", update);
       } catch (err) {
-        await LoggerBot(false, "connection.update", err, msg);
+        await LoggerBot(false, "connection.update", err, update);
       }
     });
     // listen for when the auth credentials is updated
