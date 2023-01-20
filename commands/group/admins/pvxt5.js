@@ -6,7 +6,8 @@ module.exports.command = () => {
   return { cmd, handler };
 };
 
-const handler = async (bot, msg, from, args, msgInfoObj) => {
+const handler = async (bot, msg, from, msgInfoObj) => {
+  let { reply } = msgInfoObj;
   const more = String.fromCharCode(8206);
   const readMore = more.repeat(4001);
   let resultCountGroupTop5 = await getCountTop5();
@@ -23,5 +24,6 @@ const handler = async (bot, msg, from, args, msgInfoObj) => {
   }
 
   countGroupMsgTop5 += countGroupMsgTempTop5;
-  await bot.sendMessage(from, { text: countGroupMsgTop5 }, { quoted: msg });
+
+  await reply(countGroupMsgTop5);
 };

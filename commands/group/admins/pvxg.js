@@ -6,7 +6,8 @@ module.exports.command = () => {
   return { cmd, handler };
 };
 
-const handler = async (bot, msg, from, args, msgInfoObj) => {
+const handler = async (bot, msg, from, msgInfoObj) => {
+  const { reply } = msgInfoObj;
   const more = String.fromCharCode(8206);
   const readMore = more.repeat(4001);
   let resultCountGroup = await getCountGroups();
@@ -25,5 +26,5 @@ const handler = async (bot, msg, from, args, msgInfoObj) => {
   }
   countGroupMsg += `\n*Total Messages: ${totalGrpCount}*`;
   countGroupMsg += countGroupMsgTemp;
-  await bot.sendMessage(from, { text: countGroupMsg }, { quoted: msg });
+  await reply(countGroupMsg);
 };

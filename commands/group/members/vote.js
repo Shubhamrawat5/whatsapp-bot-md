@@ -6,8 +6,8 @@ module.exports.command = () => {
   return { cmd, handler };
 };
 
-const handler = async (bot, msg, from, args, msgInfoObj) => {
-  let { prefix, reply, sender, senderName } = msgInfoObj;
+const handler = async (bot, msg, from, msgInfoObj) => {
+  let { prefix, reply, sender, senderName, args } = msgInfoObj;
   let votingResult = await getVotingData(from);
   if (!votingResult.is_started) {
     await reply(

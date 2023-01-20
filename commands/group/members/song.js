@@ -68,8 +68,8 @@ const downloadSong = async (randomName, query) => {
   }
 };
 
-const handler = async (bot, msg, from, args, msgInfoObj) => {
-  let { prefix, reply } = msgInfoObj;
+const handler = async (bot, msg, from, msgInfoObj) => {
+  let { prefix, reply, args } = msgInfoObj;
 
   if (args.length === 0) {
     await reply(`❌ Query is empty! \nSend ${prefix}song query`);

@@ -6,7 +6,7 @@ module.exports.command = () => {
   return { cmd, handler };
 };
 
-const handler = async (bot, msg, from, args, msgInfoObj) => {
+const handler = async (bot, msg, from, msgInfoObj) => {
   let { groupAdmins, isBotGroupAdmins, reply } = msgInfoObj;
 
   if (!msg.message.extendedTextMessage) {

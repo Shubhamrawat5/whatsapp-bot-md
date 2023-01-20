@@ -4,8 +4,8 @@ module.exports.command = () => {
   return { cmd, handler };
 };
 
-const handler = async (bot, msg, from, args, msgInfoObj) => {
-  let { sender, groupName, groupMembers, botNumberJid, myNumber, reply } =
+const handler = async (bot, msg, from, msgInfoObj) => {
+  let { sender, groupName, groupMembers, botNumberJid, myNumber, reply, args } =
     msgInfoObj;
   if (
     groupName.toUpperCase().includes("PVX") &&

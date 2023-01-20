@@ -4,8 +4,8 @@ module.exports.command = () => {
   return { cmd, handler };
 };
 
-const handler = async (bot, msg, from, args, msgInfoObj) => {
-  let { prefix } = msgInfoObj;
+const handler = async (bot, msg, from, msgInfoObj) => {
+  let { prefix, reply } = msgInfoObj;
 
   let text = `*─「 <{PVX}> RANKS 」 ─*
 
@@ -19,5 +19,5 @@ Send ${prefix}rank to know your rank (based on total messages in all PVX groups 
 1001-1500 Silver ⚔️
 1500+ Bronze ⚱️`;
 
-  await bot.sendMessage(from, { text }, { quoted: msg });
+  await reply(text);
 };

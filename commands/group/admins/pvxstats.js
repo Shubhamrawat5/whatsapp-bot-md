@@ -4,7 +4,8 @@ module.exports.command = () => {
   return { cmd, handler };
 };
 
-const handler = async (bot, msg, from, args, msgInfoObj) => {
+const handler = async (bot, msg, from, msgInfoObj) => {
+  let { reply } = msgInfoObj;
   const more = String.fromCharCode(8206);
   const readMore = more.repeat(4001);
   let chats = await bot.groupFetchAllParticipating();
@@ -45,5 +46,5 @@ const handler = async (bot, msg, from, args, msgInfoObj) => {
   pvxMsg += `\nTotal Groups: ${groups.length}\nTotal Members: ${totalMem}\nUnique Members: ${uniqueMem.size}`;
   pvxMsg += temppvxMsg;
 
-  await bot.sendMessage(from, { text: pvxMsg }, { quoted: msg });
+  await reply(pvxMsg);
 };

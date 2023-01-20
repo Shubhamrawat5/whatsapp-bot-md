@@ -414,7 +414,7 @@ const startBot = async () => {
           type === "extendedTextMessage" && content.includes("documentMessage");
 
         const reply = async (text) => {
-          await bot.sendMessage(from, { text }, { quoted: m.messages[0] });
+          await bot.sendMessage(from, { text }, { quoted: msg });
         };
 
         //CHECK IF COMMAND IF DISABLED FOR CURRENT GROUP OR NOT
@@ -430,30 +430,6 @@ const startBot = async () => {
           await reply("❌ Command disabled for this group!");
           return;
         }
-
-        let msgInfoObj = {
-          from,
-          args,
-          prefix,
-          sender,
-          senderName,
-          groupName,
-          groupDesc,
-          groupMembers,
-          groupAdmins,
-          isBotGroupAdmins,
-          isGroupAdmins,
-          isMedia,
-          type,
-          isTaggedImage,
-          isTaggedDocument,
-          isTaggedVideo,
-          isTaggedSticker,
-          myNumber,
-          botNumberJid,
-          reply,
-          command,
-        };
 
         // send every command info to my whatsapp, won't work when i send something for bot
         if (myNumber && myNumber + "@s.whatsapp.net" !== sender) {
@@ -485,39 +461,44 @@ const startBot = async () => {
             return;
         }
 
-        //using 'm.messages[0]' to tag message, by giving 'msg' throw some error
+        let msgInfoObj = {
+          from,
+          args,
+          prefix,
+          sender,
+          senderName,
+          groupName,
+          groupDesc,
+          groupMembers,
+          groupAdmins,
+          isBotGroupAdmins,
+          isGroupAdmins,
+          isMedia,
+          type,
+          isTaggedImage,
+          isTaggedDocument,
+          isTaggedVideo,
+          isTaggedSticker,
+          myNumber,
+          botNumberJid,
+          reply,
+          command,
+        };
+
         try {
           /* ----------------------------- public commands ---------------------------- */
           if (commandsPublic[command]) {
-            await commandsPublic[command](
-              bot,
-              m.messages[0],
-              from,
-              args,
-              msgInfoObj
-            );
+            await commandsPublic[command](bot, msg, from, msgInfoObj);
             return;
           }
 
           /* ------------------------- group members commands ------------------------- */
           if (commandsMembers[command]) {
             if (isGroup) {
-              await commandsMembers[command](
-                bot,
-                m.messages[0],
-                from,
-                args,
-                msgInfoObj
-              );
+              await commandsMembers[command](bot, msg, from, msgInfoObj);
               return;
             }
-            await bot.sendMessage(
-              from,
-              {
-                text: "❌ Group command only!",
-              },
-              { quoted: m.messages[0] }
-            );
+            reply("❌ Group command only!");
             return;
           }
 
@@ -529,44 +510,20 @@ const startBot = async () => {
             }
 
             if (isGroupAdmins) {
-              await commandsAdmins[command](
-                bot,
-                m.messages[0],
-                from,
-                args,
-                msgInfoObj
-              );
+              await commandsAdmins[command](bot, msg, from, msgInfoObj);
               return;
             }
-            await bot.sendMessage(
-              from,
-              {
-                text: "❌ Admin command!",
-              },
-              { quoted: m.messages[0] }
-            );
+            reply("❌ Admin command!");
             return;
           }
 
           /* ----------------------------- owner commands ----------------------------- */
           if (commandsOwners[command]) {
             if (myNumber + "@s.whatsapp.net" === sender) {
-              await commandsOwners[command](
-                bot,
-                m.messages[0],
-                from,
-                args,
-                msgInfoObj
-              );
+              await commandsOwners[command](bot, msg, from, msgInfoObj);
               return;
             }
-            await bot.sendMessage(
-              from,
-              {
-                text: "❌ Owner command only!",
-              },
-              { quoted: m.messages[0] }
-            );
+            reply("❌ Owner command only!");
             return;
           }
         } catch (err) {
@@ -576,13 +533,7 @@ const startBot = async () => {
         }
 
         /* ----------------------------- unknown command ---------------------------- */
-        await bot.sendMessage(
-          from,
-          {
-            text: `Send ${prefix}help for <{PVX}> BOT commands!`,
-          },
-          { quoted: m.messages[0] }
-        );
+        reply(`Send ${prefix}help for <{PVX}> BOT commands!`);
       } catch (err) {
         await LoggerBot(bot, "messages.upsert", err, m);
       }

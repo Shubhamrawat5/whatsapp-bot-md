@@ -4,8 +4,8 @@ module.exports.command = () => {
   return { cmd, handler };
 };
 
-const handler = async (bot, msg, from, args, msgInfoObj) => {
-  let { prefix } = msgInfoObj;
+const handler = async (bot, msg, from, msgInfoObj) => {
+  let { prefix, reply } = msgInfoObj;
   const more = String.fromCharCode(8206);
   const readMore = more.repeat(4001);
 
@@ -96,5 +96,5 @@ Alias: *${prefix}blr*
 send ${prefix}source for sourcecode of BOT
 ✔️ more cool commands coming...`;
 
-  await bot.sendMessage(from, { text }, { quoted: msg });
+  await reply(text);
 };

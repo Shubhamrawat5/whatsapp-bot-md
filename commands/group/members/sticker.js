@@ -15,8 +15,8 @@ const getRandom = (ext) => {
   return `${Math.floor(Math.random() * 10000)}${ext}`;
 };
 
-const handler = async (bot, msg, from, args, msgInfoObj) => {
-  let { type, isTaggedImage, isTaggedVideo, reply } = msgInfoObj;
+const handler = async (bot, msg, from, msgInfoObj) => {
+  let { type, isTaggedImage, isTaggedVideo, reply, args } = msgInfoObj;
   let packName = "BOT 🤖";
   let authorName = "pvxcommunity.com";
   const stickerFileName = getRandom(".webp");

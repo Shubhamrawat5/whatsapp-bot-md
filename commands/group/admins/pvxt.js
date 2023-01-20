@@ -6,7 +6,9 @@ module.exports.command = () => {
   return { cmd, handler };
 };
 
-const handler = async (bot, msg, from, args, msgInfoObj) => {
+const handler = async (bot, msg, from, msgInfoObj) => {
+  let { args, reply } = msgInfoObj;
+
   let noOfResult = 20;
   //get number from args if available
   if (args.length) {
@@ -29,5 +31,6 @@ const handler = async (bot, msg, from, args, msgInfoObj) => {
   }
   countGroupMsgTop += `\n*Total Messages: ${totalGrpCountTop}*`;
   countGroupMsgTop += countGroupMsgTempTop;
-  await bot.sendMessage(from, { text: countGroupMsgTop }, { quoted: msg });
+
+  await reply(countGroupMsgTop);
 };

@@ -6,8 +6,8 @@ module.exports.command = () => {
   return { cmd, handler };
 };
 
-const handler = async (bot, msg, from, args, msgInfoObj) => {
-  let text = `*─「 <{PVX}> BOT 」 ─*\n\nYES! BOT IS ALIVE !!!`;
+const handler = async (bot, msg, from, msgInfoObj) => {
+  const { reply } = msgInfoObj;
   let chats = await bot.groupFetchAllParticipating();
   let groups = Object.values(chats)
     .filter((v) => v.id.endsWith("g.us") && v.subject.startsWith("<{PVX}>"))
@@ -19,9 +19,6 @@ const handler = async (bot, msg, from, args, msgInfoObj) => {
   for (let group of groups) {
     await setGroupName(group.id, group.name);
   }
-  await bot.sendMessage(
-    from,
-    { text: `✔ Group name data inserted!` },
-    { quoted: msg }
-  );
+
+  await reply(`✔ Group name data inserted!`);
 };

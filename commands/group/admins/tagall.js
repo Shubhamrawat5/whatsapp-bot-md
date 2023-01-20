@@ -4,8 +4,8 @@ module.exports.command = () => {
   return { cmd, handler };
 };
 
-const handler = async (bot, msg, from, args, msgInfoObj) => {
-  let { groupMembers } = msgInfoObj;
+const handler = async (bot, msg, from, msgInfoObj) => {
+  let { groupMembers, args } = msgInfoObj;
   //if (
   //  groupName.toUpperCase().includes("PVX") &&
   //  ![myNumber + "@s.whatsapp.net", botNumberJid].includes(sender)

@@ -5,8 +5,8 @@ module.exports.command = () => {
   return { cmd, handler };
 };
 
-const handler = async (bot, msg, from, args, msgInfoObj) => {
-  let { prefix, reply } = msgInfoObj;
+const handler = async (bot, msg, from, msgInfoObj) => {
+  let { prefix, reply, args } = msgInfoObj;
   let body = msg.message.conversation;
   if (args.length == 0) {
     await reply(`❌ Error! Add by ${prefix}adddonation #name #amount`);

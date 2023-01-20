@@ -4,7 +4,8 @@ module.exports.command = () => {
   return { cmd, handler };
 };
 
-const handler = async (bot, msg, from, args, msgInfoObj) => {
+const handler = async (bot, msg, from, msgInfoObj) => {
+  const { reply } = msgInfoObj;
   const more = String.fromCharCode(8206);
   const readMore = more.repeat(4001);
 
@@ -37,5 +38,5 @@ _Do not give any spoilers of any new movie or series._
 ✔ Rule 09 -
 _Only numbers starting with the code +91 (i.e. Indians) are allowed to join._`;
 
-  await bot.sendMessage(from, { text }, { quoted: msg });
+  await reply(text);
 };

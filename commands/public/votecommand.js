@@ -4,8 +4,8 @@ module.exports.command = () => {
   return { cmd, handler };
 };
 
-const handler = async (bot, msg, from, args, msgInfoObj) => {
-  let { prefix } = msgInfoObj;
+const handler = async (bot, msg, from, msgInfoObj) => {
+  let { prefix, reply } = msgInfoObj;
   let text = `_*🗣️ VOTING COMMANDS:*_
 
 📛 *${prefix}startvote #title #name1 #name2..*
@@ -21,5 +21,5 @@ const handler = async (bot, msg, from, args, msgInfoObj) => {
 📛 *${prefix}stopvote*
   - _Stop voting and see final result!_`;
 
-  await bot.sendMessage(from, { text }, { quoted: msg });
+  await reply(text);
 };

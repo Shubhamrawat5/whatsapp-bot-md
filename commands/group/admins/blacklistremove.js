@@ -6,8 +6,8 @@ module.exports.command = () => {
   return { cmd, handler };
 };
 
-const handler = async (bot, msg, from, args, msgInfoObj) => {
-  let { prefix, reply } = msgInfoObj;
+const handler = async (bot, msg, from, msgInfoObj) => {
+  let { prefix, reply, args } = msgInfoObj;
   let blacklistNumb1 = args[0];
   if (!Number(blacklistNumb1)) {
     await reply(

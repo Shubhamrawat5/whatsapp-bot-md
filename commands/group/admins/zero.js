@@ -6,7 +6,7 @@ module.exports.command = () => {
   return { cmd, handler };
 };
 
-const handler = async (bot, msg, from, args, msgInfoObj) => {
+const handler = async (bot, msg, from, msgInfoObj) => {
   let { groupName, groupMembers, reply } = msgInfoObj;
   const more = String.fromCharCode(8206);
   const readMore = more.repeat(4001);
@@ -25,5 +25,5 @@ const handler = async (bot, msg, from, args, msgInfoObj) => {
     }
   });
 
-  await bot.sendMessage(from, { text: zeroMsg }, { quoted: msg });
+  await reply(zeroMsg);
 };

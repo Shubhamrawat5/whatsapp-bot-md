@@ -4,8 +4,10 @@ module.exports.command = () => {
   return { cmd, handler };
 };
 
-const handler = async (bot, msg, from, args, msgInfoObj) => {
+const handler = async (bot, msg, from, msgInfoObj) => {
+  const { reply } = msgInfoObj;
+
   let text = `✔ Give any Feedback related to PVX\nhttps://forms.gle/WEQ33xzHpYAQvArd6`;
 
-  await bot.sendMessage(from, { text }, { quoted: msg });
+  await reply(text);
 };

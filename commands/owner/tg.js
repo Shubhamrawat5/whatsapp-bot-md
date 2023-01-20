@@ -13,7 +13,7 @@ const getRandom = (ext) => {
   return `${Math.floor(Math.random() * 10000)}${ext}`;
 };
 
-const handler = async (bot, msg, from, args, msgInfoObj) => {
+const handler = async (bot, msg, from, msgInfoObj) => {
   let { reply, isTaggedDocument } = msgInfoObj;
 
   if (!isTaggedDocument) {

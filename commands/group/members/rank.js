@@ -9,8 +9,8 @@ module.exports.command = () => {
   return { cmd, handler };
 };
 
-const handler = async (bot, msg, from, args, msgInfoObj) => {
-  let { sender, reply } = msgInfoObj;
+const handler = async (bot, msg, from, msgInfoObj) => {
+  let { sender, reply, args } = msgInfoObj;
   if (args[0]) {
     sender = args[0] + "@s.whatsapp.net";
   }

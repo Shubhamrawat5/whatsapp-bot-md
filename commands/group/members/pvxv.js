@@ -6,16 +6,12 @@ module.exports.command = () => {
   return { cmd, handler };
 };
 
-const handler = async (bot, msg, from, args, msgInfoObj) => {
-  let { groupMembers } = msgInfoObj;
+const handler = async (bot, msg, from, msgInfoObj) => {
+  let { groupMembers, reply } = msgInfoObj;
 
   let pvxmano = "19016677357-1630334490@g.us";
   if (from != pvxmano) {
-    await bot.sendMessage(
-      from,
-      { text: "❌ Only Mano Group command!" },
-      { quoted: msg }
-    );
+    await reply("❌ Only Mano Group command!");
     return;
   }
   const more = String.fromCharCode(8206);
@@ -45,11 +41,5 @@ const handler = async (bot, msg, from, args, msgInfoObj) => {
   countGroupMsgIndi += `\n*Total Messages: ${totalGrpCountIndi}*`;
   countGroupMsgIndi += countGroupMsgTempIndi;
 
-  await bot.sendMessage(
-    from,
-    {
-      text: countGroupMsgIndi,
-    },
-    { quoted: msg }
-  );
+  await reply(countGroupMsgIndi);
 };
