@@ -24,9 +24,6 @@ const handler = async (bot, msg, from, msgInfoObj) => {
   let temppvxMsg = "";
   let temppvxList = [];
   for (let group of groups) {
-    // const mdpvx = await bot.groupMetadata(group.id);
-    // console.log(mdpvx);
-    // totalMem += mdpvx.participants.length;
     totalMem += group.participants.length;
     temppvxList.push({
       subject: group.subject,

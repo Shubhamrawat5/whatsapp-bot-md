@@ -16,7 +16,6 @@ const handler = async (bot, msg, from, msgInfoObj) => {
   let countGroupMsgTemp = "\n";
   let totalGrpCount = 0;
   for (let group of resultCountGroup) {
-    // let mdpvx = await bot.groupMetadata(group.groupjid);
     let grpName = group.gname;
     if (!grpName || !grpName.toUpperCase().includes("<{PVX}>")) continue; //not a pvx group
     // grpName = grpName.split(" ")[1];

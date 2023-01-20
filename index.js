@@ -176,18 +176,6 @@ const startBot = async () => {
       }, 1000 * 60 * 20); //20 min
     }
 
-    // bot.ev.on("chats.set", (item) =>
-    //   console.log(`recv ${item.chats.length} chats (is latest: ${item.isLatest})`)
-    // );
-    // bot.ev.on("messages.set", (item) =>
-    //   console.log(
-    //     `recv ${item.messages.length} messages (is latest: ${item.isLatest})`
-    //   )
-    // );
-    // bot.ev.on("contacts.set", (item) =>
-    //   console.log(`recv ${item.contacts.length} contacts`)
-    // );
-
     let botNumberJid = bot.user ? bot.user.id : ""; //'1506xxxxx54:3@s.whatsapp.net'
     botNumberJid =
       botNumberJid.slice(0, botNumberJid.search(":")) +
@@ -357,27 +345,8 @@ const startBot = async () => {
           from != pvxstickeronly2 &&
           from !== pvxmano
         ) {
-          await forwardSticker(bot, msg);
+          // await forwardSticker(bot, msg);
         }
-
-        // if (pvx && from === pvxcommunity && type !== "reactionMessage") {
-        // fs.appendFile(
-        //   "./message.txt",
-        //   "\n" + JSON.stringify(msg.message) + "\n",
-        //   "utf-8",
-        //   function (err) {
-        //     if (err) console.log(err);
-        //   }
-        // );
-        // fs.appendFile("./message.txt", messageLog + "\n", "utf-8", function (err) {
-        //   if (err) console.log(err);
-        // });
-        // let msgLogForTg =
-        //   (body ? body.substr(0, 40) : type) +
-        //   `\n[${senderName}] ` +
-        //   sender.split("@")[0];
-        // LoggerTg(msgLogForTg);
-        // }
 
         const isCmd = body.startsWith(prefix);
         if (!isCmd) return;
