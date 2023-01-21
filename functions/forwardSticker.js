@@ -16,33 +16,34 @@ module.exports.forwardSticker = async (bot, msg) => {
     let stream = await downloadContentFromMessage(downloadFilePath, "sticker");
     if (!stream) return;
 
-    let buffer = Buffer.from([]);
-    for await (const chunk of stream) {
-      buffer = Buffer.concat([buffer, chunk]);
-    }
+    // let buffer = Buffer.from([]);
+    // for await (const chunk of stream) {
+    //   buffer = Buffer.concat([buffer, chunk]);
+    // }
 
-    let sticker = new Sticker(buffer, {
-      pack: "BOT 🤖",
-      author: "pvxcommunity.com",
-      type: StickerTypes.DEFAULT,
-      quality: 80,
-    });
+    // let sticker = new Sticker(buffer, {
+    //   pack: "BOT 🤖",
+    //   author: "pvxcommunity.com",
+    //   type: StickerTypes.DEFAULT,
+    //   quality: 80,
+    // });
 
-    let stickerMesssage = await sticker.toMessage();
+    // let stickerMesssage = await sticker.toMessage();
 
     //1000*60*60*24 = 86400ms = 1 day
-    await bot.sendMessage(pvxstickeronly1, stickerMesssage, {
-      ephemeralExpiration: 86400,
-      mediaUploadTimeoutMs: 1000 * 20,
-    });
-    await bot.sendMessage(pvxstickeronly2, stickerMesssage, {
-      ephemeralExpiration: 86400,
-      mediaUploadTimeoutMs: 1000 * 20,
-    });
+    // await bot.sendMessage(pvxstickeronly1, stickerMesssage, {
+    //   ephemeralExpiration: 86400,
+    //   mediaUploadTimeoutMs: 1000 * 20,
+    // });
+    // await bot.sendMessage(pvxstickeronly2, stickerMesssage, {
+    //   ephemeralExpiration: 86400,
+    //   mediaUploadTimeoutMs: 1000 * 20,
+    // });
 
     countOut += 1;
     console.log(
-      `${countSent} sticker sent! In:${countIn}, Out:${countOut}, Err:${countErr}`
+      `${countSent} sticker sent! In:${countIn}, Out:${countOut}, Err:${countErr}`,
+      stream.nothing
     );
     countSent += 1;
   } catch (err) {
