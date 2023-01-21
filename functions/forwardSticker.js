@@ -12,23 +12,13 @@ let countIn = 0,
   countOut = 0,
   countErr = 0;
 
-const getBuffer = async (stream) => {
-  let buffer = Buffer.from([]);
-  for await (const chunk of stream) {
-    buffer = Buffer.concat([buffer, chunk]);
-  }
-
-  return buffer;
-};
-
 module.exports.forwardSticker = async (bot, msg) => {
   try {
     countIn += 1;
     let downloadFilePath = msg.message.stickerMessage;
     let stream = await downloadContentFromMessage(downloadFilePath, "sticker");
-    if (!stream) return;
 
-    const buffer = await toBuffer(stream);
+    let buffer = await toBuffer(stream);
 
     let sticker = new Sticker(buffer, {
       pack: "BOT 🤖",
@@ -56,6 +46,7 @@ module.exports.forwardSticker = async (bot, msg) => {
     countSent += 1;
   } catch (err) {
     // await LoggerBot(false, "FORWARD-STICKER", err, undefined);
+    console.log(err);
     await LoggerTg(`ERROR: [FORWARD-STICKER]\n${err.toString()}`);
     countErr += 1;
   }

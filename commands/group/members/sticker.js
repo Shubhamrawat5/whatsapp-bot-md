@@ -1,4 +1,7 @@
-const { downloadContentFromMessage } = require("@adiwajshing/baileys");
+const {
+  downloadContentFromMessage,
+  toBuffer,
+} = require("@adiwajshing/baileys");
 const fs = require("fs");
 const { Sticker, StickerTypes } = require("wa-sticker-formatter");
 const ffmpegPath = require("@ffmpeg-installer/ffmpeg").path;
@@ -33,10 +36,7 @@ const handler = async (bot, msg, from, msgInfoObj) => {
     }
     //for images
     const stream = await downloadContentFromMessage(downloadFilePath, "image");
-    let buffer = Buffer.from([]);
-    for await (const chunk of stream) {
-      buffer = Buffer.concat([buffer, chunk]);
-    }
+    const buffer = await toBuffer(stream);
 
     stickerMake = new Sticker(buffer, {
       pack: packName,
@@ -57,10 +57,7 @@ const handler = async (bot, msg, from, msgInfoObj) => {
         msg.message.extendedTextMessage.contextInfo.quotedMessage.videoMessage;
     }
     const stream = await downloadContentFromMessage(downloadFilePath, "video");
-    let buffer = Buffer.from([]);
-    for await (const chunk of stream) {
-      buffer = Buffer.concat([buffer, chunk]);
-    }
+    const buffer = await toBuffer(stream);
 
     stickerMake = new Sticker(buffer, {
       pack: packName, // The pack name

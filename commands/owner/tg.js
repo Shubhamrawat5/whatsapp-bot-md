@@ -1,4 +1,7 @@
-const { downloadContentFromMessage } = require("@adiwajshing/baileys");
+const {
+  downloadContentFromMessage,
+  toBuffer,
+} = require("@adiwajshing/baileys");
 const { writeFile } = require("fs/promises");
 const AdmZip = require("adm-zip");
 const { Sticker, StickerTypes } = require("wa-sticker-formatter");
@@ -27,10 +30,8 @@ const handler = async (bot, msg, from, msgInfoObj) => {
 
   console.log("downloading...");
   const stream = await downloadContentFromMessage(encmediatg, "document");
-  let buffer = Buffer.from([]);
-  for await (const chunk of stream) {
-    buffer = Buffer.concat([buffer, chunk]);
-  }
+  const buffer = await toBuffer(stream);
+
   // let buffer = await downloadContentFromMessage(encmediatg, "document");
   const media = getRandom(".zip");
   await writeFile(media, buffer);

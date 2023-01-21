@@ -1,4 +1,7 @@
-const { downloadContentFromMessage } = require("@adiwajshing/baileys");
+const {
+  downloadContentFromMessage,
+  toBuffer,
+} = require("@adiwajshing/baileys");
 
 const { Sticker, StickerTypes } = require("wa-sticker-formatter");
 
@@ -20,10 +23,7 @@ const handler = async (bot, msg, from, msgInfoObj) => {
       downloadFilePath,
       "sticker"
     );
-    let buffer = Buffer.from([]);
-    for await (const chunk of stream) {
-      buffer = Buffer.concat([buffer, chunk]);
-    }
+    const buffer = await toBuffer(stream);
 
     const sticker = new Sticker(buffer, {
       pack: packName,

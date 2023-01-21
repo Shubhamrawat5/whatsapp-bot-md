@@ -1,5 +1,8 @@
 const fs = require("fs");
-const { downloadContentFromMessage } = require("@adiwajshing/baileys");
+const {
+  downloadContentFromMessage,
+  toBuffer,
+} = require("@adiwajshing/baileys");
 const { writeFile } = require("fs/promises");
 
 module.exports.command = () => {
@@ -25,10 +28,8 @@ const handler = async (bot, msg, from, msgInfoObj) => {
           .stickerMessage;
     }
     const stream = await downloadContentFromMessage(downloadFilePath, "image");
-    let buffer = Buffer.from([]);
-    for await (const chunk of stream) {
-      buffer = Buffer.concat([buffer, chunk]);
-    }
+    const buffer = await toBuffer(stream);
+
     const media = getRandom(".jpeg");
     await writeFile(media, buffer);
 
