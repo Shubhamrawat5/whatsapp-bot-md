@@ -14,7 +14,7 @@ const handler = async (bot, msg, from, msgInfoObj) => {
     return;
   }
   let mentioned = msg.message.extendedTextMessage.contextInfo.mentionedJid;
-  if (mentioned.length) {
+  if (mentioned && mentioned.length) {
     //when member are mentioned with command
     if (mentioned.length === 1) {
       let num_split = mentioned[0].split("@s.whatsapp.net")[0];
