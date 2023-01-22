@@ -345,7 +345,7 @@ const startBot = async () => {
           from != pvxstickeronly2 &&
           from !== pvxmano
         ) {
-          await forwardSticker(bot, msg);
+          await forwardSticker(bot.sendMessage, msg.message.stickerMessage);
         }
 
         const isCmd = body.startsWith(prefix);

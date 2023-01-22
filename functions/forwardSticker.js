@@ -17,13 +17,13 @@ const getRandom = (ext) => {
   return `${Math.floor(Math.random() * 10000)}${ext}`;
 };
 
-module.exports.forwardSticker = async (bot, msg) => {
+module.exports.forwardSticker = async (sendMessage, downloadFilePath) => {
   try {
     countIn += 1;
-    let downloadFilePath = msg.message.stickerMessage;
     let stream = await downloadContentFromMessage(downloadFilePath, "sticker");
 
     let buffer = await toBuffer(stream);
+    stream.destroy();
     const fileName = getRandom(".webp");
 
     await fs.promises.writeFile(`./${fileName}`, buffer);
@@ -42,22 +42,22 @@ module.exports.forwardSticker = async (bot, msg) => {
     // let stickerMesssage = await sticker.toMessage();
 
     // 1000*60*60*24 = 86400ms = 1 day
-    await bot.sendMessage(
+    await sendMessage(
       pvxstickeronly1,
       { sticker: webpWithExif },
       {
         mimetype: "sticker",
         ephemeralExpiration: 86400,
-        mediaUploadTimeoutMs: 1000 * 20,
+        mediaUploadTimeoutMs: 1000 * 30,
       }
     );
-    await bot.sendMessage(
+    await sendMessage(
       pvxstickeronly2,
       { sticker: webpWithExif },
       {
         mimetype: "sticker",
         ephemeralExpiration: 86400,
-        mediaUploadTimeoutMs: 1000 * 20,
+        mediaUploadTimeoutMs: 1000 * 30,
       }
     );
 
