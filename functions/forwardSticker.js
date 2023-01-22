@@ -2,9 +2,8 @@ const {
   downloadContentFromMessage,
   toBuffer,
 } = require("@adiwajshing/baileys");
-const { Exif } = require("wa-sticker-formatter");
+const { Sticker, StickerTypes } = require("wa-sticker-formatter");
 const { LoggerTg } = require("./loggerBot");
-const fs = require("fs");
 
 const pvxstickeronly1 = "919557666582-1628610549@g.us";
 const pvxstickeronly2 = "919557666582-1586018947@g.us";
@@ -13,10 +12,6 @@ let countIn = 0,
   countOut = 0,
   countErr = 0;
 
-const getRandom = (ext) => {
-  return `${Math.floor(Math.random() * 10000)}${ext}`;
-};
-
 module.exports.forwardSticker = async (sendMessage, downloadFilePath) => {
   try {
     countIn += 1;
@@ -24,44 +19,26 @@ module.exports.forwardSticker = async (sendMessage, downloadFilePath) => {
 
     let buffer = await toBuffer(stream);
     stream.destroy();
-    const fileName = getRandom(".webp");
 
-    await fs.promises.writeFile(`./${fileName}`, buffer);
-    const webpWithExif = await new Exif({
+    let sticker = new Sticker(buffer, {
       pack: "BOT 🤖",
       author: "pvxcommunity.com",
-    }).add(fs.readFileSync(`./${fileName}`));
+    });
 
-    // let sticker = new Sticker(buffer, {
-    //   pack: "BOT 🤖",
-    //   author: "pvxcommunity.com",
-    //   type: StickerTypes.DEFAULT,
-    //   quality: 80,
-    // });
-
-    // let stickerMesssage = await sticker.toMessage();
+    let stickerMesssage = await sticker.toMessage();
 
     // 1000*60*60*24 = 86400ms = 1 day
-    await sendMessage(
-      pvxstickeronly1,
-      { sticker: webpWithExif },
-      {
-        mimetype: "sticker",
-        ephemeralExpiration: 86400,
-        mediaUploadTimeoutMs: 1000 * 30,
-      }
-    );
-    await sendMessage(
-      pvxstickeronly2,
-      { sticker: webpWithExif },
-      {
-        mimetype: "sticker",
-        ephemeralExpiration: 86400,
-        mediaUploadTimeoutMs: 1000 * 30,
-      }
-    );
+    await sendMessage(pvxstickeronly1, stickerMesssage, {
+      mimetype: "sticker",
+      ephemeralExpiration: 86400,
+      mediaUploadTimeoutMs: 1000 * 30,
+    });
+    await sendMessage(pvxstickeronly2, stickerMesssage, {
+      mimetype: "sticker",
+      ephemeralExpiration: 86400,
+      mediaUploadTimeoutMs: 1000 * 30,
+    });
 
-    fs.unlinkSync(fileName);
     countOut += 1;
     console.log(
       `${countSent} sticker sent! In:${countIn}, Out:${countOut}, Err:${countErr}`

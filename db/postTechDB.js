@@ -11,7 +11,7 @@ module.exports.storeNewsTech = async (news) => {
   try {
     await createTechTable();
     await pool.query("INSERT INTO technews VALUES($1);", [news]);
-    //await pool.query("commit;");
+
     return true;
   } catch (err) {
     // console.log(err);

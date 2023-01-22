@@ -21,7 +21,7 @@ module.exports.addBlacklist = async (number) => {
     await createBlacklistTable();
 
     await pool.query("INSERT INTO blacklist VALUES($1);", [number]);
-    //await pool.query("commit;");
+
     return true;
   } catch (err) {
     console.log(err);
@@ -33,7 +33,7 @@ module.exports.removeBlacklist = async (number) => {
     await createBlacklistTable();
 
     await pool.query("DELETE FROM blacklist WHERE number=$1;", [number]);
-    //await pool.query("commit;");
+
     return true;
   } catch (err) {
     console.log(err);

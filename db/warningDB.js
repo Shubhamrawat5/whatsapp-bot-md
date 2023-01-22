@@ -51,7 +51,7 @@ module.exports.setCountWarning = async (memberJid, groupJid) => {
       "UPDATE countwarning SET count = count+1 WHERE memberjid=$1 AND groupjid=$2;",
       [memberJid, groupJid]
     );
-    //await pool.query("commit;");
+
     return count + 1;
   } else {
     await pool.query("INSERT INTO countwarning VALUES($1,$2,$3);", [
@@ -59,7 +59,7 @@ module.exports.setCountWarning = async (memberJid, groupJid) => {
       groupJid,
       1,
     ]);
-    //await pool.query("commit;");
+
     return 1;
   }
 };

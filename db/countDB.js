@@ -43,11 +43,11 @@ module.exports.countToday = async () => {
     await pool.query("UPDATE count SET times = times+1 WHERE day=$1;", [
       todayDate,
     ]);
-    //await pool.query("commit;");
+
     return times + 1;
   } else {
     await pool.query("INSERT INTO count VALUES($1,$2);", [todayDate, 1]);
-    //await pool.query("commit;");
+
     return 1;
   }
 };

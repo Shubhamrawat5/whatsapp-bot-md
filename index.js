@@ -242,10 +242,7 @@ const startBot = async () => {
         const content = JSON.stringify(msg.message);
         const from = msg.key.remoteJid;
         // console.log(msg);
-        // let type = Object.keys(msg.message)[0];
-        // if (type === "senderKeyDistributionMessage") {
-        //   type = Object.keys(msg.message)[1];
-        // }
+
         const type = msg.message.conversation
           ? "conversation"
           : msg.message.reactionMessage

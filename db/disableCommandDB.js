@@ -41,6 +41,4 @@ module.exports.setDisableCommandData = async (chat_id, disabled) => {
     console.log(err);
     await createDisableCommandTable();
   }
-
-  //await pool.query("commit;");
 };
