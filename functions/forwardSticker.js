@@ -9,7 +9,6 @@ const pvxstickeronly1 = "919557666582-1628610549@g.us";
 const pvxstickeronly2 = "919557666582-1586018947@g.us";
 let countSent = 1;
 let countIn = 0,
-  countOut = 0,
   countErr = 0;
 
 module.exports.forwardSticker = async (sendMessage, downloadFilePath) => {
@@ -39,14 +38,12 @@ module.exports.forwardSticker = async (sendMessage, downloadFilePath) => {
       mediaUploadTimeoutMs: 1000 * 30,
     });
 
-    countOut += 1;
-    console.log(
-      `${countSent} sticker sent! In:${countIn}, Out:${countOut}, Err:${countErr}`
-    );
     countSent += 1;
   } catch (err) {
     console.log(err);
     await LoggerTg(`ERROR: [FORWARD-STICKER]\n${err.toString()}`);
     countErr += 1;
   }
+
+  console.log(`${countSent} sticker sent! In:${countIn}, Err:${countErr}`);
 };

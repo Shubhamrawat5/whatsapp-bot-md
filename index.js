@@ -61,6 +61,7 @@ const { memberAddCheck } = require("./functions/memberAddCheck");
 require("dotenv").config();
 const myNumber = process.env.myNumber;
 const pvx = process.env.pvx;
+const isStickerForward = process.env.isStickerForward;
 
 const prefix = "!";
 
@@ -334,7 +335,7 @@ const startBot = async () => {
 
         //Forward all stickers
         if (
-          pvx &&
+          isStickerForward &&
           isGroup &&
           msg.message.stickerMessage &&
           groupName.toUpperCase().startsWith("<{PVX}>") &&
