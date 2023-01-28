@@ -16,12 +16,19 @@ module.exports.forwardSticker = async (sendMessage, downloadFilePath) => {
     countIn += 1;
     let stream = await downloadContentFromMessage(downloadFilePath, "sticker");
 
+    let quality = 100;
+    if (downloadFilePath.fileLength > 1024 * 1024) {
+      //if size above 1mb
+      quality = 75;
+    }
+
     let buffer = await toBuffer(stream);
     stream.destroy();
 
     let sticker = new Sticker(buffer, {
       pack: "BOT 🤖",
       author: "pvxcommunity.com",
+      quality: quality,
     });
 
     let stickerMesssage = await sticker.toMessage();
