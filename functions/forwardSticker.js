@@ -10,16 +10,27 @@ const pvxstickeronly2 = "919557666582-1586018947@g.us";
 let countSent = 1;
 let countIn = 0,
   countErr = 0;
+let lastSentStickerSize = 0;
 
 module.exports.forwardSticker = async (sendMessage, downloadFilePath) => {
   try {
+    const stickerSize = downloadFilePath.fileLength;
+    const isAnimated = downloadFilePath.isAnimated;
+    if (lastSentStickerSize === stickerSize) {
+      console.log("same sticker again.");
+      return;
+    }
+    lastSentStickerSize = stickerSize;
     countIn += 1;
     let stream = await downloadContentFromMessage(downloadFilePath, "sticker");
 
     let quality = 100;
-    if (downloadFilePath.fileLength > 1024 * 1024) {
-      //if size above 1mb
-      quality = 75;
+    if (stickerSize > 1024 * 1024 * 2) {
+      //if size above 2mb
+      quality = 60;
+    } else if (stickerSize > 1024 * 1024 || isAnimated) {
+      //if size above 1mb or animated
+      quality = 80;
     }
 
     let buffer = await toBuffer(stream);
