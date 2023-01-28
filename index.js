@@ -235,6 +235,7 @@ const startBot = async () => {
       // console.log("m", JSON.stringify(m, undefined, 2));
       // console.log(m.messages);
       try {
+        if (m.type === "append") return;
         const msg = JSON.parse(JSON.stringify(m)).messages[0];
         // console.log("msg", msg);
         if (msg.key && msg.key.remoteJid == "status@broadcast") return;

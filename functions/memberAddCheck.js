@@ -1,4 +1,5 @@
 const { getBlacklist } = require("../db/blacklistDB");
+const { LoggerBot } = require("./loggerBot");
 
 require("dotenv").config();
 const prefix = "!";
