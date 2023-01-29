@@ -28,6 +28,10 @@ _Admin commands only!_
   - _Delete anyone message!_
 Alias: *${prefix}d*
 
+📛 *${prefix}tagall* 
+  - _Tag all the members!_  
+Alias: *${prefix}tagallhidden*
+
 📛 *${prefix}tagadmins*
   - _Tag all the admins!_
 Alias: *${prefix}ta*

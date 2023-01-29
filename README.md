@@ -178,7 +178,8 @@ You can use (http://kaffeine.herokuapp.com) to ping the heroku app every 30 minu
 - [@Baileys](https://github.com/adiwajshing/Baileys)
 - Old non md wa bot [PVX Bot](https://github.com/Shubhamrawat5/whatsapp-bot).
 
-# Easy way to deploy:- :rocket:
+# Easy way to deploy:- :rocket: 
+[Heroku is no longer free]
 
 [![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/Shubhamrawat5/whatsapp-bot-md)
 

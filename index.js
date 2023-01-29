@@ -112,7 +112,7 @@ const startBot = async () => {
     console.log(`using WA v${version.join(".")}, isLatest: ${isLatest}`);
 
     let silentLogs = pino({ level: "silent" }); //to hide the chat logs
-    let debugLogs = pino({ level: "debug" });
+    // let debugLogs = pino({ level: "debug" });
 
     //Fetch login auth
     const { cred, auth_row_count } = await fetchAuth(state);
@@ -130,18 +130,6 @@ const startBot = async () => {
       msgRetryCounterMap,
       generateHighQualityLinkPreview: true,
       shouldIgnoreJid: (jid) => isJidBroadcast(jid),
-      // implement to handle retries
-      getMessage: async (key) => {
-        if (store) {
-          const msg = await store.loadMessage(key.remoteJid, key.id);
-          return msg.message ? msg.message : undefined;
-        }
-
-        // only if store is present
-        return {
-          conversation: "hello",
-        };
-      },
     });
 
     if (pvx) {
@@ -237,13 +225,8 @@ const startBot = async () => {
       try {
         if (m.type === "append") return;
         const msg = JSON.parse(JSON.stringify(m)).messages[0];
-        // console.log("msg", msg);
         if (msg.key && msg.key.remoteJid == "status@broadcast") return;
         if (!msg.message) return; //when demote, add, remove, etc happen then msg.message is not there
-
-        const content = JSON.stringify(msg.message);
-        const from = msg.key.remoteJid;
-        // console.log(msg);
 
         const type = msg.message.conversation
           ? "conversation"
@@ -268,6 +251,15 @@ const startBot = async () => {
           : "";
         //ephemeralMessage are from disappearing chat
 
+        if (
+          type === "ephemeralMessage" ||
+          type === "protocolMessage" ||
+          type === "senderKeyDistributionMessage" ||
+          type === "reactionMessage"
+        ) {
+          return;
+        }
+
         //body will have the text message
         let body =
           type === "conversation"
@@ -278,12 +270,15 @@ const startBot = async () => {
             ? msg.message.imageMessage.caption
             : type == "videoMessage" && msg.message.videoMessage.caption
             ? msg.message.videoMessage.caption
+            : type == "documentMessage" && msg.message.documentMessage.caption
+            ? msg.message.documentMessage.caption
             : type == "extendedTextMessage" &&
               msg.message.extendedTextMessage.text
             ? msg.message.extendedTextMessage.text
             : "";
-        // console.log(body);
+        body = body.replace(/\n|\r/g, ""); //remove all \n and \r
 
+        const from = msg.key.remoteJid;
         const isGroup = from.endsWith("@g.us");
 
         let groupMetadata = "";
@@ -330,7 +325,7 @@ const startBot = async () => {
         }
 
         //count video
-        if (isGroup && from == pvxmano && msg.message.videoMessage) {
+        if (isGroup && from == pvxmano && type === "videoMessage") {
           setCountVideo(sender, from);
         }
 
@@ -338,21 +333,22 @@ const startBot = async () => {
         if (
           isStickerForward &&
           isGroup &&
-          msg.message.stickerMessage &&
+          type === "stickerMessage" &&
           groupName.toUpperCase().startsWith("<{PVX}>") &&
           from !== pvxstickeronly1 &&
           from != pvxstickeronly2 &&
           from !== pvxmano
         ) {
           await forwardSticker(bot.sendMessage, msg.message.stickerMessage);
+          return;
         }
 
         const isCmd = body.startsWith(prefix);
         if (!isCmd) return;
 
         if (body[1] == " ") body = body[0] + body.slice(2); //remove space when space btw prefix and commandName like "! help"
-        const command = body.slice(1).trim().split(/ +/).shift().toLowerCase();
-        const args = body.trim().split(/ +/).slice(1);
+        const args = body.slice(1).trim().split(/ +/);
+        const command = args.shift().toLowerCase();
 
         // Display every command info
         console.log(
@@ -371,6 +367,7 @@ const startBot = async () => {
         const isBotGroupAdmins = groupAdmins.includes(botNumberJid) || false;
         const isGroupAdmins = groupAdmins.includes(sender) || false;
 
+        const content = JSON.stringify(msg.message);
         const isMedia = type === "imageMessage" || type === "videoMessage"; //image or video
         const isTaggedImage =
           type === "extendedTextMessage" && content.includes("imageMessage");
@@ -431,14 +428,11 @@ const startBot = async () => {
 
         let msgInfoObj = {
           from,
-          args,
           prefix,
           sender,
           senderName,
           groupName,
           groupDesc,
-          groupMembers,
-          groupAdmins,
           isBotGroupAdmins,
           isGroupAdmins,
           isMedia,
@@ -449,8 +443,11 @@ const startBot = async () => {
           isTaggedSticker,
           myNumber,
           botNumberJid,
-          reply,
           command,
+          args,
+          groupMembers,
+          groupAdmins,
+          reply,
         };
 
         try {

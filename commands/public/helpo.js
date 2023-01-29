@@ -16,9 +16,6 @@ _Restricted command for owner only!_
 📛 *${prefix}test query* ✔
   - _Execute code with whatsapp directly!_
 
-📛 *${prefix}tagall* ✔
-  - _Tag all the members!_  
-
 📛 *${prefix}broadcast* ✔
   - _Broadcast a message to all groups!_  
 Alias: *${prefix}bc*

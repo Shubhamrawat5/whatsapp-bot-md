@@ -1,11 +1,11 @@
 module.exports.command = () => {
-  let cmd = ["tagall"];
+  let cmd = ["tagall", "hiddentagall", "tagallhidden"];
 
   return { cmd, handler };
 };
 
 const handler = async (bot, msg, from, msgInfoObj) => {
-  let { groupMembers, args } = msgInfoObj;
+  let { groupMembers, args, command } = msgInfoObj;
   //if (
   //  groupName.toUpperCase().includes("PVX") &&
   //  ![myNumber + "@s.whatsapp.net", botNumberJid].includes(sender)
@@ -18,6 +18,8 @@ const handler = async (bot, msg, from, msgInfoObj) => {
   let message = "ALL: ";
   if (
     msg.message.extendedTextMessage &&
+    msg.message.extendedTextMessage.contextInfo &&
+    msg.message.extendedTextMessage.contextInfo.quotedMessage &&
     msg.message.extendedTextMessage.contextInfo.quotedMessage.conversation
   ) {
     message +=
@@ -27,9 +29,9 @@ const handler = async (bot, msg, from, msgInfoObj) => {
     message += args.length ? args.join(" ") + "\n\n" : "";
   }
 
-  for (let i of groupMembers) {
-    message += "@" + i.id.split("@")[0] + " ";
-    jids.push(i.id.replace("c.us", "s.whatsapp.net"));
+  for (let member of groupMembers) {
+    if (command === "tagall") message += "@" + member.id.split("@")[0] + " ";
+    jids.push(member.id);
   }
 
   await bot.sendMessage(
