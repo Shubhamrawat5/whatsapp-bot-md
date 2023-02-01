@@ -152,8 +152,8 @@ const startBot = async () => {
         );
         //8 to 24 ON
         if (hour >= 8) {
-          await postTechNews(bot, 0);
-          await postStudyInfo(bot, 0);
+          await postTechNews(bot.sendMessage);
+          await postStudyInfo(bot.sendMessage);
         }
 
         // if (hour % 12 == 0) kickZeroMano(bot);

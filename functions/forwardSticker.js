@@ -7,7 +7,7 @@ const { LoggerTg } = require("./loggerBot");
 
 const pvxstickeronly1 = "919557666582-1628610549@g.us";
 const pvxstickeronly2 = "919557666582-1586018947@g.us";
-let countSent = 1;
+let countSent = 0;
 let countIn = 0,
   countErr = 0,
   sameSticker = 0;

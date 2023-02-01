@@ -4,18 +4,12 @@ const { storeNewsStudy } = require("../db/postStudyDB");
 const { LoggerBot } = require("./loggerBot");
 const pvxstudy = "919557666582-1617595892@g.us";
 
-const postStudyInfo = async (bot, count) => {
+const postStudyInfo = async (sendMessage) => {
   try {
-    if (count > 10) {
-      //10 times already posted news came
-      return;
-    }
-    console.log(`STUDY NEWS FUNCTION ${count} times!`);
-    let feed;
     // "https://www.thehindu.com/news/national/feeder/default.rss"
     // "https://timesofindia.indiatimes.com/rssfeedmostrecent.cms"
     // "https://zeenews.india.com/rss/india-national-news.xml"
-    feed = await parser.parseURL(
+    let feed = await parser.parseURL(
       "https://www.mid-day.com/Resources/midday/rss/india-news.xml"
     );
 
@@ -23,20 +17,30 @@ const postStudyInfo = async (bot, count) => {
       return { title: item.title, link: item.link };
     });
 
-    let index = Math.floor(Math.random() * li.length);
+    let res = false;
+    let count = 1;
 
-    let news = li[index];
+    while (!res) {
+      console.log(`STUDY NEWS FUNCTION ${count} times!`);
+      if (count > 10) {
+        //10 times, already posted news comes up
+        return;
+      }
 
-    let techRes = await storeNewsStudy(news.title);
-    if (techRes) {
-      console.log("NEW STUDY NEWS!");
-      await bot.sendMessage(pvxstudy, { text: `📰 ${news.title}` });
-    } else {
-      console.log("OLD STUDY NEWS!");
-      postStudyInfo(bot, count + 1);
+      let index = Math.floor(Math.random() * li.length);
+      let news = li[index];
+
+      res = await storeNewsStudy(news.title);
+      if (res) {
+        console.log("NEW STUDY NEWS!");
+        await sendMessage(pvxstudy, { text: `📰 ${news.title}` });
+      } else {
+        console.log("OLD STUDY NEWS!");
+        count += 1;
+      }
     }
   } catch (err) {
-    await LoggerBot(bot, "STUDY-NEWS", err, undefined);
+    await LoggerBot(undefined, "STUDY-NEWS", err, undefined);
   }
 };
 

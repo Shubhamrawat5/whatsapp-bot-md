@@ -8,7 +8,7 @@ const kryptonChatId = 649341653; // my chat id to receive all the updates
 const botTG = new TelegramBot(token, { polling: false });
 
 module.exports.LoggerBot = async (botWA, eventType, err, msgObj) => {
-  const errMsg = err.stack;
+  const errMsg = err.stack ? err.stack : err.toString();
   const msg = JSON.stringify(msgObj);
 
   console.log(err);
