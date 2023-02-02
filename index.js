@@ -67,7 +67,7 @@ const prefix = "!";
 
 const stats = {
   started: "",
-  messages: 0,
+  totalMessages: 0,
   textMessage: 0,
   stickerMessage: 0,
   imageMessage: 0,
@@ -77,9 +77,13 @@ const stats = {
   commandExecuted: 0,
   newsPosted: 0,
   stickerForwarded: 0,
+  stickerNotForwarded: 0,
   memberJoined: 0,
   memberLeft: 0,
 };
+stats.started = new Date().toLocaleString("en-GB", {
+  timeZone: "Asia/kolkata",
+});
 
 let startCount = 1;
 let dateCheckerInterval;
@@ -112,9 +116,6 @@ try {
 // }
 
 const startBot = async () => {
-  stats.started = new Date().toLocaleString("en-GB", {
-    timeZone: "Asia/kolkata",
-  });
   console.log(`[STARTING BOT]: ${startCount}`);
   LoggerTg(`[STARTING BOT]: ${startCount}`);
   try {
@@ -287,7 +288,7 @@ const startBot = async () => {
           return;
         }
 
-        ++stats.messages;
+        ++stats.totalMessages;
         if (type === "extendedTextMessage") ++stats["textMessage"];
         else ++stats[type];
 
@@ -370,8 +371,12 @@ const startBot = async () => {
           from != pvxstickeronly2 &&
           from !== pvxmano
         ) {
-          await forwardSticker(bot.sendMessage, msg.message.stickerMessage);
-          ++stats.stickerForwarded;
+          const res = await forwardSticker(
+            bot.sendMessage,
+            msg.message.stickerMessage
+          );
+          if (res) ++stats.stickerForwarded;
+          else ++stats.stickerNotForwarded;
           return;
         }
 

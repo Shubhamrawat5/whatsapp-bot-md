@@ -19,7 +19,7 @@ module.exports.forwardSticker = async (sendMessage, downloadFilePath) => {
     if (last10SentStickersSize.includes(stickerSize)) {
       console.log("same sticker again.");
       sameSticker += 1;
-      return;
+      return false;
     }
 
     last10SentStickersSize.shift();
@@ -55,13 +55,14 @@ module.exports.forwardSticker = async (sendMessage, downloadFilePath) => {
     );
 
     countSent += 1;
+    console.log(
+      `${countSent} sticker sent! In:${countIn}, Err:${countErr}, Same: ${sameSticker}`
+    );
+    return true;
   } catch (err) {
     console.log(err);
     await LoggerTg(`ERROR: [FORWARD-STICKER]\n${err.toString()}`);
     countErr += 1;
+    return false;
   }
-
-  console.log(
-    `${countSent} sticker sent! In:${countIn}, Err:${countErr}, Same: ${sameSticker}`
-  );
 };

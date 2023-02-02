@@ -26,7 +26,13 @@ const handler = async (bot, msg, from, msgInfoObj) => {
       msg.message.extendedTextMessage.contextInfo.quotedMessage.conversation +
       "\n\n";
   } else {
-    message += args.length ? args.join(" ") + "\n\n" : "";
+    let body = msg.message.conversation;
+    if (command === "tagall" || command === "hiddentagall")
+      body = body.slice(body.search("tagall") + 7);
+    else body = body.slice(body.search("tagallhidden") + 13);
+
+    message += body + "\n\n";
+    // message += args.length ? args.join(" ") + "\n\n" : "";
   }
 
   for (let member of groupMembers) {
