@@ -65,7 +65,22 @@ const isStickerForward = process.env.isStickerForward;
 
 const prefix = "!";
 
-let commandSent = 1;
+const stats = {
+  started: "",
+  messages: 0,
+  textMessage: 0,
+  stickerMessage: 0,
+  imageMessage: 0,
+  videoMessage: 0,
+  documentMessage: 0,
+  reactionMessage: 0,
+  commandExecuted: 0,
+  newsPosted: 0,
+  stickerForwarded: 0,
+  memberJoined: 0,
+  memberLeft: 0,
+};
+
 let startCount = 1;
 let dateCheckerInterval;
 
@@ -97,6 +112,9 @@ try {
 // }
 
 const startBot = async () => {
+  stats.started = new Date().toLocaleString("en-GB", {
+    timeZone: "Asia/kolkata",
+  });
   console.log(`[STARTING BOT]: ${startCount}`);
   LoggerTg(`[STARTING BOT]: ${startCount}`);
   try {
@@ -154,6 +172,7 @@ const startBot = async () => {
         if (hour >= 8) {
           await postTechNews(bot.sendMessage);
           await postStudyInfo(bot.sendMessage);
+          ++stats.newsPosted;
         }
 
         // if (hour % 12 == 0) kickZeroMano(bot);
@@ -210,9 +229,11 @@ const startBot = async () => {
 
         if (msg.action == "add") {
           await memberAddCheck(bot, from, num_split, numJid, groupSubject);
+          ++stats.memberJoined;
         }
         if (msg.action == "remove") {
           console.log(`[GROUP] ${groupSubject} [LEAVED] ${numJid}`);
+          ++stats.memberLeft;
         }
       } catch (err) {
         await LoggerBot(bot, "group-participants.update", err, msg);
@@ -228,22 +249,23 @@ const startBot = async () => {
         if (msg.key && msg.key.remoteJid == "status@broadcast") return;
         if (!msg.message) return; //when demote, add, remove, etc happen then msg.message is not there
 
+        //type to extract body text
         const type = msg.message.conversation
-          ? "conversation"
+          ? "textMessage"
           : msg.message.reactionMessage
           ? "reactionMessage"
           : msg.message.imageMessage
           ? "imageMessage"
           : msg.message.videoMessage
           ? "videoMessage"
-          : msg.message.extendedTextMessage
-          ? "extendedTextMessage"
           : msg.message.stickerMessage
           ? "stickerMessage"
           : msg.message.documentMessage
           ? "documentMessage"
           : msg.message.ephemeralMessage
           ? "ephemeralMessage"
+          : msg.message.extendedTextMessage
+          ? "extendedTextMessage"
           : msg.message.protocolMessage
           ? "protocolMessage"
           : msg.message.senderKeyDistributionMessage
@@ -254,15 +276,24 @@ const startBot = async () => {
         if (
           type === "ephemeralMessage" ||
           type === "protocolMessage" ||
-          type === "senderKeyDistributionMessage" ||
-          type === "reactionMessage"
+          type === "senderKeyDistributionMessage"
         ) {
           return;
         }
 
+        if (type === "") {
+          console.log(msg);
+          LoggerTg(JSON.stringify(m));
+          return;
+        }
+
+        ++stats.messages;
+        if (type === "extendedTextMessage") ++stats["textMessage"];
+        else ++stats[type];
+
         //body will have the text message
         let body =
-          type === "conversation"
+          type === "textMessage"
             ? msg.message.conversation
             : type === "reactionMessage" && msg.message.reactionMessage.text
             ? msg.message.reactionMessage.text
@@ -340,6 +371,7 @@ const startBot = async () => {
           from !== pvxmano
         ) {
           await forwardSticker(bot.sendMessage, msg.message.stickerMessage);
+          ++stats.stickerForwarded;
           return;
         }
 
@@ -398,13 +430,23 @@ const startBot = async () => {
 
         // send every command info to my whatsapp, won't work when i send something for bot
         if (myNumber && myNumber + "@s.whatsapp.net" !== sender) {
+          ++stats.commandExecuted;
           await bot.sendMessage(myNumber + "@s.whatsapp.net", {
-            text: `${commandSent}) [${prefix}${command}] [${groupName}]`,
+            text: `${stats.commandExecuted}) [${prefix}${command}] [${groupName}]`,
           });
-          ++commandSent;
         }
 
         switch (command) {
+          case "stats":
+            let statsMessage = "📛 PVX BOT STATS 📛\n";
+
+            Object.keys(stats).forEach((key) => {
+              statsMessage += `\n${key}: ${stats[key]}`;
+            });
+
+            await reply(statsMessage);
+            return;
+
           case "test":
             if (myNumber + "@s.whatsapp.net" !== sender) {
               await reply(`❌ Command only for owner for bot testing purpose!`);
@@ -528,7 +570,10 @@ const startBot = async () => {
               update
             );
             ++startCount;
-            startBot();
+
+            setTimeout(() => {
+              startBot();
+            }, 1000 * 10);
           } else {
             LoggerTg(`[CONNECTION-CLOSED]: You are logged out`);
             console.log("[CONNECTION-CLOSED]: You are logged out");
