@@ -263,22 +263,36 @@ const startBot = async () => {
           ? "stickerMessage"
           : msg.message.documentMessage
           ? "documentMessage"
+          : msg.message.documentMessage
+          ? "audioMessage"
           : msg.message.ephemeralMessage
           ? "ephemeralMessage"
           : msg.message.extendedTextMessage
           ? "extendedTextMessage"
+          : msg.message.pollUpdateMessage
+          ? "pollUpdateMessage"
+          : msg.message.viewOnceMessageV2
+          ? "viewOnceMessageV2"
           : msg.message.protocolMessage
           ? "protocolMessage"
           : msg.message.senderKeyDistributionMessage
           ? "senderKeyDistributionMessage"
+          : msg.message.messageContextInfo
+          ? "messageContextInfo"
           : "";
         //ephemeralMessage are from disappearing chat
 
-        if (
-          type === "ephemeralMessage" ||
-          type === "protocolMessage" ||
-          type === "senderKeyDistributionMessage"
-        ) {
+        const acceptedType = [
+          "textMessage",
+          "reactionMessage",
+          "imageMessage",
+          "videoMessage",
+          "stickerMessage",
+          "documentMessage",
+          "extendedTextMessage",
+          "",
+        ];
+        if (!acceptedType.includes(type)) {
           return;
         }
 
