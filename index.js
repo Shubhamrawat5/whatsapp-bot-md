@@ -263,23 +263,15 @@ const startBot = async () => {
           ? "stickerMessage"
           : msg.message.documentMessage
           ? "documentMessage"
-          : msg.message.documentMessage
+          : msg.message.audioMessage
           ? "audioMessage"
           : msg.message.ephemeralMessage
           ? "ephemeralMessage"
           : msg.message.extendedTextMessage
           ? "extendedTextMessage"
-          : msg.message.pollUpdateMessage
-          ? "pollUpdateMessage"
           : msg.message.viewOnceMessageV2
           ? "viewOnceMessageV2"
-          : msg.message.protocolMessage
-          ? "protocolMessage"
-          : msg.message.senderKeyDistributionMessage
-          ? "senderKeyDistributionMessage"
-          : msg.message.messageContextInfo
-          ? "messageContextInfo"
-          : "";
+          : "other";
         //ephemeralMessage are from disappearing chat
 
         const acceptedType = [
@@ -290,15 +282,8 @@ const startBot = async () => {
           "stickerMessage",
           "documentMessage",
           "extendedTextMessage",
-          "",
         ];
         if (!acceptedType.includes(type)) {
-          return;
-        }
-
-        if (type === "") {
-          console.log(msg);
-          LoggerTg(JSON.stringify(m));
           return;
         }
 
