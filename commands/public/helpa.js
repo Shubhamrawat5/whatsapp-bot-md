@@ -32,10 +32,6 @@ Alias: *${prefix}d*
   - _Tag all the members!_  
 Alias: *${prefix}tagallhidden*
 
-📛 *${prefix}tagadmins*
-  - _Tag all the admins!_
-Alias: *${prefix}ta*
-
 📛 *${prefix}disable <command>*
   - _Disable command for current group!_
 

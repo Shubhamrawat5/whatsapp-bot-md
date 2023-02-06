@@ -74,8 +74,7 @@ Now Bot will start working!! Work even if the device is offline!!
 
 | Member Commands |                    Description                    |    Alias     |
 | :-------------: | :-----------------------------------------------: | :----------: |
-|    `!count`     |        Know message count in current group        |              |
-|    `!total`     |       Know message count in all PVX groups        |              |
+|  `!tagadmins`   |              Tag all admins of group              |    `!ta`     |
 |     `!rank`     |    Know message count & rank in all PVX groups    |              |
 |    `!ranks`     |           Know ranks list of PVX groups           |              |
 |    `!totalg`    |    Know message count group wise in PVX groups    |              |
@@ -113,7 +112,6 @@ Now Bot will start working!! Work even if the device is offline!!
 |      `!mute`       |                         Mute the group                         |               |
 |     `!unmute`      |                        Unmute the group                        |               |
 |     `!delete`      |                     Delete anyone message                      |     `!d`      |
-|    `!tagadmins`    |                    Tag all admins of group                     |     `!ta`     |
 |     `!warning`     |                      Give warning to user                      |    `!warn`    |
 |   `!warninglist`   |                  Check warning of all members                  |  `!warnlist`  |
 |  `!warningreduce`  |                     Reduce warning to user                     | `!warnreduce` |

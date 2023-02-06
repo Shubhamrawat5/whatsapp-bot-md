@@ -60,6 +60,10 @@ const handler = async (bot, msg, from, msgInfoObj) => {
   - _Search sticker from any name!_
   Alias: *${prefix}ss*
 
+📛 *${prefix}tagadmins*
+  - _Tag all the admins!_
+  Alias: *${prefix}ta*
+
 📛 *${prefix}rank*
   - _Know your message count & rank in all PVX groups!_
   
