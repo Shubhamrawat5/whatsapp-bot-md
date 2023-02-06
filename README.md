@@ -106,30 +106,31 @@ Now Bot will start working!! Work even if the device is offline!!
 
 <hr>
 
-|   Admin Commands   |                       Description                       |     Alias     |
-| :----------------: | :-----------------------------------------------------: | :-----------: |
-|       `!add`       |                   Add member to group                   |               |
-|      `!kick`       |                 kick member from group                  |    `!ban`     |
-|      `!mute`       |                     Mute the group                      |               |
-|     `!unmute`      |                    Unmute the group                     |               |
-|     `!delete`      |                  Delete anyone message                  |     `!d`      |
-|    `!tagadmins`    |                 Tag all admins of group                 |     `!ta`     |
-|     `!warning`     |                  Give warning to user                   |    `!warn`    |
-|   `!warninglist`   |              Check warning of all members               |  `!warnlist`  |
-|  `!warningreduce`  |                 Reduce warning to user                  | `!warnreduce` |
-|  `!warningclear`   |                Clear all warning to user                | `!warnclear`  |
-|  `!warningcheck`   |                  Check warning to user                  | `!warncheck`  |
-|     `!enable`      |            Enable command for current group             |               |
-|     `!disable`     |            Disable command for current group            |               |
-|      `!pvxg`       |          Get message count stats of PVX groups          |               |
-|      `!pvxm`       |  Get members message count stats of current PVX group   |               |
-|      `!pvxt`       |    Get top members message count stats of PVX groups    |               |
-|      `!pvxt5`      | Get top 5 members message count stats of all PVX groups |               |
-|      `!zero`       |          Get members list with 0 message count          |               |
-|    `!pvxstats`     |                 Get stats of PVX groups                 |               |
-|    `!blacklist`    |                  Get blacklist numbers                  |               |
-|  `!blacklistadd`   |                 Add number to blacklist                 |    `!bla`     |
-| `!blacklistremove` |              Remove number from blacklist               |    `!blr`     |
+|   Admin Commands   |                          Description                           |     Alias     |
+| :----------------: | :------------------------------------------------------------: | :-----------: |
+|       `!add`       |                      Add member to group                       |               |
+|      `!kick`       |                     kick member from group                     |    `!ban`     |
+|      `!mute`       |                         Mute the group                         |               |
+|     `!unmute`      |                        Unmute the group                        |               |
+|     `!delete`      |                     Delete anyone message                      |     `!d`      |
+|    `!tagadmins`    |                    Tag all admins of group                     |     `!ta`     |
+|     `!warning`     |                      Give warning to user                      |    `!warn`    |
+|   `!warninglist`   |                  Check warning of all members                  |  `!warnlist`  |
+|  `!warningreduce`  |                     Reduce warning to user                     | `!warnreduce` |
+|  `!warningclear`   |                   Clear all warning to user                    | `!warnclear`  |
+|  `!warningcheck`   |                     Check warning to user                      | `!warncheck`  |
+|     `!enable`      |                Enable command for current group                |               |
+|     `!disable`     |               Disable command for current group                |               |
+|      `!pvxg`       |             Get message count stats of PVX groups              |               |
+|      `!pvxm`       |      Get members message count stats of current PVX group      |               |
+|      `!pvxtm`      | Get members message count stats with rank of current PVX group |   `!pvxmt`    |
+|      `!pvxt`       |       Get top members message count stats of PVX groups        |               |
+|      `!pvxt5`      |    Get top 5 members message count stats of all PVX groups     |               |
+|      `!zero`       |             Get members list with 0 message count              |               |
+|    `!pvxstats`     |                    Get stats of PVX groups                     |               |
+|    `!blacklist`    |                     Get blacklist numbers                      |               |
+|  `!blacklistadd`   |                    Add number to blacklist                     |    `!bla`     |
+| `!blacklistremove` |                  Remove number from blacklist                  |    `!blr`     |
 
 <hr>
 
@@ -178,7 +179,8 @@ You can use (http://kaffeine.herokuapp.com) to ping the heroku app every 30 minu
 - [@Baileys](https://github.com/adiwajshing/Baileys)
 - Old non md wa bot [PVX Bot](https://github.com/Shubhamrawat5/whatsapp-bot).
 
-# Easy way to deploy:- :rocket: 
+# Easy way to deploy:- :rocket:
+
 [Heroku is no longer free]
 
 [![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/Shubhamrawat5/whatsapp-bot-md)

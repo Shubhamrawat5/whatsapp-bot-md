@@ -51,6 +51,9 @@ Alias: *${prefix}ta*
 📛 *${prefix}pvxt <number>*
   - _Get top member stats of all groups!_
 
+📛 *${prefix}pvxtm*
+  - _Get stats of members with rank of current group!_
+
 📛 *${prefix}pvxt5*
   - _Get top 5 member stats of all groups!_
 
