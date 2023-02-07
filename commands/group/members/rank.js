@@ -2,6 +2,7 @@ const {
   getRankInAllGroups,
   getCountIndividual,
 } = require("../../../db/countMemberDB");
+const { getMilestone } = require("../../../db/milestoneDB");
 
 module.exports.command = () => {
   let cmd = ["rank"];
@@ -48,10 +49,20 @@ const handler = async (bot, msg, from, msgInfoObj) => {
     rankName = "Bronze ⚱️";
   }
 
+  let message = `${name} (#${ranks}/${totalUsers})\nRank: ${rankName}\n\n*💬 message count*\nAll PVX groups: ${count}\nCurrent group  : ${countCurGroup}`;
+
+  const milestoneRes = await getMilestone(sender);
+  if (milestoneRes.length) {
+    message += `\n`;
+    milestoneRes[0].achieved.forEach((achieve) => {
+      message += `\n⭐ ${achieve}`;
+    });
+  }
+
   await bot.sendMessage(
     from,
     {
-      text: `${name} (#${ranks}/${totalUsers})\nRank: ${rankName}\n\n*💬 message count*\nAll PVX groups: ${count}\nCurrent group  : ${countCurGroup}`,
+      text: message,
     },
     { quoted: msg }
   );

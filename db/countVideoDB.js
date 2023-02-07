@@ -8,14 +8,18 @@ const createCountVideoTable = async () => {
 };
 
 module.exports.getCountVideo = async (groupJid) => {
-  await createCountVideoTable();
-  let result = await pool.query(
-    "SELECT cv.memberJid,cv.count,cmn.name FROM countvideo cv LEFT JOIN countmembername cmn ON cv.memberJid=cmn.memberJid WHERE groupJid=$1 ORDER BY count DESC;",
-    [groupJid]
-  );
-  if (result.rowCount) {
-    return result.rows;
-  } else {
+  try {
+    let result = await pool.query(
+      "SELECT cv.memberJid,cv.count,cmn.name FROM countvideo cv LEFT JOIN countmembername cmn ON cv.memberJid=cmn.memberJid WHERE groupJid=$1 ORDER BY count DESC;",
+      [groupJid]
+    );
+    if (result.rowCount) {
+      return result.rows;
+    } else {
+      return [];
+    }
+  } catch (err) {
+    console.log(err);
     return [];
   }
 };
