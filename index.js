@@ -45,7 +45,7 @@ const msgRetryCounterMap = {};
 // console.log('state : ', state.creds);
 
 /* ----------------------------- add local files ---------------------------- */
-const { setCountMember } = require("./db/countMemberDB");
+const { setCountMember, getCountTop } = require("./db/countMemberDB");
 const { setCountVideo } = require("./db/countVideoDB");
 const { getDisableCommandData } = require("./db/disableCommandDB");
 const { postStudyInfo } = require("./functions/postStudyInfo");
@@ -115,6 +115,14 @@ const addMilestone = async (bot) => {
   });
   chats[pvxadmin].participants.forEach((member) => {
     milestones[member.id] = ["Main admin of PVX"];
+  });
+
+  const resultCountGroupTop = await getCountTop(10);
+  resultCountGroupTop.forEach((member) => {
+    let memberjid = member.memberjid;
+    if (milestones[memberjid])
+      milestones[memberjid].push("Top 10 member of PVX");
+    else milestones[memberjid] = ["Top 10 member of PVX"];
   });
 
   const donationRes = await getDonation();
