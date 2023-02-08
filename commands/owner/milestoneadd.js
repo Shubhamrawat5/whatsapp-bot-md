@@ -1,4 +1,4 @@
-const { setMilestone, getMilestone } = require("../../../db/milestoneDB");
+const { setMilestone, getMilestone } = require("../../db/milestoneDB");
 
 module.exports.command = () => {
   let cmd = ["milestoneadd", "addmilestone", "ma"];
