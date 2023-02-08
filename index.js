@@ -57,6 +57,7 @@ const { addCommands } = require("./functions/addCommands");
 const { LoggerBot, LoggerTg } = require("./functions/loggerBot");
 const { forwardSticker } = require("./functions/forwardSticker");
 const { memberAddCheck } = require("./functions/memberAddCheck");
+const { getDonation } = require("./db/donationDB");
 
 require("dotenv").config();
 const myNumber = process.env.myNumber;
@@ -114,6 +115,13 @@ const addMilestone = async (bot) => {
   });
   chats[pvxadmin].participants.forEach((member) => {
     milestones[member.id] = ["Main admin of PVX"];
+  });
+
+  const donationRes = await getDonation();
+  donationRes.forEach((member) => {
+    let memberjid = `91${member.number}@s.whatsapp.net`;
+    if (milestones[memberjid]) milestones[memberjid].push("Donator of PVX");
+    else milestones[memberjid] = ["Donator of PVX"];
   });
   console.log("Added milestones");
 };
