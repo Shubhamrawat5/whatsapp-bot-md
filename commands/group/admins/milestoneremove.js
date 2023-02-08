@@ -5,7 +5,7 @@ const {
 } = require("../../../db/milestoneDB");
 
 module.exports.command = () => {
-  let cmd = ["milestoneadd", "addmilestone", "ma", "am"];
+  let cmd = ["milestoneremove", "removemilestone", "mr", "rm"];
 
   return { cmd, handler };
 };
@@ -17,7 +17,7 @@ const handler = async (bot, msg, from, msgInfoObj) => {
   let milestoneList = body.trim().replace(/ +/, ",").split(",")[1].split("#");
   if (milestoneList.length !== 3) {
     await reply(
-      `❌ Give correct details\nCommand: ${prefix}milestoneadd #contact #sno`
+      `❌ Give correct details\nCommand: ${prefix}milestoneremove #contact #sno`
     );
     return;
   }
@@ -26,47 +26,38 @@ const handler = async (bot, msg, from, msgInfoObj) => {
 
   if (!contact || !sno) {
     await reply(
-      `❌ Give correct details\nCommand: ${prefix}milestoneadd #contact #sno`
+      `❌ Give correct details\nCommand: ${prefix}milestoneremove #contact #sno`
     );
     return;
   }
 
   if (contact.length !== 12) {
     await reply(
-      `❌ Give correct Indian number with country code and no spaces\nCommand: ${prefix}milestoneadd #contact #sno`
-    );
-    return;
-  }
-
-  const milestoneTextRes = await getMilestoneText();
-  if (!sno || sno < 0 || sno > milestoneTextRes.length) {
-    await reply(
-      `❌ Give correct serial number within the range\nTo know the sno: ${prefix}milestone`
+      `❌ Give correct Indian number with country code and no spaces\nCommand: ${prefix}milestoneremove #contact #sno`
     );
     return;
   }
 
   const memberJid = `${contact}@s.whatsapp.net`;
-  const achievedText = milestoneTextRes[sno - 1].milestone;
-
-  let achieved;
   const milestoneRes = await getMilestone(memberJid);
-  if (milestoneRes.length) {
-    if (milestoneRes[0].achieved.includes(achievedText)) {
-      await reply(
-        `❌ Milestone "${achievedText}" is already added to ${contact}`
-      );
-      return;
-    }
 
-    achieved = milestoneRes[0].achieved;
-    achieved.push(achievedText);
-  } else {
-    achieved = [achievedText];
+  if (milestoneRes.length === 0) {
+    await reply(`❌ There are 0 custom milestones for ${contact}`);
+    return;
+  }
+  if (!sno || sno < 0 || sno > milestoneRes[0].achieved.length) {
+    await reply(
+      `❌ Give correct serial number within the range\nTo know the sno: ${prefix}rank`
+    );
+    return;
   }
 
+  let achieved = milestoneRes[0].achieved.filter((milestone, index) => {
+    return index + 1 !== sno;
+  });
+
   const res = await setMilestone(memberJid, achieved);
-  if (res) await reply(`✔ Milestone added!`);
+  if (res) await reply(`✔ Milestone removed!`);
   else await reply(`❌ There is some problem!`);
 };
 
