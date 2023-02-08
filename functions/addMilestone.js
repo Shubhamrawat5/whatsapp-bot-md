@@ -19,11 +19,12 @@ module.exports.addMilestones = async (groupFetchAllParticipating) => {
   const resultCountGroupTop = await getCountTop(50);
   resultCountGroupTop.forEach((member, index) => {
     let memberjid = member.memberjid;
-    if (index > 20) {
+    let number = index + 1;
+    if (number > 20) {
       if (milestones[memberjid])
         milestones[memberjid].push("Top 50 member of PVX");
       else milestones[memberjid] = ["Top 50 member of PVX"];
-    } else if (index > 10) {
+    } else if (number > 10) {
       if (milestones[memberjid])
         milestones[memberjid].push("Top 20 member of PVX");
       else milestones[memberjid] = ["Top 20 member of PVX"];

@@ -14,7 +14,6 @@ module.exports.getMilestone = async (memberJid) => {
       [memberJid]
     );
     if (result.rowCount) {
-      console.log(result.rows);
       return result.rows;
     } else {
       return [];
@@ -26,9 +25,7 @@ module.exports.getMilestone = async (memberJid) => {
 };
 
 module.exports.setMilestone = async (memberJid, achieved) => {
-  console.log(achieved);
   achieved = JSON.stringify(achieved);
-  console.log(achieved);
 
   try {
     let res = await pool.query(
@@ -47,6 +44,40 @@ module.exports.setMilestone = async (memberJid, achieved) => {
   } catch (err) {
     console.log(err);
     await createMilestoneTable();
+    return false;
+  }
+};
+
+//create createCountVideoTable table if not there
+const createMilestoneTextTable = async () => {
+  await pool.query(
+    "CREATE TABLE IF NOT EXISTS milestonetext(sno SERIAL NOT NULL PRIMARY KEY, milestone text);"
+  );
+};
+
+module.exports.getMilestoneText = async () => {
+  try {
+    let result = await pool.query("SELECT * from milestonetext;");
+    if (result.rowCount) {
+      return result.rows;
+    } else {
+      return [];
+    }
+  } catch (err) {
+    console.log(err);
+    return [];
+  }
+};
+
+module.exports.setMilestoneText = async (milestone) => {
+  try {
+    await pool.query("INSERT INTO milestonetext(milestone) VALUES($1);", [
+      milestone,
+    ]);
+    return true;
+  } catch (err) {
+    console.log(err);
+    await createMilestoneTextTable();
     return false;
   }
 };

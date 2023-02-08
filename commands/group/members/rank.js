@@ -56,17 +56,17 @@ const handler = async (bot, msg, from, msgInfoObj) => {
   const milestoneRes = await getMilestone(sender);
 
   let flag = false;
-  if (milestones[sender]) {
+  if (milestoneRes.length) {
     flag = true;
     message += `\n`;
-    milestones[sender].forEach((achieve) => {
+    milestoneRes[0].achieved.forEach((achieve) => {
       message += `\n⭐ ${achieve}`;
     });
   }
 
-  if (milestoneRes.length) {
+  if (milestones[sender]) {
     if (!flag) message += `\n`;
-    milestoneRes[0].achieved.forEach((achieve) => {
+    milestones[sender].forEach((achieve) => {
       message += `\n⭐ ${achieve}`;
     });
   }
