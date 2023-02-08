@@ -27,8 +27,6 @@ const handler = async (bot, msg, from, msgInfoObj) => {
   let achieved = [achievedText];
   const milestoneRes = await getMilestone(memberJid);
   if (milestoneRes.length) {
-    console.log(milestoneRes[0]);
-    console.log(milestoneRes[0].achieved);
     achieved = milestoneRes[0].achieved;
     achieved.push(achievedText);
   }

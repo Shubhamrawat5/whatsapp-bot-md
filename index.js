@@ -91,6 +91,7 @@ let dateCheckerInterval;
 const pvxcommunity = "919557666582-1467533860@g.us";
 const pvxprogrammer = "919557666582-1584193120@g.us";
 const pvxadmin = "919557666582-1498394056@g.us";
+const pvxsubadmin = "120363049192218305@g.us";
 const pvxstudy = "919557666582-1617595892@g.us";
 const pvxmano = "19016677357-1630334490@g.us";
 const pvxtech = "919557666582-1551290369@g.us";
@@ -101,6 +102,21 @@ const pvxsticker2 = "919557666582-1621700558@g.us";
 const pvxstickeronly1 = "919557666582-1628610549@g.us";
 const pvxstickeronly2 = "919557666582-1586018947@g.us";
 const pvxdeals = "919557666582-1582555632@g.us";
+
+const milestones = {};
+
+const addMilestone = async (bot) => {
+  console.log("Adding milestones");
+  let chats = await bot.groupFetchAllParticipating();
+
+  chats[pvxsubadmin].participants.forEach((member) => {
+    milestones[member.id] = ["Sub admin of PVX"];
+  });
+  chats[pvxadmin].participants.forEach((member) => {
+    milestones[member.id] = ["Main admin of PVX"];
+  });
+  console.log("Added milestones");
+};
 
 try {
   fs.rmSync("./auth_info_multi.json", { recursive: true, force: true });
@@ -494,6 +510,7 @@ const startBot = async () => {
           groupMembers,
           groupAdmins,
           reply,
+          milestones,
         };
 
         try {
@@ -559,6 +576,7 @@ const startBot = async () => {
           await bot.sendMessage(myNumber + "@s.whatsapp.net", {
             text: `[BOT STARTED] - ${startCount}`,
           });
+          addMilestone(bot);
         } else if (connection === "close") {
           // reconnect if not logged out
           if (

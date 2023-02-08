@@ -11,7 +11,7 @@ module.exports.command = () => {
 };
 
 const handler = async (bot, msg, from, msgInfoObj) => {
-  let { sender, reply, args } = msgInfoObj;
+  let { sender, reply, args, milestones } = msgInfoObj;
   if (args[0]) {
     sender = args[0] + "@s.whatsapp.net";
   }
@@ -54,8 +54,18 @@ const handler = async (bot, msg, from, msgInfoObj) => {
   let message = `${name} (#${ranks}/${totalUsers})\nRank: ${rankName}\n\n*💬 message count*\nAll PVX groups: ${count}\nCurrent group  : ${countCurGroup}`;
 
   const milestoneRes = await getMilestone(sender);
-  if (milestoneRes.length) {
+
+  let flag = false;
+  if (milestones[sender]) {
+    flag = true;
     message += `\n`;
+    milestones[sender].forEach((achieve) => {
+      message += `\n⭐ ${achieve}`;
+    });
+  }
+
+  if (milestoneRes.length) {
+    if (!flag) message += `\n`;
     milestoneRes[0].achieved.forEach((achieve) => {
       message += `\n⭐ ${achieve}`;
     });
