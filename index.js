@@ -118,19 +118,35 @@ const addMilestone = async (bot) => {
     milestones[member.id] = ["Main admin of PVX"];
   });
 
-  const resultCountGroupTop = await getCountTop(10);
-  resultCountGroupTop.forEach((member) => {
+  const resultCountGroupTop = await getCountTop(50);
+  resultCountGroupTop.forEach((member, index) => {
     let memberjid = member.memberjid;
-    if (milestones[memberjid])
-      milestones[memberjid].push("Top 10 member of PVX");
-    else milestones[memberjid] = ["Top 10 member of PVX"];
+    if (index > 20) {
+      if (milestones[memberjid])
+        milestones[memberjid].push("Top 50 member of PVX");
+      else milestones[memberjid] = ["Top 50 member of PVX"];
+    } else if (index > 10) {
+      if (milestones[memberjid])
+        milestones[memberjid].push("Top 20 member of PVX");
+      else milestones[memberjid] = ["Top 20 member of PVX"];
+    } else {
+      if (milestones[memberjid])
+        milestones[memberjid].push("Top 10 member of PVX");
+      else milestones[memberjid] = ["Top 10 member of PVX"];
+    }
   });
 
   const donationRes = await getDonation();
   donationRes.forEach((member) => {
     let memberjid = `91${member.number}@s.whatsapp.net`;
-    if (milestones[memberjid]) milestones[memberjid].push("Donator of PVX");
-    else milestones[memberjid] = ["Donator of PVX"];
+    if (member.amount < 500) {
+      if (milestones[memberjid]) milestones[memberjid].push("Donator of PVX");
+      else milestones[memberjid] = ["Donator of PVX"];
+    } else {
+      if (milestones[memberjid])
+        milestones[memberjid].push("Super donator of PVX");
+      else milestones[memberjid] = ["Super donator of PVX"];
+    }
   });
   console.log("Added milestones");
 };
