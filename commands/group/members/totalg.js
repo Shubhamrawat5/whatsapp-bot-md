@@ -17,10 +17,12 @@ const handler = async (bot, msg, from, msgInfoObj) => {
   }
   if (
     msg.message.extendedTextMessage &&
-    msg.message.extendedTextMessage.contextInfo &&
-    msg.message.extendedTextMessage.contextInfo.participant
+    msg.message.extendedTextMessage.contextInfo
   ) {
-    sender = msg.message.extendedTextMessage.contextInfo.participant;
+    if (msg.message.extendedTextMessage.contextInfo.participant)
+      sender = msg.message.extendedTextMessage.contextInfo.participant;
+    else if (msg.message.extendedTextMessage.contextInfo.mentionedJid)
+      sender = msg.message.extendedTextMessage.contextInfo.mentionedJid[0];
   }
 
   let resultCountGroup = await getCountIndividualAllGroupWithName(sender);
