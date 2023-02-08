@@ -22,5 +22,5 @@ const handler = async (bot, msg, from, msgInfoObj) => {
   res.push(cmd);
   await setDisableCommandData(from, res);
 
-  await reply("✔️ Command disabled under 1 min!");
+  await reply("✔️ Command disabled!");
 };

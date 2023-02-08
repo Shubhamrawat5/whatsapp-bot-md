@@ -57,7 +57,7 @@ const { addCommands } = require("./functions/addCommands");
 const { LoggerBot, LoggerTg } = require("./functions/loggerBot");
 const { forwardSticker } = require("./functions/forwardSticker");
 const { memberAddCheck } = require("./functions/memberAddCheck");
-const { getDonation } = require("./db/donationDB");
+const { addMilestones } = require("./functions/addMilestone");
 
 require("dotenv").config();
 const myNumber = process.env.myNumber;
@@ -106,63 +106,12 @@ const pvxdeals = "919557666582-1582555632@g.us";
 
 let milestones = {};
 
-const addMilestone = async (bot) => {
-  milestones = {};
-  console.log("Adding milestones");
-  let chats = await bot.groupFetchAllParticipating();
-
-  chats[pvxsubadmin].participants.forEach((member) => {
-    milestones[member.id] = ["Sub admin of PVX"];
-  });
-  chats[pvxadmin].participants.forEach((member) => {
-    milestones[member.id] = ["Main admin of PVX"];
-  });
-
-  const resultCountGroupTop = await getCountTop(50);
-  resultCountGroupTop.forEach((member, index) => {
-    let memberjid = member.memberjid;
-    if (index > 20) {
-      if (milestones[memberjid])
-        milestones[memberjid].push("Top 50 member of PVX");
-      else milestones[memberjid] = ["Top 50 member of PVX"];
-    } else if (index > 10) {
-      if (milestones[memberjid])
-        milestones[memberjid].push("Top 20 member of PVX");
-      else milestones[memberjid] = ["Top 20 member of PVX"];
-    } else {
-      if (milestones[memberjid])
-        milestones[memberjid].push("Top 10 member of PVX");
-      else milestones[memberjid] = ["Top 10 member of PVX"];
-    }
-  });
-
-  const donationRes = await getDonation();
-  donationRes.forEach((member) => {
-    let memberjid = `91${member.number}@s.whatsapp.net`;
-    if (member.amount < 500) {
-      if (milestones[memberjid]) milestones[memberjid].push("Donator of PVX");
-      else milestones[memberjid] = ["Donator of PVX"];
-    } else {
-      if (milestones[memberjid])
-        milestones[memberjid].push("Super donator of PVX");
-      else milestones[memberjid] = ["Super donator of PVX"];
-    }
-  });
-  console.log("Added milestones");
-};
-
 try {
   fs.rmSync("./auth_info_multi.json", { recursive: true, force: true });
   // fs.unlinkSync("./auth_info_multi.json");
 } catch (err) {
   console.log("Local auth file already deleted");
 }
-
-// if (pvx) {
-//   setTimeout(() => {
-//     throw new Error("To restart app");
-//   }, 1000 * 60 * 60 * 1); //1 hour
-// }
 
 const startBot = async () => {
   console.log(`[STARTING BOT]: ${startCount}`);
@@ -369,7 +318,7 @@ const startBot = async () => {
             const success = cache.set(
               from + ":groupMetadata",
               groupMetadata,
-              60 * 30
+              60 * 60
             );
           }
         }
@@ -473,12 +422,19 @@ const startBot = async () => {
           resDisabled = cache.get(from + ":resDisabled");
           if (!resDisabled) {
             resDisabled = await getDisableCommandData(from);
-            const success = cache.set(from + ":resDisabled", resDisabled, 60);
+            const success = cache.set(
+              from + ":resDisabled",
+              resDisabled,
+              60 * 60
+            );
           }
         }
         if (resDisabled.includes(command)) {
           await reply("❌ Command disabled for this group!");
           return;
+        }
+        if (command === "enable" || command === "disable") {
+          cache.del(from + ":resDisabled");
         }
 
         // send every command info to my whatsapp, won't work when i send something for bot
@@ -609,7 +565,7 @@ const startBot = async () => {
           await bot.sendMessage(myNumber + "@s.whatsapp.net", {
             text: `[BOT STARTED] - ${startCount}`,
           });
-          addMilestone(bot);
+          milestones = await addMilestones(bot.groupFetchAllParticipating);
         } else if (connection === "close") {
           // reconnect if not logged out
           if (
