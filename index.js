@@ -107,6 +107,7 @@ const pvxdeals = "919557666582-1582555632@g.us";
 const milestones = {};
 
 const addMilestone = async (bot) => {
+  milestones = {};
   console.log("Adding milestones");
   let chats = await bot.groupFetchAllParticipating();
 
