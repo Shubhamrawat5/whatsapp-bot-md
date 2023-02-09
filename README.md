@@ -90,6 +90,7 @@ Now Bot will start working!! Work even if the device is offline!!
 |   `!technews`   |               Get latest Tech news                |              |
 |    `!drive`     |           Get GDrive files direct link            |              |
 |    `!quote`     |                Give a random quote                |              |
+|     `!horo`     |              Check today's horoscope              |              |
 |    `!gender`    |            Get gender from first name             |              |
 |    `!score`     |                Give Cricket score                 |              |
 |  `!scorecard`   |              Give Cricket scorecard               | `!sc`, `!sb` |

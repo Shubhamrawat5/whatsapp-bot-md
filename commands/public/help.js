@@ -90,6 +90,9 @@ const handler = async (bot, msg, from, msgInfoObj) => {
   - _Check if bot is ON or OFF!_
   Alias: *${prefix}a*
 
+📛 *${prefix}horo name*
+  - _Check today's horoscope!_
+
 📛 *${prefix}cricketcommand*
   - _To get command details of cricket!_
   Alias: *${prefix}cc*
