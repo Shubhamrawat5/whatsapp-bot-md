@@ -115,6 +115,14 @@
 //   }
 // }
 
+// {
+//   'android-app-store-link': 'https://play.google.com/store/apps/details?id=com.snowcorp.stickerly.android',
+//   'ios-app-store-link': 'https://itunes.apple.com/app/id1458740001?mt=8',
+//   'sticker-pack-publisher': 'Sticker.ly * stickerly_indranil',
+//   'sticker-pack-name': 'Cat',
+//   'sticker-pack-id': '2dd046e4-919b-48e8-a9f2-f10987664d89.A250AA69-77E8-4DCE-8BC5-A9785E81C0AC'
+//   }
+
 index = 1;
 time = 0;
 

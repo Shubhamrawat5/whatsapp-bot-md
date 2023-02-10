@@ -3,7 +3,7 @@ const {
   toBuffer,
 } = require("@adiwajshing/baileys");
 
-const { Sticker, StickerTypes } = require("wa-sticker-formatter");
+const { Exif } = require("wa-sticker-formatter");
 
 module.exports.command = () => {
   let cmd = ["steal"];
@@ -12,11 +12,16 @@ module.exports.command = () => {
 };
 
 const handler = async (bot, msg, from, msgInfoObj) => {
-  let { isTaggedSticker, reply } = msgInfoObj;
+  let { isTaggedSticker, reply, args } = msgInfoObj;
 
   let packName = "BOT 🤖";
   let authorName = "pvxcommunity.com";
+
   if (isTaggedSticker) {
+    if (args.length) {
+      packName = args.join(" ");
+    }
+
     let downloadFilePath =
       msg.message.extendedTextMessage.contextInfo.quotedMessage.stickerMessage;
     const stream = await downloadContentFromMessage(
@@ -25,13 +30,19 @@ const handler = async (bot, msg, from, msgInfoObj) => {
     );
     const buffer = await toBuffer(stream);
 
-    const sticker = new Sticker(buffer, {
+    const webpWithExif = await new Exif({
       pack: packName,
       author: authorName,
-      type: StickerTypes.DEFAULT,
-      quality: 100,
-    });
-    await bot.sendMessage(from, await sticker.toMessage(), { quoted: msg });
+    }).add(buffer);
+
+    await bot.sendMessage(
+      from,
+      { sticker: webpWithExif },
+      {
+        mimetype: "sticker",
+        mediaUploadTimeoutMs: 1000 * 30,
+      }
+    );
     return;
   }
   await reply("❌ Tag a sticker!");

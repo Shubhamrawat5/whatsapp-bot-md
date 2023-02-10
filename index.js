@@ -456,6 +456,10 @@ const startBot = async () => {
             await reply(statsMessage);
             return;
 
+          case "check":
+          
+            return;
+
           case "test":
             if (myNumber + "@s.whatsapp.net" !== sender) {
               await reply(`❌ Command only for owner for bot testing purpose!`);

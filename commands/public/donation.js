@@ -2,7 +2,7 @@ const { getDonation } = require("../../db/donationDB");
 const fs = require("fs");
 
 module.exports.command = () => {
-  let cmd = ["donation", "donate"];
+  let cmd = ["donation", "donations", "donate"];
 
   return { cmd, handler };
 };
