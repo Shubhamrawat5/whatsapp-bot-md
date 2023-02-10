@@ -17,13 +17,15 @@ const handler = async (bot, msg, from, msgInfoObj) => {
 Send ${prefix}rank to know your rank with milestones.${readMore}
 
  *[DEFAULT MILESTONES]*
-⭐ Main admin of PVX
-⭐ Sub admin of PVX
-⭐ Top 50 member of PVX
-⭐ Top 20 member of PVX
-⭐ Top 10 member of PVX
-⭐ Super donator of PVX
-⭐ Donator of PVX`;
+⭐ Main Admin of PVX
+⭐ Sub-Admin of PVX
+⭐ Most active member of PVX
+⭐ Top 10 active member of PVX
+⭐ Top 50 active member of PVX
+⭐ Top 100 active member of PVX
+⭐ Highest contribution in PVX funds
+⭐ Huge Contribution in PVX funds
+⭐ Contribution in PVX funds`;
 
   const res = await getMilestoneText();
   if (res.length) {

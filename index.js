@@ -57,7 +57,7 @@ const { addCommands } = require("./functions/addCommands");
 const { LoggerBot, LoggerTg } = require("./functions/loggerBot");
 const { forwardSticker } = require("./functions/forwardSticker");
 const { memberAddCheck } = require("./functions/memberAddCheck");
-const { addMilestones } = require("./functions/addMilestone");
+const { addDefaultMilestones } = require("./functions/addDefaultMilestone");
 
 require("dotenv").config();
 const myNumber = process.env.myNumber;
@@ -565,7 +565,9 @@ const startBot = async () => {
           await bot.sendMessage(myNumber + "@s.whatsapp.net", {
             text: `[BOT STARTED] - ${startCount}`,
           });
-          milestones = await addMilestones(bot.groupFetchAllParticipating);
+          milestones = await addDefaultMilestones(
+            bot.groupFetchAllParticipating
+          );
         } else if (connection === "close") {
           // reconnect if not logged out
           if (
