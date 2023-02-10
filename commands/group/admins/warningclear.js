@@ -1,7 +1,7 @@
 const { clearCountWarning } = require("../../../db/warningDB");
 
 module.exports.command = () => {
-  let cmd = ["warnclear", "warningclear"];
+  let cmd = ["warnclear", "clearwarn", "warningclear", "clearwarning"];
 
   return { cmd, handler };
 };

@@ -1,7 +1,7 @@
 const { removeBlacklist } = require("../../../db/blacklistDB");
 
 module.exports.command = () => {
-  let cmd = ["blacklistremove", "blr"];
+  let cmd = ["blacklistremove", "removeblacklist", "blr"];
 
   return { cmd, handler };
 };

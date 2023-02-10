@@ -5,7 +5,7 @@ const {
 } = require("../../../db/warningDB");
 
 module.exports.command = () => {
-  let cmd = ["warnreduce", "warningreduce"];
+  let cmd = ["warnreduce", "reducewarn", "warningreduce", "reducewarning"];
 
   return { cmd, handler };
 };
