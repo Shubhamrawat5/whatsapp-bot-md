@@ -1,5 +1,5 @@
 module.exports.command = () => {
-  let cmd = ["rules", "r"];
+  let cmd = ["rules", "r", "rule"];
 
   return { cmd, handler };
 };

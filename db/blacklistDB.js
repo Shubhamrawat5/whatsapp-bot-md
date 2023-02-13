@@ -9,7 +9,7 @@ const createBlacklistTable = async () => {
 
 module.exports.getBlacklist = async () => {
   await createBlacklistTable();
-  let result = await pool.query("select * from blacklist;");
+  let result = await pool.query("select * from blacklist order by number;");
   if (result.rowCount) {
     return result.rows;
   } else {
