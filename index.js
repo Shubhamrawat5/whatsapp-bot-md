@@ -98,8 +98,7 @@ const pvxmano = "19016677357-1630334490@g.us";
 const pvxtech = "919557666582-1551290369@g.us";
 const pvxsport = "919557666582-1559476348@g.us";
 const pvxmovies = "919557666582-1506690003@g.us";
-const pvxsticker1 = "919557666582-1580308963@g.us";
-const pvxsticker2 = "919557666582-1621700558@g.us";
+const pvxsticker = "919557666582-1580308963@g.us";
 const pvxstickeronly1 = "919557666582-1628610549@g.us";
 const pvxstickeronly2 = "919557666582-1586018947@g.us";
 const pvxdeals = "919557666582-1582555632@g.us";
@@ -457,7 +456,6 @@ const startBot = async () => {
             return;
 
           case "check":
-          
             return;
 
           case "test":

@@ -10,8 +10,7 @@ const pvxprogrammer = "919557666582-1584193120@g.us";
 const pvxstudy = "919557666582-1617595892@g.us";
 const pvxmano = "19016677357-1630334490@g.us";
 const pvxmovies = "919557666582-1506690003@g.us";
-const pvxsticker1 = "919557666582-1580308963@g.us";
-const pvxsticker2 = "919557666582-1621700558@g.us";
+const pvxsticker = "919557666582-1580308963@g.us";
 
 module.exports.memberAddCheck = async (
   bot,
@@ -152,27 +151,27 @@ module.exports.memberAddCheck = async (
           },
         }
       );
-      // } else if (from === pvxsticker1 || from === pvxsticker2) {
-      //   await bot.sendMessage(
-      //     from,
-      //     {
-      //       text: `Welcome @${num_split}\nhttps://pvxcommunity.com/\n\n1) Don't make any type of sticker that targets any caste, community, religion, sex, creed, etc.\n2) The use of any kind of 18+ media (be it nudes or semi nudes) is not allowed.\n3) Every sticker you make here gets PVX branding in it along with website, so You'll get instant ban on disobeying any rule`,
-      //       mentions: [numJid],
-      //     },
-      //     {
-      //       quoted: {
-      //         key: {
-      //           remoteJid: from,
-      //           fromMe: false,
-      //           id: "710B5CF29EE7471fakeid",
-      //           participant: "0@s.whatsapp.net",
-      //         },
-      //         messageTimestamp: 1671784177,
-      //         pushName: "WhatsApp",
-      //         message: { conversation: "WELCOME TO PVX STICKER" },
-      //       },
-      //     }
-      //   );
+    } else if (from === pvxsticker) {
+      await bot.sendMessage(
+        from,
+        {
+          text: `Welcome @${num_split}\nhttps://pvxcommunity.com/\n\n1) Don't make any type of sticker that targets any caste, community, religion, sex, creed, etc.\n2) The use of any kind of 18+ media (be it nudes or semi nudes) is not allowed.\n3) Every sticker you make here gets PVX branding in it along with website, so You'll get instant ban on disobeying any rule`,
+          mentions: [numJid],
+        },
+        {
+          quoted: {
+            key: {
+              remoteJid: from,
+              fromMe: false,
+              id: "710B5CF29EE7471fakeid",
+              participant: "0@s.whatsapp.net",
+            },
+            messageTimestamp: 1671784177,
+            pushName: "WhatsApp",
+            message: { conversation: "WELCOME TO PVX STICKER" },
+          },
+        }
+      );
     }
 
     //if number is blacklisted
