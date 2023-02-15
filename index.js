@@ -330,13 +330,14 @@ const startBot = async () => {
           sender =
             sender.slice(0, sender.search(":")) +
             sender.slice(sender.search("@"));
+        const senderNumber = sender.split("@")[0];
         const senderName = msg.pushName;
 
         const messageLog =
           "[MESSAGE] " +
           (body ? body.substr(0, 30) : type) +
           " [FROM] " +
-          sender.split("@")[0] +
+          senderNumber +
           " [IN] " +
           (groupName || from);
         console.log(messageLog);
@@ -349,7 +350,51 @@ const startBot = async () => {
           from != pvxstickeronly2 &&
           from != pvxdeals
         ) {
-          setCountMember(sender, from, senderName);
+          const res = await setCountMember(sender, from, senderName);
+          if (res.currentGroup && res.currentGroup % 10000 === 0) {
+            bot.sendMessage(
+              from,
+              {
+                text: `⭐ Hey @${senderNumber}\nYou've completed ${res} messages in this group!`,
+                mentions: [sender],
+              },
+              {
+                quoted: {
+                  key: {
+                    remoteJid: from,
+                    fromMe: false,
+                    id: "710B5CF29EE7471fakeid",
+                    participant: "0@s.whatsapp.net",
+                  },
+                  messageTimestamp: 1671784177,
+                  pushName: "WhatsApp",
+                  message: { conversation: "MESSAGE COUNT" },
+                },
+              }
+            );
+          }
+          if (res.allGroup && res.allGroup % 10000 === 0) {
+            bot.sendMessage(
+              from,
+              {
+                text: `⭐ Hey @${senderNumber}\nYou've completed ${res} messages in all PVX group!`,
+                mentions: [sender],
+              },
+              {
+                quoted: {
+                  key: {
+                    remoteJid: from,
+                    fromMe: false,
+                    id: "710B5CF29EE7471fakeid",
+                    participant: "0@s.whatsapp.net",
+                  },
+                  messageTimestamp: 1671784177,
+                  pushName: "WhatsApp",
+                  message: { conversation: "MESSAGE COUNT" },
+                },
+              }
+            );
+          }
         }
 
         //count video
@@ -388,7 +433,7 @@ const startBot = async () => {
           "[COMMAND]",
           command,
           "[FROM]",
-          sender.split("@")[0],
+          senderNumber,
           "[IN]",
           groupName || from
         );

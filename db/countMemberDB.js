@@ -222,19 +222,21 @@ module.exports.getCountGroups = async () => {
 // };
 
 module.exports.setCountMember = async (memberJid, groupJid, name) => {
+  const result = { currentGroup: 0, allGroup: 0 };
   try {
-    let res1 = await pool.query(
-      "UPDATE countmember SET count = count+1 WHERE memberjid=$1 AND groupjid=$2;",
+    let res = await pool.query(
+      "UPDATE countmember SET count = count+1 WHERE memberjid=$1 AND groupjid=$2 RETURNING *;",
       [memberJid, groupJid]
     );
 
     //not updated. time to insert
-    if (res1.rowCount === 0) {
-      await pool.query("INSERT INTO countmember VALUES($1,$2,$3);", [
-        memberJid,
-        groupJid,
-        1,
-      ]);
+    if (res.rowCount === 0) {
+      await pool.query(
+        "INSERT INTO countmember VALUES($1,$2,$3) RETURNING *;",
+        [memberJid, groupJid, 1]
+      );
+    } else {
+      result.currentGroup = res.rows[0].count;
     }
   } catch (err) {
     console.log(err);
@@ -242,12 +244,12 @@ module.exports.setCountMember = async (memberJid, groupJid, name) => {
   }
 
   try {
-    let res2 = await pool.query(
+    let res = await pool.query(
       "UPDATE countmembername SET name=$1 WHERE memberjid=$2;",
       [name, memberJid]
     );
     //not updated. time to insert
-    if (res2.rowCount === 0) {
+    if (res.rowCount === 0) {
       await pool.query("INSERT INTO countmembername VALUES($1,$2);", [
         memberJid,
         name,
@@ -257,4 +259,21 @@ module.exports.setCountMember = async (memberJid, groupJid, name) => {
     console.log(err);
     await createCountMemberNameTable();
   }
+
+  try {
+    let res = await pool.query(
+      "SELECT sum(count) as count, memberJid FROM countmember GROUP BY memberJid HAVING memberJid=$1;",
+      [memberJid]
+    );
+
+    //not updated. time to insert
+    if (res.rowCount !== 0) {
+      result.allGroup = res.rows[0].count;
+    }
+  } catch (err) {
+    console.log(err);
+    await createCountMemberTable();
+  }
+
+  return result;
 };
