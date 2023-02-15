@@ -12,7 +12,12 @@ module.exports.command = () => {
 const handler = async (bot, msg, from, msgInfoObj) => {
   let { reply, args } = msgInfoObj;
 
+  if (args.length === 0) {
+    await reply("❌ Give command name also by !disable commandName");
+    return;
+  }
   let cmd = args[0];
+
   let res = await getDisableCommandData(from);
 
   if (res.includes(cmd)) {
