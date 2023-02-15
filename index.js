@@ -273,7 +273,6 @@ const startBot = async () => {
 
         const acceptedType = [
           "textMessage",
-          "reactionMessage",
           "imageMessage",
           "videoMessage",
           "stickerMessage",
@@ -351,7 +350,8 @@ const startBot = async () => {
           from != pvxdeals
         ) {
           const res = await setCountMember(sender, from, senderName);
-          if (res.currentGroup && res.currentGroup % 10000 === 0) {
+          console.log(JSON.stringify(res));
+          if (res.currentGroup && res.currentGroup % 5000 === 0) {
             bot.sendMessage(
               from,
               {
@@ -373,7 +373,7 @@ const startBot = async () => {
               }
             );
           }
-          if (res.allGroup && res.allGroup % 10000 === 0) {
+          if (res.allGroup && res.allGroup % 5000 === 0) {
             bot.sendMessage(
               from,
               {
