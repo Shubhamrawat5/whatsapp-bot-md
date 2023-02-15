@@ -355,7 +355,7 @@ const startBot = async () => {
             bot.sendMessage(
               from,
               {
-                text: `⭐ Hey @${senderNumber}\nYou've completed ${res} messages in this group!`,
+                text: `⭐ Hey @${senderNumber}\nYou've completed ${res.currentGroup} messages in this group!`,
                 mentions: [sender],
               },
               {
@@ -377,7 +377,7 @@ const startBot = async () => {
             bot.sendMessage(
               from,
               {
-                text: `⭐ Hey @${senderNumber}\nYou've completed ${res} messages in all PVX group!`,
+                text: `⭐ Hey @${senderNumber}\nYou've completed ${res.allGroup} messages in all PVX group!`,
                 mentions: [sender],
               },
               {
