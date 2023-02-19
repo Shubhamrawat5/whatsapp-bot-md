@@ -21,11 +21,17 @@ const handler = async (bot, msg, from, msgInfoObj) => {
     if (
       msg.message.extendedTextMessage.contextInfo.quotedMessage
         .extendedTextMessage &&
-      msg.message.extendedTextMessage.contextInfo.quotedMessage.extendedTextMessage.text.startsWith(
+      (msg.message.extendedTextMessage.contextInfo.quotedMessage.extendedTextMessage.text.includes(
         "Welcome"
-      )
+      ) ||
+        msg.message.extendedTextMessage.contextInfo.quotedMessage.extendedTextMessage.text.includes(
+          "📰"
+        ) ||
+        msg.message.extendedTextMessage.contextInfo.quotedMessage.extendedTextMessage.text.includes(
+          "Rank"
+        ))
     ) {
-      await reply("❌ Cannot delete a welcome message.");
+      await reply("❌ Cannot delete this message.");
     } else {
       const options = {
         remoteJid: botNumberJid,

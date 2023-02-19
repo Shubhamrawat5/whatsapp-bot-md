@@ -615,6 +615,25 @@ const startBot = async () => {
           milestones = await addDefaultMilestones(
             bot.groupFetchAllParticipating
           );
+          // bot.sendMessage(
+          //   pvxcommunity,
+          //   {
+          //     text: `Yes`,
+          //   },
+          //   {
+          //     quoted: {
+          //       key: {
+          //         remoteJid: pvxcommunity,
+          //         fromMe: false,
+          //         id: "710B5CF29EE7471fakeid",
+          //         participant: "91967564hkjhk@s.whatsapp.net",
+          //       },
+          //       messageTimestamp: 1671784177,
+          //       pushName: "xyz",
+          //       message: { conversation: "text" },
+          //     },
+          //   }
+          // );
         } else if (connection === "close") {
           // reconnect if not logged out
           if (

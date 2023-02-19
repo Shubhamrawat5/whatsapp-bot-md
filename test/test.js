@@ -144,14 +144,13 @@
 // const setCountMember = async (memberJid, groupJid, count) => {
 //   try {
 //     let res1 = await pool.query(
-//       "Select * from countmember WHERE memberjid=$1 AND groupjid=$2;",
-//       [memberJid, groupJid]
+//       "UPDATE countmember SET count = count+$3 WHERE memberjid=$1 AND groupjid=$2;",
+//       [memberJid, groupJid, count]
 //     );
 
 //     console.log(JSON.stringify(res1.rows));
 //     //not updated. time to insert
-//     if (res1.rows[0].count === 1) {
-//       console.log("1 message, Put ", count);
+//     if (res1.affectedRows) {
 //       await pool.query(
 //         "UPDATE countmember SET count = $3 WHERE memberjid=$1 AND groupjid=$2;",
 //         [memberJid, groupJid, count]
