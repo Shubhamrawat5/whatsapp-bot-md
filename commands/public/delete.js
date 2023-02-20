@@ -16,20 +16,16 @@ const handler = async (bot, msg, from, msgInfoObj) => {
   if (msg.message.extendedTextMessage.contextInfo.participant == botNumberJid) {
     // await reply("❌ Tag message of bot to delete.");
 
-    //check for welcome message,
-    //Message with tagged user has (.quotedMessage.extendedTextMessage.text), non tagged has (.quotedMessage.conversation)
+    //Message with tagged user, links has (.quotedMessage.extendedTextMessage.text), non tagged has (.quotedMessage.conversation)
+    const quotedMessage =
+      msg.message.extendedTextMessage.contextInfo.quotedMessage;
     if (
-      msg.message.extendedTextMessage.contextInfo.quotedMessage
-        .extendedTextMessage &&
-      (msg.message.extendedTextMessage.contextInfo.quotedMessage.extendedTextMessage.text.includes(
-        "Welcome"
-      ) ||
-        msg.message.extendedTextMessage.contextInfo.quotedMessage.extendedTextMessage.text.includes(
-          "📰"
-        ) ||
-        msg.message.extendedTextMessage.contextInfo.quotedMessage.extendedTextMessage.text.includes(
-          "Rank"
-        ))
+      (quotedMessage.extendedTextMessage &&
+        quotedMessage.extendedTextMessage.text.includes("Welcome")) ||
+      (quotedMessage.conversation &&
+        quotedMessage.conversation.includes("📰")) ||
+      (quotedMessage.conversation &&
+        quotedMessage.conversation.includes("Rank"))
     ) {
       await reply("❌ Cannot delete this message.");
     } else {
