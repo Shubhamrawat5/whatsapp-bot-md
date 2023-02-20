@@ -19,7 +19,7 @@
   },
   "homepage": "https://github.com/Shubhamrawat5/whatsapp-bot-md#readme",
   "dependencies": {
-    "@adiwajshing/baileys": "github:@adiwajshing/baileys" ,
+    "@adiwajshing/baileys": "github:@adiwajshing/baileys",
     "@adiwajshing/keyed-db": "^0.2.4",
     "@ffmpeg-installer/ffmpeg": "^1.1.0",
     "adm-zip": "^0.5.9",
@@ -34,7 +34,7 @@
     "pm2": "^5.2.2",
     "qrcode-terminal": "^0.12.0",
     "rss-parser": "^3.12.0",
-    "wa-sticker-formatter": "^4.3.2",
+    "wa-sticker-formatter": "^4.4.4",
     "ytdl-core": "^4.10.0"
   }
 }
