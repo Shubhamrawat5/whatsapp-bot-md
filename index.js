@@ -61,6 +61,7 @@ const { addDefaultMilestones } = require("./functions/addDefaultMilestone");
 
 require("dotenv").config();
 const myNumber = process.env.myNumber;
+const myNumberWithJid = myNumber + "@s.whatsapp.net";
 const pvx = process.env.pvx;
 const isStickerForward = process.env.isStickerForward;
 
@@ -227,10 +228,15 @@ const startBot = async () => {
 
         if (msg.action == "add") {
           await memberAddCheck(bot, from, num_split, numJid, groupSubject);
+          const text = `[GROUP] ${groupSubject} [JOINED] ${numJid}`;
+          await bot.sendMessage(myNumberWithJid, { text });
+          console.log(text);
           ++stats.memberJoined;
         }
         if (msg.action == "remove") {
-          console.log(`[GROUP] ${groupSubject} [LEAVED] ${numJid}`);
+          const text = `[GROUP] ${groupSubject} [LEAVED] ${numJid}`;
+          await bot.sendMessage(myNumberWithJid, { text });
+          console.log(text);
           ++stats.memberLeft;
         }
       } catch (err) {
@@ -350,7 +356,7 @@ const startBot = async () => {
           from != pvxdeals
         ) {
           const res = await setCountMember(sender, from, senderName);
-          console.log(JSON.stringify(res));
+          // console.log(JSON.stringify(res));
           if (res.currentGroup && res.currentGroup % 5000 === 0) {
             bot.sendMessage(
               from,
@@ -482,9 +488,9 @@ const startBot = async () => {
         }
 
         // send every command info to my whatsapp, won't work when i send something for bot
-        if (myNumber && myNumber + "@s.whatsapp.net" !== sender) {
+        if (myNumber && myNumberWithJid !== sender) {
           ++stats.commandExecuted;
-          await bot.sendMessage(myNumber + "@s.whatsapp.net", {
+          await bot.sendMessage(myNumberWithJid, {
             text: `${stats.commandExecuted}) [${prefix}${command}] [${groupName}]`,
           });
         }
@@ -504,7 +510,7 @@ const startBot = async () => {
             return;
 
           case "test":
-            if (myNumber + "@s.whatsapp.net" !== sender) {
+            if (myNumberWithJid !== sender) {
               await reply(`❌ Command only for owner for bot testing purpose!`);
               return;
             }
@@ -583,7 +589,7 @@ const startBot = async () => {
 
           /* ----------------------------- owner commands ----------------------------- */
           if (commandsOwners[command]) {
-            if (myNumber + "@s.whatsapp.net" === sender) {
+            if (myNumberWithJid === sender) {
               await commandsOwners[command](bot, msg, from, msgInfoObj);
               return;
             }
@@ -609,7 +615,7 @@ const startBot = async () => {
         const { connection, lastDisconnect } = update;
         if (connection === "open") {
           console.log("Connected");
-          await bot.sendMessage(myNumber + "@s.whatsapp.net", {
+          await bot.sendMessage(myNumberWithJid, {
             text: `[BOT STARTED] - ${startCount}`,
           });
           milestones = await addDefaultMilestones(

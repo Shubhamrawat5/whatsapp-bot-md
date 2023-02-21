@@ -190,7 +190,6 @@ module.exports.memberAddCheck = async (
       }
     }
 
-    console.log(`[GROUP] ${groupSubject} [JOINED] ${numJid}`);
   } catch (err) {
     await LoggerBot(bot, "memberAddCheck", err, undefined);
   }
