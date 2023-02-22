@@ -21,6 +21,8 @@ const handler = async (bot, msg, from, msgInfoObj) => {
       msg.message.extendedTextMessage.contextInfo.quotedMessage;
     if (
       (quotedMessage.extendedTextMessage &&
+        quotedMessage.extendedTextMessage.text.includes("Birthday")) ||
+      (quotedMessage.extendedTextMessage &&
         quotedMessage.extendedTextMessage.text.includes("Welcome")) ||
       (quotedMessage.conversation &&
         quotedMessage.conversation.includes("📰")) ||
