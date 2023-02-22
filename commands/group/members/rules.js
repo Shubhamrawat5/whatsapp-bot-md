@@ -27,16 +27,18 @@ _Do not swear on someone else's parents  just because they roasted you badly._
 _Only the admin who removed a member can add them back again._
 
 ✔ Rule 06 -
-_Do not use someone else's real picture for any malicious purpose like making stickers and spreading it._
+_Do not use someone else's real picture for any malicious purpose like making stickers, memes and spreading it._
 
 ✔ Rule 07 -
-_Do not post other group's link without group admin's permission._
+_No promotion of any kind is allowed in the group._
 
 ✔ Rule 08 -
 _Do not give any spoilers of any new movie or series._
 
 ✔ Rule 09 -
-_Only numbers starting with the code +91 (i.e. Indians) are allowed to join._`;
+_Only numbers starting with the code +91 (i.e. Indians) are allowed to join._
+
+*You may get a warning or ban if you're found breaking any of the above rules. PVX is a growing community, we'll appreciate if you follow these rules and help us grow more.* ❤️`;
 
   await reply(text);
 };
