@@ -9,10 +9,10 @@ module.exports.command = () => {
 const handler = async (bot, msg, from, msgInfoObj) => {
   let { reply } = msgInfoObj;
 
-  const res = getGroupLink();
-  let message = "PVX LINKS";
+  const res = await getGroupLink();
+  let message = "📛 PVX LINKS 📛";
   res.forEach((group) => {
-    message = `\n\n${group.groupjid}\n${group.name}\n${grouplink}`;
+    message += `\n\n${group.groupjid}\n${group.gname}\n${group.link}`;
   });
 
   reply(message);

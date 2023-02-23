@@ -18,8 +18,11 @@ const handler = async (bot, msg, from, msgInfoObj) => {
 
     const res = await setGroupLinkEnabled(enabled);
 
-    if (res) await reply(`✔ Group link enabled updated!`);
-    else await reply(`❌ There is some problem!`);
+    if (res) await reply(`✔ Group link enabled updated with value: ${enabled}`);
+    else
+      await reply(
+        `❌ There is some problem!\nGive only integer value with ${setlink} #0`
+      );
     return;
   }
 

@@ -31,7 +31,7 @@ const createGroupLinksTable = async () => {
   );
 };
 
-module.exports.getGroupLink = async (groupJid, link) => {
+module.exports.setGroupLink = async (groupJid, link) => {
   try {
     let res = await pool.query(
       "UPDATE grouplinks SET link = $1 WHERE groupjid=$2;",
@@ -52,9 +52,11 @@ module.exports.getGroupLink = async (groupJid, link) => {
   }
 };
 
-module.exports.setGroupLink = async () => {
+module.exports.getGroupLink = async () => {
   try {
-    let res = await pool.query("SELECT * FROM grouplinks");
+    let res = await pool.query(
+      "SELECT gl.groupjid,gl.link,gn.gname FROM grouplinks gl LEFT JOIN groupname gn ON gl.groupjid=gn.groupjid;"
+    );
     //not updated. time to insert
     if (res.rowCount) {
       return res.rows;
