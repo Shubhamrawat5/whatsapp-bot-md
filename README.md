@@ -141,6 +141,8 @@ Now Bot will start working!! Work even if the device is offline!!
 |  `!broadcast`   |       Broadcast a message to all groups       | `!bc` |
 |    `!tagall`    |           Tag all members in group            |       |
 |    `!gname`     |            Save group names to DB             |       |
+|   `!setlink`    |             Save group link in DB             | `!sl` |
+|   `!getlink`    |          Get all group links from DB          | `!sl` |
 |      `!tg`      |            Make TG to WA stickers             |       |
 |     `!stg`      |            Stop TG to WA stickers             |       |
 | `!groupbackup`  |            Take group backup in DB            |       |

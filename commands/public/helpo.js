@@ -21,7 +21,16 @@ _Restricted command for owner only!_
 Alias: *${prefix}bc*
 
 📛 *${prefix}gname* ✔
-  - _Save all group name in DB!_   
+  - _Save all group name in DB!_  
+  
+📛 *${prefix}setlink* ✔
+  - _Save group link in DB!_   
+
+📛 *${prefix}setlink number* ✔
+  - _Enable/Disable group link in website!_ 
+
+📛 *${prefix}getlink* ✔
+  - Get all group links from DB!_  
 
 📛 *${prefix}groupbackup* ❌
   - _Take backup of group in DB!_  
