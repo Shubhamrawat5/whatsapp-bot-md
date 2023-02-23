@@ -23,7 +23,8 @@ const handler = async (bot, msg, from, msgInfoObj) => {
       return;
     }
 
-    let link = await bot.groupInviteCode(from);
+    let link = "https://chat.whatsapp.com/" + (await bot.groupInviteCode(from));
+    console.log(from, link);
 
     if (!from.endsWith("@g.us")) {
       await reply(`❌ Wrong groupjid!`);
