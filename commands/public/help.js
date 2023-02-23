@@ -11,9 +11,6 @@
 // 📛 ${prefix}flower text
 // 📛 ${prefix}sand text
 
-// 📛 *${prefix}insta url* ❌
-//   - _Instagram videos downloader!_
-//   Alias: *${prefix}i url*📛
 // 📛 *${prefix}fb url* ❌
 //   - _Facebook videos downloader!_
 // 📛 *${prefix}slist* ❌
@@ -59,6 +56,10 @@ const handler = async (bot, msg, from, msgInfoObj) => {
 📛 *${prefix}searchsearch*
   - _Search sticker from any name!_
   Alias: *${prefix}ss*
+
+📛 *${prefix}insta url* 
+  - _Download instagram posts!_
+  Alias: *${prefix}i url*📛
 
 📛 *${prefix}tagadmins*
   - _Tag all the admins!_
