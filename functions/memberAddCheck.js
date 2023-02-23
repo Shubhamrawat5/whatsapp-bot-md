@@ -35,28 +35,28 @@ module.exports.memberAddCheck = async (
         return;
       }
       //for study group
-      if (from === pvxstudy) {
-        await bot.sendMessage(
-          from,
-          {
-            text: `Welcome @${num_split}\nhttps://pvxcommunity.com/\n\nKindly fill the Biodata form (mandatory for all)\n\n👇🏻👇🏻👇🏻👇🏻👇🏻\nhttps://forms.gle/uuvUwV5fTk8JAjoTA`,
-            mentions: [numJid],
-          },
-          {
-            quoted: {
-              key: {
-                remoteJid: from,
-                fromMe: false,
-                id: "710B5CF29EE7471fakeid",
-                participant: "0@s.whatsapp.net",
-              },
-              messageTimestamp: 1671784177,
-              pushName: "WhatsApp",
-              message: { conversation: "WELCOME TO PVX STUDY" },
-            },
-          }
-        );
-      }
+      // if (from === pvxstudy) {
+      //   await bot.sendMessage(
+      //     from,
+      //     {
+      //       text: `Welcome @${num_split}\nhttps://pvxcommunity.com/\n\nKindly fill the Biodata form (mandatory for all)\n\n👇🏻👇🏻👇🏻👇🏻👇🏻\nhttps://forms.gle/uuvUwV5fTk8JAjoTA`,
+      //       mentions: [numJid],
+      //     },
+      //     {
+      //       quoted: {
+      //         key: {
+      //           remoteJid: from,
+      //           fromMe: false,
+      //           id: "710B5CF29EE7471fakeid",
+      //           participant: "0@s.whatsapp.net",
+      //         },
+      //         messageTimestamp: 1671784177,
+      //         pushName: "WhatsApp",
+      //         message: { conversation: "WELCOME TO PVX STUDY" },
+      //       },
+      //     }
+      //   );
+      // }
       //for movies group
       else if (from === pvxmovies) {
         await bot.sendMessage(
@@ -189,7 +189,6 @@ module.exports.memberAddCheck = async (
         return;
       }
     }
-
   } catch (err) {
     await LoggerBot(bot, "memberAddCheck", err, undefined);
   }
