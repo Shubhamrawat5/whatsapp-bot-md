@@ -1,5 +1,5 @@
 module.exports.command = () => {
-  let cmd = ["tagadmins", "ta"];
+  let cmd = ["tagadmin", "tagadmins", "ta"];
 
   return { cmd, handler };
 };

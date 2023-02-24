@@ -25,18 +25,18 @@ const handler = async (bot, msg, from, msgInfoObj) => {
 
   let urlInsta = args[0];
 
-  if (
-    !(
-      urlInsta.includes("instagram.com/p/") ||
-      urlInsta.includes("instagram.com/reel/") ||
-      urlInsta.includes("instagram.com/tv/")
-    )
-  ) {
-    reply(
-      `❌ Wrong URL! Only Instagram posted videos, tv and reels can be downloaded.`
-    );
-    return;
-  }
+  // if (
+  //   !(
+  //     urlInsta.includes("instagram.com/p/") ||
+  //     urlInsta.includes("instagram.com/reel/") ||
+  //     urlInsta.includes("instagram.com/tv/")
+  //   )
+  // ) {
+  //   reply(
+  //     `❌ Wrong URL! Only Instagram posted videos, tv and reels can be downloaded.`
+  //   );
+  //   return;
+  // }
 
   if (urlInsta.includes("?")) urlInsta = urlInsta.split("/?")[0];
   console.log(urlInsta);

@@ -24,6 +24,7 @@
     "@ffmpeg-installer/ffmpeg": "^1.1.0",
     "adm-zip": "^0.5.9",
     "axios": "^0.27.2",
+    "chatgpt": "^4.7.2",
     "dotenv": "^16.0.0",
     "express": "^4.18.1",
     "g-i-s": "^2.1.6",
