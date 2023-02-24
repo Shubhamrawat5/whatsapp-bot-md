@@ -9,10 +9,12 @@ module.exports.command = () => {
 
 const handler = async (bot, msg, from, msgInfoObj) => {
   let { prefix, reply, args, groupName } = msgInfoObj;
-  if (!groupName.toUpperCase().includes("PVX")) {
-    await reply(`❌ COMMAND ONLY FOR PVX GROUPS!`);
-    return;
-  }
+  //   if (!groupName.toUpperCase().includes("PVX")) {
+  //     await reply(
+  //       `❌ COMMAND ONLY FOR PVX GROUPS!\nREASON: There is a limit with the openapi's free api`
+  //     );
+  //     return;
+  //   }
 
   try {
     if (!isApiSetup) {
@@ -30,7 +32,7 @@ const handler = async (bot, msg, from, msgInfoObj) => {
 
     let query = args.join(" ");
     const res = await api.sendMessage(query);
-    reply("AI: " + res.text);
+    reply(res.text);
   } catch (err) {
     console.log(err);
     reply(err.toString());
