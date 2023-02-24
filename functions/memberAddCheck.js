@@ -23,6 +23,22 @@ module.exports.memberAddCheck = async (
     // other than +91 are blocked from joining when description have written in first line -> only91
     // blockCommandsInDesc.includes("only91")
     if (groupSubject.toUpperCase().includes("<{PVX}>")) {
+      //if number is blacklisted
+      let blacklistRes = await getBlacklist();
+      blacklistRes = blacklistRes.map((num) => num.number);
+      // console.log(blacklistRes);
+      if (blacklistRes.includes(num_split)) {
+        await bot.sendMessage(from, {
+          text: `*─「 🔥 <{PVX}> BOT 🔥 」─* \n\nNumber is blacklisted !!!!\nReason: ${blacklistRes.reason}`,
+        });
+
+        await bot.groupParticipantsUpdate(from, [numJid], "remove");
+        await bot.sendMessage(myNumber + "@s.whatsapp.net", {
+          text: `${num_split} is removed from ${groupSubject}. Blacklisted!`,
+        });
+        return;
+      }
+
       if (!num_split.startsWith(91)) {
         await bot.sendMessage(from, {
           text: `*─「 🔥 <{PVX}> BOT 🔥 」─* \n\nOnly +91 numbers are allowed !!!!`,
@@ -171,22 +187,6 @@ module.exports.memberAddCheck = async (
             },
           }
         );
-      }
-
-      //if number is blacklisted
-      let blacklistRes = await getBlacklist();
-      blacklistRes = blacklistRes.map((num) => num.number);
-      // console.log(blacklistRes);
-      if (blacklistRes.includes(num_split)) {
-        await bot.sendMessage(from, {
-          text: `*─「 🔥 <{PVX}> BOT 🔥 」─* \n\nNumber is blacklisted !!!!`,
-        });
-
-        await bot.groupParticipantsUpdate(from, [numJid], "remove");
-        await bot.sendMessage(myNumber + "@s.whatsapp.net", {
-          text: `${num_split} is removed from ${groupSubject}. Blacklisted!`,
-        });
-        return;
       }
     }
   } catch (err) {
