@@ -7,9 +7,16 @@ const createBlacklistTable = async () => {
   );
 };
 
-module.exports.getBlacklist = async () => {
+module.exports.getBlacklist = async (number) => {
   await createBlacklistTable();
-  let result = await pool.query("select * from blacklist order by number;");
+  let result;
+  if (number) {
+    result = await pool.query("select * from blacklist where number=$1;", [
+      number,
+    ]);
+  } else {
+    result = await pool.query("select * from blacklist order by number;");
+  }
   if (result.rowCount) {
     return result.rows;
   } else {

@@ -24,12 +24,11 @@ module.exports.memberAddCheck = async (
     // blockCommandsInDesc.includes("only91")
     if (groupSubject.toUpperCase().includes("<{PVX}>")) {
       //if number is blacklisted
-      let blacklistRes = await getBlacklist();
-      blacklistRes = blacklistRes.map((num) => num.number);
+      let blacklistRes = await getBlacklist(num_split);
       // console.log(blacklistRes);
-      if (blacklistRes.includes(num_split)) {
+      if (blacklistRes.length) {
         await bot.sendMessage(from, {
-          text: `*─「 🔥 <{PVX}> BOT 🔥 」─* \n\nNumber is blacklisted !!!!\nReason: ${blacklistRes.reason}`,
+          text: `*─「 🔥 <{PVX}> BOT 🔥 」─* \n\nNumber is blacklisted !!!!\nReason: ${blacklistRes[0].reason}`,
         });
 
         await bot.groupParticipantsUpdate(from, [numJid], "remove");
