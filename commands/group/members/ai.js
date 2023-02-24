@@ -9,6 +9,8 @@ module.exports.command = () => {
 
 const handler = async (bot, msg, from, msgInfoObj) => {
   let { prefix, reply, args, groupName } = msgInfoObj;
+  const more = String.fromCharCode(8206);
+  const readMore = more.repeat(4001);
   //   if (!groupName.toUpperCase().includes("PVX")) {
   //     await reply(
   //       `❌ COMMAND ONLY FOR PVX GROUPS!\nREASON: There is a limit with the openapi's free api`
@@ -32,6 +34,10 @@ const handler = async (bot, msg, from, msgInfoObj) => {
 
     let query = args.join(" ");
     const res = await api.sendMessage(query);
+
+    if (res.text.length > 400) {
+      res.text = res.text.slice(0, 100) + readMore + res.text.slice(100);
+    }
     reply(res.text);
   } catch (err) {
     console.log(err);
