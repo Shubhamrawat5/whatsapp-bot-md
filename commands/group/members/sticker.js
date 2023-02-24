@@ -72,6 +72,9 @@ const handler = async (bot, msg, from, msgInfoObj) => {
   } else if (type === "videoMessage" || isTaggedVideo) {
     //for videos
     quality = 40;
+    // if( msg.message.videoMessage.fileLength > ){
+    //   quality = 20
+    // }
     let downloadFilePath;
     if (msg.message.videoMessage) {
       downloadFilePath = msg.message.videoMessage;

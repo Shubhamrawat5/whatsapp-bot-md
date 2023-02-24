@@ -8,20 +8,35 @@ module.exports.command = () => {
 
 const handler = async (bot, msg, from, msgInfoObj) => {
   let { prefix, reply, args } = msgInfoObj;
-  let blacklistNumb2 = args[0];
-  if (!Number(blacklistNumb2)) {
-    await reply(`❌ Give number to add in blacklist by ${prefix}bla number!`);
+
+  if (args.length < 2) {
+    await reply(`❌ Wrong query!\nSend ${prefix}bla number reason`);
     return;
   }
-  if (blacklistNumb2.startsWith("+")) {
-    blacklistNumb2 = blacklistNumb2.slice(1);
+
+  let blacklistNumb = args[0];
+  if (!Number(blacklistNumb)) {
+    await reply(
+      `❌ Give 10 digit Indian number (without spaces) to add in blacklist by ${prefix}bla number reason`
+    );
+    return;
   }
 
-  if (blacklistNumb2.length === 10 && !blacklistNumb2.startsWith("91")) {
-    blacklistNumb2 = "91" + blacklistNumb2;
+  let reason = args.slice(1).join(" ");
+  if (!reason) {
+    await reply(`❌ Incorrect reason!\nSend ${prefix}bla number reason`);
+    return;
   }
 
-  let blacklistRes2 = await addBlacklist(blacklistNumb2);
-  if (blacklistRes2) await reply("✔️ Added to blacklist!");
+  if (blacklistNumb.startsWith("+")) {
+    blacklistNumb = blacklistNumb.slice(1);
+  }
+
+  if (blacklistNumb.length === 10 && !blacklistNumb.startsWith("91")) {
+    blacklistNumb = "91" + blacklistNumb;
+  }
+
+  let blacklistRes = await addBlacklist(blacklistNumb, reason);
+  if (blacklistRes) await reply("✔️ Added to blacklist!");
   else await reply("❌ Error!");
 };

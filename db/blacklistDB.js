@@ -3,7 +3,7 @@ const pool = require("./pool");
 //create blacklist table if not there
 const createBlacklistTable = async () => {
   await pool.query(
-    "CREATE TABLE IF NOT EXISTS blacklist(number text PRIMARY KEY);"
+    "CREATE TABLE IF NOT EXISTS blacklist(number text PRIMARY KEY, reason text);"
   );
 };
 
@@ -16,27 +16,25 @@ module.exports.getBlacklist = async () => {
     return [];
   }
 };
-module.exports.addBlacklist = async (number) => {
+module.exports.addBlacklist = async (number, reason) => {
   try {
-    await createBlacklistTable();
-
-    await pool.query("INSERT INTO blacklist VALUES($1);", [number]);
+    await pool.query("INSERT INTO blacklist VALUES($1,$2);", [number, reason]);
 
     return true;
   } catch (err) {
     console.log(err);
+    await createBlacklistTable();
     return false;
   }
 };
 module.exports.removeBlacklist = async (number) => {
   try {
-    await createBlacklistTable();
-
     await pool.query("DELETE FROM blacklist WHERE number=$1;", [number]);
 
     return true;
   } catch (err) {
     console.log(err);
+    await createBlacklistTable();
     return false;
   }
 };

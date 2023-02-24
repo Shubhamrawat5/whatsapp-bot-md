@@ -11,7 +11,7 @@ const handler = async (bot, msg, from, msgInfoObj) => {
   let blacklistRes = await getBlacklist();
   let blacklistMsg = "Blacklisted Numbers\n";
   blacklistRes.forEach((num) => {
-    blacklistMsg += `\n${num.number}`;
+    blacklistMsg += `\n${num.number}: ${num.reason}`;
   });
 
   await reply(blacklistMsg);
