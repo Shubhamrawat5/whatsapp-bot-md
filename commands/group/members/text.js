@@ -42,11 +42,13 @@ const handler = async (bot, msg, from, msgInfoObj) => {
     return;
   }
 
+  // #00FF00 - green
+  // #ff0000 - red
   const textToImage = new UltimateTextToImage(message, {
     width: 500,
     height: 500,
     fontFamily: "Arial",
-    fontColor: "#00FF00",
+    fontColor: "#ff0000",
     fontSize: 56,
     minFontSize: 10,
     lineHeight: 40,

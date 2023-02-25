@@ -46,6 +46,9 @@ const handler = async (bot, msg, from, msgInfoObj) => {
   - _Create full size sticker from media!_
   Alias: *${prefix}s c*
 
+📛 *${prefix}text*
+  - _Create sticker from text!_
+
 📛 *${prefix}image*
   - _Create image from sticker!_
 

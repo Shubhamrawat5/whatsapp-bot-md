@@ -183,3 +183,22 @@
 //   }
 // };
 // getCountGroupMembers(pvxsticker2);
+
+const { UltimateTextToImage } = require("ultimate-text-to-image");
+
+new UltimateTextToImage(`Checking the text to image`, {
+  width: 500,
+  height: 500,
+  fontFamily: "Comic Sans MS",
+  fontColor: "#ff0000",
+  fontSize: 40,
+  minFontSize: 10,
+  lineHeight: 40,
+  autoWrapLineHeightMultiplier: 1.2,
+  margin: 20,
+  marginBottom: 40,
+  align: "center",
+  valign: "middle",
+})
+  .render()
+  .toFile("image1.png");

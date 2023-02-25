@@ -79,6 +79,7 @@ Now Bot will start working!! Work even if the device is offline!!
 |    `!ranks`     |           Know ranks list of PVX groups           |              |
 |    `!totalg`    |    Know message count group wise in PVX groups    |              |
 |   `!sticker`    |     Create sticker from different media types     |     `!s`     |
+|     `!text`     |             Create sticker from text              |              |
 |      `!ai`      |                Ask questions to AI                |              |
 |    `!image`     |             Create image from sticker             |              |
 | `!imagesearch`  |            Search image from any name             |    `!is`     |
