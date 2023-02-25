@@ -58,6 +58,7 @@ const { LoggerBot, LoggerTg } = require("./functions/loggerBot");
 const { forwardSticker } = require("./functions/forwardSticker");
 const { memberAddCheck } = require("./functions/memberAddCheck");
 const { addDefaultMilestones } = require("./functions/addDefaultMilestone");
+const { addUnknownCmd } = require("./db/addUnknownCmdDB");
 
 require("dotenv").config();
 const myNumber = process.env.myNumber;
@@ -604,6 +605,9 @@ const startBot = async () => {
 
         /* ----------------------------- unknown command ---------------------------- */
         reply(`Send ${prefix}help for <{PVX}> BOT commands!`);
+        if (command) {
+          await addUnknownCmd(command);
+        }
       } catch (err) {
         await LoggerBot(bot, "messages.upsert", err, m);
       }

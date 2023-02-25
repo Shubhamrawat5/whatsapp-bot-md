@@ -74,7 +74,7 @@ const handler = async (bot, msg, from, msgInfoObj) => {
 📛 *${prefix}ranks*
   - _Know ranks list of PVX groups!_
 
-📛 *${prefix}totalg*
+📛 *${prefix}count*
   - _Know your message stats in all PVX groups!_
   
 📛 *${prefix}ytv url*
