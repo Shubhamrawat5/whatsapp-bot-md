@@ -38,7 +38,7 @@ const handler = async (bot, msg, from, msgInfoObj) => {
     if (res.text.length > 400) {
       res.text = res.text.slice(0, 100) + readMore + res.text.slice(100);
     }
-    reply(res.text);
+    reply("AI: " + res.text);
   } catch (err) {
     console.log(err);
     reply(err.toString());
