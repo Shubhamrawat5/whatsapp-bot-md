@@ -304,7 +304,7 @@ const startBot = async () => {
             ? msg.message.imageMessage.caption
             : type == "videoMessage" && msg.message.videoMessage.caption
             ? msg.message.videoMessage.caption
-            : type == "documentMessage" && msg.message.documentMessage.caption
+            : type == "documentMessage" && msg.message.documentMessage.captionf
             ? msg.message.documentMessage.caption
             : type == "extendedTextMessage" &&
               msg.message.extendedTextMessage.text
@@ -680,7 +680,7 @@ const startBot = async () => {
         await saveCreds();
         await storeAuth(state);
       } catch (err) {
-        await LoggerBot(false, "creds.update", err, msg);
+        await LoggerBot(false, "creds.update", err, undefined);
       }
     });
 
