@@ -436,14 +436,14 @@ const startBot = async () => {
           isCmd = true;
           body = "!s";
         }
-        if (from === pvxstatus && body.startsWith("https://you")) {
-          isCmd = true;
-          body = "!ytv " + body;
-        }
-        if (from === pvxstatus && body.startsWith("https://insta")) {
-          isCmd = true;
-          body = "!insta " + body;
-        }
+        // if (from === pvxstatus && !isCmd && body.includes("you")) {
+        //   isCmd = true;
+        //   body = "!ytv " + body;
+        // }
+        // if (from === pvxstatus && !isCmd && body.includes("insta")) {
+        //   isCmd = true;
+        //   body = "!insta " + body;
+        // }
 
         if (!isCmd) return;
 
