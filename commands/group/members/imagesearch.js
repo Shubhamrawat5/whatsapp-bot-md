@@ -23,7 +23,7 @@ const handler = async (bot, msg, from, msgInfoObj) => {
       try {
         //   console.log(JSON.stringify(results, null, "  "));
         let index = 0;
-        if (results.length >= 10) {
+        if (results.length > 10) {
           index = Math.floor(Math.random() * 10);
         }
         let img = results[index]["url"];

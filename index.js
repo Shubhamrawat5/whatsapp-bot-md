@@ -428,7 +428,13 @@ const startBot = async () => {
           return;
         }
 
-        const isCmd = body.startsWith(prefix);
+        let isCmd = body.startsWith(prefix);
+        const isMedia = type === "imageMessage" || type === "videoMessage"; //image or video
+
+        if (from === pvxsticker && body === "" && isMedia) {
+          isCmd = true;
+          body = "!s";
+        }
         if (!isCmd) return;
 
         if (body[1] == " ") body = body[0] + body.slice(2); //remove space when space btw prefix and commandName like "! help"
@@ -453,7 +459,6 @@ const startBot = async () => {
         const isGroupAdmins = groupAdmins.includes(sender) || false;
 
         const content = JSON.stringify(msg.message);
-        const isMedia = type === "imageMessage" || type === "videoMessage"; //image or video
         const isTaggedImage =
           type === "extendedTextMessage" && content.includes("imageMessage");
         const isTaggedVideo =

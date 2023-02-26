@@ -16,6 +16,7 @@ const handler = async (bot, msg, from, msgInfoObj) => {
       // const session_id = await getCookie(username, password);
       // console.log(session_id);
       const session_id = process.env.session_id;
+      console.log(session_id);
       ig = new igApi(session_id);
       ig.setCookie(session_id);
       isIgSetup = true;
@@ -46,6 +47,7 @@ const handler = async (bot, msg, from, msgInfoObj) => {
 
     ig.fetchPost(urlInsta)
       .then((res) => {
+        console.log(res);
         if (res.media_count == 1) {
           if (res.links[0].type == "video") {
             bot.sendMessage(
