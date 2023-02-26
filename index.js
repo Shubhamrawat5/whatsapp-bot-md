@@ -104,6 +104,7 @@ const pvxsticker = "919557666582-1580308963@g.us";
 const pvxstickeronly1 = "919557666582-1628610549@g.us";
 const pvxstickeronly2 = "919557666582-1586018947@g.us";
 const pvxdeals = "919557666582-1582555632@g.us";
+const pvxstatus = "919557666582-1627834788@g.us";
 
 let milestones = {};
 
@@ -435,6 +436,15 @@ const startBot = async () => {
           isCmd = true;
           body = "!s";
         }
+        if (from === pvxstatus && body.startsWith("https://you")) {
+          isCmd = true;
+          body = "!ytv " + body;
+        }
+        if (from === pvxstatus && body.startsWith("https://insta")) {
+          isCmd = true;
+          body = "!insta " + body;
+        }
+
         if (!isCmd) return;
 
         if (body[1] == " ") body = body[0] + body.slice(2); //remove space when space btw prefix and commandName like "! help"

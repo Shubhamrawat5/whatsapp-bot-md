@@ -6,7 +6,7 @@ const getRandom = (ext) => {
 };
 
 module.exports.command = () => {
-  let cmd = ["ytv"];
+  let cmd = ["ytv", "yt"];
 
   return { cmd, handler };
 };
