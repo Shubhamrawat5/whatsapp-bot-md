@@ -26,6 +26,10 @@ const handler = async (bot, msg, from, msgInfoObj) => {
       await reply(error);
     } else {
       try {
+        if (results.length === 0) {
+          await reply("❌ No result found!");
+          return;
+        }
         let index = 0;
         if (results.length > 10) {
           index = Math.floor(Math.random() * 10);

@@ -21,24 +21,30 @@ const handler = async (bot, msg, from, msgInfoObj) => {
       await reply(error);
     } else {
       try {
-        //   console.log(JSON.stringify(results, null, "  "));
-        let index = 0;
-        if (results.length > 10) {
-          index = Math.floor(Math.random() * 10);
+        if (results.length === 0) {
+          await reply("❌ No result found!");
+          return;
         }
-        let img = results[index]["url"];
-        console.log(img);
-
-        await bot.sendMessage(
-          from,
-          {
-            image: { url: img },
-          },
-          {
-            mimetype: "image/png",
-            quoted: msg,
+        for (let i = 0; i <= 1; ++i) {
+          //   console.log(JSON.stringify(results, null, "  "));
+          let index = 0;
+          if (results.length > 10) {
+            index = Math.floor(Math.random() * 10);
           }
-        );
+          let img = results[index]["url"];
+          console.log(img);
+
+          await bot.sendMessage(
+            from,
+            {
+              image: { url: img },
+            },
+            {
+              mimetype: "image/png",
+              quoted: msg,
+            }
+          );
+        }
       } catch (err) {
         await reply("❌ Error in search!");
       }
