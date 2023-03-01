@@ -20,7 +20,7 @@ const getNews = async () => {
   } catch (err) {
     console.log(err);
     // return "❌ SOME ERROR CAME!";
-    return err.stack;
+    return err.toString();
   }
 };
 

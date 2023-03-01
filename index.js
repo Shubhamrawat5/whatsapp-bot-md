@@ -433,6 +433,13 @@ const startBot = async () => {
         const isMedia = type === "imageMessage" || type === "videoMessage"; //image or video
 
         if (from === pvxsticker && body === "" && isMedia) {
+          if (
+            msg.message.videoMessage &&
+            msg.message.videoMessage.fileLength &&
+            msg.message.videoMessage.fileLength > 2 * 1000 * 1000
+          ) {
+            return;
+          }
           isCmd = true;
           body = "!s";
         }

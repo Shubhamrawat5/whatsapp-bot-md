@@ -35,7 +35,7 @@ const handler = async (bot, msg, from, msgInfoObj) => {
   } catch (err) {
     console.log(err);
     reply(
-      `_❌ Check the number, include country code also!_\nError: ${err.stack}`
+      `_❌ Check the number, include country code also!_\nError: ${err.toString()}`
     );
     return;
   }

@@ -30,32 +30,34 @@ const handler = async (bot, msg, from, msgInfoObj) => {
           await reply("❌ No result found!");
           return;
         }
-        let index = 0;
-        if (results.length > 10) {
-          index = Math.floor(Math.random() * 10);
+        for (let i = 0; i <= 1; ++i) {
+          let index = 0;
+          if (results.length > 10) {
+            index = Math.floor(Math.random() * 10);
+          }
+          let img = results[index]["url"];
+          console.log(img);
+
+          let packName = "BOT 🤖";
+          let authorName = "pvxcommunity.com";
+          stickerMake = new Sticker(img, {
+            pack: packName,
+            author: authorName,
+            type: StickerTypes.FULL,
+            quality: 100,
+          });
+
+          const stickerFileName = getRandom(".webp");
+          await stickerMake.toFile(stickerFileName);
+
+          await bot.sendMessage(
+            from,
+            {
+              sticker: fs.readFileSync(stickerFileName),
+            },
+            { quoted: msg }
+          );
         }
-        let img = results[index]["url"];
-        console.log(img);
-
-        let packName = "BOT 🤖";
-        let authorName = "pvxcommunity.com";
-        stickerMake = new Sticker(img, {
-          pack: packName,
-          author: authorName,
-          type: StickerTypes.FULL,
-          quality: 100,
-        });
-
-        const stickerFileName = getRandom(".webp");
-        await stickerMake.toFile(stickerFileName);
-
-        await bot.sendMessage(
-          from,
-          {
-            sticker: fs.readFileSync(stickerFileName),
-          },
-          { quoted: msg }
-        );
       } catch (err) {
         await reply("❌ Error in search!");
       }
