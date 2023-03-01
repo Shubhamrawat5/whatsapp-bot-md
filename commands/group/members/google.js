@@ -1,4 +1,5 @@
 const google = require("googlethis");
+const { getMessage } = require("../../../functions/getMessage");
 
 const options = {
   page: 0,
@@ -15,32 +16,9 @@ module.exports.command = () => {
 };
 
 const handler = async (bot, msg, from, msgInfoObj) => {
-  let { prefix, reply, args } = msgInfoObj;
+  let { prefix, reply, args, command } = msgInfoObj;
 
-  let message = "";
-  if (
-    msg.message.extendedTextMessage &&
-    msg.message.extendedTextMessage.contextInfo &&
-    msg.message.extendedTextMessage.contextInfo.quotedMessage &&
-    msg.message.extendedTextMessage.contextInfo.quotedMessage.conversation
-  ) {
-    //quoted message
-    message +=
-      msg.message.extendedTextMessage.contextInfo.quotedMessage.conversation +
-      "\n\n";
-  } else {
-    //not a quoted message
-    if (
-      msg.message.extendedTextMessage &&
-      msg.message.extendedTextMessage.text
-    ) {
-      // message has url, member mentioned
-      message = msg.message.extendedTextMessage.text;
-    } else {
-      // simple text message
-      message = msg.message.conversation;
-    }
-  }
+  const message = await getMessage(msg, prefix, command);
 
   if (message === "") {
     let message = `❌ Query is not given! \nSend ${prefix}google query`;
@@ -48,7 +26,7 @@ const handler = async (bot, msg, from, msgInfoObj) => {
     return;
   }
 
-  const response = await google.search("TWDG", options);
+  const response = await google.search(message, options);
   const { title, description, url } = response.results[0];
   const text = `*${title}*\n${description}\n\n${url}`;
   reply(text);

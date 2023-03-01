@@ -1,6 +1,7 @@
 const { UltimateTextToImage } = require("ultimate-text-to-image");
 const { Sticker, StickerTypes } = require("wa-sticker-formatter");
 const fs = require("fs");
+const { getMessage } = require("../../../functions/getMessage");
 
 module.exports.command = () => {
   return { cmd: ["text"], handler: handler };
@@ -11,31 +12,9 @@ const getRandom = (ext) => {
 };
 
 const handler = async (bot, msg, from, msgInfoObj) => {
-  let { reply } = msgInfoObj;
+  let { reply, prefix, command } = msgInfoObj;
 
-  let message = "";
-  if (
-    msg.message.extendedTextMessage &&
-    msg.message.extendedTextMessage.contextInfo &&
-    msg.message.extendedTextMessage.contextInfo.quotedMessage &&
-    msg.message.extendedTextMessage.contextInfo.quotedMessage.conversation
-  ) {
-    //quoted message
-    message =
-      msg.message.extendedTextMessage.contextInfo.quotedMessage.conversation;
-  } else {
-    //not a quoted message
-    if (
-      msg.message.extendedTextMessage &&
-      msg.message.extendedTextMessage.text
-    ) {
-      // message has url, member mentioned
-      message = msg.message.extendedTextMessage.text.slice(5);
-    } else {
-      // simple text message
-      message = msg.message.conversation.slice(5);
-    }
-  }
+  const message = await getMessage(msg, prefix, command);
 
   if (!message) {
     reply("❌ Empty message!");
