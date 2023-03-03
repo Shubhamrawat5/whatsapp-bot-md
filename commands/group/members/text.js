@@ -4,7 +4,7 @@ const fs = require("fs");
 const { getMessage } = require("../../../functions/getMessage");
 
 module.exports.command = () => {
-  return { cmd: ["text"], handler: handler };
+  return { cmd: ["text", "tts"], handler: handler };
 };
 
 const getRandom = (ext) => {

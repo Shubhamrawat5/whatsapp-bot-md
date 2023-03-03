@@ -35,8 +35,8 @@ module.exports.getMessage = async (msg, prefix, command) => {
     message = await checkTaggedMessage(msg);
   } else {
     message = await checkNonTaggedMessage(msg);
+    message = message.replace(prefix, "").replace(command, "").trim();
   }
 
-  message = message.replace(prefix, "").replace(command, "").trim();
   return message;
 };

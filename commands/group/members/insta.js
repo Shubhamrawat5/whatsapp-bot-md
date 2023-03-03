@@ -4,7 +4,7 @@ let ig;
 let isIgSetup = false;
 
 module.exports.command = () => {
-  return { cmd: ["insta", "i"], handler: handler };
+  return { cmd: ["insta", "i", "ig"], handler: handler };
 };
 
 const handler = async (bot, msg, from, msgInfoObj) => {
