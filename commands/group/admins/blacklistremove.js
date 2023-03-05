@@ -11,7 +11,7 @@ const handler = async (bot, msg, from, msgInfoObj) => {
   let blacklistNumb1 = args[0];
   if (!Number(blacklistNumb1)) {
     await reply(
-      `❌ Give number to remove from blacklist by ${prefix}blr number!`
+      `❌ Give number to remove from blacklist by ${prefix}blr number`
     );
     return;
   }
@@ -24,5 +24,5 @@ const handler = async (bot, msg, from, msgInfoObj) => {
 
   let blacklistRes1 = await removeBlacklist(blacklistNumb1);
   if (blacklistRes1) await reply("✔️ Removed from blacklist!");
-  else await reply("❌ Error!");
+  else await reply(`❌ ${blacklistNumb1} is not in blacklist!`);
 };

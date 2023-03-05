@@ -25,20 +25,29 @@ module.exports.getBlacklist = async (number) => {
 };
 module.exports.addBlacklist = async (number, reason) => {
   try {
-    await pool.query("INSERT INTO blacklist VALUES($1,$2);", [number, reason]);
+    const res = await pool.query("INSERT INTO blacklist VALUES($1,$2);", [
+      number,
+      reason,
+    ]);
 
-    return true;
+    if (res.rowCount === 0) return false;
+    else return true;
   } catch (err) {
     console.log(err);
     await createBlacklistTable();
     return false;
   }
 };
+
 module.exports.removeBlacklist = async (number) => {
   try {
-    await pool.query("DELETE FROM blacklist WHERE number=$1;", [number]);
+    const res = await pool.query("DELETE FROM blacklist WHERE number=$1;", [
+      number,
+    ]);
 
-    return true;
+    console.log(res);
+    if (res.rowCount === 0) return false;
+    else return true;
   } catch (err) {
     console.log(err);
     await createBlacklistTable();

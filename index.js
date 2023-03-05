@@ -76,7 +76,6 @@ const stats = {
   imageMessage: 0,
   videoMessage: 0,
   documentMessage: 0,
-  reactionMessage: 0,
   commandExecuted: 0,
   newsPosted: 0,
   stickerForwarded: 0,
@@ -340,15 +339,6 @@ const startBot = async () => {
         const senderNumber = sender.split("@")[0];
         const senderName = msg.pushName;
 
-        const messageLog =
-          "[MESSAGE] " +
-          (body ? body.substr(0, 30) : type) +
-          " [FROM] " +
-          senderNumber +
-          " [IN] " +
-          (groupName || from);
-        console.log(messageLog);
-
         //Count message
         if (
           isGroup &&
@@ -406,15 +396,15 @@ const startBot = async () => {
         }
 
         //count video
-        if (isGroup && from == pvxmano && type === "videoMessage") {
+        if (from == pvxmano && isGroup && type === "videoMessage") {
           setCountVideo(sender, from);
         }
 
         //Forward all stickers
         if (
+          type === "stickerMessage" &&
           isStickerForward &&
           isGroup &&
-          type === "stickerMessage" &&
           groupName.toUpperCase().startsWith("<{PVX}>") &&
           from !== pvxstickeronly1 &&
           from != pvxstickeronly2 &&
@@ -452,7 +442,17 @@ const startBot = async () => {
         //   body = "!insta " + body;
         // }
 
-        if (!isCmd) return;
+        if (!isCmd) {
+          const messageLog =
+            "[MESSAGE] " +
+            (body ? body.substr(0, 30) : type) +
+            " [FROM] " +
+            senderNumber +
+            " [IN] " +
+            (groupName || from);
+          console.log(messageLog);
+          return;
+        }
 
         if (body[1] == " ") body = body[0] + body.slice(2); //remove space when space btw prefix and commandName like "! help"
         const args = body.slice(1).trim().split(/ +/);

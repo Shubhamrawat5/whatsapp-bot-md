@@ -27,15 +27,19 @@ const checkNonTaggedMessage = async (msg) => {
 
 module.exports.getMessage = async (msg, prefix, command) => {
   let message = "";
-  if (
-    msg.message.extendedTextMessage &&
-    msg.message.extendedTextMessage.contextInfo &&
-    msg.message.extendedTextMessage.contextInfo.quotedMessage
-  ) {
-    message = await checkTaggedMessage(msg);
-  } else {
-    message = await checkNonTaggedMessage(msg);
-    message = message.replace(prefix, "").replace(command, "").trim();
+  try {
+    if (
+      msg.message.extendedTextMessage &&
+      msg.message.extendedTextMessage.contextInfo &&
+      msg.message.extendedTextMessage.contextInfo.quotedMessage
+    ) {
+      message = await checkTaggedMessage(msg);
+    } else {
+      message = await checkNonTaggedMessage(msg);
+      message = message.replace(prefix, "").replace(command, "").trim();
+    }
+  } catch (err) {
+    console.log(err);
   }
 
   return message;

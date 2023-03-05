@@ -38,5 +38,5 @@ const handler = async (bot, msg, from, msgInfoObj) => {
 
   let blacklistRes = await addBlacklist(blacklistNumb, reason);
   if (blacklistRes) await reply("✔️ Added to blacklist!");
-  else await reply("❌ Error!");
+  else await reply("❌ Error, Number maybe already in blacklist!");
 };
