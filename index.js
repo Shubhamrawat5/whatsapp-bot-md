@@ -229,13 +229,13 @@ const startBot = async () => {
 
         if (msg.action == "add") {
           await memberAddCheck(bot, from, num_split, numJid, groupSubject);
-          const text = `[GROUP] ${groupSubject} [JOINED] ${numJid}`;
+          const text = `[GROUP] ${groupSubject} [JOIN] ${num_split}`;
           await bot.sendMessage(myNumberWithJid, { text });
           console.log(text);
           ++stats.memberJoined;
         }
         if (msg.action == "remove") {
-          const text = `[GROUP] ${groupSubject} [LEAVED] ${numJid}`;
+          const text = `[GROUP] ${groupSubject} [LEFT] ${num_split}`;
           await bot.sendMessage(myNumberWithJid, { text });
           console.log(text);
           ++stats.memberLeft;

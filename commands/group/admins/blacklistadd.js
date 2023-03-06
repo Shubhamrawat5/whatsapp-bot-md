@@ -36,7 +36,14 @@ const handler = async (bot, msg, from, msgInfoObj) => {
     blacklistNumb = "91" + blacklistNumb;
   }
 
+  if (blacklistNumb.length !== 12) {
+    await reply(
+      `❌ Give 10 digit Indian number (without spaces) to add in blacklist by ${prefix}bla number reason`
+    );
+    return;
+  }
+
   let blacklistRes = await addBlacklist(blacklistNumb, reason);
   if (blacklistRes) await reply("✔️ Added to blacklist!");
-  else await reply("❌ Error, Number maybe already in blacklist!");
+  else await reply("❌ Error!");
 };
