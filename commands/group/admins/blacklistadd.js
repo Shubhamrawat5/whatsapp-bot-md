@@ -17,7 +17,7 @@ const handler = async (bot, msg, from, msgInfoObj) => {
   let blacklistNumb = args[0];
   if (!Number(blacklistNumb)) {
     await reply(
-      `❌ Give 10 digit Indian number (without spaces) to add in blacklist by ${prefix}bla number reason`
+      `❌ Give 10 digit Indian number (without spaces) with reason to add in blacklist by ${prefix}bla number reason`
     );
     return;
   }
@@ -31,14 +31,13 @@ const handler = async (bot, msg, from, msgInfoObj) => {
   if (blacklistNumb.startsWith("+")) {
     blacklistNumb = blacklistNumb.slice(1);
   }
-
-  if (blacklistNumb.length === 10 && !blacklistNumb.startsWith("91")) {
+  if (!blacklistNumb.startsWith("91")) {
     blacklistNumb = "91" + blacklistNumb;
   }
 
   if (blacklistNumb.length !== 12) {
     await reply(
-      `❌ Give 10 digit Indian number (without spaces) to add in blacklist by ${prefix}bla number reason`
+      `❌ Give 10 digit Indian number (without spaces) with reason to add in blacklist by ${prefix}bla number reason`
     );
     return;
   }

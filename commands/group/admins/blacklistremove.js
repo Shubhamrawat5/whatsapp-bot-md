@@ -8,21 +8,29 @@ module.exports.command = () => {
 
 const handler = async (bot, msg, from, msgInfoObj) => {
   let { prefix, reply, args } = msgInfoObj;
-  let blacklistNumb1 = args[0];
-  if (!Number(blacklistNumb1)) {
+  let blacklistNumb = args[0];
+  if (!Number(blacklistNumb)) {
     await reply(
-      `❌ Give number to remove from blacklist by ${prefix}blr number`
+      `❌ Give correct Indian number (without spaces) to remove from blacklist by ${prefix}blr number`
     );
     return;
   }
-  if (blacklistNumb1.startsWith("+")) {
-    blacklistNumb1 = blacklistNumb1.slice(1);
+
+  if (blacklistNumb.startsWith("+")) {
+    blacklistNumb = blacklistNumb.slice(1);
   }
-  if (blacklistNumb1.length === 10 && !blacklistNumb1.startsWith("91")) {
-    blacklistNumb1 = "91" + blacklistNumb1;
+  if (!blacklistNumb.startsWith("91")) {
+    blacklistNumb = "91" + blacklistNumb;
   }
 
-  let blacklistRes1 = await removeBlacklist(blacklistNumb1);
+  if (blacklistNumb.length !== 12) {
+    await reply(
+      `❌ Give correct Indian number (without spaces) to remove from blacklist by ${prefix}blr number`
+    );
+    return;
+  }
+
+  let blacklistRes1 = await removeBlacklist(blacklistNumb);
   if (blacklistRes1) await reply("✔️ Removed from blacklist!");
-  else await reply(`❌ ${blacklistNumb1} is not in blacklist!`);
+  else await reply("❌ Error!");
 };
