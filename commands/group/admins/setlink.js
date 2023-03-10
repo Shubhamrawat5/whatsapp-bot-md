@@ -1,4 +1,4 @@
-const { setGroupLink, setGroupLinkEnabled } = require("../../db/grouplinksDB");
+const { setGroupLink, setGroupLinkEnabled } = require("../../../db/grouplinksDB");
 
 module.exports.command = () => {
   let cmd = ["setlink", "sl"];
