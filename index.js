@@ -686,8 +686,16 @@ const startBot = async () => {
               startBot();
             }, 1000 * 10);
           } else {
-            LoggerTg(`[CONNECTION-CLOSED]: You are logged out`);
-            console.log("[CONNECTION-CLOSED]: You are logged out");
+            LoggerTg(
+              `[CONNECTION-CLOSED]: You are logged out\nRestarting in 10 sec!`
+            );
+            await dropAuth();
+            console.log(
+              "[CONNECTION-CLOSED]: You are logged out\nRestarting in 10 sec!"
+            );
+            setTimeout(() => {
+              startBot();
+            }, 1000 * 10);
           }
         }
 

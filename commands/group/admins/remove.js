@@ -24,7 +24,7 @@ const handler = async (bot, msg, from, msgInfoObj) => {
       2) when !ban tagMember
           message: Message {
             extendedTextMessage: ExtendedTextMessage {
-              text: '.ban @917454921062',
+              text: '.ban @91745cccccc',
               previewType: 0,
               contextInfo: [ContextInfo],
               inviteLinkGroupType: 0
