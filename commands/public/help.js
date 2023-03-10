@@ -26,7 +26,7 @@
 // - _To instant ban all numbers other than 91 when joined in group!_
 
 module.exports.command = () => {
-  let cmd = ["help", "h"];
+  let cmd = ["help", "h", "list"];
 
   return { cmd, handler };
 };
