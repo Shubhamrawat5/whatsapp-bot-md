@@ -75,13 +75,23 @@ const handler = async (bot, msg, from, msgInfoObj) => {
     // if( msg.message.videoMessage.fileLength > ){
     //   quality = 20
     // }
+
     let downloadFilePath;
     if (msg.message.videoMessage) {
+      //video message
       downloadFilePath = msg.message.videoMessage;
     } else {
+      //tagged video message
       downloadFilePath =
         msg.message.extendedTextMessage.contextInfo.quotedMessage.videoMessage;
     }
+
+    const limit = 2;
+    if (downloadFilePath.fileLength > limit * 1000 * 1000) {
+      reply(`❌ File size is too large!\nVideo limit: ${limit}mb`);
+      return;
+    }
+
     const stream = await downloadContentFromMessage(downloadFilePath, "video");
     const buffer = await toBuffer(stream);
 

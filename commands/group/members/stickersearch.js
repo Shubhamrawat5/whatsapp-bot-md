@@ -13,7 +13,7 @@ const handler = async (bot, msg, from, msgInfoObj) => {
   let { prefix, reply, args } = msgInfoObj;
 
   if (args.length === 0) {
-    let message = `❌ Query is not given! \nSend ${prefix}is query`;
+    let message = `❌ Query is not given! \nSend ${prefix}ss query`;
     await reply(message);
     return;
   }
