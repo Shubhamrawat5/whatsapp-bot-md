@@ -27,7 +27,7 @@ const handler = async (bot, msg, from, msgInfoObj) => {
     width: 500,
     height: 500,
     fontFamily: "Arial",
-    fontColor: "#ff0000",
+    fontColor: "#00FF00",
     fontSize: 56,
     minFontSize: 10,
     lineHeight: 40,

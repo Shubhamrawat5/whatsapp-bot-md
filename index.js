@@ -199,6 +199,9 @@ const startBot = async () => {
         await bot.sendMessage(from, {
           text: `*─「 🔥 <{PVX}> BOT 🔥 」─* \n\nSEND ${prefix}help FOR BOT COMMANDS`,
         });
+        bot.sendMessage(myNumberWithJid, {
+          text: `Bot is adeed to group.`,
+        });
       } catch (err) {
         await LoggerBot(bot, "groups.upsert", err, msg);
       }
@@ -225,7 +228,7 @@ const startBot = async () => {
         if (numJid === botNumberJid && msg.action === "remove") {
           //bot is removed
           bot.sendMessage(myNumberWithJid, {
-            text: `Bot is removed from group: ${JSON.stringify(msg)}`,
+            text: `Bot is removed from group.`,
           });
           return;
         }

@@ -52,7 +52,7 @@ const handler = async (bot, msg, from, msgInfoObj) => {
 📛 *${prefix}image*
   - _Create image from sticker!_
 
-📛 *${prefix}ai query*
+📛 *${prefix}ai*
   - _Ask questions to AI!_
   
 📛 *${prefix}imagesearch*

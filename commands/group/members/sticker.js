@@ -88,7 +88,7 @@ const handler = async (bot, msg, from, msgInfoObj) => {
 
     const limit = 2;
     if (downloadFilePath.fileLength > limit * 1000 * 1000) {
-      reply(`❌ File size is too large!\nVideo limit: ${limit}mb`);
+      await reply(`❌ File size is too large!\nVideo limit: ${limit}mb`);
       return;
     }
 

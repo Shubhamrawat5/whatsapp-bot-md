@@ -5,7 +5,7 @@ module.exports.command = () => {
 };
 
 const handler = async (bot, msg, from, msgInfoObj) => {
-  let { botNumberJid, reply, isGroupAdmins } = msgInfoObj;
+  let { botNumberJid, reply, isGroupAdmins, isBotGroupAdmins } = msgInfoObj;
 
   if (!msg.message.extendedTextMessage) {
     await reply("❌ Tag message to delete.");
@@ -44,6 +44,11 @@ const handler = async (bot, msg, from, msgInfoObj) => {
   }
 
   //member message, only admin can delete
+  if (!isBotGroupAdmins) {
+    await reply("❌ I'm not admin to delete message for everyone.");
+    return;
+  }
+
   if (isGroupAdmins) {
     const options = {
       remoteJid: from,
