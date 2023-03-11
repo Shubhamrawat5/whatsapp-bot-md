@@ -220,21 +220,28 @@ const startBot = async () => {
       console.log("[group-participants.update]");
       try {
         let from = msg.id;
+        let numJid = msg.participants[0];
+        let num_split = `${numJid.split("@s.whatsapp.net")[0]}`;
+        if (numJid === botNumberJid && msg.action === "remove") {
+          //bot is removed
+          bot.sendMessage(myNumberWithJid, {
+            text: `Bot is removed from group: ${JSON.stringify(msg)}`,
+          });
+          return;
+        }
+
         cache.del(from + ":groupMetadata");
         const groupMetadata = await bot.groupMetadata(from);
         let groupSubject = groupMetadata.subject;
 
-        let numJid = msg.participants[0];
-        let num_split = `${numJid.split("@s.whatsapp.net")[0]}`;
-
-        if (msg.action == "add") {
+        if (msg.action === "add") {
           await memberAddCheck(bot, from, num_split, numJid, groupSubject);
           const text = `[GROUP] ${groupSubject} [JOIN] ${num_split}`;
           await bot.sendMessage(myNumberWithJid, { text });
           console.log(text);
           ++stats.memberJoined;
         }
-        if (msg.action == "remove") {
+        if (msg.action === "remove") {
           const text = `[GROUP] ${groupSubject} [LEFT] ${num_split}`;
           await bot.sendMessage(myNumberWithJid, { text });
           console.log(text);
