@@ -18,7 +18,7 @@ const handler = async (bot, msg, from, msgInfoObj) => {
 
   resultCountGroupTop.forEach((member, index) => {
     if (groupMembers.includes(member.memberjid))
-      countGroupMsgTop += `\n${index + 1} - ${member.name} - ${member.count}`;
+      countGroupMsgTop += `\n${index + 1}) ${member.name} - ${member.count}`;
   });
 
   reply(countGroupMsgTop);

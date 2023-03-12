@@ -445,18 +445,19 @@ const startBot = async () => {
           body = "!s";
         }
 
-        // if (
-        //   sender !== botNumberJid &&
-        //   msg.message.extendedTextMessage &&
-        //   msg.message.extendedTextMessage.contextInfo &&
-        //   msg.message.extendedTextMessage.contextInfo.participant ===
-        //     botNumberJid &&
-        //   !isCmd &&
-        //   isGroup
-        // ) {
-        //   isCmd = true;
-        //   body = "!chatgpt " + body;
-        // }
+        if (
+          body.endsWith("?") &&
+          sender !== botNumberJid &&
+          msg.message.extendedTextMessage &&
+          msg.message.extendedTextMessage.contextInfo &&
+          msg.message.extendedTextMessage.contextInfo.participant ===
+            botNumberJid &&
+          !isCmd &&
+          isGroup
+        ) {
+          isCmd = true;
+          body = "!chatgpt " + body;
+        }
 
         // if (from === pvxstatus && !isCmd && body.includes("you")) {
         //   isCmd = true;
