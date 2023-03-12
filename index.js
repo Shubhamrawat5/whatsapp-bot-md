@@ -150,7 +150,7 @@ const startBot = async () => {
       shouldIgnoreJid: (jid) => isJidBroadcast(jid),
     });
 
-    if (pvx) {
+    if (pvx === "true") {
       let usedDate = new Date()
         .toLocaleString("en-GB", { timeZone: "Asia/kolkata" })
         .split(",")[0];
@@ -413,7 +413,7 @@ const startBot = async () => {
         //Forward all stickers
         if (
           type === "stickerMessage" &&
-          isStickerForward &&
+          isStickerForward === "true" &&
           isGroup &&
           groupName.toUpperCase().startsWith("<{PVX}>") &&
           from !== pvxstickeronly1 &&
