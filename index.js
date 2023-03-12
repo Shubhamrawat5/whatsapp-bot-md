@@ -200,7 +200,7 @@ const startBot = async () => {
           text: `*─「 🔥 <{PVX}> BOT 🔥 」─* \n\nSEND ${prefix}help FOR BOT COMMANDS`,
         });
         bot.sendMessage(myNumberWithJid, {
-          text: `Bot is adeed to group.`,
+          text: `Bot is added to group.`,
         });
       } catch (err) {
         await LoggerBot(bot, "groups.upsert", err, msg);
@@ -432,6 +432,7 @@ const startBot = async () => {
         let isCmd = body.startsWith(prefix);
         const isMedia = type === "imageMessage" || type === "videoMessage"; //image or video
 
+        //auto sticker maker in pvx sticker group [empty caption]
         if (from === pvxsticker && body === "" && isMedia) {
           if (
             msg.message.videoMessage &&
@@ -443,6 +444,20 @@ const startBot = async () => {
           isCmd = true;
           body = "!s";
         }
+
+        if (
+          sender !== botNumberJid &&
+          msg.message.extendedTextMessage &&
+          msg.message.extendedTextMessage.contextInfo &&
+          msg.message.extendedTextMessage.contextInfo.participant ===
+            botNumberJid &&
+          !isCmd &&
+          isGroup
+        ) {
+          isCmd = true;
+          body = "!chatgpt " + body;
+        }
+
         // if (from === pvxstatus && !isCmd && body.includes("you")) {
         //   isCmd = true;
         //   body = "!ytv " + body;
