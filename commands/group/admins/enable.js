@@ -16,7 +16,7 @@ const handler = async (bot, msg, from, msgInfoObj) => {
     await reply("❌ Give command name also by !enable commandName");
     return;
   }
-  let cmd = args[0];
+  let cmd = args[0].toLowerCase();
   let res = await getDisableCommandData(from);
 
   if (!res.includes(cmd)) {
