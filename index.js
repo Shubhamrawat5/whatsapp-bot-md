@@ -239,7 +239,7 @@ const startBot = async () => {
 
         if (msg.action === "add") {
           await memberAddCheck(bot, from, num_split, numJid, groupSubject);
-          const text = `[GROUP] =${groupSubject}\n[JOIN] ${num_split}`;
+          const text = `${groupSubject}\n[JOIN] ${num_split}`;
           await bot.sendMessage(myNumberWithJid, { text });
           console.log(text);
           ++stats.memberJoined;

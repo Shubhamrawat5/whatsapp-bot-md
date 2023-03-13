@@ -74,6 +74,11 @@ module.exports.checkTodayBday = async (bot, todayDate) => {
     });
     if (bday.length) {
       let bdayComb = bday.join(" & ");
+      try {
+        await bot.groupParticipantsUpdate(pvxcommunity, mentions, "add");
+      } catch (err) {
+        console.log(err);
+      }
       await bot.sendMessage(pvxcommunity, {
         text: `*─「 🔥 <{PVX}> BOT 🔥 」─* \n\nToday is ${bdayComb} Birthday 🍰 🎉🎉`,
         mentions: mentions,
