@@ -4,7 +4,7 @@ let api;
 let isApiSetup = false;
 
 module.exports.command = () => {
-  return { cmd: ["ai", "chatgpt3"], handler: handler };
+  return { cmd: ["ai"], handler: handler };
 };
 
 const handler = async (bot, msg, from, msgInfoObj) => {
