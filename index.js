@@ -456,7 +456,7 @@ const startBot = async () => {
           isGroup
         ) {
           isCmd = true;
-          body = "!chatgpt " + body;
+          body = "!chatgpt3 " + body;
         }
 
         // if (from === pvxstatus && !isCmd && body.includes("you")) {

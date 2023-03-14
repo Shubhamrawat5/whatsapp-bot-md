@@ -1,7 +1,7 @@
 const { getCountWarning } = require("../../../db/warningDB");
 
 module.exports.command = () => {
-  let cmd = ["warncheck", "warningcheck", "checkwarn", "checkwarning"];
+  let cmd = ["warncheck", "warncount", "countwarn", "checkwarn"];
 
   return { cmd, handler };
 };
