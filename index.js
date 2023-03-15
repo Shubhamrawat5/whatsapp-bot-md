@@ -240,14 +240,16 @@ const startBot = async () => {
         let groupSubject = groupMetadata.subject;
 
         if (msg.action === "add") {
-          await setGroupParticipant(numJid, from, "ADD");
+          if (groupSubject.toUpperCase().includes("<{PVX}>"))
+            await setGroupParticipant(numJid, from, "ADD");
           await memberAddCheck(bot, from, num_split, numJid, groupSubject);
           const text = `${groupSubject}\n[ADD] ${num_split}`;
           await bot.sendMessage(myNumberWithJid, { text });
           console.log(text);
           ++stats.memberJoined;
         } else if (msg.action === "remove") {
-          await setGroupParticipant(numJid, from, "REMOVE");
+          if (groupSubject.toUpperCase().includes("<{PVX}>"))
+            await setGroupParticipant(numJid, from, "REMOVE");
           const text = `${groupSubject}\n[REMOVE] ${num_split}`;
           await bot.sendMessage(myNumberWithJid, { text });
           console.log(text);
