@@ -23,7 +23,7 @@ const handler = async (bot, msg, from, msgInfoObj) => {
   }
   let body = msg.message.conversation;
   // let voteChoices = body.trim().replace(/ +/, ",").split(/,/).slice(1);
-  let voteList = body.trim().replace(/ +/, ",").split(",")[1].split("#");
+  let voteList = body.trim().split("#");
   let voteTitle = voteList[1].trim();
   let voteChoices = voteList.slice(2);
 

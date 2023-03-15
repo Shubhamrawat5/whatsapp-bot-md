@@ -19,7 +19,7 @@ const handler = async (bot, msg, from, msgInfoObj) => {
   if (blacklistNumb.startsWith("+")) {
     blacklistNumb = blacklistNumb.slice(1);
   }
-  if (!blacklistNumb.startsWith("91")) {
+  if (blacklistNumb.length === 10) {
     blacklistNumb = "91" + blacklistNumb;
   }
 

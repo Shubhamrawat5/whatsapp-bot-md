@@ -14,7 +14,7 @@ module.exports.getIndianNumber = async (body) => {
   if (number.startsWith("+")) number = number.slice(1);
 
   //check if 91 is there
-  if (!number.startsWith("91")) number = "91" + number;
+  if (number.length === 10) number = "91" + number;
 
   console.log("number:", number);
   if (number.length === 12) return number;

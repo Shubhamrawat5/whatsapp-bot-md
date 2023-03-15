@@ -14,7 +14,7 @@ const handler = async (bot, msg, from, msgInfoObj) => {
   const { reply, prefix } = msgInfoObj;
 
   let body = msg.message.conversation;
-  let milestoneList = body.trim().replace(/ +/, ",").split(",")[1].split("#");
+  let milestoneList = body.trim().split("#");
   if (milestoneList.length !== 3) {
     await reply(
       `❌ Give correct details\nCommand: ${prefix}milestoneadd #contact #sno`
