@@ -59,6 +59,7 @@ const { forwardSticker } = require("./functions/forwardSticker");
 const { memberAddCheck } = require("./functions/memberAddCheck");
 const { addDefaultMilestones } = require("./functions/addDefaultMilestone");
 const { addUnknownCmd } = require("./db/addUnknownCmdDB");
+const { setGroupParticipant } = require("./db/groupParticipantDB");
 
 require("dotenv").config();
 const myNumber = process.env.myNumber;
@@ -224,6 +225,7 @@ const startBot = async () => {
       try {
         let from = msg.id;
         let numJid = msg.participants[0];
+
         let num_split = `${numJid.split("@s.whatsapp.net")[0]}`;
         if (numJid === botNumberJid && msg.action === "remove") {
           //bot is removed
@@ -238,14 +240,15 @@ const startBot = async () => {
         let groupSubject = groupMetadata.subject;
 
         if (msg.action === "add") {
+          await setGroupParticipant(numJid, from, "ADD");
           await memberAddCheck(bot, from, num_split, numJid, groupSubject);
-          const text = `${groupSubject}\n[JOIN] ${num_split}`;
+          const text = `${groupSubject}\n[ADD] ${num_split}`;
           await bot.sendMessage(myNumberWithJid, { text });
           console.log(text);
           ++stats.memberJoined;
-        }
-        if (msg.action === "remove") {
-          const text = `${groupSubject}\n[LEFT] ${num_split}`;
+        } else if (msg.action === "remove") {
+          await setGroupParticipant(numJid, from, "REMOVE");
+          const text = `${groupSubject}\n[REMOVE] ${num_split}`;
           await bot.sendMessage(myNumberWithJid, { text });
           console.log(text);
           ++stats.memberLeft;
