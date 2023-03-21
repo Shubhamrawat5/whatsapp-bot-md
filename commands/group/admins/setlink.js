@@ -1,4 +1,7 @@
-const { setGroupLink, setGroupLinkEnabled } = require("../../../db/grouplinksDB");
+const {
+  setGroupLink,
+  setGroupLinkEnabled,
+} = require("../../../db/grouplinksDB");
 
 module.exports.command = () => {
   let cmd = ["setlink", "sl"];
@@ -17,7 +20,7 @@ const handler = async (bot, msg, from, msgInfoObj) => {
     if (res) await reply(`✔ Group link enabled updated with value: ${enabled}`);
     else
       await reply(
-        `❌ There is some problem!\nGive only integer value with ${setlink} #0`
+        `❌ There is some problem!\nGive only integer value with ${prefix}setlink #0`
       );
     return;
   }
