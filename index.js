@@ -663,13 +663,17 @@ const startBot = async () => {
         }
 
         /* ----------------------------- unknown command ---------------------------- */
+        let message = `Send ${prefix}help for <{PVX}> BOT commands list!`;
+
         const matches = stringSimilarity.findBestMatch(
           command,
           allCommandsName
         );
-        reply(
-          `Send ${prefix}help for <{PVX}> BOT commands!\n\nDid you mean ${prefix}${matches.bestMatch.target} `
-        );
+        if (matches.bestMatch.rating > 0.5)
+          message =
+            `Did you mean ${prefix}${matches.bestMatch.target}\n\n` + message;
+
+        reply(message);
         if (command) {
           await addUnknownCmd(command);
         }
