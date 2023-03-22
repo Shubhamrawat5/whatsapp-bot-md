@@ -37,6 +37,7 @@ const {
 } = require("@adiwajshing/baileys");
 const pino = require("pino");
 const fs = require("fs");
+const stringSimilarity = require("string-similarity");
 const NodeCache = require("node-cache");
 const cache = new NodeCache();
 const msgRetryCounterMap = {};
@@ -123,8 +124,13 @@ const startBot = async () => {
       "./auth_info_multi.json"
     );
 
-    const { commandsPublic, commandsMembers, commandsAdmins, commandsOwners } =
-      await addCommands();
+    const {
+      commandsPublic,
+      commandsMembers,
+      commandsAdmins,
+      commandsOwners,
+      allCommandsName,
+    } = await addCommands();
     clearInterval(dateCheckerInterval);
 
     const { version, isLatest } = await fetchLatestBaileysVersion();
@@ -657,7 +663,13 @@ const startBot = async () => {
         }
 
         /* ----------------------------- unknown command ---------------------------- */
-        reply(`Send ${prefix}help for <{PVX}> BOT commands!`);
+        const matches = stringSimilarity.findBestMatch(
+          command,
+          allCommandsName
+        );
+        reply(
+          `Send ${prefix}help for <{PVX}> BOT commands!\n\nDid you mean ${prefix}${matches.bestMatch.target} `
+        );
         if (command) {
           await addUnknownCmd(command);
         }

@@ -60,11 +60,19 @@ module.exports.addCommands = async () => {
     }
   });
 
+  const allCommandsName = [
+    ...Object.keys(commandsPublic),
+    ...Object.keys(commandsMembers),
+    ...Object.keys(commandsAdmins),
+    ...Object.keys(commandsOwners),
+  ];
+
   console.log("Commands Added!");
   return {
     commandsPublic,
     commandsMembers,
     commandsAdmins,
     commandsOwners,
+    allCommandsName,
   };
 };
