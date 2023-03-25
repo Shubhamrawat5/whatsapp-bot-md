@@ -77,7 +77,7 @@ module.exports.memberAddCheck = async (
         await bot.sendMessage(
           from,
           {
-            text: `Welcome @${num_split}\nhttps://pvxcommunity.com/\n\nWhat are your currently watching..?`,
+            text: `Welcome @${num_split}\nhttps://pvxcommunity.com/\n\nWhat are you currently watching..?`,
             mentions: [numJid],
           },
           {

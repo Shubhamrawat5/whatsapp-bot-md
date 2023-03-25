@@ -5,7 +5,7 @@ const myNumber = process.env.myNumber;
 const pvx = process.env.pvx;
 const token = process.env.TG_BOT; //tg bot token here
 const kryptonChatId = 649341653; // my chat id to receive all the updates
-const botTG = new TelegramBot(token, { polling: false });
+const botTG = pvx ? new TelegramBot(token, { polling: false }) : null;
 
 module.exports.LoggerBot = async (botWA, eventType, err, msgObj) => {
   const errMsg = err.stack ? err.stack : err.toString();

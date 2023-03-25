@@ -2,15 +2,11 @@
 
 Webpage -> https://shubhamrawat5.github.io/whatsapp-bot-md/
 
-Tutorial -> https://youtu.be/2gBzapttokk
-
 Easy deploy your bot, steps in the bottom.
 
 **_Requirements :_**
 
 - Git
-- Heroku account
-- Heroku cli
 
 # Instructions:- :rocket:
 
@@ -18,29 +14,23 @@ Easy deploy your bot, steps in the bottom.
 
 ### Download and install git from (https://git-scm.com/downloads)
 
-## Heroku Setup
+    git clone https://github.com/Shubhamrawat5/whatsapp-bot-md.git
 
-1. Create account on heroku. (https://signup.heroku.com/)
+## Local Setup
 
-2. After login on heroku dashboard create an app on heroku (https://dashboard.heroku.com/apps)
+1. Create account on elephantsql. (https://www.elephantsql.com/)
 
-3. In the 'Resources' tab search for 'Heroku Postgres' in Add-ons and add it to your heroku app.
+2. After login, get the database URL from details section. It'll be like: postgres://yourfullURL@tiny.db.elephantsql.com/yourURL
 
-4. In the 'Deploy' section download Heroku CLI or from (https://devcenter.heroku.com/articles/heroku-cli#download-and-install)
+3. Create a local `.env` file with following variables and save the file:
 
-## Heroku CLI
+   DATABASE_URL = postgres://yourfullURL@tiny.db.elephantsql.com/yourURL
 
-1. After downloading and installing Heroku CLI in your system login to heroku cli using `heroku login` in command prompt or powershell.
-2. Add ffmpeg (_for sticker support_) in your heroku app using `heroku buildpacks:add https://github.com/jonathanong/heroku-buildpack-ffmpeg-latest.git -a <your-app-name>`
-3. After adding ffmpeg now add 'Heroku Buildpack for Node.js' using `heroku buildpacks:add https://github.com/heroku/heroku-buildpack-nodejs.git -a <your-app-name>`
-4. Now download or clone the whatsapp-bot repo by `git clone https://github.com/Shubhamrawat5/whatsapp-bot-md.git`
-5. Now enter in whatsapp-bot directory using `cd whatsapp-bot-md` in command prompt or terminal.
-6. Create the remote region using `heroku git:remote -a <your-app-name>`
-7. Now push the local repo in your heroku app using `git push heroku master`
-8. Now after the deploy process is completed use `heroku logs -a <your-app-name> --tail` to get real time logs from heroku app.
-9. In real time logs it will automatically ask you for login using qr code just simple scan the qr code using your whatsapp web section, and you are done.
+   myNumber = 911234567890
 
-Now Bot will start working!! Work even if the device is offline!!
+4. Run the index file by `node index.js`
+
+5. It'll ask for QR code scan, scan it and bot will start working.
 
 # Features:- :rocket:
 
@@ -160,17 +150,6 @@ Now Bot will start working!! Work even if the device is offline!!
   EXAMPLE:
 
   <img src="https://i.ibb.co/2Z8t9Qm/IMG-20211006-154704.jpg" width="400"/>
-
-# Run locally:- :rocket:
-
-Create a `.env` file for enviromental variables in local directory with following values without quote
-
-    myNumber = "your-number-to-receive-all-updates"
-    DATABASE_URL = "get-from-heroku-dashboard"
-
-Get value of database_url from Heroku dashboard > settings > reveal config vars
-
-Run the index file by `node index.js`
 
 # Note:- :rocket:
 

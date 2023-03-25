@@ -663,7 +663,7 @@ const startBot = async () => {
         }
 
         /* ----------------------------- unknown command ---------------------------- */
-        let message = `Send ${prefix}help for <{PVX}> BOT commands list!`;
+        let message = `Send ${prefix}help for <{PVX}> BOT commands list`;
 
         const matches = stringSimilarity.findBestMatch(
           command,
