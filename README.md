@@ -47,7 +47,7 @@ Easy deploy your bot, steps in the bottom.
 
 |  Public Commands  |          Description           | Alias |
 | :---------------: | :----------------------------: | :---: |
-|      `!help`      |    Display public commands     | `!h`  |
+|      `!help`      |    Display public commands     |       |
 |     `!helpa`      |     Display admin commands     |       |
 |     `!helpo`      |   Display bot owner commands   |       |
 |    `!donation`    |      Get Donation details      |       |

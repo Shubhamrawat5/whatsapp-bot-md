@@ -6,7 +6,7 @@ const {
 const { writeFile } = require("fs/promises");
 
 module.exports.command = () => {
-  let cmd = ["image", "photo", "toimg"];
+  let cmd = ["image", "img", "toimg"];
 
   return { cmd, handler };
 };
