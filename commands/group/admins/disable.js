@@ -10,28 +10,29 @@ module.exports.command = () => {
 };
 
 const handler = async (bot, msg, from, msgInfoObj) => {
-  let { reply, args, allCommandsName } = msgInfoObj;
+  let { reply, args, allCommandsName, prefix } = msgInfoObj;
 
   if (args.length === 0) {
     await reply("❌ Give command name also by !disable commandName");
     return;
   }
   let cmd = args[0].toLowerCase();
+  if (cmd.startsWith("!")) cmd = cmd.slice(1);
 
   //check if cmd is actually a command or not
   if (!allCommandsName.includes(cmd)) {
-    await reply(`❌ ${cmd} is not a command!`);
+    await reply(`❌ ${prefix}${cmd} is not a command!`);
     return;
   }
 
   let res = await getDisableCommandData(from);
 
   if (res.includes(cmd)) {
-    await reply("❌ Already disabled!");
+    await reply(`❌ ${prefix}${cmd} is already disabled!`);
     return;
   }
   res.push(cmd);
   await setDisableCommandData(from, res);
 
-  await reply("✔️ Command disabled!");
+  await reply(`✔️ ${prefix}${cmd} command disabled!`);
 };
