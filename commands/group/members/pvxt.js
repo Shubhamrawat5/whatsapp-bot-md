@@ -14,7 +14,7 @@ const handler = async (bot, msg, from, msgInfoObj) => {
   if (args.length) {
     let no = Number(args[0]);
     //if number is given then
-    if (no && no > 0 && no <= 250) {
+    if (no && no > 0 && no <= 500) {
       noOfResult = no;
     }
   }
@@ -25,10 +25,10 @@ const handler = async (bot, msg, from, msgInfoObj) => {
 
   let countGroupMsgTempTop = "\n";
   let totalGrpCountTop = 0;
-  for (let member of resultCountGroupTop) {
+  resultCountGroupTop.forEach((member, index) => {
     totalGrpCountTop += Number(member.count);
-    countGroupMsgTempTop += `\n${member.count} - ${member.name}`;
-  }
+    countGroupMsgTempTop += `\n${index + 1}) ${member.name} - ${member.count}`;
+  });
   countGroupMsgTop += `\n*Total Messages: ${totalGrpCountTop}*`;
   countGroupMsgTop += countGroupMsgTempTop;
 
