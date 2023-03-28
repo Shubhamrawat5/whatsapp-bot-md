@@ -613,6 +613,7 @@ const startBot = async () => {
           groupAdmins,
           reply,
           milestones,
+          allCommandsName,
         };
 
         try {
