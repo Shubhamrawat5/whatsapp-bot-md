@@ -526,9 +526,9 @@ const startBot = async () => {
           await bot.sendMessage(from, { text }, { quoted: msg });
         };
 
-        //CHECK IF COMMAND IF DISABLED FOR CURRENT GROUP OR NOT
+        //CHECK IF COMMAND IF DISABLED FOR CURRENT GROUP OR NOT, not applicable for group admin
         let resDisabled = [];
-        if (isGroup) {
+        if (isGroup && !isGroupAdmins) {
           resDisabled = cache.get(from + ":resDisabled");
           if (!resDisabled) {
             resDisabled = await getDisableCommandData(from);
