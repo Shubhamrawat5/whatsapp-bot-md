@@ -24,7 +24,7 @@ const getHoro = async (name) => {
     return horoText;
   } catch (err) {
     console.log(err);
-    return err.stack;
+    return err.toString();
   }
 };
 
