@@ -60,7 +60,7 @@ const { forwardSticker } = require("./functions/forwardSticker");
 const { memberAddCheck } = require("./functions/memberAddCheck");
 const { addDefaultMilestones } = require("./functions/addDefaultMilestone");
 const { addUnknownCmd } = require("./db/addUnknownCmdDB");
-const { setGroupParticipant } = require("./db/groupParticipantDB");
+// const { setGroupParticipant } = require("./db/groupParticipantDB");
 
 require("dotenv").config();
 const myNumber = process.env.myNumber;
@@ -246,16 +246,16 @@ const startBot = async () => {
         let groupSubject = groupMetadata.subject;
 
         if (msg.action === "add") {
-          if (groupSubject.toUpperCase().includes("<{PVX}>"))
-            await setGroupParticipant(numJid, from, "ADD");
+          // if (groupSubject.toUpperCase().includes("<{PVX}>"))
+          //   await setGroupParticipant(numJid, from, "ADD");
           await memberAddCheck(bot, from, num_split, numJid, groupSubject);
           const text = `${groupSubject}\n[ADD] ${num_split}`;
           await bot.sendMessage(myNumberWithJid, { text });
           console.log(text);
           ++stats.memberJoined;
         } else if (msg.action === "remove") {
-          if (groupSubject.toUpperCase().includes("<{PVX}>"))
-            await setGroupParticipant(numJid, from, "REMOVE");
+          // if (groupSubject.toUpperCase().includes("<{PVX}>"))
+          //   await setGroupParticipant(numJid, from, "REMOVE");
           const text = `${groupSubject}\n[REMOVE] ${num_split}`;
           await bot.sendMessage(myNumberWithJid, { text });
           console.log(text);
