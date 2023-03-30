@@ -40,6 +40,6 @@
     "string-similarity": "^4.0.4",
     "ultimate-text-to-image": "^1.0.1",
     "wa-sticker-formatter": "^4.4.4",
-    "ytdl-core": "^4.10.0"
+    "ytdl-core": "^4.11.2"
   }
 }

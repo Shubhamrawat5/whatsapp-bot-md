@@ -100,6 +100,30 @@ const handler = async (bot, msg, from, msgInfoObj) => {
 📛 *${prefix}horo name*
   - _Check today's horoscope!_
 
+📛 *${prefix}pvxg*
+  - _Get stats of all groups message!_
+  
+📛 *${prefix}pvxm*
+  - _Get stats of member messages of current group!_
+  
+📛 *${prefix}pvxt <number>*
+  - _Get top member stats of all groups!_
+
+📛 *${prefix}pvxtm*
+  - _Get stats of members with rank of current group!_
+
+📛 *${prefix}pvxt5*
+  - _Get top 5 member stats of all groups!_
+
+📛 *${prefix}pvxt10*
+  - _Get top 10 member stats of all groups!_
+
+📛 *${prefix}zero*
+  - _Get numbers with 0 message of current group!_
+  
+📛 *${prefix}pvxstats*
+  - _Get stats of PVX groups!_
+
 📛 *${prefix}cricketcommand*
   - _To get command details of cricket!_
   Alias: *${prefix}cc*
