@@ -2,8 +2,6 @@
 
 Webpage -> https://shubhamrawat5.github.io/whatsapp-bot-md/
 
-Easy deploy your bot, steps in the bottom.
-
 **_Requirements :_**
 
 - Git
@@ -141,7 +139,7 @@ Easy deploy your bot, steps in the bottom.
 | `!startvotepvx` |        Start voting for all PVX groups        |       |
 | `!stotvotepvx`  | Stop voting and see result for all PVX groups |       |
 
-- CRICKET SCORES:
+<!-- - CRICKET SCORES:
 
   > Put match id in starting of group description.
 
@@ -149,19 +147,19 @@ Easy deploy your bot, steps in the bottom.
 
   EXAMPLE:
 
-  <img src="https://i.ibb.co/2Z8t9Qm/IMG-20211006-154704.jpg" width="400"/>
+  <img src="https://i.ibb.co/2Z8t9Qm/IMG-20211006-154704.jpg" width="400"/> -->
 
-# Note:- :rocket:
+<!-- # Note:- :rocket:
 
 Since heroku uses:- Dyno sleeping in which if an app has a free web dyno, and that dyno receives no web traffic in a 30-minute period, it will sleep. In addition to the web dyno sleeping, the worker dyno (if present) will also sleep. and if a sleeping web dyno receives web traffic, it will become active again after a short delay (assuming your account has free dyno hours available)
-You can use (http://kaffeine.herokuapp.com) to ping the heroku app every 30 minutes to prevent it from sleeping.
+You can use (http://kaffeine.herokuapp.com) to ping the heroku app every 30 minutes to prevent it from sleeping. -->
 
 # References:- :rocket:
 
-- [@Baileys](https://github.com/adiwajshing/Baileys)
-- Old non md wa bot [PVX Bot](https://github.com/Shubhamrawat5/whatsapp-bot).
+- Nodejs package - [@Baileys](https://github.com/adiwajshing/Baileys)
+- Old non md wa bot - [PVX Bot](https://github.com/Shubhamrawat5/whatsapp-bot).
 
-# Easy way to deploy:- :rocket:
+<!-- # Easy way to deploy:- :rocket:
 
 [Heroku is no longer free]
 
@@ -180,4 +178,4 @@ Now you'll see QR code, scan with your device and bot will start working!
 
   Go to heroku daskboard then settings then config vars
 
-  Add KEY as `myNumber` and VALUE as `911234567890` (your number with country code and no + sign)
+  Add KEY as `myNumber` and VALUE as `911234567890` (your number with country code and no + sign) -->
