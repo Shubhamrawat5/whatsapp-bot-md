@@ -629,14 +629,18 @@ const startBot = async () => {
               await commandsMembers[command](bot, msg, from, msgInfoObj);
               return;
             }
-            reply("❌ Group command only!");
+            reply(
+              "❌ Group command only!\n\nJoin group to use commands:\nhttps://chat.whatsapp.com/CZeWkEFdoF28bTJPAY63ux"
+            );
             return;
           }
 
           /* -------------------------- group admins commands ------------------------- */
           if (commandsAdmins[command]) {
             if (!isGroup) {
-              await reply("❌ Group command only!");
+              reply(
+                "❌ Group command only!\n\nJoin group to use commands:\nhttps://chat.whatsapp.com/CZeWkEFdoF28bTJPAY63ux"
+              );
               return;
             }
 

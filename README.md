@@ -156,8 +156,8 @@ You can use (http://kaffeine.herokuapp.com) to ping the heroku app every 30 minu
 
 # References:- :rocket:
 
-- Nodejs package - [@Baileys](https://github.com/adiwajshing/Baileys)
-- Old non md wa bot - [PVX Bot](https://github.com/Shubhamrawat5/whatsapp-bot).
+- Nodejs package - [Baileys](https://github.com/adiwajshing/Baileys)
+- Old non-md wa bot - [PVX Bot](https://github.com/Shubhamrawat5/whatsapp-bot)
 
 <!-- # Easy way to deploy:- :rocket:
 
