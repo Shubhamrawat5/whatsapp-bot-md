@@ -142,12 +142,51 @@ _recent balls_ \n${recentballs}`;
     obj.message = message;
   } catch (err) {
     console.log(err);
-    obj.message = err.stack;
+    obj.message = err.toString();
     obj.info = "ER";
   }
 
-  console.log(obj);
+  // console.log(obj);
   return obj;
 };
 
+// const getScoreCard = async (matchID) => {
+module.exports.getScoreCard = async (matchID) => {
+  try {
+    let { data } = await axios.get(
+      "https://cric-score.skdev.one/scorecard/" + matchID
+    );
+    let firstInningTeam = "",
+      secondInningTeam = "",
+      firstInningTeamScore = "",
+      secondInningTeamScore = "";
+    firstInningTeam = data.Innings1[2].team;
+    firstInningTeamScore = data.Innings1[2].score;
+    let message = `*${firstInningTeam} 🏏*\nscore: ${firstInningTeamScore}\n`;
+    if (Object.keys(data.Innings2[2]).length) {
+      secondInningTeam = data.Innings2[2].team;
+      secondInningTeamScore = data.Innings2[2].score;
+    }
+
+    data.Innings1[0].Batsman.forEach((player) => {
+      message += `\n${player.runs} (${player.balls}) : ${player.name}`;
+      if (player.dismissal == "batting") message += `*`;
+    });
+
+    if (secondInningTeam) {
+      message += `\n\n*${secondInningTeam} 🏏*\nscore: ${secondInningTeamScore}\n`;
+      data.Innings2[0].Batsman.forEach((player) => {
+        message += `\n${player.runs} (${player.balls}) : ${player.name}`;
+        if (player.dismissal == "batting") message += `*`;
+      });
+    }
+    // console.log(message);
+    return message;
+  } catch (err) {
+    console.log(err);
+    return err.toString();
+  }
+};
+
 // getCricketScore(66204);
+// getScoreCard(66204);

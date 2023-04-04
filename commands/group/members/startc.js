@@ -59,16 +59,12 @@ module.exports.command = () => {
 };
 
 const handler = async (bot, msg, from, msgInfoObj) => {
-  let { reply, command } = msgInfoObj;
+  let { reply, command, groupName } = msgInfoObj;
 
   reply("❌ Command temporary disabled");
 
   switch (command) {
     case "startc":
-      if (!isGroup) {
-        await reply("❌ Group command only!");
-        return;
-      }
       if (cricStartedGroups[groupName]) {
         await reply("❌ CRICKET SCORES already started for this group!");
         return;
@@ -85,11 +81,6 @@ const handler = async (bot, msg, from, msgInfoObj) => {
       return;
 
     case "stopc":
-      if (!isGroup) {
-        await reply("❌ Group command only!");
-        return;
-      }
-
       if (cricStartedGroups[groupName]) {
         await reply("✔️ Stopping Cricket scores for this group !");
         console.log("Stopping Cricket scores for " + groupName);
