@@ -2,8 +2,16 @@ const axios = require("axios");
 
 const getHoro = async (name) => {
   try {
-    let url = `https://aztro.sameerkumar.website/?sign=${name}&day=today`;
-    let { data } = await axios.post(url);
+    // let url = `https://aztro.sameerkumar.website/?sign=${name}&day=today`;
+    let url = `	https://us-central1-tf-natal.cloudfunctions.net/horoscopeapi_test`;
+
+    let { data } = await axios.post(url, null, {
+      params: {
+        sign: name,
+        date: "today",
+        token: "mmEUtLATc8w_UNnHuR2",
+      },
+    });
     let horoText = `*Horo:* ${name.toUpperCase()}
 *Date:* ${data.current_date}
 *Lucky Number:* ${data.lucky_number}
@@ -67,3 +75,10 @@ const handler = async (bot, msg, from, msgInfoObj) => {
   let text = await getHoro(name);
   await reply(text);
 };
+
+// const test = async () => {
+//   let text = await getHoro("aries");
+//   console.log(text);
+// };
+
+// test();
