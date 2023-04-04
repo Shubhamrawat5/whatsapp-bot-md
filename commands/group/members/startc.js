@@ -61,6 +61,8 @@ module.exports.command = () => {
 const handler = async (bot, msg, from, msgInfoObj) => {
   let { reply, command } = msgInfoObj;
 
+  reply("❌ Command temporary disabled");
+
   switch (command) {
     case "startc":
       if (!isGroup) {

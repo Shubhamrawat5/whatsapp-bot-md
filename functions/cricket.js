@@ -3,6 +3,8 @@ const axios = require("axios");
 //return object {message:"", info:""} =>
 //message having score and info having extra info about game like inning over, game over etc
 //INFO KEY: "MO" when match over, "IO" when inning over, "ER" when error
+// const getCricketScore = async (matchID) => {
+
 module.exports.getCricketScore = async (matchID) => {
   let obj = {};
   try {
@@ -25,7 +27,7 @@ module.exports.getCricketScore = async (matchID) => {
     if (recentballs === "Data Not Found") recentballs = data.lastwicket;
 
     let d = await axios.get(
-      "https://cricket-scorecard-2021.herokuapp.com/scorecard/" + matchID
+      "https://cric-score.skdev.one/scorecard/" + matchID
     );
     data = d.data;
 
@@ -143,5 +145,9 @@ _recent balls_ \n${recentballs}`;
     obj.message = err.stack;
     obj.info = "ER";
   }
+
+  console.log(obj);
   return obj;
 };
+
+// getCricketScore(66204);
