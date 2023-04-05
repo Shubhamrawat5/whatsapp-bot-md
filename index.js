@@ -339,10 +339,6 @@ const startBot = async () => {
         const isGroup = from.endsWith("@g.us");
 
         let groupMetadata = "";
-        // if (command === "score") {
-        //   //for latest group desc
-        //   cache.del(from + ":groupMetadata");
-        // }
         if (isGroup) {
           groupMetadata = cache.get(from + ":groupMetadata");
           if (!groupMetadata) {
@@ -473,6 +469,13 @@ const startBot = async () => {
           "[IN]",
           groupName || from
         );
+
+        if (
+          ["score", "scorecard", "scoreboard", "sc", "sb"].includes(command)
+        ) {
+          //for latest group desc
+          groupMetadata = await bot.groupMetadata(from);
+        }
 
         const groupDesc =
           isGroup && groupMetadata.desc ? groupMetadata.desc.toString() : "";
