@@ -60,6 +60,7 @@ const { forwardSticker } = require("./functions/forwardSticker");
 const { memberAddCheck } = require("./functions/memberAddCheck");
 const { addDefaultMilestones } = require("./functions/addDefaultMilestone");
 const { addUnknownCmd } = require("./db/addUnknownCmdDB");
+const { countRemainder } = require("./functions/countRemainder");
 // const { setGroupParticipant } = require("./db/groupParticipantDB");
 
 require("dotenv").config();
@@ -92,6 +93,7 @@ stats.started = new Date().toLocaleString("en-GB", {
 let startCount = 1;
 let dateCheckerInterval;
 
+// TODO: MAKE A CONST VAIRABLE FILE
 const pvxcommunity = "919557666582-1467533860@g.us";
 const pvxprogrammer = "919557666582-1584193120@g.us";
 const pvxadmin = "919557666582-1498394056@g.us";
@@ -337,6 +339,10 @@ const startBot = async () => {
         const isGroup = from.endsWith("@g.us");
 
         let groupMetadata = "";
+        // if (command === "score") {
+        //   //for latest group desc
+        //   cache.del(from + ":groupMetadata");
+        // }
         if (isGroup) {
           groupMetadata = cache.get(from + ":groupMetadata");
           if (!groupMetadata) {
@@ -370,50 +376,13 @@ const startBot = async () => {
         ) {
           const res = await setCountMember(sender, from, senderName);
           // console.log(JSON.stringify(res));
-          if (res.currentGroup && res.currentGroup % 5000 === 0) {
-            bot.sendMessage(
-              from,
-              {
-                text: `⭐ Hey @${senderNumber}\nYou've completed ${res.currentGroup} messages in this group!`,
-                mentions: [sender],
-              },
-              {
-                quoted: {
-                  key: {
-                    remoteJid: from,
-                    fromMe: false,
-                    id: "710B5CF29EE7471fakeid",
-                    participant: "0@s.whatsapp.net",
-                  },
-                  messageTimestamp: 1671784177,
-                  pushName: "WhatsApp",
-                  message: { conversation: "MESSAGE COUNT" },
-                },
-              }
-            );
-          }
-          if (res.allGroup && res.allGroup % 5000 === 0) {
-            bot.sendMessage(
-              from,
-              {
-                text: `⭐ Hey @${senderNumber}\nYou've completed ${res.allGroup} messages in all PVX group!`,
-                mentions: [sender],
-              },
-              {
-                quoted: {
-                  key: {
-                    remoteJid: from,
-                    fromMe: false,
-                    id: "710B5CF29EE7471fakeid",
-                    participant: "0@s.whatsapp.net",
-                  },
-                  messageTimestamp: 1671784177,
-                  pushName: "WhatsApp",
-                  message: { conversation: "MESSAGE COUNT" },
-                },
-              }
-            );
-          }
+          await countRemainder(
+            bot.sendMessage,
+            res,
+            from,
+            senderNumber,
+            sender
+          );
         }
 
         //count video

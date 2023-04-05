@@ -16,18 +16,22 @@ module.exports.command = () => {
 };
 
 const handler = async (bot, msg, from, msgInfoObj) => {
-  let { prefix, reply, args, command } = msgInfoObj;
+  let { prefix, reply, command } = msgInfoObj;
 
-  const message = await getMessage(msg, prefix, command);
+  try {
+    const message = await getMessage(msg, prefix, command);
 
-  if (message === "") {
-    let message = `❌ Query is not given! \nSend ${prefix}google query`;
-    await reply(message);
-    return;
+    if (message === "") {
+      let message = `❌ Query is not given! \nSend ${prefix}google query`;
+      await reply(message);
+      return;
+    }
+
+    const response = await google.search(message, options);
+    const { title, description, url } = response.results[0];
+    const text = `*${title}*\n${description}\n\n${url}`;
+    reply(text);
+  } catch (error) {
+    reply(error.toString());
   }
-
-  const response = await google.search(message, options);
-  const { title, description, url } = response.results[0];
-  const text = `*${title}*\n${description}\n\n${url}`;
-  reply(text);
 };
