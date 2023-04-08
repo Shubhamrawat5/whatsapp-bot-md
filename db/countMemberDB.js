@@ -157,6 +157,23 @@ module.exports.getCountGroups = async () => {
   }
 };
 
+//get usesrname
+module.exports.getUsername = async (memberjid) => {
+  // await createCountMemberTable();
+  // let result = await pool.query(
+  //   "SELECT groupJid,SUM(count) as count FROM countmember GROUP BY groupJid ORDER BY count DESC;"
+  // );
+  let result = await pool.query(
+    "SELECT name from countmembername where memberjid = $1",
+    [memberjid]
+  );
+  if (result.rowCount) {
+    return result.rows;
+  } else {
+    return [];
+  }
+};
+
 // module.exports.setCountMember = async (memberJid, groupJid, name) => {
 //   if (!groupJid.endsWith("@g.us")) return;
 
