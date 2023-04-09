@@ -40,6 +40,7 @@
     "string-similarity": "^4.0.4",
     "ultimate-text-to-image": "^1.0.1",
     "wa-sticker-formatter": "^4.4.4",
-    "ytdl-core": "^4.11.2"
+    "ytdl": "^1.4.1",
+    "ytdl-core": "github:khlevon/node-ytdl-core#v4.11.3-patch.1"
   }
 }
