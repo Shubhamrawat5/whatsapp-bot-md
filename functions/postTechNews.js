@@ -25,12 +25,14 @@ const postTechNews = async (sendMessage) => {
       }
 
       let index = Math.floor(Math.random() * articles.length);
-      let { title, description } = articles[index];
+      let { title, description, url } = articles[index];
 
       res = await storeNewsTech(title);
       if (res) {
         console.log("NEW TECH NEWS!");
-        await sendMessage(pvxtech, { text: `📰 *${title}*\n\n${description}` });
+        await sendMessage(pvxtech, {
+          text: `📰 *${title}*\n\n_${description}_\nSource: ${url}`,
+        });
       } else {
         console.log("OLD TECH NEWS!");
         count += 1;
