@@ -272,7 +272,8 @@ const startBot = async () => {
       // console.log("m", JSON.stringify(m, undefined, 2));
       // console.log(m.messages);
       try {
-        if (m.type === "append") return;
+        //type: append (whatsapp web), notify (app)
+        // if (m.type === "append") return;
         const msg = JSON.parse(JSON.stringify(m)).messages[0];
         if (msg.key && msg.key.remoteJid == "status@broadcast") return;
         if (!msg.message) return; //when demote, add, remove, etc happen then msg.message is not there
