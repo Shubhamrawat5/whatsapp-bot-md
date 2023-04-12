@@ -30,8 +30,12 @@ const postTechNews = async (sendMessage) => {
       res = await storeNewsTech(title);
       if (res) {
         console.log("NEW TECH NEWS!");
+        let message = `📰 *${title}*`;
+        if (description) message += `\n\n*Desc:* _${description}_`;
+        if (url) message += `\n*Source:* ${url}`;
+
         await sendMessage(pvxtech, {
-          text: `📰 *${title}*\n\n_${description}_\nSource: ${url}`,
+          text: message,
         });
       } else {
         console.log("OLD TECH NEWS!");
