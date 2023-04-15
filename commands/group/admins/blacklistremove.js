@@ -30,7 +30,6 @@ const handler = async (bot, msg, from, msgInfoObj) => {
     return;
   }
 
-  let blacklistRes1 = await removeBlacklist(blacklistNumb);
-  if (blacklistRes1) await reply("✔️ Removed from blacklist!");
-  else await reply("❌ Error!");
+  let blacklistRes = await removeBlacklist(blacklistNumb);
+  await reply(blacklistRes);
 };

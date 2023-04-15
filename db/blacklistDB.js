@@ -31,11 +31,11 @@ module.exports.addBlacklist = async (number, reason) => {
     ]);
 
     if (res.rowCount === 0) return false;
-    else return true;
+    else return "✔️ Added to blacklist!";
   } catch (err) {
     console.log(err);
     await createBlacklistTable();
-    return false;
+    return err.toString();
   }
 };
 
@@ -47,10 +47,10 @@ module.exports.removeBlacklist = async (number) => {
 
     console.log(res);
     if (res.rowCount === 0) return false;
-    else return true;
+    else return "✔️ Removed from blacklist!";
   } catch (err) {
     console.log(err);
     await createBlacklistTable();
-    return false;
+    return err.toString();
   }
 };
