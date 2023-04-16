@@ -17,7 +17,7 @@ const handler = async (bot, msg, from, msgInfoObj) => {
   let blacklistNumb = args[0];
   if (!Number(blacklistNumb)) {
     await reply(
-      `❌ Give 10 digit Indian number (without spaces) with reason to add in blacklist by ${prefix}bla number reason`
+      `❌ Give correct Indian number (without spaces) with reason to add in blacklist by ${prefix}bla number reason`
     );
     return;
   }
@@ -37,11 +37,32 @@ const handler = async (bot, msg, from, msgInfoObj) => {
 
   if (blacklistNumb.length !== 12) {
     await reply(
-      `❌ Give 10 digit Indian number (without spaces) with reason to add in blacklist by ${prefix}bla number reason`
+      `❌ Give correct Indian number (without spaces) with reason to add in blacklist by ${prefix}bla number reason`
     );
     return;
   }
 
   let blacklistRes = await addBlacklist(blacklistNumb, reason);
   await reply(blacklistRes);
+
+  let blacklistNumbWithJid = blacklistNumb + "@s.whatsapp.net";
+  let chats = await bot.groupFetchAllParticipating();
+  let groups = Object.values(chats)
+    .filter((v) => v.id.endsWith("g.us") && v.subject.startsWith("<{PVX}>"))
+    .map((v) => {
+      return { subject: v.subject, id: v.id, participants: v.participants };
+    });
+  // console.log(groups);
+
+  let pvxMsg = `*BLacklisted number is in following PVX groups:\n*`;
+
+  for (let group of groups) {
+    group.participants.forEach(async (mem) => {
+      if (mem.id === blacklistNumbWithJid) {
+        pvxMsg += `\n*${group.subject}*`;
+      }
+    });
+  }
+
+  await reply(pvxMsg);
 };
