@@ -9,6 +9,12 @@ Connected
 connection update { connection: 'open' }
 connection update { receivedPendingNotifications: true }
 
+catch (err) {
+  if (err.code == 23505) {
+    //https://github.com/LinusU/pg-error-constants
+  }
+}
+
 # ------------------------------- DROP TABLE ------------------------------- #
 begin;
 set transaction read write;

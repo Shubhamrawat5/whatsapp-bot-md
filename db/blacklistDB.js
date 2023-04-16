@@ -33,7 +33,10 @@ module.exports.addBlacklist = async (number, reason) => {
     if (res.rowCount === 0) return false;
     else return "✔️ Added to blacklist!";
   } catch (err) {
-    console.log(err);
+    if (err.code == 23505) {
+      return "Number already blacklisted!";
+    }
+
     await createBlacklistTable();
     return err.toString();
   }
@@ -45,7 +48,6 @@ module.exports.removeBlacklist = async (number) => {
       number,
     ]);
 
-    console.log(res);
     if (res.rowCount === 0) return false;
     else return "✔️ Removed from blacklist!";
   } catch (err) {
