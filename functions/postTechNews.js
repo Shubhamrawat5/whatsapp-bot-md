@@ -28,12 +28,12 @@ const postTechNews = async (sendMessage) => {
         }
 
         let index = Math.floor(Math.random() * articles.length);
-        let { title, description, url } = articles[index];
+        let { title, description, url, source } = articles[index];
 
         let found = title.lastIndexOf("-");
         if (found != -1) title = title.slice(0, title.lastIndexOf("-") - 1);
 
-        res = await storeNewsTech(title);
+        res = source.name != "Sportskeeda" && (await storeNewsTech(title));
         if (res) {
           console.log("NEW TECH NEWS!");
 

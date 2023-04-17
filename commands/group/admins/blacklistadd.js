@@ -54,7 +54,7 @@ const handler = async (bot, msg, from, msgInfoObj) => {
     });
   // console.log(groups);
 
-  let pvxMsg = `*BLacklisted number is in following PVX groups:\n*`;
+  let pvxMsg = `*BLacklisted number is in following PVX groups*:\n`;
 
   for (let group of groups) {
     group.participants.forEach(async (mem) => {
