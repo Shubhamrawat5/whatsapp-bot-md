@@ -14,15 +14,21 @@ const handler = async (bot, msg, from, msgInfoObj) => {
   let urlFb = args[0];
   console.log(urlFb);
 
-  let res = await axios.get(
-    "https://fantox001-scrappy-api.vercel.app/fbdl?url=" + urlFb
-  );
+  try {
+    let res = await axios.get(
+      "https://fantox001-scrappy-api.vercel.app/fbdl?url=" + urlFb
+    );
 
-  bot.sendMessage(
-    from,
-    {
-      video: { url: res.data.videoUrl },
-    },
-    { quoted: msg }
-  );
+    bot.sendMessage(
+      from,
+      {
+        video: { url: res.data.videoUrl },
+      },
+      { quoted: msg }
+    );
+  } catch (err) {
+    reply(
+      `${err.toString()}\n\nNote: only public fb videos can be downloaded!`
+    );
+  }
 };

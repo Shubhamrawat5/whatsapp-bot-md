@@ -20,17 +20,23 @@ const handler = async (bot, msg, from, msgInfoObj) => {
   if (urlInsta.includes("?")) urlInsta = urlInsta.split("/?")[0];
   console.log(urlInsta);
 
-  let res = await axios.get(
-    "https://fantox001-scrappy-api.vercel.app/instadl?url=" + urlInsta
-  );
+  try {
+    let res = await axios.get(
+      "https://fantox001-scrappy-api.vercel.app/instadl?url=" + urlInsta
+    );
 
-  bot.sendMessage(
-    from,
-    {
-      video: { url: res.data.videoUrl },
-    },
-    { quoted: msg }
-  );
+    bot.sendMessage(
+      from,
+      {
+        video: { url: res.data.videoUrl },
+      },
+      { quoted: msg }
+    );
+  } catch (err) {
+    reply(
+      `${err.toString()}\n\nNote: only public insta videos can be downloaded!`
+    );
+  }
 };
 
 // const handler = async (bot, msg, from, msgInfoObj) => {
