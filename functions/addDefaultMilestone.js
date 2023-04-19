@@ -1,9 +1,11 @@
 const { getCountTop } = require("../db/countMemberDB");
 const { getDonation } = require("../db/donationDB");
-const pvxadmin = "919557666582-1498394056@g.us";
-const pvxsubadmin = "120363049192218305@g.us";
 
-module.exports.addDefaultMilestones = async (groupFetchAllParticipating) => {
+module.exports.addDefaultMilestones = async (
+  groupFetchAllParticipating,
+  pvxgroups
+) => {
+  const { pvxsubadmin, pvxadmin } = pvxgroups;
   const milestones = {};
   console.log("Adding default milestones");
 

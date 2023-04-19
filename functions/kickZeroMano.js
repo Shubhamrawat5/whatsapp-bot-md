@@ -1,7 +1,6 @@
 const { getCountVideo } = require("../db/countVideoDB");
-const pvxmano = "19016677357-1630334490@g.us";
 
-module.exports.kickZeroMano = async (bot, num_split) => {
+module.exports.kickZeroMano = async (bot, pvxmano) => {
   try {
     let resultCountGroupIndi = await getCountVideo(pvxmano);
 

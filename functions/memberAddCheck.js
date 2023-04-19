@@ -5,20 +5,23 @@ require("dotenv").config();
 const prefix = "!";
 
 const myNumber = process.env.myNumber;
-const pvxcommunity = "919557666582-1467533860@g.us";
-const pvxprogrammer = "919557666582-1584193120@g.us";
-const pvxstudy = "919557666582-1617595892@g.us";
-const pvxmano = "19016677357-1630334490@g.us";
-const pvxmovies = "919557666582-1506690003@g.us";
-const pvxsticker = "919557666582-1580308963@g.us";
 
 module.exports.memberAddCheck = async (
   bot,
   from,
   num_split,
   numJid,
-  groupSubject
+  groupSubject,
+  pvxgroups
 ) => {
+  const {
+    pvxcommunity,
+    pvxprogrammer,
+    pvxstudy,
+    pvxmano,
+    pvxmovies,
+    pvxsticker,
+  } = pvxgroups;
   try {
     // other than +91 are blocked from joining when description have written in first line -> only91
     // blockCommandsInDesc.includes("only91")

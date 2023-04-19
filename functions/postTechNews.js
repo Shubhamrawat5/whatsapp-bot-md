@@ -1,13 +1,12 @@
 const axios = require("axios");
 const { storeNewsTech } = require("../db/postTechDB");
 const { LoggerBot } = require("./loggerBot");
-const pvxtech = "919557666582-1551290369@g.us";
 require("dotenv").config();
 
 const newsapi = process.env.newsapi;
 let countNews = 0;
 
-const postTechNews = async (sendMessage) => {
+const postTechNews = async (sendMessage, pvxtech) => {
   try {
     countNews += 1;
     if (countNews % 2 === 0) {

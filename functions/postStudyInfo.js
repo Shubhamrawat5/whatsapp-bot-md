@@ -2,9 +2,8 @@ const Parser = require("rss-parser");
 const parser = new Parser();
 const { storeNewsStudy } = require("../db/postStudyDB");
 const { LoggerBot } = require("./loggerBot");
-const pvxstudy = "919557666582-1617595892@g.us";
 
-const postStudyInfo = async (sendMessage) => {
+const postStudyInfo = async (sendMessage, pvxstudy) => {
   try {
     // "https://www.thehindu.com/news/national/feeder/default.rss"
     // "https://timesofindia.indiatimes.com/rssfeedmostrecent.cms"

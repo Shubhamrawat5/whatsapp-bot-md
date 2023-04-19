@@ -93,21 +93,7 @@ stats.started = new Date().toLocaleString("en-GB", {
 let startCount = 1;
 let dateCheckerInterval;
 
-// TODO: MAKE A CONST VAIRABLE FILE
-const pvxcommunity = "919557666582-1467533860@g.us";
-const pvxprogrammer = "919557666582-1584193120@g.us";
-const pvxadmin = "919557666582-1498394056@g.us";
-const pvxsubadmin = "120363049192218305@g.us";
-const pvxstudy = "919557666582-1617595892@g.us";
-const pvxmano = "19016677357-1630334490@g.us";
-const pvxtech = "919557666582-1551290369@g.us";
-const pvxsport = "919557666582-1559476348@g.us";
-const pvxmovies = "919557666582-1506690003@g.us";
-const pvxsticker = "919557666582-1580308963@g.us";
-const pvxstickeronly1 = "919557666582-1628610549@g.us";
-const pvxstickeronly2 = "919557666582-1586018947@g.us";
-const pvxdeals = "919557666582-1582555632@g.us";
-const pvxstatus = "919557666582-1627834788@g.us";
+const { pvxgroups } = require("./constants/constants");
 
 let milestones = {};
 
@@ -179,16 +165,16 @@ const startBot = async () => {
         );
         //8 to 24 ON
         if (hour >= 8) {
-          await postTechNews(bot.sendMessage);
-          await postStudyInfo(bot.sendMessage);
+          await postTechNews(bot.sendMessage, pvxgroups.pvxtech);
+          await postStudyInfo(bot.sendMessage, pvxgroups.pvxstudy);
           ++stats.newsPosted;
         }
 
-        // if (hour % 12 == 0) kickZeroMano(bot);
+        // if (hour % 12 == 0) kickZeroMano(bot, pvxgroups.pvxmano);
 
         if (usedDate !== todayDate) {
           usedDate = todayDate;
-          checkTodayBday(bot, todayDate);
+          checkTodayBday(bot, todayDate, pvxgroups.pvxcommunity);
         }
       }, 1000 * 60 * 20); //20 min
     }
@@ -250,7 +236,14 @@ const startBot = async () => {
         if (msg.action === "add") {
           // if (groupSubject.toUpperCase().includes("<{PVX}>"))
           //   await setGroupParticipant(numJid, from, "ADD");
-          await memberAddCheck(bot, from, num_split, numJid, groupSubject);
+          await memberAddCheck(
+            bot,
+            from,
+            num_split,
+            numJid,
+            groupSubject,
+            pvxgroups
+          );
           const text = `${groupSubject}\n[ADD] ${num_split}`;
           await bot.sendMessage(myNumberWithJid, { text });
           console.log(text);
@@ -367,9 +360,9 @@ const startBot = async () => {
         if (
           isGroup &&
           groupName.toUpperCase().includes("<{PVX}>") &&
-          from !== pvxstickeronly1 &&
-          from != pvxstickeronly2 &&
-          from != pvxdeals
+          from !== pvxgroups.pvxstickeronly1 &&
+          from != pvxgroups.pvxstickeronly2 &&
+          from != pvxgroups.pvxdeals
         ) {
           const res = await setCountMember(sender, from, senderName);
           // console.log(JSON.stringify(res));
@@ -383,7 +376,7 @@ const startBot = async () => {
         }
 
         //count video
-        if (from == pvxmano && isGroup && type === "videoMessage") {
+        if (from == pvxgroups.pvxmano && isGroup && type === "videoMessage") {
           setCountVideo(sender, from);
         }
 
@@ -393,13 +386,15 @@ const startBot = async () => {
           isStickerForward === "true" &&
           isGroup &&
           groupName.toUpperCase().startsWith("<{PVX}>") &&
-          from !== pvxstickeronly1 &&
-          from != pvxstickeronly2 &&
-          from !== pvxmano
+          from !== pvxgroups.pvxstickeronly1 &&
+          from != pvxgroups.pvxstickeronly2 &&
+          from !== pvxgroups.pvxmano
         ) {
           const res = await forwardSticker(
             bot.sendMessage,
-            msg.message.stickerMessage
+            msg.message.stickerMessage,
+            pvxgroups.pvxstickeronly1,
+            pvxgroups.pvxstickeronly2
           );
           if (res) ++stats.stickerForwarded;
           else ++stats.stickerNotForwarded;
@@ -410,7 +405,7 @@ const startBot = async () => {
         const isMedia = type === "imageMessage" || type === "videoMessage"; //image or video
 
         //auto sticker maker in pvx sticker group [empty caption]
-        if (from === pvxsticker && body === "" && isMedia) {
+        if (from === pvxgroups.pvxsticker && body === "" && isMedia) {
           if (
             msg.message.videoMessage &&
             msg.message.videoMessage.fileLength &&
@@ -587,6 +582,7 @@ const startBot = async () => {
           reply,
           milestones,
           allCommandsName,
+          pvxgroups,
         };
 
         try {
@@ -670,7 +666,8 @@ const startBot = async () => {
             text: `[BOT STARTED] - ${startCount}`,
           });
           milestones = await addDefaultMilestones(
-            bot.groupFetchAllParticipating
+            bot.groupFetchAllParticipating,
+            pvxgroups
           );
           // bot.sendMessage(
           //   pvxcommunity,

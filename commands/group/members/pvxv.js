@@ -7,9 +7,9 @@ module.exports.command = () => {
 };
 
 const handler = async (bot, msg, from, msgInfoObj) => {
-  let { groupMembers, reply } = msgInfoObj;
+  let { groupMembers, reply, pvxgroups } = msgInfoObj;
 
-  let pvxmano = "19016677357-1630334490@g.us";
+  let { pvxmano } = pvxgroups;
   if (from != pvxmano) {
     await reply("❌ Only Mano Group command!");
     return;

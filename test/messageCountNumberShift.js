@@ -1,6 +1,6 @@
 const pool = require("../db/pool");
-const oldNum = "919045772180@s.whatsapp.net";
-const newNum = "917060733742@s.whatsapp.net";
+const oldNum = "91904577@s.whatsapp.net";
+const newNum = "91706073@s.whatsapp.net";
 const setCountMember = async (memberJid, groupJid, count) => {
   try {
     console.log(memberJid, groupJid, count);

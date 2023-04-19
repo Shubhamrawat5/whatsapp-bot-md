@@ -1,5 +1,4 @@
 const { LoggerBot } = require("./loggerBot");
-const pvxcommunity = "919557666582-1467533860@g.us";
 const mongoose = require("mongoose");
 const uri = process.env.uri;
 
@@ -44,7 +43,7 @@ const getBdayData = async () => {
   return obj;
 };
 
-module.exports.checkTodayBday = async (bot, todayDate) => {
+module.exports.checkTodayBday = async (bot, todayDate, pvxcommunity) => {
   // const checkTodayBday = async (todayDate) => {
   try {
     console.log("CHECKING TODAY BDAY...", todayDate);
