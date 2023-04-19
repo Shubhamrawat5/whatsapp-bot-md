@@ -12,8 +12,8 @@ module.exports.command = () => {
 
 const handler = async (bot, msg, from, msgInfoObj) => {
   let { sender, reply, args, milestones } = msgInfoObj;
-  if (args[0]) {
-    sender = args[0] + "@s.whatsapp.net";
+  if (args.length) {
+    sender = args.join("") + "@s.whatsapp.net";
   }
   if (
     msg.message.extendedTextMessage &&
@@ -25,9 +25,16 @@ const handler = async (bot, msg, from, msgInfoObj) => {
       sender = msg.message.extendedTextMessage.contextInfo.mentionedJid[0];
   }
 
+  if (sender.startsWith("+")) {
+    sender = sender.slice(1);
+  }
+  if (sender.length === 10 + 15) {
+    sender = "91" + sender;
+  }
+
   let { name, ranks, count, totalUsers } = await getRankInAllGroups(sender);
   if (!name) {
-    await reply(`❌ ERROR: ${sender} NOT FOUND in Database!`);
+    await reply(`❌ ERROR: ${sender.split("@")[0]} NOT FOUND in Database!`);
     return;
   }
   let res = await getCountIndividual(sender, from);
