@@ -13,6 +13,13 @@ module.exports.getCricketScore = async (matchID) => {
         matchID
     );
 
+    if (typeof data === "string") {
+      console.log(data);
+      obj.message = data + "\nCheck the match ID in description!!";
+      obj.info = "ER";
+      return obj;
+    }
+
     let title = data.title;
     title = title.slice(0, title.search(","));
     let score = data.current;
@@ -149,6 +156,8 @@ _recent balls_ \n${recentballs}`;
   // console.log(obj);
   return obj;
 };
+
+// getCricketScore(66369);
 
 // const getScoreCard = async (matchID) => {
 module.exports.getScoreCard = async (matchID) => {
