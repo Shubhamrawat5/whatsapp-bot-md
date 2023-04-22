@@ -19,7 +19,7 @@
   },
   "homepage": "https://github.com/Shubhamrawat5/whatsapp-bot-md#readme",
   "dependencies": {
-    "@adiwajshing/baileys": "github:@adiwajshing/baileys",
+    "@adiwajshing/baileys": "github:WhiskeySockets/Baileys",
     "@adiwajshing/keyed-db": "^0.2.4",
     "@ffmpeg-installer/ffmpeg": "^1.1.0",
     "adm-zip": "^0.5.9",

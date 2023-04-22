@@ -706,7 +706,7 @@ const startBot = async () => {
 
             setTimeout(() => {
               startBot();
-            }, 1000 * 10);
+            }, 1000 * 15);
           } else {
             LoggerTg(
               `[CONNECTION-CLOSED]: You are logged out\nRestarting in 5 sec to scan new QR code!`
