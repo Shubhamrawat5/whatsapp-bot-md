@@ -25,13 +25,19 @@ const handler = async (bot, msg, from, msgInfoObj) => {
       "https://fantox001-scrappy-api.vercel.app/instadl?url=" + urlInsta
     );
 
-    bot.sendMessage(
-      from,
-      {
-        video: { url: res.data.videoUrl },
-      },
-      { quoted: msg }
-    );
+    if (res.data.videoUrl) {
+      bot.sendMessage(
+        from,
+        {
+          video: { url: res.data.videoUrl },
+        },
+        { quoted: msg }
+      );
+    } else {
+      reply(
+        `❌ There is some problem.\n\nNote: only public insta videos can be downloaded!`
+      );
+    }
   } catch (err) {
     reply(
       `${err.toString()}\n\nNote: only public insta videos can be downloaded!`
