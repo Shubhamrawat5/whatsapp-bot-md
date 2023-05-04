@@ -2,9 +2,12 @@
 
 Webpage -> https://shubhamrawat5.github.io/whatsapp-bot-md/
 
+<img src="https://i.ibb.co/Fmk9bhG/bot.jpg" width="300" height="300">
+
 **_Requirements :_**
 
 - Git
+- Node js
 
 # Instructions:- :rocket:
 
@@ -13,6 +16,8 @@ Webpage -> https://shubhamrawat5.github.io/whatsapp-bot-md/
 ### Download and install git from (https://git-scm.com/downloads)
 
     git clone https://github.com/Shubhamrawat5/whatsapp-bot-md.git
+
+### Download and install nodejs from (https://nodejs.org/en/download)
 
 ## Local Setup
 
@@ -63,20 +68,20 @@ Webpage -> https://shubhamrawat5.github.io/whatsapp-bot-md/
 | Member Commands |                    Description                    |    Alias     |
 | :-------------: | :-----------------------------------------------: | :----------: |
 |  `!tagadmins`   |              Tag all admins of group              |    `!ta`     |
+|   `!sticker`    |     Create sticker from different media types     |     `!s`     |
+|      `!ai`      |                Ask questions to AI                |              |
+|     `!text`     |             Create sticker from text              |              |
+|    `!insta`     |          Get insta reels or post videos           |     `!i`     |
+|     `!ytv`      |              Download youtube videos              |              |
+|     `!yta`      |              Download youtube audio               |              |
+|     `!song`     |           Get any song in good quality            |              |
 |     `!rank`     |    Know message count & rank in all PVX groups    |              |
 |    `!ranks`     |           Know ranks list of PVX groups           |              |
 |    `!totalg`    |    Know message count group wise in PVX groups    |              |
-|   `!sticker`    |     Create sticker from different media types     |     `!s`     |
-|     `!text`     |             Create sticker from text              |              |
-|      `!ai`      |                Ask questions to AI                |              |
 |    `!image`     |             Create image from sticker             |              |
 | `!imagesearch`  |            Search image from any name             |    `!is`     |
 | `!searchsearch` |           Search sticker from any name            |    `!ss`     |
-|     `!song`     |           Get any song in good quality            |              |
-|    `!insta`     |          Get insta reels or post videos           |     `!i`     |
 |      `!fb`      |                Get facebook videos                |              |
-|     `!ytv`      |              Download youtube videos              |              |
-|     `!yta`      |              Download youtube audio               |              |
 |   `!technews`   |               Get latest Tech news                |              |
 |    `!drive`     |           Get GDrive files direct link            |              |
 |    `!quote`     |                Give a random quote                |              |
@@ -139,19 +144,19 @@ Webpage -> https://shubhamrawat5.github.io/whatsapp-bot-md/
 | `!startvotepvx` |        Start voting for all PVX groups        |       |
 | `!stotvotepvx`  | Stop voting and see result for all PVX groups |       |
 
-<!-- - CRICKET SCORES:
+- CRICKET SCORES:
 
   > Put match id in starting of group description.
 
-  > Get match ID from cricbuzz url, like https://www.cricbuzz.com/live-cricket-scores/37572/mi-vs-kkr-34th-match-indian-premier-league-2021 so match ID is `37572`
+  > Get match ID from cricbuzz url, Example: https://www.cricbuzz.com/live-cricket-scores/37572/mi-vs-kkr-34th-match-indian-premier-league-2021, so match ID is `37572`
 
-  EXAMPLE:
+  <!-- EXAMPLE:
 
-  <img src="https://i.ibb.co/2Z8t9Qm/IMG-20211006-154704.jpg" width="400"/> -->
+  <img src="https://i.ibb.co/2Z8t9Qm/IMG-20211006-154704.jpg" width="400"/> --> -->
 
-<!-- # Note:- :rocket:
+<!-- # Note:- :rocket: -->
 
-Since heroku uses:- Dyno sleeping in which if an app has a free web dyno, and that dyno receives no web traffic in a 30-minute period, it will sleep. In addition to the web dyno sleeping, the worker dyno (if present) will also sleep. and if a sleeping web dyno receives web traffic, it will become active again after a short delay (assuming your account has free dyno hours available)
+<!-- Since heroku uses:- Dyno sleeping in which if an app has a free web dyno, and that dyno receives no web traffic in a 30-minute period, it will sleep. In addition to the web dyno sleeping, the worker dyno (if present) will also sleep. and if a sleeping web dyno receives web traffic, it will become active again after a short delay (assuming your account has free dyno hours available)
 You can use (http://kaffeine.herokuapp.com) to ping the heroku app every 30 minutes to prevent it from sleeping. -->
 
 # References:- :rocket:

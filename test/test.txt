@@ -1,3 +1,5 @@
+$koyeb instances logs 84238b12
+
 https://pm2.keymetrics.io/docs/integrations/heroku/
 npm run start
 

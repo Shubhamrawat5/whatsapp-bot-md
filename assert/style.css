@@ -48,9 +48,10 @@ section {
 }
 
 .bot-img {
-  width: 150px;
-  height: 150px;
-  mix-blend-mode: lighten;
+  width: 200px;
+  height: 200px;
+  /* mix-blend-mode: lighten; */
+  border-radius: 50%;
 }
 
 svg {
