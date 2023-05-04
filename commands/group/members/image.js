@@ -31,20 +31,24 @@ const handler = async (bot, msg, from, msgInfoObj) => {
     const buffer = await toBuffer(stream);
 
     const media = getRandom(".jpeg");
-    await writeFile(media, buffer);
+    try {
+      await writeFile(media, buffer);
 
-    await bot.sendMessage(
-      from,
-      {
-        image: fs.readFileSync(media),
-      },
-      {
-        mimetype: "image/png",
-        quoted: msg,
-      }
-    );
-
-    fs.unlinkSync(media);
+      await bot.sendMessage(
+        from,
+        {
+          image: fs.readFileSync(media),
+        },
+        {
+          mimetype: "image/png",
+          quoted: msg,
+        }
+      );
+    } catch (error) {
+      reply(error.toString());
+    } finally {
+      fs.unlinkSync(media);
+    }
   } else {
     await reply(
       "❌ There is some problem!\nTag a non-animated sticker with command to convert to Image!"

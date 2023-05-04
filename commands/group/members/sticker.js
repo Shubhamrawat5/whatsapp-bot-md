@@ -42,7 +42,6 @@ const handler = async (bot, msg, from, msgInfoObj) => {
   const args2 = args[1];
   const isCrop = args1 === "c" || args1 === "crop";
 
-  const stickerFileName = getRandom(".webp");
   let stickerMake;
   //for image
   if (type === "imageMessage" || isTaggedImage) {
@@ -110,17 +109,19 @@ const handler = async (bot, msg, from, msgInfoObj) => {
     return;
   }
 
-  await stickerMake.toFile(stickerFileName);
-  await bot.sendMessage(
-    from,
-    {
-      sticker: fs.readFileSync(stickerFileName),
-    },
-    { quoted: msg }
-  );
+  const stickerFileName = getRandom(".webp");
   try {
+    await stickerMake.toFile(stickerFileName);
+    await bot.sendMessage(
+      from,
+      {
+        sticker: fs.readFileSync(stickerFileName),
+      },
+      { quoted: msg }
+    );
+  } catch (error) {
+    await reply(error.toString());
+  } finally {
     fs.unlinkSync(stickerFileName);
-  } catch {
-    console.log("error in deleting file.");
   }
 };

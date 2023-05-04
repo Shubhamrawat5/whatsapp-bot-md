@@ -25,6 +25,7 @@ const handler = async (bot, msg, from, msgInfoObj) => {
       console.log(error);
       await reply(error);
     } else {
+      const stickerFileName = getRandom(".webp");
       try {
         if (results.length === 0) {
           await reply("❌ No result found!");
@@ -49,7 +50,6 @@ const handler = async (bot, msg, from, msgInfoObj) => {
             quality: 100,
           });
 
-          const stickerFileName = getRandom(".webp");
           await stickerMake.toFile(stickerFileName);
 
           await bot.sendMessage(
@@ -61,12 +61,9 @@ const handler = async (bot, msg, from, msgInfoObj) => {
           );
         }
       } catch (err) {
-        await reply("❌ Error in search!");
-      }
-      try {
+        await reply(error.toString());
+      } finally {
         fs.unlinkSync(stickerFileName);
-      } catch {
-        console.log("error in deleting file.");
       }
     }
   });
