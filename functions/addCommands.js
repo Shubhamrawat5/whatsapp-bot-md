@@ -21,7 +21,7 @@ module.exports.addCommands = async () => {
     }
   });
 
-  path = __dirname + "/../commands/group/members/";
+  path = __dirname + "/../commands/members/";
   filenames = await readdir(path);
   filenames.forEach((file) => {
     if (file.endsWith(".js")) {
@@ -34,7 +34,7 @@ module.exports.addCommands = async () => {
     }
   });
 
-  path = __dirname + "/../commands/group/admins/";
+  path = __dirname + "/../commands/admins/";
   filenames = await readdir(path);
   filenames.forEach((file) => {
     if (file.endsWith(".js")) {
