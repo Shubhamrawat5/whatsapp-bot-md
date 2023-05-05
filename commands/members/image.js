@@ -42,6 +42,7 @@ const handler = async (bot, msg, from, msgInfoObj) => {
         {
           mimetype: "image/png",
           quoted: msg,
+          mediaUploadTimeoutMs: 1000 * 30,
         }
       );
     } catch (error) {

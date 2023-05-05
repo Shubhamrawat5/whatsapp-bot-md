@@ -117,7 +117,7 @@ const handler = async (bot, msg, from, msgInfoObj) => {
       {
         sticker: fs.readFileSync(stickerFileName),
       },
-      { quoted: msg }
+      { quoted: msg, mediaUploadTimeoutMs: 1000 * 30 }
     );
   } catch (error) {
     await reply(error.toString());

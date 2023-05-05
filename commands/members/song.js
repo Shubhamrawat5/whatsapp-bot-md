@@ -96,6 +96,7 @@ const handler = async (bot, msg, from, msgInfoObj) => {
       document: fs.readFileSync(`./${randomName}`),
       fileName: response + ".mp3",
       mimetype: "audio/mpeg",
+      mediaUploadTimeoutMs: 1000 * 30,
     },
     { quoted: msg }
   );

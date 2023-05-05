@@ -31,7 +31,7 @@ const handler = async (bot, msg, from, msgInfoObj) => {
         {
           video: { url: res.data.videoUrl },
         },
-        { quoted: msg }
+        { quoted: msg, mediaUploadTimeoutMs: 1000 * 30 }
       );
     } else {
       reply(
