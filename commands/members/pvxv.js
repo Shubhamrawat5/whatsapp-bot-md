@@ -1,3 +1,4 @@
+const { pvxgroups } = require("../../constants/constants");
 const { getCountVideo } = require("../../db/countVideoDB");
 
 module.exports.command = () => {
@@ -7,7 +8,7 @@ module.exports.command = () => {
 };
 
 const handler = async (bot, msg, from, msgInfoObj) => {
-  let { groupMembers, reply, pvxgroups } = msgInfoObj;
+  let { groupMembers, reply } = msgInfoObj;
 
   let { pvxmano } = pvxgroups;
   if (from != pvxmano) {

@@ -582,7 +582,6 @@ const startBot = async () => {
           reply,
           milestones,
           allCommandsName,
-          pvxgroups,
         };
 
         try {
