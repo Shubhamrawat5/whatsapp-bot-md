@@ -4,7 +4,9 @@ module.exports.command = () => {
   return { cmd, handler };
 };
 
-const handler = async (bot, msg, from, msgInfoObj) => {
+const handler = async (bot, msg, msgInfoObj) => {
+  let { from } = msgInfoObj;
+
   let text =
     "*─「 🔥 JOIN <{PVX}> FAMILY 🔥 」─*\n\n>> https://pvxcommunity.com <<";
 

@@ -4,8 +4,9 @@ module.exports.command = () => {
   return { cmd, handler };
 };
 
-const handler = async (bot, msg, from, msgInfoObj) => {
-  let { botNumberJid, reply, isGroupAdmins, isBotGroupAdmins } = msgInfoObj;
+const handler = async (bot, msg, msgInfoObj) => {
+  let { botNumberJid, reply, isGroupAdmins, isBotGroupAdmins, from } =
+    msgInfoObj;
 
   if (!msg.message.extendedTextMessage) {
     await reply("❌ Tag message to delete.");

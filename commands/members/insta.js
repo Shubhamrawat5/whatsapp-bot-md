@@ -9,8 +9,8 @@ module.exports.command = () => {
   return { cmd: ["insta", "i", "ig"], handler: handler };
 };
 
-const handler = async (bot, msg, from, msgInfoObj) => {
-  let { prefix, args, reply } = msgInfoObj;
+const handler = async (bot, msg, msgInfoObj) => {
+  let { prefix, args, reply, from } = msgInfoObj;
   if (args.length === 0) {
     reply(`❌ URL is empty! \nSend ${prefix}insta url`);
     return;
@@ -45,7 +45,7 @@ const handler = async (bot, msg, from, msgInfoObj) => {
   }
 };
 
-// const handler = async (bot, msg, from, msgInfoObj) => {
+// const handler = async (bot, msg, msgInfoObj) => {
 //   let { prefix, args, reply } = msgInfoObj;
 //   try {
 //     if (!isIgSetup) {

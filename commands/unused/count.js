@@ -6,8 +6,8 @@ module.exports.command = () => {
   return { cmd, handler };
 };
 
-const handler = async (bot, msg, from, msgInfoObj) => {
-  let { sender, reply, args } = msgInfoObj;
+const handler = async (bot, msg, msgInfoObj) => {
+  let { sender, reply, args, from } = msgInfoObj;
   await reply("Use !rank command");
   return;
   if (args[0]) {

@@ -4,8 +4,8 @@ module.exports.command = () => {
   return { cmd, handler };
 };
 
-const handler = async (bot, msg, from, msgInfoObj) => {
-  let { prefix } = msgInfoObj;
+const handler = async (bot, msg, msgInfoObj) => {
+  let { prefix, from } = msgInfoObj;
   let text = `_*🏏  CRICKET COMMANDS:*_
 
 - Put matchID in starting of group description.

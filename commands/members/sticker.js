@@ -32,8 +32,8 @@ const getQuality = (isCrop, args1, args2) => {
   return quality;
 };
 
-const handler = async (bot, msg, from, msgInfoObj) => {
-  let { type, isTaggedImage, isTaggedVideo, reply, args } = msgInfoObj;
+const handler = async (bot, msg, msgInfoObj) => {
+  let { type, isTaggedImage, isTaggedVideo, reply, args, from } = msgInfoObj;
   let packName = "BOT 🤖";
   let authorName = "pvxcommunity.com";
   let quality;

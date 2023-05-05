@@ -6,8 +6,8 @@ module.exports.command = () => {
   return { cmd, handler };
 };
 
-const handler = async (bot, msg, from, msgInfoObj) => {
-  let { groupDesc, reply } = msgInfoObj;
+const handler = async (bot, msg, msgInfoObj) => {
+  let { groupDesc, reply, from } = msgInfoObj;
   const descErrorMessage = `❌ ERROR
 - Group description is empty.
 - Put match ID in starting of group description. 

@@ -4,8 +4,8 @@ module.exports.command = () => {
   return { cmd: ["imagesearch", "is"], handler: handler };
 };
 
-const handler = async (bot, msg, from, msgInfoObj) => {
-  let { prefix, reply, args } = msgInfoObj;
+const handler = async (bot, msg, msgInfoObj) => {
+  let { prefix, reply, args, from } = msgInfoObj;
 
   if (args.length === 0) {
     let message = `❌ Query is not given! \nSend ${prefix}is query`;

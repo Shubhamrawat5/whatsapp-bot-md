@@ -40,7 +40,7 @@ module.exports.command = () => {
   return { cmd: ["horo", "horoscope"], handler: handler };
 };
 
-const handler = async (bot, msg, from, msgInfoObj) => {
+const handler = async (bot, msg, msgInfoObj) => {
   let { prefix, reply, args } = msgInfoObj;
 
   if (args.length === 0) {

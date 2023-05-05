@@ -6,8 +6,8 @@ module.exports.command = () => {
   return { cmd, handler };
 };
 
-const handler = async (bot, msg, from, msgInfoObj) => {
-  let { reply, groupName } = msgInfoObj;
+const handler = async (bot, msg, msgInfoObj) => {
+  let { reply, groupName, from } = msgInfoObj;
   const more = String.fromCharCode(8206);
   const readMore = more.repeat(4001);
 

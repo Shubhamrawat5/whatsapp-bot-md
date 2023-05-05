@@ -15,7 +15,7 @@ module.exports.command = () => {
   return { cmd: ["google", "search", "gs"], handler: handler };
 };
 
-const handler = async (bot, msg, from, msgInfoObj) => {
+const handler = async (bot, msg, msgInfoObj) => {
   let { prefix, reply, command } = msgInfoObj;
 
   try {

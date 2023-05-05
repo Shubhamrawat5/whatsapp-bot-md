@@ -11,8 +11,8 @@ const getRandom = (ext) => {
   return `${Math.floor(Math.random() * 10000)}${ext}`;
 };
 
-const handler = async (bot, msg, from, msgInfoObj) => {
-  let { reply, prefix, command } = msgInfoObj;
+const handler = async (bot, msg, msgInfoObj) => {
+  let { reply, prefix, command, from } = msgInfoObj;
 
   const message = await getMessage(msg, prefix, command);
 

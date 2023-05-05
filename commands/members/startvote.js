@@ -6,8 +6,8 @@ module.exports.command = () => {
   return { cmd, handler };
 };
 
-const handler = async (bot, msg, from, msgInfoObj) => {
-  let { prefix, reply, sender, args } = msgInfoObj;
+const handler = async (bot, msg, msgInfoObj) => {
+  let { prefix, reply, sender, args, from } = msgInfoObj;
   if (args.length === 0) {
     await reply(
       `❌ Give some values seperated with # to vote on like ${prefix}startvote #title #name1 #name2 #name3`

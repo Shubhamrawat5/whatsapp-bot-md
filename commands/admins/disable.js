@@ -9,8 +9,8 @@ module.exports.command = () => {
   return { cmd, handler };
 };
 
-const handler = async (bot, msg, from, msgInfoObj) => {
-  let { reply, args, allCommandsName, prefix } = msgInfoObj;
+const handler = async (bot, msg, msgInfoObj) => {
+  let { reply, args, allCommandsName, prefix, from } = msgInfoObj;
 
   if (args.length === 0) {
     await reply("❌ Give command name also by !disable commandName");

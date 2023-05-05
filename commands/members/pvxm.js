@@ -6,8 +6,8 @@ module.exports.command = () => {
   return { cmd, handler };
 };
 
-const handler = async (bot, msg, from, msgInfoObj) => {
-  let { groupName, groupMembers, reply } = msgInfoObj;
+const handler = async (bot, msg, msgInfoObj) => {
+  let { groupName, groupMembers, reply, from } = msgInfoObj;
   const more = String.fromCharCode(8206);
   const readMore = more.repeat(4001);
   let resultCountGroupIndi = await getCountGroupMembers(from);

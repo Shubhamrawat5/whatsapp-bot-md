@@ -4,8 +4,8 @@ module.exports.command = () => {
   return { cmd: ["fb", "facebook"], handler: handler };
 };
 
-const handler = async (bot, msg, from, msgInfoObj) => {
-  let { prefix, args, reply } = msgInfoObj;
+const handler = async (bot, msg, msgInfoObj) => {
+  let { prefix, args, reply, from } = msgInfoObj;
   if (args.length === 0) {
     reply(`❌ URL is empty! \nSend ${prefix}fb url`);
     return;

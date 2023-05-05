@@ -4,8 +4,8 @@ module.exports.command = () => {
   return { cmd, handler };
 };
 
-const handler = async (bot, msg, from, msgInfoObj) => {
-  let { isBotGroupAdmins, reply, args } = msgInfoObj;
+const handler = async (bot, msg, msgInfoObj) => {
+  let { isBotGroupAdmins, reply, args, from } = msgInfoObj;
 
   if (!isBotGroupAdmins) {
     await reply("❌ I'm not Admin here!");

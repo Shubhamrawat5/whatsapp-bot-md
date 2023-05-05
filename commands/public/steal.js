@@ -11,8 +11,8 @@ module.exports.command = () => {
   return { cmd, handler };
 };
 
-const handler = async (bot, msg, from, msgInfoObj) => {
-  let { isTaggedSticker, reply, args } = msgInfoObj;
+const handler = async (bot, msg, msgInfoObj) => {
+  let { isTaggedSticker, reply, args, from } = msgInfoObj;
 
   let packName = "BOT 🤖";
   let authorName = "pvxcommunity.com";

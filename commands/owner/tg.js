@@ -16,8 +16,8 @@ const getRandom = (ext) => {
   return `${Math.floor(Math.random() * 10000)}${ext}`;
 };
 
-const handler = async (bot, msg, from, msgInfoObj) => {
-  let { reply, isTaggedDocument } = msgInfoObj;
+const handler = async (bot, msg, msgInfoObj) => {
+  let { reply, isTaggedDocument, from } = msgInfoObj;
 
   if (!isTaggedDocument) {
     await reply(`❌ Send zip document file!`);

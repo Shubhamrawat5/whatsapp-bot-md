@@ -11,8 +11,8 @@ module.exports.command = () => {
   return { cmd, handler };
 };
 
-const handler = async (bot, msg, from, msgInfoObj) => {
-  let { prefix, reply, args } = msgInfoObj;
+const handler = async (bot, msg, msgInfoObj) => {
+  let { prefix, reply, args, from } = msgInfoObj;
 
   try {
     if (args.length === 0) {

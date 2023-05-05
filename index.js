@@ -46,7 +46,7 @@ const msgRetryCounterMap = {};
 // console.log('state : ', state.creds);
 
 /* ----------------------------- add local files ---------------------------- */
-const { setCountMember, getCountTop } = require("./db/countMemberDB");
+const { setCountMember } = require("./db/countMemberDB");
 const { setCountVideo } = require("./db/countVideoDB");
 const { getDisableCommandData } = require("./db/disableCommandDB");
 const { postStudyInfo } = require("./functions/postStudyInfo");
@@ -587,14 +587,14 @@ const startBot = async () => {
         try {
           /* ----------------------------- public commands ---------------------------- */
           if (commandsPublic[command]) {
-            await commandsPublic[command](bot, msg, from, msgInfoObj);
+            await commandsPublic[command](bot, msg, msgInfoObj);
             return;
           }
 
           /* ------------------------- group members commands ------------------------- */
           if (commandsMembers[command]) {
             if (isGroup) {
-              await commandsMembers[command](bot, msg, from, msgInfoObj);
+              await commandsMembers[command](bot, msg, msgInfoObj);
               return;
             }
             reply(
@@ -613,7 +613,7 @@ const startBot = async () => {
             }
 
             if (isGroupAdmins) {
-              await commandsAdmins[command](bot, msg, from, msgInfoObj);
+              await commandsAdmins[command](bot, msg, msgInfoObj);
               return;
             }
             reply("❌ Admin command!");
@@ -623,7 +623,7 @@ const startBot = async () => {
           /* ----------------------------- owner commands ----------------------------- */
           if (commandsOwners[command]) {
             if (myNumberWithJid === sender) {
-              await commandsOwners[command](bot, msg, from, msgInfoObj);
+              await commandsOwners[command](bot, msg, msgInfoObj);
               return;
             }
             reply("❌ Owner command only!");

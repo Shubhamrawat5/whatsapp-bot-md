@@ -7,8 +7,8 @@ module.exports.command = () => {
   return { cmd, handler };
 };
 
-const handler = async (bot, msg, from, msgInfoObj) => {
-  let { groupMembers, reply } = msgInfoObj;
+const handler = async (bot, msg, msgInfoObj) => {
+  let { groupMembers, reply, from } = msgInfoObj;
 
   let { pvxmano } = pvxgroups;
   if (from != pvxmano) {

@@ -7,8 +7,8 @@ module.exports.command = () => {
   return { cmd: ["ai"], handler: handler };
 };
 
-const handler = async (bot, msg, from, msgInfoObj) => {
-  let { prefix, reply, args, groupName } = msgInfoObj;
+const handler = async (bot, msg, msgInfoObj) => {
+  let { prefix, reply, args } = msgInfoObj;
   const more = String.fromCharCode(8206);
   const readMore = more.repeat(4001);
   //   if (!groupName.toUpperCase().includes("PVX")) {

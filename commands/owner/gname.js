@@ -6,7 +6,7 @@ module.exports.command = () => {
   return { cmd, handler };
 };
 
-const handler = async (bot, msg, from, msgInfoObj) => {
+const handler = async (bot, msg, msgInfoObj) => {
   const { reply } = msgInfoObj;
   let chats = await bot.groupFetchAllParticipating();
   let groups = Object.values(chats)

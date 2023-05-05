@@ -18,7 +18,7 @@ module.exports.command = () => {
   return { cmd: ["quote"], handler: handler };
 };
 
-const handler = async (bot, msg, from, msgInfoObj) => {
+const handler = async (bot, msg, msgInfoObj) => {
   const { reply } = msgInfoObj;
   let text = await getQuote();
 

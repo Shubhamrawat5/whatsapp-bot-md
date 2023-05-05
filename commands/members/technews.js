@@ -30,7 +30,9 @@ module.exports.command = () => {
   return { cmd, handler };
 };
 
-const handler = async (bot, msg, from, msgInfoObj) => {
+const handler = async (bot, msg, msgInfoObj) => {
+  let { from } = msgInfoObj;
+
   let text = await getNews();
 
   await bot.sendMessage(from, { text }, { quoted: msg });

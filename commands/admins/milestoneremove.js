@@ -10,7 +10,7 @@ module.exports.command = () => {
   return { cmd, handler };
 };
 
-const handler = async (bot, msg, from, msgInfoObj) => {
+const handler = async (bot, msg, msgInfoObj) => {
   const { reply, prefix } = msgInfoObj;
 
   let body = msg.message.conversation;
@@ -61,7 +61,7 @@ const handler = async (bot, msg, from, msgInfoObj) => {
   else await reply(`❌ There is some problem!`);
 };
 
-// const handler = async (bot, msg, from, msgInfoObj) => {
+// const handler = async (bot, msg, msgInfoObj) => {
 //   const { reply, args } = msgInfoObj;
 
 //   if (args.length === 0) {

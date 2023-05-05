@@ -4,8 +4,8 @@ module.exports.command = () => {
   return { cmd, handler };
 };
 
-const handler = async (bot, msg, from, msgInfoObj) => {
-  let { groupAdmins, args } = msgInfoObj;
+const handler = async (bot, msg, msgInfoObj) => {
+  let { groupAdmins, args, from } = msgInfoObj;
   let jids = [];
   let message = "ADMINS: ";
   if (
