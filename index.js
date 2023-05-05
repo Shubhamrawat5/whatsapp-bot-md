@@ -362,7 +362,8 @@ const startBot = async () => {
           groupName.toUpperCase().includes("<{PVX}>") &&
           from !== pvxgroups.pvxstickeronly1 &&
           from != pvxgroups.pvxstickeronly2 &&
-          from != pvxgroups.pvxdeals
+          from != pvxgroups.pvxdeals &&
+          from !== pvxgroups.pvxtesting
         ) {
           const res = await setCountMember(sender, from, senderName);
           // console.log(JSON.stringify(res));
