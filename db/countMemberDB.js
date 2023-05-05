@@ -88,7 +88,7 @@ module.exports.getRankInAllGroups = async (memberJid) => {
   return resultObj;
 };
 
-//totalg: user all group (with group wise) message count
+//count: user all group (with group wise) message count
 module.exports.getCountIndividualAllGroupWithName = async (memberJid) => {
   await createCountMemberTable();
   let result = await pool.query(

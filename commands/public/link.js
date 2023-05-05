@@ -1,5 +1,5 @@
 module.exports.command = () => {
-  let cmd = ["link", "pvx", "pvxlink", "pvxlinks"];
+  let cmd = ["link", "pvx", "pvxlink"];
 
   return { cmd, handler };
 };

@@ -25,33 +25,32 @@ const handler = async (bot, msg, from, msgInfoObj) => {
       console.log(error);
       await reply(error);
     } else {
-      const stickerFileName = getRandom(".webp");
-      try {
-        if (results.length === 0) {
-          await reply("❌ No result found!");
-          return;
+      if (results.length === 0) {
+        await reply("❌ No result found!");
+        return;
+      }
+      for (let i = 0; i <= 1; ++i) {
+        let index = 0;
+        if (results.length > 20) {
+          index = Math.floor(Math.random() * 20);
+        } else if (results.length > 10) {
+          index = Math.floor(Math.random() * 10);
         }
-        for (let i = 0; i <= 1; ++i) {
-          let index = 0;
-          if (results.length > 20) {
-            index = Math.floor(Math.random() * 20);
-          } else if (results.length > 10) {
-            index = Math.floor(Math.random() * 10);
-          }
-          let img = results[index]["url"];
-          console.log(img);
+        let img = results[index]["url"];
+        console.log(img);
 
-          let packName = "BOT 🤖";
-          let authorName = "pvxcommunity.com";
-          stickerMake = new Sticker(img, {
-            pack: packName,
-            author: authorName,
-            type: StickerTypes.FULL,
-            quality: 100,
-          });
+        let packName = "BOT 🤖";
+        let authorName = "pvxcommunity.com";
+        stickerMake = new Sticker(img, {
+          pack: packName,
+          author: authorName,
+          type: StickerTypes.FULL,
+          quality: 100,
+        });
 
+        const stickerFileName = getRandom(".webp");
+        try {
           await stickerMake.toFile(stickerFileName);
-
           await bot.sendMessage(
             from,
             {
@@ -59,11 +58,11 @@ const handler = async (bot, msg, from, msgInfoObj) => {
             },
             { quoted: msg }
           );
+        } catch (err) {
+          await reply(error.toString());
+        } finally {
+          fs.unlinkSync(stickerFileName);
         }
-      } catch (err) {
-        await reply(error.toString());
-      } finally {
-        fs.unlinkSync(stickerFileName);
       }
     }
   });

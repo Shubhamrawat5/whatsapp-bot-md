@@ -1,5 +1,5 @@
 module.exports.command = () => {
-  let cmd = ["delete", "d", "dd"];
+  let cmd = ["delete", "d"];
 
   return { cmd, handler };
 };

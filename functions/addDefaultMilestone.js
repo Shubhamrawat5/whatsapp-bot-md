@@ -43,7 +43,7 @@ module.exports.addDefaultMilestones = async (
 
   const donationRes = await getDonation();
   donationRes.forEach((member, index) => {
-    let memberjid = `91${member.number}@s.whatsapp.net`;
+    let memberjid = `${member.number}@s.whatsapp.net`;
     if (index === 0) {
       if (milestones[memberjid])
         milestones[memberjid].push("Highest contribution in PVX funds");

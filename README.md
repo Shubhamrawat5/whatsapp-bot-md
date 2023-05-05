@@ -77,7 +77,7 @@ Webpage -> https://shubhamrawat5.github.io/whatsapp-bot-md/
 |     `!song`     |           Get any song in good quality            |              |
 |     `!rank`     |    Know message count & rank in all PVX groups    |              |
 |    `!ranks`     |           Know ranks list of PVX groups           |              |
-|    `!totalg`    |    Know message count group wise in PVX groups    |              |
+|    `!count`     |    Know message count group wise in PVX groups    |              |
 |    `!image`     |             Create image from sticker             |              |
 | `!imagesearch`  |            Search image from any name             |    `!is`     |
 | `!searchsearch` |           Search sticker from any name            |    `!ss`     |

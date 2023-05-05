@@ -3,7 +3,7 @@ const {
 } = require("../../../db/countMemberDB");
 
 module.exports.command = () => {
-  let cmd = ["count", "total", "totalg"];
+  let cmd = ["count", "total"];
 
   return { cmd, handler };
 };

@@ -21,7 +21,7 @@ const setCountMember = async (memberJid, groupJid, count) => {
   }
 };
 
-//totalg: user all group (with group wise) message count
+//count: user all group (with group wise) message count
 const getCountIndividualAllGroupWithName = async (memberJid) => {
   let result = await pool.query(
     "SELECT cm.memberjid,gn.groupjid,cm.count FROM countmember cm INNER JOIN groupname gn ON gn.groupJid=cm.groupJid WHERE cm.memberJid=$1 ORDER BY count DESC;",
