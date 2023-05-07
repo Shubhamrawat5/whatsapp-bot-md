@@ -23,7 +23,9 @@ const handler = async (bot, msg, msgInfoObj) => {
   let pvxMsg = `*📛 PVX ADMIN LIST 📛*${readMore}`;
 
   for (let group of groups) {
-    pvxMsg += `\n\n*${group.subject}*`;
+    let grpName = group.subject;
+    grpName = grpName.replace("<{PVX}> ", "");
+    pvxMsg += `\n\n📛 *${grpName}*`;
     const memberjidArray = [];
     group.participants.forEach(async (mem) => {
       if (mem.admin) {
@@ -32,12 +34,12 @@ const handler = async (bot, msg, msgInfoObj) => {
     });
     const res = await getUsernames(memberjidArray);
     if (res.length === memberjidArray.length) {
-      res.forEach((mem) => {
-        pvxMsg += `\n- ${mem.name}`;
+      res.forEach((mem, index) => {
+        pvxMsg += `\n${index + 1}) ${mem.name}`;
       });
     } else {
-      memberjidArray.forEach((mem) => {
-        pvxMsg += `\n- ${mem.id}`;
+      memberjidArray.forEach((mem, index) => {
+        pvxMsg += `\n${index + 1}) ${mem.id}`;
       });
     }
   }
