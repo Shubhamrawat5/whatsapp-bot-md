@@ -1,3 +1,4 @@
+const { pvxgroups } = require("../../constants/constants");
 const { getUsernames } = require("../../db/countMemberDB");
 
 module.exports.command = () => {
@@ -45,6 +46,12 @@ const handler = async (bot, msg, msgInfoObj) => {
   //create the message
   let pvxMsg = `*📛 PVX ADMIN LIST 📛\nTotal: ${memberjidAllArray.length}*${readMore}`;
 
+  const subAdminPanel = [];
+  //get all admins from sub admin panel
+  chats[pvxgroups.pvxsubadmin].participants.forEach((mem) => {
+    subAdminPanel.push(mem.id);
+  });
+
   for (let group of groups) {
     let grpName = group.subject;
     grpName = grpName.replace("<{PVX}> ", "");
@@ -57,6 +64,10 @@ const handler = async (bot, msg, msgInfoObj) => {
           pvxMsg += `\n${count}) ${memberjidObj[mem.id]}`;
         } else {
           pvxMsg += `\n${count}) ${mem.id}`;
+        }
+
+        if (!subAdminPanel.includes(mem.id)) {
+          pvxMsg += " *[NOT IN SUB ADMIN PANEL]*";
         }
         count += 1;
       }
