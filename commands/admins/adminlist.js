@@ -44,7 +44,7 @@ const handler = async (bot, msg, msgInfoObj) => {
   }
 
   //create the message
-  let pvxMsg = `*📛 PVX ADMIN LIST 📛\nTotal: ${memberjidAllArray.length}*${readMore}`;
+  let pvxMsg = `*📛 PVX ADMIN LIST 📛*\nTotal: ${memberjidAllArray.length}${readMore}`;
 
   const subAdminPanel = [];
   //get all admins from sub admin panel
@@ -52,27 +52,41 @@ const handler = async (bot, msg, msgInfoObj) => {
     subAdminPanel.push(mem.id);
   });
 
+  let notInSubPanel = {};
+  let notInSubPanelMsg = "\n\n[NOT IN SUB ADMIN PANEL]";
+
+  let tempMsg = "";
   for (let group of groups) {
     let grpName = group.subject;
     grpName = grpName.replace("<{PVX}> ", "");
-    pvxMsg += `\n\n📛 *${grpName}*`;
+    tempMsg += `\n\n*[${grpName}]*`;
     count = 1;
     group.participants.forEach(async (mem) => {
       if (mem.admin) {
+        const id = mem.id;
+        const name = memberjidObj[id];
         //if name present
-        if (memberjidObj[mem.id]) {
-          pvxMsg += `\n${count}) ${memberjidObj[mem.id]}`;
-        } else {
-          pvxMsg += `\n${count}) ${mem.id}`;
-        }
+        // if (name) {
+        //   tempMsg += `\n${count}) ${name}`;
+        // } else {
+        //   tempMsg += `\n${count}) ${id}`;
+        // }
 
-        if (!subAdminPanel.includes(mem.id)) {
-          pvxMsg += " *[NOT IN SUB ADMIN PANEL]*";
+        tempMsg += `\n${count}) ${name}`;
+
+        if (!subAdminPanel.includes(id) && !notInSubPanel[id]) {
+          notInSubPanel[id] = name;
+          notInSubPanelMsg += `\n- ${name}`;
         }
         count += 1;
       }
     });
   }
+
+  if (Object.keys(notInSubPanel).length) {
+    pvxMsg += notInSubPanelMsg;
+  }
+  pvxMsg += tempMsg;
 
   await reply(pvxMsg);
 };
