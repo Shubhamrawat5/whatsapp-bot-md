@@ -18,30 +18,49 @@ const handler = async (bot, msg, msgInfoObj) => {
     .map((v) => {
       return { subject: v.subject, id: v.id, participants: v.participants };
     });
-  // console.log(groups);
 
-  let pvxMsg = `*📛 PVX ADMIN LIST 📛*${readMore}`;
+  //get all jids of admin
+  const memberjidAllArray = [];
+  for (let group of groups) {
+    group.participants.forEach(async (mem) => {
+      if (mem.admin && !memberjidAllArray.includes(mem.id)) {
+        memberjidAllArray.push(mem.id);
+      }
+    });
+  }
+
+  //get all jids name from DB
+  const res = await getUsernames(memberjidAllArray);
+
+  //create object of { jid: name }
+  const memberjidObj = {};
+  if (res.length === memberjidAllArray.length) {
+    res.forEach((mem) => {
+      memberjidObj[mem.memberjid] = mem.name;
+    });
+  } else {
+    reply("Some names are not found in DB.");
+  }
+
+  //create the message
+  let pvxMsg = `*📛 PVX ADMIN LIST 📛\nTotal: ${memberjidAllArray.length}*${readMore}`;
 
   for (let group of groups) {
     let grpName = group.subject;
     grpName = grpName.replace("<{PVX}> ", "");
     pvxMsg += `\n\n📛 *${grpName}*`;
-    const memberjidArray = [];
+    count = 1;
     group.participants.forEach(async (mem) => {
       if (mem.admin) {
-        memberjidArray.push(mem.id);
+        //if name present
+        if (memberjidObj[mem.id]) {
+          pvxMsg += `\n${count}) ${memberjidObj[mem.id]}`;
+        } else {
+          pvxMsg += `\n${count}) ${mem.id}`;
+        }
+        count += 1;
       }
     });
-    const res = await getUsernames(memberjidArray);
-    if (res.length === memberjidArray.length) {
-      res.forEach((mem, index) => {
-        pvxMsg += `\n${index + 1}) ${mem.name}`;
-      });
-    } else {
-      memberjidArray.forEach((mem, index) => {
-        pvxMsg += `\n${index + 1}) ${mem.id}`;
-      });
-    }
   }
 
   await reply(pvxMsg);
