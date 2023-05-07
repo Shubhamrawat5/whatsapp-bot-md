@@ -1,4 +1,4 @@
-const { getUsername } = require("../../db/countMemberDB");
+const { getUsernames } = require("../../db/countMemberDB");
 
 module.exports.command = () => {
   let cmd = ["adminlist"];
@@ -24,18 +24,22 @@ const handler = async (bot, msg, msgInfoObj) => {
 
   for (let group of groups) {
     pvxMsg += `\n\n*${group.subject}*`;
+    const memberjidArray = [];
     group.participants.forEach(async (mem) => {
       if (mem.admin) {
-        // const res = await getUsername(mem.id);
-        // console.log(res);
-        // let name = "";
-        // if (res.length) {
-        //   name = res[0].name;
-        // }
-        // pvxMsg += `\n${name}`;
-        pvxMsg += `\n${mem.id}`;
+        memberjidArray.push(mem.id);
       }
     });
+    const res = await getUsernames(memberjidArray);
+    if (res.length === memberjidArray.length) {
+      res.forEach((mem) => {
+        pvxMsg += `\n- ${mem.name}`;
+      });
+    } else {
+      memberjidArray.forEach((mem) => {
+        pvxMsg += `\n- ${mem.id}`;
+      });
+    }
   }
 
   await reply(pvxMsg);

@@ -157,16 +157,14 @@ module.exports.getCountGroups = async () => {
   }
 };
 
-//get usesrname
-module.exports.getUsername = async (memberjid) => {
-  // await createCountMemberTable();
-  // let result = await pool.query(
-  //   "SELECT groupJid,SUM(count) as count FROM countmember GROUP BY groupJid ORDER BY count DESC;"
-  // );
+//get usesrnames
+module.exports.getUsernames = async (memberjidArray) => {
+  console.log(memberjidArray);
   let result = await pool.query(
-    "SELECT name from countmembername where memberjid = $1",
-    [memberjid]
+    "SELECT * from countmembername where memberjid = ANY($1::text[])",
+    [memberjidArray]
   );
+  // console.log(result.rows);
   if (result.rowCount) {
     return result.rows;
   } else {
