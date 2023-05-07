@@ -9,7 +9,9 @@ let countSent = 0;
 let countIn = 0,
   countErr = 0,
   sameSticker = 0;
-let last10SentStickersSize = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+let last20SentStickersSize = [
+  0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+];
 
 module.exports.forwardSticker = async (
   sendMessage,
@@ -19,14 +21,14 @@ module.exports.forwardSticker = async (
 ) => {
   try {
     const stickerSize = downloadFilePath.fileLength;
-    if (last10SentStickersSize.includes(stickerSize)) {
+    if (last20SentStickersSize.includes(stickerSize)) {
       console.log("same sticker again.");
       sameSticker += 1;
       return false;
     }
 
-    last10SentStickersSize.shift();
-    last10SentStickersSize.push(stickerSize);
+    last20SentStickersSize.shift();
+    last20SentStickersSize.push(stickerSize);
     countIn += 1;
     let stream = await downloadContentFromMessage(downloadFilePath, "sticker");
 

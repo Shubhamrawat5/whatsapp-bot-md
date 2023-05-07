@@ -31,24 +31,24 @@ const handler = async (bot, msg, msgInfoObj) => {
     const buffer = await toBuffer(stream);
 
     const media = getRandom(".jpeg");
-    try {
-      await writeFile(media, buffer);
+    await writeFile(media, buffer);
 
-      await bot.sendMessage(
-        from,
-        {
-          image: fs.readFileSync(media),
-        },
-        {
-          mimetype: "image/png",
-          quoted: msg,
-          mediaUploadTimeoutMs: 1000 * 30,
-        }
-      );
-    } catch (error) {
-      reply(error.toString());
-    } finally {
+    await bot.sendMessage(
+      from,
+      {
+        image: fs.readFileSync(media),
+      },
+      {
+        mimetype: "image/png",
+        quoted: msg,
+        mediaUploadTimeoutMs: 1000 * 30,
+      }
+    );
+    try {
       fs.unlinkSync(media);
+    } catch (error) {
+      console.log("Problem with deleting media");
+      // reply(error.toString());
     }
   } else {
     await reply(

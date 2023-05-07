@@ -49,19 +49,20 @@ const handler = async (bot, msg, msgInfoObj) => {
         });
 
         const stickerFileName = getRandom(".webp");
+
+        await stickerMake.toFile(stickerFileName);
+        await bot.sendMessage(
+          from,
+          {
+            sticker: fs.readFileSync(stickerFileName),
+          },
+          { quoted: msg, mediaUploadTimeoutMs: 1000 * 30 }
+        );
         try {
-          await stickerMake.toFile(stickerFileName);
-          await bot.sendMessage(
-            from,
-            {
-              sticker: fs.readFileSync(stickerFileName),
-            },
-            { quoted: msg, mediaUploadTimeoutMs: 1000 * 30 }
-          );
-        } catch (err) {
-          await reply(error.toString());
-        } finally {
           fs.unlinkSync(stickerFileName);
+        } catch (error) {
+          console.log("Problem with deleting media");
+          // reply(error.toString());
         }
       }
     }
