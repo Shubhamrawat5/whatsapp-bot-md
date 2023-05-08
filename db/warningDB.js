@@ -20,6 +20,18 @@ module.exports.getCountWarning = async (memberjid, groupJid) => {
   }
 };
 
+module.exports.getCountWarningAllGroup = async () => {
+  await createCountWarningTable();
+  let result = await pool.query(
+    "SELECT cw.memberjid,sum(cw.count) as count,cmn.name FROM countwarning cw INNER JOIN countmembername cmn ON cw.memberjid=cmn.memberjid group by cw.memberjid,cmn.name ORDER BY count DESC;"
+  );
+  if (result.rowCount) {
+    return result.rows;
+  } else {
+    return [];
+  }
+};
+
 module.exports.getCountWarningAll = async (groupJid) => {
   await createCountWarningTable();
   let result = await pool.query(

@@ -33,15 +33,15 @@ const handler = async (bot, msg, msgInfoObj) => {
   //get all jids name from DB
   const res = await getUsernames(memberjidAllArray);
 
-  //create object of { jid: name }
-  const memberjidObj = {};
-  if (res.length === memberjidAllArray.length) {
-    res.forEach((mem) => {
-      memberjidObj[mem.memberjid] = mem.name;
-    });
-  } else {
+  if (res.length != memberjidAllArray.length) {
     reply("Some names are not found in DB.");
   }
+
+  //create object of { jid: name }
+  const memberjidObj = {};
+  res.forEach((mem) => {
+    memberjidObj[mem.memberjid] = mem.name;
+  });
 
   //create the message
   let pvxMsg = `*📛 PVX ADMIN LIST 📛*\nTotal: ${memberjidAllArray.length}${readMore}`;
