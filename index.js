@@ -365,15 +365,19 @@ const startBot = async () => {
           from != pvxgroups.pvxdeals &&
           from !== pvxgroups.pvxtesting
         ) {
-          const res = await setCountMember(sender, from, senderName);
-          // console.log(JSON.stringify(res));
-          await countRemainder(
-            bot.sendMessage,
-            res,
-            from,
-            senderNumber,
-            sender
-          );
+          if (from === pvxgroups.pvxsticker && type === "stickerMessage") {
+            console.log("skipping count of sticker message in PVX sticker.");
+          } else {
+            const res = await setCountMember(sender, from, senderName);
+            // console.log(JSON.stringify(res));
+            await countRemainder(
+              bot.sendMessage,
+              res,
+              from,
+              senderNumber,
+              sender
+            );
+          }
         }
 
         //count video
