@@ -1,5 +1,7 @@
 ## New Multi Device Whatsapp Bot
 
+Typescipt updated -> https://github.com/Shubhamrawat5/whatsapp-bot-ts
+
 Webpage -> https://shubhamrawat5.github.io/whatsapp-bot-md/
 
 <img src="https://i.ibb.co/Fmk9bhG/bot.jpg" width="300" height="300">
