@@ -11,30 +11,24 @@ Webpage -> https://shubhamrawat5.github.io/whatsapp-bot-md/
 - Git
 - Node js
 
-# Instructions:- :rocket:
+## Setup:- :rocket:
 
-## Git Setup
-
-### Download and install git from (https://git-scm.com/downloads)
-
-    git clone https://github.com/Shubhamrawat5/whatsapp-bot-md.git
-
-### Download and install nodejs from (https://nodejs.org/en/download)
+1. Download and install [Git](https://git-scm.com/downloads)
+2. Download and install [Nodejs](https://nodejs.org/en/download)
+3. Open terminal and run - `git clone https://github.com/Shubhamrawat5/whatsapp-bot-md`
+4. Open bot folder - `cd whatsapp-bot-md`
+5. Install all dependencies - `npm install`
 
 ## Local Setup
 
-1. Create account on elephantsql. (https://www.elephantsql.com/)
+1. Create account on [elephantsql](https://www.elephantsql.com/) for Database.
+2. After login, get the database URL from details section. It'll be like: `postgres://abc@tiny.db.elephantsql.com/xyz`
+3. Create a local `.env` file with following variables and save the file.
 
-2. After login, get the database URL from details section. It'll be like: postgres://yourfullURL@tiny.db.elephantsql.com/yourURL
+   > DATABASE_URL = "postgres://your_DB_URL"\
+   > OWNER_NUMBER = "911234567890"
 
-3. Create a local `.env` file with following variables and save the file:
-
-   DATABASE_URL = postgres://yourfullURL@tiny.db.elephantsql.com/yourURL
-
-   myNumber = 911234567890
-
-4. Run the index file by `node index.js`
-
+4. Start the bot - `node index.js`
 5. It'll ask for QR code scan, scan it and bot will start working.
 
 # Features:- :rocket:
